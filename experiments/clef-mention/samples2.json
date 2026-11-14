@@ -1,0 +1,269 @@
+{
+ "note": "第2弾。架空のゲームレビュー24件。expected は Claude が付けた正解で、人の確認は未実施。ambiguous=true は正解の付け方に揺れがあるもの（主集計から外して別に報告する）。第1弾の10件は samples.json（サンプル10は同様に曖昧）。観点は第1弾と同じ。",
+ "samples": [
+  {
+   "id": 11,
+   "text": "ストーリーは薄いが、探索が楽しくて気づいたら朝になっていた。",
+   "expected": {
+    "gameplay": "肯定",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "ambiguous": false
+  },
+  {
+   "id": 12,
+   "text": "BGMは良い。でもロードのたびに曲が途切れるのが残念。",
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "肯定",
+    "comfort": "否定",
+    "price": "言及なし"
+   },
+   "ambiguous": false
+  },
+  {
+   "id": 13,
+   "text": "UIが分かりにくく、最初の1時間は何をすればいいか分からなかった。",
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "否定",
+    "price": "言及なし"
+   },
+   "ambiguous": false
+  },
+  {
+   "id": 14,
+   "text": "5000円で買えたのは安いと思う。",
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "肯定"
+   },
+   "ambiguous": false
+  },
+  {
+   "id": 15,
+   "text": "ストイックな難易度が好き。死にゲー好きなら必携。",
+   "expected": {
+    "gameplay": "肯定",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "ambiguous": false
+  },
+  {
+   "id": 16,
+   "text": "音楽は好みが分かれると思う。私は苦手だった。",
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "否定",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "ambiguous": false
+  },
+  {
+   "id": 17,
+   "text": "動作がカクつく。最適化されていない。",
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "否定",
+    "price": "言及なし"
+   },
+   "ambiguous": false
+  },
+  {
+   "id": 18,
+   "text": "値段は高いが、セールなら買い。",
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "混在"
+   },
+   "ambiguous": true
+  },
+  {
+   "id": 19,
+   "text": "友人に勧められて遊んだ。",
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "ambiguous": false
+  },
+  {
+   "id": 20,
+   "text": "最高。全部が良い。",
+   "expected": {
+    "gameplay": "肯定",
+    "music": "肯定",
+    "comfort": "肯定",
+    "price": "肯定"
+   },
+   "ambiguous": true
+  },
+  {
+   "id": 21,
+   "text": "戦闘は爽快だけど、ボス戦が理不尽。",
+   "expected": {
+    "gameplay": "混在",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "ambiguous": false
+  },
+  {
+   "id": 22,
+   "text": "ロードが速いのは評価できる。ただBGMがループばかりで飽きる。",
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "否定",
+    "comfort": "肯定",
+    "price": "言及なし"
+   },
+   "ambiguous": false
+  },
+  {
+   "id": 23,
+   "text": "遊びやすさは良いが、価格に見合わない。",
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "肯定",
+    "price": "否定"
+   },
+   "ambiguous": false
+  },
+  {
+   "id": 24,
+   "text": "期待外れだった。",
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "ambiguous": false
+  },
+  {
+   "id": 25,
+   "text": "オープニングの曲を聴いただけで鳥肌が立った。",
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "肯定",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "ambiguous": false
+  },
+  {
+   "id": 26,
+   "text": "ロード中にフリーズした。再起動したら直ったけど。",
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "否定",
+    "price": "言及なし"
+   },
+   "ambiguous": false
+  },
+  {
+   "id": 27,
+   "text": "ボリュームは少ないが密度は高い。",
+   "expected": {
+    "gameplay": "混在",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "ambiguous": false
+  },
+  {
+   "id": 28,
+   "text": "他のゲームと比べるとBGMが印象に残らなかった。",
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "否定",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "ambiguous": false
+  },
+  {
+   "id": 29,
+   "text": "クリアまで12時間。ちょうどいい長さだった。",
+   "expected": {
+    "gameplay": "肯定",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "ambiguous": false
+  },
+  {
+   "id": 30,
+   "text": "反応が良くて気持ちいい。",
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "肯定",
+    "price": "言及なし"
+   },
+   "ambiguous": true
+  },
+  {
+   "id": 31,
+   "text": "定価で買って後悔した。",
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "否定"
+   },
+   "ambiguous": false
+  },
+  {
+   "id": 32,
+   "text": "ネタバレになるので何も書けない。",
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "ambiguous": false
+  },
+  {
+   "id": 33,
+   "text": "最初の10時間は退屈だったが、中盤から戦闘システムが解放されて一気に面白くなった。ただ、セーブ時のロードが毎回15秒ほどかかり、これが地味にストレス。音楽は全編通して高水準で、特に街のテーマが好き。価格については特に言うことはない。",
+   "expected": {
+    "gameplay": "混在",
+    "music": "肯定",
+    "comfort": "否定",
+    "price": "言及なし"
+   },
+   "ambiguous": true
+  },
+  {
+   "id": 34,
+   "text": "ゲームとしては面白いが、音がこもっていて聞きづらかった。",
+   "expected": {
+    "gameplay": "肯定",
+    "music": "否定",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "ambiguous": false
+  }
+ ]
+}
