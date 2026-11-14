@@ -1,0 +1,25 @@
+{
+  "note": "架空のゲームレビュー。expected は人が付けた正解。観点: gameplay=ゲーム性・内容, music=音楽・音, comfort=快適さ(ロード・不具合・操作), price=価格",
+  "samples": [
+    {"id": 1, "text": "30時間遊んだ。戦闘は同じ操作の繰り返しで単調。音楽は素晴らしく、終盤の曲で泣いた。ロードが長いのがつらい。",
+     "expected": {"gameplay": "否定", "music": "肯定", "comfort": "否定", "price": "言及なし"}},
+    {"id": 2, "text": "サントラが最高。他は触っていない。",
+     "expected": {"gameplay": "言及なし", "music": "肯定", "comfort": "言及なし", "price": "言及なし"}},
+    {"id": 3, "text": "セールで半額だったので購入。値段相応に遊べた。",
+     "expected": {"gameplay": "言及なし", "music": "言及なし", "comfort": "言及なし", "price": "肯定"}},
+    {"id": 4, "text": "バグでセーブデータが消えた。二度と買わない。",
+     "expected": {"gameplay": "言及なし", "music": "言及なし", "comfort": "否定", "price": "言及なし"}},
+    {"id": 5, "text": "戦闘の手応えは良いが、敵が少なくてすぐ飽きる。",
+     "expected": {"gameplay": "混在", "music": "言及なし", "comfort": "言及なし", "price": "言及なし"}},
+    {"id": 6, "text": "神ゲー。",
+     "expected": {"gameplay": "言及なし", "music": "言及なし", "comfort": "言及なし", "price": "言及なし"}},
+    {"id": 7, "text": "BGMがうるさくて好きになれない。ゲーム性は悪くないと思う。",
+     "expected": {"gameplay": "肯定", "music": "否定", "comfort": "言及なし", "price": "言及なし"}},
+    {"id": 8, "text": "フルプライスは高い。内容は良いが、この値段なら待つべき。",
+     "expected": {"gameplay": "肯定", "music": "言及なし", "comfort": "言及なし", "price": "否定"}},
+    {"id": 9, "text": "操作は快適でロードも速い。ただ難易度が高すぎる。",
+     "expected": {"gameplay": "否定", "music": "言及なし", "comfort": "肯定", "price": "言及なし"}},
+    {"id": 10, "text": "前作より良くなった点も悪くなった点もある。",
+     "expected": {"gameplay": "言及なし", "music": "言及なし", "comfort": "言及なし", "price": "言及なし"}}
+  ]
+}
