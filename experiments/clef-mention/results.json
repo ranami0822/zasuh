@@ -1,0 +1,4882 @@
+[
+ {
+  "status": 200,
+  "sec": 0.3913399369999979,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "混在",
+      "probabilities": {
+       "肯定": 0.0484,
+       "否定": 0.2498,
+       "混在": 0.6463,
+       "言及なし": 0.0555
+      },
+      "confidence": 0.3141
+     }
+    },
+    "usage": {
+     "input_tokens": 298,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 1,
+  "aspect": "gameplay",
+  "kind": "choice",
+  "expected": "否定"
+ },
+ {
+  "status": 200,
+  "sec": 0.3699222470000052,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.9374
+     }
+    },
+    "usage": {
+     "input_tokens": 203,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 1,
+  "aspect": "gameplay",
+  "kind": "noul",
+  "expected": "否定"
+ },
+ {
+  "status": 200,
+  "sec": 0.3832783759999927,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "肯定",
+      "probabilities": {
+       "肯定": 0.9511,
+       "否定": 0.012,
+       "混在": 0.0216,
+       "言及なし": 0.0153
+      },
+      "confidence": 0.874
+     }
+    },
+    "usage": {
+     "input_tokens": 296,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 1,
+  "aspect": "music",
+  "kind": "choice",
+  "expected": "肯定"
+ },
+ {
+  "status": 200,
+  "sec": 0.41388809299999707,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.9783
+     }
+    },
+    "usage": {
+     "input_tokens": 201,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 1,
+  "aspect": "music",
+  "kind": "noul",
+  "expected": "肯定"
+ },
+ {
+  "status": 200,
+  "sec": 0.46075869199998465,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "否定",
+      "probabilities": {
+       "肯定": 0.0286,
+       "否定": 0.5198,
+       "混在": 0.3637,
+       "言及なし": 0.0879
+      },
+      "confidence": 0.2147
+     }
+    },
+    "usage": {
+     "input_tokens": 297,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 1,
+  "aspect": "comfort",
+  "kind": "choice",
+  "expected": "否定"
+ },
+ {
+  "status": 200,
+  "sec": 0.45976970400002415,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.94
+     }
+    },
+    "usage": {
+     "input_tokens": 202,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 1,
+  "aspect": "comfort",
+  "kind": "noul",
+  "expected": "否定"
+ },
+ {
+  "status": 200,
+  "sec": 0.643809766000004,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0046,
+       "否定": 0.0051,
+       "混在": 0.0076,
+       "言及なし": 0.9827
+      },
+      "confidence": 0.9544
+     }
+    },
+    "usage": {
+     "input_tokens": 292,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 1,
+  "aspect": "price",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.47510066700002085,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0149
+     }
+    },
+    "usage": {
+     "input_tokens": 197,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 1,
+  "aspect": "price",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.45513804300000515,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0175,
+       "否定": 0.0174,
+       "混在": 0.017,
+       "言及なし": 0.9481
+      },
+      "confidence": 0.8664
+     }
+    },
+    "usage": {
+     "input_tokens": 273,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 2,
+  "aspect": "gameplay",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.40421270100000584,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0359
+     }
+    },
+    "usage": {
+     "input_tokens": 178,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 2,
+  "aspect": "gameplay",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.27983232000002545,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "肯定",
+      "probabilities": {
+       "肯定": 0.9349,
+       "否定": 0.0154,
+       "混在": 0.0222,
+       "言及なし": 0.0275
+      },
+      "confidence": 0.834
+     }
+    },
+    "usage": {
+     "input_tokens": 271,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 2,
+  "aspect": "music",
+  "kind": "choice",
+  "expected": "肯定"
+ },
+ {
+  "status": 200,
+  "sec": 0.33022068799999715,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.9558
+     }
+    },
+    "usage": {
+     "input_tokens": 176,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 2,
+  "aspect": "music",
+  "kind": "noul",
+  "expected": "肯定"
+ },
+ {
+  "status": 200,
+  "sec": 0.41779529999999454,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0169,
+       "否定": 0.0112,
+       "混在": 0.0118,
+       "言及なし": 0.9601
+      },
+      "confidence": 0.8965
+     }
+    },
+    "usage": {
+     "input_tokens": 272,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 2,
+  "aspect": "comfort",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.47204474500000515,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0218
+     }
+    },
+    "usage": {
+     "input_tokens": 177,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 2,
+  "aspect": "comfort",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.3491937549999875,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0098,
+       "否定": 0.0084,
+       "混在": 0.0099,
+       "言及なし": 0.9719
+      },
+      "confidence": 0.9265
+     }
+    },
+    "usage": {
+     "input_tokens": 267,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 2,
+  "aspect": "price",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.33193096499999797,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0154
+     }
+    },
+    "usage": {
+     "input_tokens": 172,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 2,
+  "aspect": "price",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.31685794900002406,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.2447,
+       "否定": 0.0425,
+       "混在": 0.1941,
+       "言及なし": 0.5187
+      },
+      "confidence": 0.1579
+     }
+    },
+    "usage": {
+     "input_tokens": 277,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 3,
+  "aspect": "gameplay",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.5618298949999883,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.3097
+     }
+    },
+    "usage": {
+     "input_tokens": 182,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 3,
+  "aspect": "gameplay",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.445649335000013,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0065,
+       "否定": 0.0061,
+       "混在": 0.0084,
+       "言及なし": 0.979
+      },
+      "confidence": 0.9448
+     }
+    },
+    "usage": {
+     "input_tokens": 275,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 3,
+  "aspect": "music",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.37827604399998904,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0175
+     }
+    },
+    "usage": {
+     "input_tokens": 180,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 3,
+  "aspect": "music",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.4833166559999995,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.014,
+       "否定": 0.0092,
+       "混在": 0.013,
+       "言及なし": 0.9638
+      },
+      "confidence": 0.9059
+     }
+    },
+    "usage": {
+     "input_tokens": 276,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 3,
+  "aspect": "comfort",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.34300184599999284,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0186
+     }
+    },
+    "usage": {
+     "input_tokens": 181,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 3,
+  "aspect": "comfort",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 1.0519397609999999,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "肯定",
+      "probabilities": {
+       "肯定": 0.6181,
+       "否定": 0.0517,
+       "混在": 0.2833,
+       "言及なし": 0.0469
+      },
+      "confidence": 0.2896
+     }
+    },
+    "usage": {
+     "input_tokens": 271,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 3,
+  "aspect": "price",
+  "kind": "choice",
+  "expected": "肯定"
+ },
+ {
+  "status": 200,
+  "sec": 0.3158394750000184,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.9749
+     }
+    },
+    "usage": {
+     "input_tokens": 176,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 3,
+  "aspect": "price",
+  "kind": "noul",
+  "expected": "肯定"
+ },
+ {
+  "status": 200,
+  "sec": 0.28329846200000475,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0117,
+       "否定": 0.0742,
+       "混在": 0.0237,
+       "言及なし": 0.8904
+      },
+      "confidence": 0.732
+     }
+    },
+    "usage": {
+     "input_tokens": 276,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 4,
+  "aspect": "gameplay",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.33898021599998174,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0346
+     }
+    },
+    "usage": {
+     "input_tokens": 181,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 4,
+  "aspect": "gameplay",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.4453540209999858,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0051,
+       "否定": 0.0073,
+       "混在": 0.0076,
+       "言及なし": 0.98
+      },
+      "confidence": 0.9475
+     }
+    },
+    "usage": {
+     "input_tokens": 274,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 4,
+  "aspect": "music",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.3689543549999996,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0157
+     }
+    },
+    "usage": {
+     "input_tokens": 179,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 4,
+  "aspect": "music",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.5823830319999956,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "否定",
+      "probabilities": {
+       "肯定": 0.0115,
+       "否定": 0.9187,
+       "混在": 0.0225,
+       "言及なし": 0.0473
+      },
+      "confidence": 0.7958
+     }
+    },
+    "usage": {
+     "input_tokens": 275,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 4,
+  "aspect": "comfort",
+  "kind": "choice",
+  "expected": "否定"
+ },
+ {
+  "status": 200,
+  "sec": 0.3894858599999793,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.9667
+     }
+    },
+    "usage": {
+     "input_tokens": 180,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 4,
+  "aspect": "comfort",
+  "kind": "noul",
+  "expected": "否定"
+ },
+ {
+  "status": 200,
+  "sec": 0.41895257300001276,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0146,
+       "否定": 0.3915,
+       "混在": 0.0246,
+       "言及なし": 0.5693
+      },
+      "confidence": 0.3042
+     }
+    },
+    "usage": {
+     "input_tokens": 270,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 4,
+  "aspect": "price",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.32956665099999327,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.1792
+     }
+    },
+    "usage": {
+     "input_tokens": 175,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 4,
+  "aspect": "price",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.3620911200000023,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "混在",
+      "probabilities": {
+       "肯定": 0.0468,
+       "否定": 0.0326,
+       "混在": 0.8917,
+       "言及なし": 0.0289
+      },
+      "confidence": 0.7323
+     }
+    },
+    "usage": {
+     "input_tokens": 278,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 5,
+  "aspect": "gameplay",
+  "kind": "choice",
+  "expected": "混在"
+ },
+ {
+  "status": 200,
+  "sec": 0.2917604170000061,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.9332
+     }
+    },
+    "usage": {
+     "input_tokens": 183,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 5,
+  "aspect": "gameplay",
+  "kind": "noul",
+  "expected": "混在"
+ },
+ {
+  "status": 200,
+  "sec": 0.3408829429999969,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0074,
+       "否定": 0.0069,
+       "混在": 0.0102,
+       "言及なし": 0.9755
+      },
+      "confidence": 0.9357
+     }
+    },
+    "usage": {
+     "input_tokens": 276,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 5,
+  "aspect": "music",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.3654496590000065,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0209
+     }
+    },
+    "usage": {
+     "input_tokens": 181,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 5,
+  "aspect": "music",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.5064133280000078,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0171,
+       "否定": 0.0119,
+       "混在": 0.0174,
+       "言及なし": 0.9536
+      },
+      "confidence": 0.8801
+     }
+    },
+    "usage": {
+     "input_tokens": 277,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 5,
+  "aspect": "comfort",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.4543319249999911,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0197
+     }
+    },
+    "usage": {
+     "input_tokens": 182,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 5,
+  "aspect": "comfort",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.3456095469999809,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0056,
+       "否定": 0.0057,
+       "混在": 0.0083,
+       "言及なし": 0.9804
+      },
+      "confidence": 0.9484
+     }
+    },
+    "usage": {
+     "input_tokens": 272,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 5,
+  "aspect": "price",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.4179060520000064,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0166
+     }
+    },
+    "usage": {
+     "input_tokens": 177,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 5,
+  "aspect": "price",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.27251703600001065,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.095,
+       "否定": 0.0277,
+       "混在": 0.0598,
+       "言及なし": 0.8175
+      },
+      "confidence": 0.5756
+     }
+    },
+    "usage": {
+     "input_tokens": 265,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 6,
+  "aspect": "gameplay",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.33907126100001506,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0935
+     }
+    },
+    "usage": {
+     "input_tokens": 170,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 6,
+  "aspect": "gameplay",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.384370400999984,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0274,
+       "否定": 0.0151,
+       "混在": 0.0189,
+       "言及なし": 0.9386
+      },
+      "confidence": 0.843
+     }
+    },
+    "usage": {
+     "input_tokens": 263,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 6,
+  "aspect": "music",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.40432107099999826,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0415
+     }
+    },
+    "usage": {
+     "input_tokens": 168,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 6,
+  "aspect": "music",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.379643705999996,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0314,
+       "否定": 0.0157,
+       "混在": 0.0281,
+       "言及なし": 0.9248
+      },
+      "confidence": 0.8098
+     }
+    },
+    "usage": {
+     "input_tokens": 264,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 6,
+  "aspect": "comfort",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.3893499350000127,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0448
+     }
+    },
+    "usage": {
+     "input_tokens": 169,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 6,
+  "aspect": "comfort",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.30546238200000175,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0109,
+       "否定": 0.0088,
+       "混在": 0.0114,
+       "言及なし": 0.9689
+      },
+      "confidence": 0.9188
+     }
+    },
+    "usage": {
+     "input_tokens": 259,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 6,
+  "aspect": "price",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.454927223999988,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0197
+     }
+    },
+    "usage": {
+     "input_tokens": 164,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 6,
+  "aspect": "price",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.3092795719999799,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "肯定",
+      "probabilities": {
+       "肯定": 0.719,
+       "否定": 0.024,
+       "混在": 0.2189,
+       "言及なし": 0.0381
+      },
+      "confidence": 0.4225
+     }
+    },
+    "usage": {
+     "input_tokens": 278,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 7,
+  "aspect": "gameplay",
+  "kind": "choice",
+  "expected": "肯定"
+ },
+ {
+  "status": 200,
+  "sec": 0.256277482999991,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.9595
+     }
+    },
+    "usage": {
+     "input_tokens": 183,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 7,
+  "aspect": "gameplay",
+  "kind": "noul",
+  "expected": "肯定"
+ },
+ {
+  "status": 200,
+  "sec": 0.8327221619999818,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "否定",
+      "probabilities": {
+       "肯定": 0.0137,
+       "否定": 0.9256,
+       "混在": 0.0385,
+       "言及なし": 0.0222
+      },
+      "confidence": 0.8118
+     }
+    },
+    "usage": {
+     "input_tokens": 276,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 7,
+  "aspect": "music",
+  "kind": "choice",
+  "expected": "否定"
+ },
+ {
+  "status": 200,
+  "sec": 0.4581242000000145,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.9767
+     }
+    },
+    "usage": {
+     "input_tokens": 181,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 7,
+  "aspect": "music",
+  "kind": "noul",
+  "expected": "否定"
+ },
+ {
+  "status": 200,
+  "sec": 0.45071534100000576,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0241,
+       "否定": 0.0776,
+       "混在": 0.0502,
+       "言及なし": 0.8481
+      },
+      "confidence": 0.6379
+     }
+    },
+    "usage": {
+     "input_tokens": 277,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 7,
+  "aspect": "comfort",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.4930474669999967,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0964
+     }
+    },
+    "usage": {
+     "input_tokens": 182,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 7,
+  "aspect": "comfort",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.42886046899999997,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0045,
+       "否定": 0.0068,
+       "混在": 0.007,
+       "言及なし": 0.9817
+      },
+      "confidence": 0.9519
+     }
+    },
+    "usage": {
+     "input_tokens": 272,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 7,
+  "aspect": "price",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.37811424899999224,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0137
+     }
+    },
+    "usage": {
+     "input_tokens": 177,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 7,
+  "aspect": "price",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.3597911249999868,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "混在",
+      "probabilities": {
+       "肯定": 0.3069,
+       "否定": 0.0304,
+       "混在": 0.5319,
+       "言及なし": 0.1308
+      },
+      "confidence": 0.1935
+     }
+    },
+    "usage": {
+     "input_tokens": 277,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 8,
+  "aspect": "gameplay",
+  "kind": "choice",
+  "expected": "肯定"
+ },
+ {
+  "status": 200,
+  "sec": 0.34291006600000173,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.3639
+     }
+    },
+    "usage": {
+     "input_tokens": 182,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 8,
+  "aspect": "gameplay",
+  "kind": "noul",
+  "expected": "肯定"
+ },
+ {
+  "status": 200,
+  "sec": 0.4793248349999999,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0063,
+       "否定": 0.0072,
+       "混在": 0.0111,
+       "言及なし": 0.9754
+      },
+      "confidence": 0.9355
+     }
+    },
+    "usage": {
+     "input_tokens": 275,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 8,
+  "aspect": "music",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.25527353600000424,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.017
+     }
+    },
+    "usage": {
+     "input_tokens": 180,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 8,
+  "aspect": "music",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.3504391310000017,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0072,
+       "否定": 0.0111,
+       "混在": 0.0121,
+       "言及なし": 0.9696
+      },
+      "confidence": 0.9207
+     }
+    },
+    "usage": {
+     "input_tokens": 276,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 8,
+  "aspect": "comfort",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.45661588199999414,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0184
+     }
+    },
+    "usage": {
+     "input_tokens": 181,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 8,
+  "aspect": "comfort",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.26481027700000936,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "否定",
+      "probabilities": {
+       "肯定": 0.0304,
+       "否定": 0.7023,
+       "混在": 0.2267,
+       "言及なし": 0.0406
+      },
+      "confidence": 0.3963
+     }
+    },
+    "usage": {
+     "input_tokens": 271,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 8,
+  "aspect": "price",
+  "kind": "choice",
+  "expected": "否定"
+ },
+ {
+  "status": 200,
+  "sec": 0.4014389649999828,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.9714
+     }
+    },
+    "usage": {
+     "input_tokens": 176,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 8,
+  "aspect": "price",
+  "kind": "noul",
+  "expected": "否定"
+ },
+ {
+  "status": 200,
+  "sec": 0.37915519899999595,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "混在",
+      "probabilities": {
+       "肯定": 0.0321,
+       "否定": 0.1093,
+       "混在": 0.8272,
+       "言及なし": 0.0314
+      },
+      "confidence": 0.5976
+     }
+    },
+    "usage": {
+     "input_tokens": 278,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 9,
+  "aspect": "gameplay",
+  "kind": "choice",
+  "expected": "否定"
+ },
+ {
+  "status": 200,
+  "sec": 0.2783750300000065,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.9617
+     }
+    },
+    "usage": {
+     "input_tokens": 183,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 9,
+  "aspect": "gameplay",
+  "kind": "noul",
+  "expected": "否定"
+ },
+ {
+  "status": 200,
+  "sec": 0.4478594740000119,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0051,
+       "否定": 0.0061,
+       "混在": 0.0074,
+       "言及なし": 0.9814
+      },
+      "confidence": 0.951
+     }
+    },
+    "usage": {
+     "input_tokens": 276,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 9,
+  "aspect": "music",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.2339612589999831,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0156
+     }
+    },
+    "usage": {
+     "input_tokens": 181,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 9,
+  "aspect": "music",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.32682693900000004,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "肯定",
+      "probabilities": {
+       "肯定": 0.8819,
+       "否定": 0.0149,
+       "混在": 0.0807,
+       "言及なし": 0.0225
+      },
+      "confidence": 0.7134
+     }
+    },
+    "usage": {
+     "input_tokens": 277,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 9,
+  "aspect": "comfort",
+  "kind": "choice",
+  "expected": "肯定"
+ },
+ {
+  "status": 200,
+  "sec": 0.27812352800000895,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.9682
+     }
+    },
+    "usage": {
+     "input_tokens": 182,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 9,
+  "aspect": "comfort",
+  "kind": "noul",
+  "expected": "肯定"
+ },
+ {
+  "status": 200,
+  "sec": 0.5531139719999771,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0045,
+       "否定": 0.0056,
+       "混在": 0.0065,
+       "言及なし": 0.9834
+      },
+      "confidence": 0.9563
+     }
+    },
+    "usage": {
+     "input_tokens": 272,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 9,
+  "aspect": "price",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.3024896809999973,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0142
+     }
+    },
+    "usage": {
+     "input_tokens": 177,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 9,
+  "aspect": "price",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.8726397150000196,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "混在",
+      "probabilities": {
+       "肯定": 0.0119,
+       "否定": 0.0183,
+       "混在": 0.7946,
+       "言及なし": 0.1752
+      },
+      "confidence": 0.5501
+     }
+    },
+    "usage": {
+     "input_tokens": 274,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 10,
+  "aspect": "gameplay",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.3361620909999772,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.1573
+     }
+    },
+    "usage": {
+     "input_tokens": 179,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 10,
+  "aspect": "gameplay",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.4009142379999844,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0111,
+       "否定": 0.0153,
+       "混在": 0.185,
+       "言及なし": 0.7886
+      },
+      "confidence": 0.5419
+     }
+    },
+    "usage": {
+     "input_tokens": 272,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 10,
+  "aspect": "music",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.37304345499998703,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0217
+     }
+    },
+    "usage": {
+     "input_tokens": 177,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 10,
+  "aspect": "music",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.3418346480000025,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0096,
+       "否定": 0.0168,
+       "混在": 0.1796,
+       "言及なし": 0.794
+      },
+      "confidence": 0.5509
+     }
+    },
+    "usage": {
+     "input_tokens": 273,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 10,
+  "aspect": "comfort",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.3141539769999895,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0381
+     }
+    },
+    "usage": {
+     "input_tokens": 178,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 10,
+  "aspect": "comfort",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.23729548099998965,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0062,
+       "否定": 0.0088,
+       "混在": 0.02,
+       "言及なし": 0.965
+      },
+      "confidence": 0.9091
+     }
+    },
+    "usage": {
+     "input_tokens": 268,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 10,
+  "aspect": "price",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.2613677839999866,
+  "body": {
+   "result": {
+    "model": "clef",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0169
+     }
+    },
+    "usage": {
+     "input_tokens": 173,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef",
+  "sample": 10,
+  "aspect": "price",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.2164801370000191,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "混在",
+      "probabilities": {
+       "肯定": 0.0407,
+       "否定": 0.1255,
+       "混在": 0.7396,
+       "言及なし": 0.0942
+      },
+      "confidence": 0.4311
+     }
+    },
+    "usage": {
+     "input_tokens": 298,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 1,
+  "aspect": "gameplay",
+  "kind": "choice",
+  "expected": "否定"
+ },
+ {
+  "status": 200,
+  "sec": 0.21463229100001513,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.8751
+     }
+    },
+    "usage": {
+     "input_tokens": 203,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 1,
+  "aspect": "gameplay",
+  "kind": "noul",
+  "expected": "否定"
+ },
+ {
+  "status": 200,
+  "sec": 0.27191968099998576,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "肯定",
+      "probabilities": {
+       "肯定": 0.8174,
+       "否定": 0.0369,
+       "混在": 0.0898,
+       "言及なし": 0.0559
+      },
+      "confidence": 0.5741
+     }
+    },
+    "usage": {
+     "input_tokens": 296,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 1,
+  "aspect": "music",
+  "kind": "choice",
+  "expected": "肯定"
+ },
+ {
+  "status": 200,
+  "sec": 0.48971576100001357,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.9405
+     }
+    },
+    "usage": {
+     "input_tokens": 201,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 1,
+  "aspect": "music",
+  "kind": "noul",
+  "expected": "肯定"
+ },
+ {
+  "status": 200,
+  "sec": 0.2415193459999898,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "混在",
+      "probabilities": {
+       "肯定": 0.0131,
+       "否定": 0.3839,
+       "混在": 0.4845,
+       "言及なし": 0.1185
+      },
+      "confidence": 0.1951
+     }
+    },
+    "usage": {
+     "input_tokens": 297,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 1,
+  "aspect": "comfort",
+  "kind": "choice",
+  "expected": "否定"
+ },
+ {
+  "status": 200,
+  "sec": 0.32574372700000254,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.8556
+     }
+    },
+    "usage": {
+     "input_tokens": 202,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 1,
+  "aspect": "comfort",
+  "kind": "noul",
+  "expected": "否定"
+ },
+ {
+  "status": 200,
+  "sec": 0.42067572100000916,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0097,
+       "否定": 0.0108,
+       "混在": 0.0192,
+       "言及なし": 0.9603
+      },
+      "confidence": 0.8969
+     }
+    },
+    "usage": {
+     "input_tokens": 292,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 1,
+  "aspect": "price",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.3861619979999773,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0281
+     }
+    },
+    "usage": {
+     "input_tokens": 197,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 1,
+  "aspect": "price",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.4361249879999889,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0198,
+       "否定": 0.0222,
+       "混在": 0.0304,
+       "言及なし": 0.9276
+      },
+      "confidence": 0.8164
+     }
+    },
+    "usage": {
+     "input_tokens": 273,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 2,
+  "aspect": "gameplay",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.6046623750000037,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0292
+     }
+    },
+    "usage": {
+     "input_tokens": 178,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 2,
+  "aspect": "gameplay",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.3090450100000055,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "肯定",
+      "probabilities": {
+       "肯定": 0.8474,
+       "否定": 0.0144,
+       "混在": 0.0764,
+       "言及なし": 0.0618
+      },
+      "confidence": 0.6372
+     }
+    },
+    "usage": {
+     "input_tokens": 271,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 2,
+  "aspect": "music",
+  "kind": "choice",
+  "expected": "肯定"
+ },
+ {
+  "status": 200,
+  "sec": 0.24566581400000587,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.9252
+     }
+    },
+    "usage": {
+     "input_tokens": 176,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 2,
+  "aspect": "music",
+  "kind": "noul",
+  "expected": "肯定"
+ },
+ {
+  "status": 200,
+  "sec": 0.6144688869999868,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0201,
+       "否定": 0.0202,
+       "混在": 0.0289,
+       "言及なし": 0.9308
+      },
+      "confidence": 0.8241
+     }
+    },
+    "usage": {
+     "input_tokens": 272,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 2,
+  "aspect": "comfort",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.4496334409999747,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0239
+     }
+    },
+    "usage": {
+     "input_tokens": 177,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 2,
+  "aspect": "comfort",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.3224861310000051,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0223,
+       "否定": 0.0182,
+       "混在": 0.0296,
+       "言及なし": 0.9299
+      },
+      "confidence": 0.822
+     }
+    },
+    "usage": {
+     "input_tokens": 267,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 2,
+  "aspect": "price",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.33795100399999,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0232
+     }
+    },
+    "usage": {
+     "input_tokens": 172,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 2,
+  "aspect": "price",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.3529286779999836,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "混在",
+      "probabilities": {
+       "肯定": 0.1959,
+       "否定": 0.019,
+       "混在": 0.5104,
+       "言及なし": 0.2747
+      },
+      "confidence": 0.1663
+     }
+    },
+    "usage": {
+     "input_tokens": 277,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 3,
+  "aspect": "gameplay",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.6225333430000148,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.7402
+     }
+    },
+    "usage": {
+     "input_tokens": 182,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 3,
+  "aspect": "gameplay",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.4192367230000116,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0143,
+       "否定": 0.0203,
+       "混在": 0.0225,
+       "言及なし": 0.9429
+      },
+      "confidence": 0.8537
+     }
+    },
+    "usage": {
+     "input_tokens": 275,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 3,
+  "aspect": "music",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.5032482089999917,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0527
+     }
+    },
+    "usage": {
+     "input_tokens": 180,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 3,
+  "aspect": "music",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.4040393739999786,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.017,
+       "否定": 0.0185,
+       "混在": 0.0277,
+       "言及なし": 0.9368
+      },
+      "confidence": 0.8387
+     }
+    },
+    "usage": {
+     "input_tokens": 276,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 3,
+  "aspect": "comfort",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.46147397400000045,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0485
+     }
+    },
+    "usage": {
+     "input_tokens": 181,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 3,
+  "aspect": "comfort",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.486400548000006,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "混在",
+      "probabilities": {
+       "肯定": 0.1624,
+       "否定": 0.0359,
+       "混在": 0.6753,
+       "言及なし": 0.1264
+      },
+      "confidence": 0.3329
+     }
+    },
+    "usage": {
+     "input_tokens": 271,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 3,
+  "aspect": "price",
+  "kind": "choice",
+  "expected": "肯定"
+ },
+ {
+  "status": 200,
+  "sec": 0.4404377999999838,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.9304
+     }
+    },
+    "usage": {
+     "input_tokens": 176,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 3,
+  "aspect": "price",
+  "kind": "noul",
+  "expected": "肯定"
+ },
+ {
+  "status": 200,
+  "sec": 0.3353807809999978,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0302,
+       "否定": 0.0286,
+       "混在": 0.0337,
+       "言及なし": 0.9075
+      },
+      "confidence": 0.7684
+     }
+    },
+    "usage": {
+     "input_tokens": 276,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 4,
+  "aspect": "gameplay",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.583625263000016,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0285
+     }
+    },
+    "usage": {
+     "input_tokens": 181,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 4,
+  "aspect": "gameplay",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.24136181800000145,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0209,
+       "否定": 0.0166,
+       "混在": 0.0268,
+       "言及なし": 0.9357
+      },
+      "confidence": 0.836
+     }
+    },
+    "usage": {
+     "input_tokens": 274,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 4,
+  "aspect": "music",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.210123684000024,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0194
+     }
+    },
+    "usage": {
+     "input_tokens": 179,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 4,
+  "aspect": "music",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.29549684399998455,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "否定",
+      "probabilities": {
+       "肯定": 0.0448,
+       "否定": 0.8414,
+       "混在": 0.055,
+       "言及なし": 0.0588
+      },
+      "confidence": 0.6219
+     }
+    },
+    "usage": {
+     "input_tokens": 275,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 4,
+  "aspect": "comfort",
+  "kind": "choice",
+  "expected": "否定"
+ },
+ {
+  "status": 200,
+  "sec": 0.33945168200000353,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.8929
+     }
+    },
+    "usage": {
+     "input_tokens": 180,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 4,
+  "aspect": "comfort",
+  "kind": "noul",
+  "expected": "否定"
+ },
+ {
+  "status": 200,
+  "sec": 0.42077425400000834,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0293,
+       "否定": 0.052,
+       "混在": 0.0415,
+       "言及なし": 0.8772
+      },
+      "confidence": 0.6996
+     }
+    },
+    "usage": {
+     "input_tokens": 270,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 4,
+  "aspect": "price",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.25791507400001024,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0338
+     }
+    },
+    "usage": {
+     "input_tokens": 175,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 4,
+  "aspect": "price",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.255255754000018,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "混在",
+      "probabilities": {
+       "肯定": 0.023,
+       "否定": 0.0212,
+       "混在": 0.9226,
+       "言及なし": 0.0332
+      },
+      "confidence": 0.8044
+     }
+    },
+    "usage": {
+     "input_tokens": 278,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 5,
+  "aspect": "gameplay",
+  "kind": "choice",
+  "expected": "混在"
+ },
+ {
+  "status": 200,
+  "sec": 0.2788398099999938,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.9086
+     }
+    },
+    "usage": {
+     "input_tokens": 183,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 5,
+  "aspect": "gameplay",
+  "kind": "noul",
+  "expected": "混在"
+ },
+ {
+  "status": 200,
+  "sec": 0.2733967980000216,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0189,
+       "否定": 0.0238,
+       "混在": 0.0303,
+       "言及なし": 0.927
+      },
+      "confidence": 0.815
+     }
+    },
+    "usage": {
+     "input_tokens": 276,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 5,
+  "aspect": "music",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.25345560600001704,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0346
+     }
+    },
+    "usage": {
+     "input_tokens": 181,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 5,
+  "aspect": "music",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.5153047010000193,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0293,
+       "否定": 0.0307,
+       "混在": 0.069,
+       "言及なし": 0.871
+      },
+      "confidence": 0.6869
+     }
+    },
+    "usage": {
+     "input_tokens": 277,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 5,
+  "aspect": "comfort",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.2015057109999816,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.042
+     }
+    },
+    "usage": {
+     "input_tokens": 182,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 5,
+  "aspect": "comfort",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.21711889400000928,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0096,
+       "否定": 0.0115,
+       "混在": 0.0188,
+       "言及なし": 0.9601
+      },
+      "confidence": 0.8965
+     }
+    },
+    "usage": {
+     "input_tokens": 272,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 5,
+  "aspect": "price",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.31682949499997903,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0338
+     }
+    },
+    "usage": {
+     "input_tokens": 177,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 5,
+  "aspect": "price",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.24026938899999095,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.2893,
+       "否定": 0.0056,
+       "混在": 0.0117,
+       "言及なし": 0.6934
+      },
+      "confidence": 0.4196
+     }
+    },
+    "usage": {
+     "input_tokens": 265,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 6,
+  "aspect": "gameplay",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.37278783600001475,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.074
+     }
+    },
+    "usage": {
+     "input_tokens": 170,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 6,
+  "aspect": "gameplay",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.4442618399999958,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0368,
+       "否定": 0.0407,
+       "混在": 0.0501,
+       "言及なし": 0.8724
+      },
+      "confidence": 0.6888
+     }
+    },
+    "usage": {
+     "input_tokens": 263,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 6,
+  "aspect": "music",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.4783693579999806,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0335
+     }
+    },
+    "usage": {
+     "input_tokens": 168,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 6,
+  "aspect": "music",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.40155606000001853,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0823,
+       "否定": 0.037,
+       "混在": 0.0529,
+       "言及なし": 0.8278
+      },
+      "confidence": 0.595
+     }
+    },
+    "usage": {
+     "input_tokens": 264,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 6,
+  "aspect": "comfort",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.23916775399999324,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0428
+     }
+    },
+    "usage": {
+     "input_tokens": 169,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 6,
+  "aspect": "comfort",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.36513562899997964,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0219,
+       "否定": 0.024,
+       "混在": 0.0266,
+       "言及なし": 0.9275
+      },
+      "confidence": 0.816
+     }
+    },
+    "usage": {
+     "input_tokens": 259,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 6,
+  "aspect": "price",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.25133371199999033,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0227
+     }
+    },
+    "usage": {
+     "input_tokens": 164,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 6,
+  "aspect": "price",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.21319161400001008,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "肯定",
+      "probabilities": {
+       "肯定": 0.7781,
+       "否定": 0.0202,
+       "混在": 0.1415,
+       "言及なし": 0.0602
+      },
+      "confidence": 0.5059
+     }
+    },
+    "usage": {
+     "input_tokens": 278,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 7,
+  "aspect": "gameplay",
+  "kind": "choice",
+  "expected": "肯定"
+ },
+ {
+  "status": 200,
+  "sec": 0.2954420799999866,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.9432
+     }
+    },
+    "usage": {
+     "input_tokens": 183,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 7,
+  "aspect": "gameplay",
+  "kind": "noul",
+  "expected": "肯定"
+ },
+ {
+  "status": 200,
+  "sec": 0.3434564739999928,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "否定",
+      "probabilities": {
+       "肯定": 0.0319,
+       "否定": 0.894,
+       "混在": 0.0388,
+       "言及なし": 0.0353
+      },
+      "confidence": 0.7373
+     }
+    },
+    "usage": {
+     "input_tokens": 276,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 7,
+  "aspect": "music",
+  "kind": "choice",
+  "expected": "否定"
+ },
+ {
+  "status": 200,
+  "sec": 0.4471863830000018,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.945
+     }
+    },
+    "usage": {
+     "input_tokens": 181,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 7,
+  "aspect": "music",
+  "kind": "noul",
+  "expected": "否定"
+ },
+ {
+  "status": 200,
+  "sec": 0.24982463399999233,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.017,
+       "否定": 0.0924,
+       "混在": 0.132,
+       "言及なし": 0.7586
+      },
+      "confidence": 0.469
+     }
+    },
+    "usage": {
+     "input_tokens": 277,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 7,
+  "aspect": "comfort",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.2512112279999883,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.1235
+     }
+    },
+    "usage": {
+     "input_tokens": 182,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 7,
+  "aspect": "comfort",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.3046444060000226,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0125,
+       "否定": 0.0132,
+       "混在": 0.0167,
+       "言及なし": 0.9576
+      },
+      "confidence": 0.8901
+     }
+    },
+    "usage": {
+     "input_tokens": 272,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 7,
+  "aspect": "price",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.302150456999982,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0265
+     }
+    },
+    "usage": {
+     "input_tokens": 177,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 7,
+  "aspect": "price",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.20772839800000042,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "肯定",
+      "probabilities": {
+       "肯定": 0.752,
+       "否定": 0.0366,
+       "混在": 0.1476,
+       "言及なし": 0.0638
+      },
+      "confidence": 0.457
+     }
+    },
+    "usage": {
+     "input_tokens": 277,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 8,
+  "aspect": "gameplay",
+  "kind": "choice",
+  "expected": "肯定"
+ },
+ {
+  "status": 200,
+  "sec": 0.2959365410000032,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.8908
+     }
+    },
+    "usage": {
+     "input_tokens": 182,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 8,
+  "aspect": "gameplay",
+  "kind": "noul",
+  "expected": "肯定"
+ },
+ {
+  "status": 200,
+  "sec": 0.22603028800000402,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0434,
+       "否定": 0.0227,
+       "混在": 0.0434,
+       "言及なし": 0.8905
+      },
+      "confidence": 0.7298
+     }
+    },
+    "usage": {
+     "input_tokens": 275,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 8,
+  "aspect": "music",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.21631318000001443,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0547
+     }
+    },
+    "usage": {
+     "input_tokens": 180,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 8,
+  "aspect": "music",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.5064334130000248,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0204,
+       "否定": 0.022,
+       "混在": 0.0398,
+       "言及なし": 0.9178
+      },
+      "confidence": 0.7931
+     }
+    },
+    "usage": {
+     "input_tokens": 276,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 8,
+  "aspect": "comfort",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.29551982999998927,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0427
+     }
+    },
+    "usage": {
+     "input_tokens": 181,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 8,
+  "aspect": "comfort",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.2512960329999885,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "混在",
+      "probabilities": {
+       "肯定": 0.0347,
+       "否定": 0.3186,
+       "混在": 0.545,
+       "言及なし": 0.1017
+      },
+      "confidence": 0.2135
+     }
+    },
+    "usage": {
+     "input_tokens": 271,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 8,
+  "aspect": "price",
+  "kind": "choice",
+  "expected": "否定"
+ },
+ {
+  "status": 200,
+  "sec": 0.4099758559999884,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.9349
+     }
+    },
+    "usage": {
+     "input_tokens": 176,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 8,
+  "aspect": "price",
+  "kind": "noul",
+  "expected": "否定"
+ },
+ {
+  "status": 200,
+  "sec": 0.45477160900000513,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "混在",
+      "probabilities": {
+       "肯定": 0.0327,
+       "否定": 0.0415,
+       "混在": 0.8787,
+       "言及なし": 0.0471
+      },
+      "confidence": 0.7029
+     }
+    },
+    "usage": {
+     "input_tokens": 278,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 9,
+  "aspect": "gameplay",
+  "kind": "choice",
+  "expected": "否定"
+ },
+ {
+  "status": 200,
+  "sec": 0.22171094099999777,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.932
+     }
+    },
+    "usage": {
+     "input_tokens": 183,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 9,
+  "aspect": "gameplay",
+  "kind": "noul",
+  "expected": "否定"
+ },
+ {
+  "status": 200,
+  "sec": 0.23655270100002213,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0111,
+       "否定": 0.015,
+       "混在": 0.0159,
+       "言及なし": 0.958
+      },
+      "confidence": 0.8911
+     }
+    },
+    "usage": {
+     "input_tokens": 276,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 9,
+  "aspect": "music",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.5447016450000035,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0303
+     }
+    },
+    "usage": {
+     "input_tokens": 181,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 9,
+  "aspect": "music",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.38582829299997456,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "肯定",
+      "probabilities": {
+       "肯定": 0.4732,
+       "否定": 0.0586,
+       "混在": 0.3596,
+       "言及なし": 0.1086
+      },
+      "confidence": 0.1579
+     }
+    },
+    "usage": {
+     "input_tokens": 277,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 9,
+  "aspect": "comfort",
+  "kind": "choice",
+  "expected": "肯定"
+ },
+ {
+  "status": 200,
+  "sec": 0.23274578800001677,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.9306
+     }
+    },
+    "usage": {
+     "input_tokens": 182,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 9,
+  "aspect": "comfort",
+  "kind": "noul",
+  "expected": "肯定"
+ },
+ {
+  "status": 200,
+  "sec": 0.28718247399999086,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0101,
+       "否定": 0.0115,
+       "混在": 0.0123,
+       "言及なし": 0.9661
+      },
+      "confidence": 0.9117
+     }
+    },
+    "usage": {
+     "input_tokens": 272,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 9,
+  "aspect": "price",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.41474370700001373,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0282
+     }
+    },
+    "usage": {
+     "input_tokens": 177,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 9,
+  "aspect": "price",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.2377522999999826,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "混在",
+      "probabilities": {
+       "肯定": 0.0246,
+       "否定": 0.0234,
+       "混在": 0.6899,
+       "言及なし": 0.2621
+      },
+      "confidence": 0.3944
+     }
+    },
+    "usage": {
+     "input_tokens": 274,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 10,
+  "aspect": "gameplay",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.22403568299998255,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0758
+     }
+    },
+    "usage": {
+     "input_tokens": 179,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 10,
+  "aspect": "gameplay",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.22474882299999877,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0185,
+       "否定": 0.0199,
+       "混在": 0.0662,
+       "言及なし": 0.8954
+      },
+      "confidence": 0.7424
+     }
+    },
+    "usage": {
+     "input_tokens": 272,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 10,
+  "aspect": "music",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.3226407459999905,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0431
+     }
+    },
+    "usage": {
+     "input_tokens": 177,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 10,
+  "aspect": "music",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.2690573379999819,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0172,
+       "否定": 0.0195,
+       "混在": 0.0779,
+       "言及なし": 0.8854
+      },
+      "confidence": 0.7209
+     }
+    },
+    "usage": {
+     "input_tokens": 273,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 10,
+  "aspect": "comfort",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.21595213000000513,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0479
+     }
+    },
+    "usage": {
+     "input_tokens": 178,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 10,
+  "aspect": "comfort",
+  "kind": "noul",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.2658217329999957,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "choice",
+      "choice": "言及なし",
+      "probabilities": {
+       "肯定": 0.0122,
+       "否定": 0.0135,
+       "混在": 0.0197,
+       "言及なし": 0.9546
+      },
+      "confidence": 0.8826
+     }
+    },
+    "usage": {
+     "input_tokens": 268,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 10,
+  "aspect": "price",
+  "kind": "choice",
+  "expected": "言及なし"
+ },
+ {
+  "status": 200,
+  "sec": 0.35382688300001064,
+  "body": {
+   "result": {
+    "model": "clef-flash",
+    "answers": {
+     "q": {
+      "type": "noul",
+      "noul": 0.0293
+     }
+    },
+    "usage": {
+     "input_tokens": 173,
+     "output_tokens": 0
+    }
+   },
+   "success": true,
+   "errors": [],
+   "messages": []
+  },
+  "model": "clef-flash",
+  "sample": 10,
+  "aspect": "price",
+  "kind": "noul",
+  "expected": "言及なし"
+ }
+]
