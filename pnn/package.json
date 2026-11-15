@@ -1,0 +1,10 @@
+{
+	"name": "pnn",
+	"version": "0.0.1",
+	"private": true,
+	"type": "module",
+	"description": "Pink nervous nipples (independent from Zasuh)",
+	"dependencies": {
+		"@fontsource/unifontex": "^5.3.0"
+	}
+}
