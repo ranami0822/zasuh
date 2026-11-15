@@ -1,0 +1,209 @@
+{
+ "note": "ラベルは本人（ユーザー）がチャットで付けた。凡例: y肯定 n否定 p混在 u言及なし ?判断不能（null、主集計から外す）。観点の順: gameplay, music, comfort, price。レビュー本文は含まない。",
+ "labels": [
+  {
+   "id": 1,
+   "recommendationid": "239078250",
+   "appid": 2054970,
+   "voted_up": false,
+   "gameplay": "否定",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  },
+  {
+   "id": 2,
+   "recommendationid": "238468857",
+   "appid": 1623730,
+   "voted_up": true,
+   "gameplay": "肯定",
+   "music": "言及なし",
+   "comfort": "否定",
+   "price": "言及なし"
+  },
+  {
+   "id": 3,
+   "recommendationid": "238667285",
+   "appid": 413150,
+   "voted_up": true,
+   "gameplay": "肯定",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  },
+  {
+   "id": 4,
+   "recommendationid": "238357439",
+   "appid": 1091500,
+   "voted_up": true,
+   "gameplay": "肯定",
+   "music": "言及なし",
+   "comfort": "肯定",
+   "price": "肯定"
+  },
+  {
+   "id": 5,
+   "recommendationid": "238829335",
+   "appid": 275850,
+   "voted_up": false,
+   "gameplay": "否定",
+   "music": "言及なし",
+   "comfort": "否定",
+   "price": "言及なし"
+  },
+  {
+   "id": 6,
+   "recommendationid": "239410132",
+   "appid": 1623730,
+   "voted_up": true,
+   "gameplay": "否定",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  },
+  {
+   "id": 7,
+   "recommendationid": "240091482",
+   "appid": 1086940,
+   "voted_up": false,
+   "gameplay": "否定",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  },
+  {
+   "id": 8,
+   "recommendationid": "238032803",
+   "appid": 2246340,
+   "voted_up": true,
+   "gameplay": "肯定",
+   "music": "言及なし",
+   "comfort": "肯定",
+   "price": "混在"
+  },
+  {
+   "id": 9,
+   "recommendationid": "239572270",
+   "appid": 1086940,
+   "voted_up": true,
+   "gameplay": "混在",
+   "music": "言及なし",
+   "comfort": "否定",
+   "price": "言及なし"
+  },
+  {
+   "id": 10,
+   "recommendationid": "239710084",
+   "appid": 1091500,
+   "voted_up": true,
+   "gameplay": "肯定",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  },
+  {
+   "id": 11,
+   "recommendationid": "240144059",
+   "appid": 2054970,
+   "voted_up": true,
+   "gameplay": "肯定",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  },
+  {
+   "id": 12,
+   "recommendationid": "240141380",
+   "appid": 275850,
+   "voted_up": true,
+   "gameplay": "肯定",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  },
+  {
+   "id": 13,
+   "recommendationid": "239422247",
+   "appid": 2054970,
+   "voted_up": true,
+   "gameplay": "肯定",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  },
+  {
+   "id": 14,
+   "recommendationid": "239770851",
+   "appid": 367520,
+   "voted_up": true,
+   "gameplay": "肯定",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  },
+  {
+   "id": 15,
+   "recommendationid": "239098605",
+   "appid": 1091500,
+   "voted_up": false,
+   "gameplay": "言及なし",
+   "music": "言及なし",
+   "comfort": "否定",
+   "price": "言及なし"
+  },
+  {
+   "id": 16,
+   "recommendationid": "239102761",
+   "appid": 275850,
+   "voted_up": true,
+   "gameplay": "言及なし",
+   "music": "言及なし",
+   "comfort": "肯定",
+   "price": "言及なし"
+  },
+  {
+   "id": 17,
+   "recommendationid": "238916629",
+   "appid": 1245620,
+   "voted_up": true,
+   "gameplay": "肯定",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  },
+  {
+   "id": 18,
+   "recommendationid": "237915744",
+   "appid": 2054970,
+   "voted_up": true,
+   "gameplay": null,
+   "music": null,
+   "comfort": null,
+   "price": null
+  },
+  {
+   "id": 19,
+   "recommendationid": "237948028",
+   "appid": 2246340,
+   "voted_up": false,
+   "gameplay": "否定",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  },
+  {
+   "id": 20,
+   "recommendationid": "239007737",
+   "appid": 1091500,
+   "voted_up": true,
+   "gameplay": "肯定",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  }
+ ],
+ "notes": {
+  "2": "コリジョンの文脈が不明（本人の注記）。快適さの否定は確信が低い。",
+  "18": "全観点を判断不能とした。本人の注記: ゲーム性は混在かもしれない（p???）。"
+ }
+}
