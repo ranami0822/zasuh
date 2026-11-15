@@ -38,6 +38,7 @@ const assert = (c, m) => { console.log((c ? 'OK  ' : 'FAIL') + ' ' + m); if (!c)
   // 状態
   await p.click('button[aria-label="状態"]'); await p.waitForTimeout(150);
   await p.click('dialog[open] button:has-text("公開")'); await p.waitForTimeout(150);
+  await p.waitForSelector('dialog[open] h2:has-text("だれ？")', { timeout: 10000 }).catch(() => {});
   assert(await p.locator('dialog[open] h2:has-text("だれ？")').count() === 1, 'ログインしていないと、公開の前に「だれ？」が出る（公開の通しは e2e-server.cjs）');
   await p.keyboard.press('Escape'); await p.waitForTimeout(150);
   // 閉じる直前の保存

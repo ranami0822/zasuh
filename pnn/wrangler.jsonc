@@ -13,8 +13,8 @@
 		{
 			"binding": "DB",
 			"database_name": "pnn",
-			// 本番のデータベースを作ったら、その ID に置き換える
-			"database_id": "00000000-0000-0000-0000-000000000000",
+			// 本番のデータベース（2026-11-15 作成）
+			"database_id": "87fec876-d73b-4451-bf6c-27887ec08444",
 			"migrations_dir": "migrations"
 		}
 	]

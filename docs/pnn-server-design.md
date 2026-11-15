@@ -90,3 +90,11 @@ Cloudflare Workers（SvelteKit の API）── D1（SQLite）
 3. 個人情報の検知（以前の提案。採用は未決）。
 4. アカウントの復旧（passkey をなくしたとき）。
 5. 「新しいアカウント」の日数（3日は私の案）。
+
+## 10. 本番（2026-11-15）
+
+- URL: https://pnn.crami.workers.dev （Cloudflare Workers。D1 は `pnn`）
+- 容量の上限（D1 は 10 個まで）に当たったため、本人の許可を得て `memo-db` と `cram-up-db` を消してから作った。
+- 秘密の鍵 `PNN_SECRET` は `wrangler secret` に入れた。値はリポジトリに置かない。
+- 本番で、エディタの通し（18 項目）、公開の場の通し（23 項目。2人、passkey は仮想の認証器）、見切れの検査を流して、すべて通った。テストで作ったアカウントなどは、そのあと消した。
+- passkey は、ドメイン（`pnn.crami.workers.dev`）に結びつく。あとでドメインを変えると、作った passkey は使えなくなる。
