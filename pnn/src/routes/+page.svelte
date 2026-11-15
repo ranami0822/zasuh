@@ -5,6 +5,8 @@
 	import { press } from '../lib/press';
 	import { createIdbStore } from '../lib/store';
 	import { createSaver, type SaveState } from '../lib/saver';
+	import { createSync, markPending } from '../lib/sync';
+	import { getMe, login, register } from '../lib/account';
 	import { isEmpty, labelOf, newDoc, openInitial, statusLabel, statusOrder } from '../lib/docs';
 	import { bar } from '../lib/editor/bar';
 	import Icon from '../lib/Icon.svelte';
@@ -13,6 +15,15 @@
 	const store = createIdbStore();
 	let saveState = $state<SaveState>('ok');
 	const saver = createSaver(store, { onState: (s) => (saveState = s) });
+	// 公開・限定の文書は、サーバーへ送る。送れたら、つながり（remote）を画面の文書にも反映する
+	const sync = createSync(store, {
+		onChange: (d) => { if (doc && d.id === doc.id) doc = { ...doc, remote: d.remote }; },
+		onNeedLogin: () => { needLogin = true; }
+	});
+	let needLogin = $state(false);
+	let step = $state<'pick' | 'auth' | 'confirm'>('pick');
+	let wanted: Status = 'draft';
+	let authError = $state('');
 
 	// 文書は $state.raw で持つ（Svelte のプロキシを IndexedDB に渡すと、保存が黙って失敗する）
 	let doc = $state.raw<Doc | null>(null);
@@ -21,9 +32,7 @@
 	let titleEl: HTMLTextAreaElement | undefined = $state();
 	let statusDlg: HTMLDialogElement | undefined = $state();
 	let docsDlg: HTMLDialogElement | undefined = $state();
-	let confirmPublic = $state(false);
 	let armedDelete = $state<string | null>(null);
-	let theme = $state<'light' | 'dark'>('light');
 
 	/** 題は、長ければ折り返す（切らない） */
 	function fit(el: HTMLTextAreaElement | undefined) {
@@ -33,14 +42,16 @@
 	}
 
 	onMount(() => {
-		theme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
 		(async () => {
 			doc = await openInitial(store);
 			await tick();
 			fit(titleEl);
 			if (doc.title === '') titleEl?.focus();
 			else view?.focus();
+			void sync.retryAll();
 		})();
+		const retry = () => void sync.retryAll();
+		addEventListener('online', retry);
 
 		// 閉じる前、隠れる前に、待っているものを書き出す
 		const flush = () => void saver.flush();
@@ -60,13 +71,15 @@
 			removeEventListener('pagehide', flush);
 			vv?.removeEventListener('resize', setVh);
 			removeEventListener('resize', onResize);
+			removeEventListener('online', retry);
 		};
 	});
 
 	function edit(patch: Partial<Doc>) {
 		if (!doc) return;
-		doc = { ...doc, ...patch, updatedAt: Date.now() };
+		doc = markPending({ ...doc, ...patch, updatedAt: Date.now() });
 		saver.schedule(doc);
+		sync.schedule(doc);
 	}
 
 	async function leave() {
@@ -127,24 +140,33 @@
 		}
 	}
 
-	function setStatus(s: Status) {
-		if (s === 'public' && doc?.status !== 'public') { confirmPublic = true; return; }
-		applyStatus(s);
+	async function setStatus(s: Status) {
+		authError = '';
+		if (s !== 'draft' && !(await getMe().catch(() => null))) { wanted = s; step = 'auth'; return; }
+		if (s === 'public' && doc?.status !== 'public') { step = 'confirm'; return; }
+		await applyStatus(s);
 	}
-	function applyStatus(s: Status) {
-		confirmPublic = false;
-		edit({ status: s, publish: s === 'public' ? { requestedAt: Date.now(), status: 'queued' } : undefined });
+	async function applyStatus(s: Status) {
+		if (!doc) return;
+		edit({ status: s });
 		statusDlg?.close();
+		await saver.flush();
+		await sync.run(doc.id);
 		view?.focus();
 	}
-	function openStatus() { confirmPublic = false; statusDlg?.showModal(); }
-
-	function toggleTheme() {
-		theme = theme === 'light' ? 'dark' : 'light';
-		document.documentElement.dataset.theme = theme;
-		try { localStorage.setItem('pnn-theme', theme); } catch {}
-		document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#1F1512' : '#FCF6F2');
+	async function auth(fn: () => Promise<void>) {
+		authError = '';
+		try {
+			await fn();
+			needLogin = false;
+			step = 'pick';
+			await setStatus(wanted);
+			if (doc?.remote?.pending) await sync.retryAll();
+		} catch {
+			authError = 'passkey が使えなかった';
+		}
 	}
+	function openStatus() { step = needLogin ? 'auth' : 'pick'; wanted = doc?.status ?? 'draft'; statusDlg?.showModal(); }
 
 	function backdrop(e: MouseEvent, dlg: HTMLDialogElement | undefined) {
 		if (e.target === dlg) dlg.close();
@@ -164,11 +186,11 @@
 			<button class="p chip tight" use:press={{ k: 1 }} onclick={openStatus} aria-label="状態">
 				<span class="f">{doc ? statusLabel[doc.status] : ''}</span>
 			</button>
-			<span class="dot" class:saving={saveState === 'saving'} class:error={saveState === 'error'} aria-hidden="true"></span>
+			<span class="dot" class:saving={saveState === 'saving' || !!doc?.remote?.pending} class:error={saveState === 'error' || needLogin} aria-hidden="true"></span>
 			<span class="sp"></span>
-			<button class="p chip soft tight" use:press={{ k: 1 }} onclick={showDocs} aria-label="いままで"><span class="f">いままで</span></button>
+			<button class="p chip soft icon-only" use:press={{ k: 1.1 }} onclick={showDocs} aria-label="いままで"><span class="f"><Icon name="docs" /></span></button>
 			<button class="p chip soft icon-only" use:press={{ k: 1.1 }} onclick={create} aria-label="新しく書く"><span class="f"><Icon name="plus" /></span></button>
-			<button class="p chip soft icon-only" use:press={{ k: 1.1 }} onclick={toggleTheme} aria-label="明るさ"><span class="f"><Icon name={theme === 'dark' ? 'sun' : 'moon'} /></span></button>
+			<a class="p chip soft icon-only" href="/feed" use:press={{ k: 1.1 }} aria-label="場"><span class="f"><Icon name="feed" /></span></a>
 		</header>
 
 		{#if doc}
@@ -214,18 +236,35 @@
 </div>
 
 <dialog class="dlg" bind:this={statusDlg} onclick={(e) => backdrop(e, statusDlg)}>
-	{#if !confirmPublic}
+	{#if step === 'auth'}
+		<h2>だれ？</h2>
+		<div class="row">
+			<button class="p btn" use:press onclick={() => auth(register)}><span class="f">はじめる</span></button>
+			<button class="p btn soft" use:press onclick={() => auth(login)}><span class="f">入る</span></button>
+		</div>
+		{#if authError}<p class="note">{authError}</p>{/if}
+	{:else if step === 'confirm'}
+		<h2>公開？</h2>
+		<div class="row end">
+			<button class="p chip soft" class:on={doc?.reveal} use:press onclick={() => edit({ reveal: !doc?.reveal })} aria-pressed={!!doc?.reveal}><span class="f">名乗る</span></button>
+			<span class="sp"></span>
+			<button class="p btn soft" use:press onclick={() => (step = 'pick')}><span class="f">まだ</span></button>
+			<button class="p btn" use:press onclick={() => applyStatus('public')}><span class="f">公開する</span></button>
+		</div>
+	{:else}
 		<div class="row">
 			{#each statusOrder as s (s)}
 				<button class="p btn" class:soft={doc?.status !== s} use:press onclick={() => setStatus(s)}><span class="f">{statusLabel[s]}</span></button>
 			{/each}
 		</div>
-	{:else}
-		<h2>公開？</h2>
-		<div class="row end">
-			<button class="p btn soft" use:press onclick={() => (confirmPublic = false)}><span class="f">まだ</span></button>
-			<button class="p btn" use:press onclick={() => applyStatus('public')}><span class="f">公開する</span></button>
-		</div>
+		{#if doc && doc.status !== 'draft'}
+			<div class="row sub">
+				<button class="p chip soft" class:on={doc.reveal} use:press onclick={() => edit({ reveal: !doc?.reveal })} aria-pressed={!!doc.reveal}><span class="f">名乗る</span></button>
+				{#if doc.remote?.postId}
+					<a class="p chip soft icon-only" href="/p/{doc.remote.postId}" use:press aria-label="見る"><span class="f"><Icon name="feed" /></span></a>
+				{/if}
+			</div>
+		{/if}
 	{/if}
 </dialog>
 
@@ -283,7 +322,10 @@
 	.bar::after { content: ''; flex: none; width: var(--s5); }
 
 	.row { display: flex; flex-wrap: wrap; gap: var(--s3); }
-	.row.end { justify-content: flex-end; }
+	.row.end { justify-content: flex-end; align-items: center; }
+	.row.sub { margin-top: var(--s4); }
+	.row .sp { flex: 1; }
+	.note { color: var(--soft); margin-top: var(--s3); }
 
 	.list { list-style: none; padding: 0; display: grid; gap: var(--s2); }
 	.item { display: flex; gap: var(--s2); align-items: center; }

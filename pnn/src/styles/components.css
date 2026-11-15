@@ -67,3 +67,32 @@ button, input, textarea { font: inherit; color: inherit; }
 .dlg::backdrop { background: rgb(var(--shade) / .35); }
 .dlg.wide { width: min(560px, calc(100vw - 2 * var(--gutter))); max-height: 80vh; }
 .dlg h2 { font-size: var(--t-title); font-weight: 400; line-height: var(--lh-title); margin-bottom: var(--s4); }
+
+/* ---- 頁の骨組み（エディタ以外の頁） ---- */
+.page-col { position: relative; z-index: var(--z-app); width: min(var(--measure), 100%); margin-inline: auto; padding: env(safe-area-inset-top) var(--gutter) var(--s8); }
+.topbar { display: flex; flex-wrap: nowrap; align-items: center; gap: var(--gap); padding-block: var(--s3); }
+.topbar .sp { flex: 1; min-width: 0; }
+a.p { text-decoration: none; }
+.stack { display: grid; gap: var(--s3); }
+.muted { color: var(--soft); }
+.big { font-size: var(--t-title); line-height: var(--lh-title); font-weight: 400; }
+
+/* ---- 本文（表示） ---- */
+.prose { line-height: var(--lh-write); overflow-wrap: anywhere; }
+.prose > * + * { margin-top: var(--s3); }
+.prose h2 { font-size: var(--t-title); line-height: var(--lh-title); font-weight: 400; }
+.prose h3, .prose h4 { font-size: var(--t-body); font-weight: 400; background-image: linear-gradient(transparent 62%, rgb(var(--glow) / .45) 62%); display: inline-block; }
+.prose strong { font-weight: 400; text-shadow: 1px 0 0 currentColor; }
+.prose em { color: var(--soft); }
+.prose blockquote { background: var(--ring); padding: var(--s2) var(--s4); }
+.prose ul { padding-left: var(--s5); }
+.prose li::marker { color: var(--card-red); content: '・'; }
+.prose hr { border: 0; height: var(--s1); width: var(--s8); margin-inline: auto; background: var(--card); border-radius: var(--r-pill); }
+
+/* ---- 投稿の札 ---- */
+.card-link { display: grid; gap: var(--s2); padding: var(--s4); background: var(--face); border-radius: var(--r-card); color: var(--ink); text-decoration: none; box-shadow: var(--sh-card); overflow-wrap: anywhere; }
+.meta-row { display: flex; flex-wrap: wrap; gap: var(--s3); align-items: center; color: var(--soft); }
+.meta-row .item { display: inline-flex; gap: var(--s1); align-items: center; }
+
+/* 押した状態を持つ部品（いいね、保存、トグル） */
+.p.on { background: var(--card); color: var(--on-card); }

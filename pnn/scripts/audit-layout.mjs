@@ -20,6 +20,11 @@ const ok = (m) => console.log('OK  ', m);
 // ---- 1. px の直書きを探す（値は tokens.css だけに置く） ----
 const lint = [
 	['src/routes/+page.svelte', (s) => s.slice(s.indexOf('<style>'))],
+	['src/routes/feed/+page.svelte', (s) => s.includes('<style>') ? s.slice(s.indexOf('<style>')) : ''],
+	['src/routes/p/[id]/+page.svelte', (s) => s.slice(s.indexOf('<style>'))],
+	['src/routes/u/[handle]/+page.svelte', (s) => s.slice(s.indexOf('<style>'))],
+	['src/routes/me/+page.svelte', (s) => s.slice(s.indexOf('<style>'))],
+	['src/lib/PostCard.svelte', (s) => s.slice(s.indexOf('<style>'))],
 	['src/lib/editor/live.ts', (s) => s.slice(s.indexOf('liveTheme'))]
 ];
 for (const [f, pick] of lint) {
@@ -89,17 +94,35 @@ for (const [name, w, h] of sizes) {
 		await ctx.close();
 	}
 }
-// 見本の頁（/design）も、はみ出さないこと
-for (const [name, w, h] of sizes) {
-	for (const theme of ['light', 'dark']) {
-		const ctx = await browser.newContext({ viewport: { width: w, height: h }, serviceWorkers: 'block', colorScheme: theme });
-		const p = await ctx.newPage();
-		await p.goto(new URL('design', base).href);
-		await p.waitForSelector('.page');
-		await p.evaluate(() => document.fonts.ready);
-		const over = await p.evaluate(() => document.documentElement.scrollWidth > innerWidth);
-		over ? fail(`/design ${name} ${w}px ${theme}: ページが横にはみ出す`) : ok(`/design ${name} ${w}px ${theme}`);
-		await ctx.close();
+// ほかの頁（見本、場、自分）も、はみ出さず、押せる大きさを守ること
+for (const path of ['design', 'feed', 'me']) {
+	for (const [name, w, h] of sizes) {
+		for (const theme of ['light', 'dark']) {
+			const ctx = await browser.newContext({ viewport: { width: w, height: h }, serviceWorkers: 'block', colorScheme: theme });
+			const p = await ctx.newPage();
+			await p.goto(new URL(path, base).href);
+			await p.waitForSelector('main');
+			await p.evaluate(() => document.fonts.ready);
+			await p.waitForTimeout(300);
+			const r = await p.evaluate(() => {
+				const small = [];
+				for (const e of document.querySelectorAll('.chip, .btn')) {
+					const b = e.getBoundingClientRect();
+					if (!b.width && !b.height) continue;
+					if (b.height < 43.5 || b.width < 43.5 || b.height > 48) small.push(`${e.textContent.trim() || e.getAttribute('aria-label')} ${Math.round(b.width)}x${Math.round(b.height)}`);
+				}
+				const top = document.querySelector('.topbar');
+				return { over: document.documentElement.scrollWidth > innerWidth, small, topFits: !top || top.scrollWidth <= top.clientWidth + 1 };
+			});
+			const probs = [];
+			if (r.over) probs.push('ページが横にはみ出す');
+			if (r.small.length) probs.push('大きさ: ' + r.small.join(' | '));
+			if (!r.topFits) probs.push('上の列が収まらない');
+			const tag = `/${path} ${name} ${w}px ${theme}`;
+			probs.length ? fail(`${tag}: ${probs.join(' ; ')}`) : ok(tag);
+			if (theme === 'light' && name === 'phone') await p.screenshot({ path: new URL(`../.svelte-kit/audit-${path}.png`, import.meta.url).pathname, fullPage: true });
+			await ctx.close();
+		}
 	}
 }
 await browser.close();

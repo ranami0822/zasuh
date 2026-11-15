@@ -38,9 +38,8 @@ const assert = (c, m) => { console.log((c ? 'OK  ' : 'FAIL') + ' ' + m); if (!c)
   // 状態
   await p.click('button[aria-label="状態"]'); await p.waitForTimeout(150);
   await p.click('dialog[open] button:has-text("公開")'); await p.waitForTimeout(150);
-  assert(await p.locator('dialog[open] h2:has-text("公開？")').count() === 1, '公開は、確認の2段階目が出る');
-  await p.click('dialog[open] button:has-text("公開する")'); await p.waitForTimeout(200);
-  assert((await p.textContent('button[aria-label="状態"]')).trim() === '公開', '公開にできる');
+  assert(await p.locator('dialog[open] h2:has-text("だれ？")').count() === 1, 'ログインしていないと、公開の前に「だれ？」が出る（公開の通しは e2e-server.cjs）');
+  await p.keyboard.press('Escape'); await p.waitForTimeout(150);
   // 閉じる直前の保存
   await p.keyboard.type('Z');
   await p.evaluate(() => { dispatchEvent(new Event('pagehide')); });

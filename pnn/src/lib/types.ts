@@ -7,6 +7,8 @@ export interface Doc {
 	status: Status;
 	createdAt: number;
 	updatedAt: number;
-	/** 公開の予約。サーバーができるまでは、待ち行列に入るだけ。 */
-	publish?: { requestedAt: number; status: 'queued' | 'sent' | 'failed' };
+	/** 共感されたら名乗る（投稿ごとのトグル。いつでも変えられる） */
+	reveal?: boolean;
+	/** サーバーとのつながり。pending は、送る待ち（オフラインや失敗のとき） */
+	remote?: { postId?: string; pending: boolean };
 }

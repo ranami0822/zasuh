@@ -39,6 +39,7 @@ self.addEventListener('fetch', (event) => {
 	if (req.method !== 'GET') return;
 	const url = new URL(req.url);
 	if (url.origin !== location.origin) return;
+	if (url.pathname.startsWith('/api/')) return; // API は、いつもネットワークへ
 
 	event.respondWith(
 		(async () => {
