@@ -96,10 +96,18 @@ reviews
   disclosure('none'|'developer'|'affiliated'|'other'), disclosure_note,
   status('pending'|'read'|'failed'|'hidden'), created_at
 
-readings                 -- 1レビューを1つの質問セットで読んだ結果
-  id, review_id, question_set_id, model, status('ok'|'error'),
+review_revisions         -- レビュー本文の版（編集のたびに追加）
+  id, review_id, body, created_at
+  -- reviews.body は、最新の版の本文（表示用）
+
+reports                  -- 通報
+  id, review_id, reporter_id, reason('abuse'|'spam'|'conflict'|'other'), note,
+  status('open'|'closed'), created_at
+
+readings                 -- 1つの版を、1つの質問セットで読んだ結果
+  id, revision_id, question_set_id, model, status('ok'|'error'),
   attempts, latency_ms, input_tokens, error, created_at
-  -- unique(review_id, question_set_id)
+  -- unique(revision_id, question_set_id)。集計には、各レビューの最新の版の読み取りだけを使う
 
 reading_answers          -- 質問ごとの答え（観点に限らず、質問のキーで持つ）
   reading_id, question_key,        -- 例: 'gameplay_choice', 'gameplay_noul'
@@ -146,6 +154,15 @@ aspect_stats             -- 集計（作品 × 観点 × 質問セット）
 7. 定期実行（毎分）: pending が一定時間以上残っているものと、failed で試行回数が残っているものを再実行
 ```
 
+### 4.1.1 編集と通報
+
+- **編集**: 投稿した端末（同じ端末トークン）から、制限つきで編集できる。編集のたびに `review_revisions` に版を追加し、その版を読み直す。集計は、最新の版の読み取りだけを使う。
+- **編集の制限**: AIが読むので、制限をかける。**具体的な値は未決**。案: 1レビューあたり3回まで、投稿から7日以内。目的は、AIの読み取り結果を見ながら文面を調整する（AIを探る）使い方と、コストの増加を防ぐこと。
+- **読み取り結果は、公開しない**。レビューごとのAIの答え（向き、確率、要確認）は、投稿者を含めて、表示しない（集計にだけ使う）。投稿者が自分のレビューの読み取りを見て、AIに合わせて書き換えることを防ぐため。
+- **通報**: 各レビューに通報の導線を置く（理由: 荒らし、スパム、利害関係の未申告、その他）。通報は `reports` に保存する。
+- **管理画面**（オーナーのみ、`ADMIN_TOKEN`）: 通報の一覧から、レビューを非表示にする（`reviews.status = 'hidden'`、集計から除く）。必要なら本文を完全に削除する。
+- **日本語のみ**: 投稿時に、日本語の文字（ひらがな・カタカナ・漢字）が一定の割合（案: 半数）以上であることを確認する。満たさなければ受け付けない。UI も日本語のみ。
+
 ### 4.2 質問セットの更新
 
 1. 新しい `question_sets` の行を追加する（version を1つ上げる）。
@@ -169,7 +186,10 @@ aspect_stats             -- 集計（作品 × 観点 × 質問セット）
 | `POST /works/[slug]/reviews`（フォームアクション） | レビュー投稿 |
 | `GET /admin`、`POST /admin/works` | 作品の登録（オーナーのみ。`ADMIN_TOKEN` を Worker のシークレットに置く） |
 | 定期実行（`scheduled`） | 読み取りのやり直し、集計の更新 |
-| `POST /admin/reviews/[id]/hide` | レビューの非表示（モデレーション） |
+| `POST /works/[slug]/reviews/[id]/edit`（フォームアクション） | レビューの編集（同じ端末、回数・期間の制限つき） |
+| `POST /works/[slug]/reviews/[id]/report` | 通報 |
+| `GET /admin/reports` | 通報の一覧（オーナーのみ） |
+| `POST /admin/reviews/[id]/hide`、`POST /admin/reviews/[id]/delete` | レビューの非表示、削除（オーナーのみ） |
 
 - 画面の部品は ui-sdk（Svelte 用）。**説明を書かず、見た目で伝える**（`docs/design.md` の方針）。
 
@@ -240,10 +260,19 @@ MVP では、匿名の端末トークン（Cookie に入れた乱数。サーバ
 - 作品の登録を、作り手に開放する（作り手の確認、利害関係の扱い）。
 - D1 の容量（10GB、増やせない）。読み取り結果が増えたら、古い読み取り結果の整理を考える。
 
-## 11. 決めてほしいこと
+## 11. 決定事項と未決事項
 
-1. 作品の登録を、`ADMIN_TOKEN`（オーナーだけが知るシークレット）でよいか。
-2. 既定のモデルを Clef-flash にしてよいか（精度は Clef と同程度、速い。ただし料金は未確認）。
-3. 要確認のレビューを、集計に含めるか、除くか。初期案は「含める。表示でも区別しない」。ただし、要確認の閾値は未検証なので、保存だけして、使い方は運用で決める。
-4. レビューの編集・削除の方針（投稿者が消せるか。端末トークンだけで本人確認できるか）。
-5. UI の言語は日本語のみか。レビューも日本語のみを受け付けるか（実験は日本語のみ）。
+決定（ユーザー、2026-11-15）:
+
+1. 作品の登録は、`ADMIN_TOKEN` によるオーナーのみ（私の案で進める）。
+2. 既定のモデルは Clef-flash（私の案で進める）。
+3. 要確認のレビューは、集計に含める。表示でも区別しない。閾値は未検証なので、保存だけして、使い方は運用で決める（私の案で進める）。
+4. 削除と編集: **通報を受けて、オーナーが軽い管理画面で消す。編集はできるが、AIが読むので制限をかける**（4.1.1）。
+5. UI もレビューも日本語のみ。
+
+未決:
+
+- 編集の制限の具体的な値（案: 3回まで、7日以内）。
+- 非表示と削除の使い分け（案: 通常は非表示、必要なときだけ削除）。
+- 通報の濫用への対策（同じ人による大量の通報）。
+- 投稿の規約（表示、削除、保存期間）。
