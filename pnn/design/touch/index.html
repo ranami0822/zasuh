@@ -39,7 +39,9 @@ main { position:relative; max-width:560px; margin:0 auto; display:grid; gap:26px
 	transition:transform var(--in,.12s) cubic-bezier(.2,.8,.2,1), box-shadow .3s ease, background-color .12s;
 	will-change:transform;
 }
-.p .f { display:block; pointer-events:none; }
+.p .f { display:block; pointer-events:none; transition:transform .42s cubic-bezier(.34,1.6,.5,1); }
+.gaze .p.down .f { transform:translateY(var(--fy)) scale(var(--fx),1); transition:transform .12s ease-out; }
+.gaze .p.deep .f { transform:translateY(var(--fy2)) scale(var(--fx2),var(--fsy2)); transition:transform var(--sink,.7s) cubic-bezier(.2,.6,.2,1); }
 .p.down { transform:scale(var(--dx),var(--dy)); background:var(--press); box-shadow:0 1px 4px rgb(var(--glow)/.35), inset 0 3px 8px rgb(var(--shade)/.28); }
 .p.deep { transform:scale(var(--sx),var(--sy)); transition:transform var(--sink,.5s) cubic-bezier(.2,.6,.2,1), box-shadow .3s ease, background-color .12s; box-shadow:0 0 2px rgb(var(--glow)/.3), inset 0 5px 12px rgb(var(--shade)/.34); }
 .p.rel { transition:none; }
@@ -70,12 +72,10 @@ main { position:relative; max-width:560px; margin:0 auto; display:grid; gap:26px
 @media (prefers-reduced-motion: reduce) { .p.shake .f { animation:none; } }
 </style>
 </head>
-<body data-theme="light">
+<body data-theme="light" class="gaze">
 <main>
 	<div class="bar">
-		<button class="p mode on" data-v="a" data-k="1"><span class="f">ン</span></button>
-		<button class="p mode" data-v="b" data-k="1"><span class="f">ンっ…</span></button>
-		<button class="p mode" data-v="c" data-k="1"><span class="f">ぐっ</span></button>
+		<button class="p mode on" id="gaze" data-k="1"><span class="f">上目</span></button>
 		<span class="sp"></span>
 		<button class="p mode" id="buru" data-k="1"><span class="f">ぶる</span></button>
 		<button class="p mode" id="theme" data-k="1"><span class="f">☾</span></button>
@@ -106,16 +106,12 @@ main { position:relative; max-width:560px; margin:0 auto; display:grid; gap:26px
 <script>
 (() => {
 	const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-	// 動きの3案。down/deep は押したときの [横, 縦] の倍率。rel は離したときのばね
+	// 動き（ンっ…）。down/deep は押したときの [横, 縦] の倍率。rel は離したときのばね
 	const V = {
-		a: { down:[.94,.90], deep:[.91,.86], inMs:120, sinkAt:140, sinkMs:520, tremble:0,  vib:[6],
-		     rel:[[.45,'scale(1.03,.98)'],[1,'scale(1,1)']], dur:360 },
 		b: { down:[.95,.89], deep:[.92,.83], inMs:110, sinkAt:160, sinkMs:700, tremble:.7, vib:[8,30,5],
 		     rel:[[.30,'scale(1.06,.95)'],[.55,'scale(.985,1.02)'],[.78,'scale(1.015,.99)'],[1,'scale(1,1)']], dur:640 },
-		c: { down:[.92,.92], deep:[.89,.89], inMs:260, sinkAt:300, sinkMs:500, tremble:0,  vib:[14],
-		     rel:[[1,'scale(1,1)']], dur:420 },
 	};
-	let cur = 'a', buru = false;
+	let cur = 'b', buru = false, gaze = true;
 	const k = el => +el.dataset.k || 1;
 	const sc = (x, el) => 1 - (1 - x) * k(el);
 	const vib = pat => { if (buru && navigator.vibrate) { try { navigator.vibrate(pat); } catch (e) {} } };
@@ -130,6 +126,10 @@ main { position:relative; max-width:560px; margin:0 auto; display:grid; gap:26px
 		el.style.setProperty('--dx', sc(d[0], el)); el.style.setProperty('--dy', sc(d[1], el));
 		el.style.setProperty('--sx', sc(p[0], el)); el.style.setProperty('--sy', sc(p[1], el));
 		el.style.setProperty('--sink', v.sinkMs + 'ms');
+		// 上目遣い: 文字を横につぶして、上へ寄せる（大きな部品ほど弱く）
+		const g = Math.min(k(el), 1.3);
+		el.style.setProperty('--fx', 1 - .14 * g); el.style.setProperty('--fy', (-5 * g) + '%');
+		el.style.setProperty('--fx2', 1 - .30 * g); el.style.setProperty('--fsy2', 1 + .05 * g); el.style.setProperty('--fy2', (-13 * g) + '%');
 		el.classList.add('down');
 		if (reduced) return;
 		el._t = setTimeout(() => {
@@ -158,7 +158,7 @@ main { position:relative; max-width:560px; margin:0 auto; display:grid; gap:26px
 		if (fire) act(el);
 	}
 	function act(el) {
-		if (el.dataset.v) { cur = el.dataset.v; document.querySelectorAll('.mode[data-v]').forEach(m => m.classList.toggle('on', m === el)); }
+		if (el.id === 'gaze') { gaze = !gaze; el.classList.toggle('on', gaze); document.body.classList.toggle('gaze', gaze); }
 		else if (el.id === 'buru') { buru = !buru; el.classList.toggle('on', buru); if (buru) vib(12); }
 		else if (el.id === 'theme') { const d = document.body.dataset.theme === 'light'; document.body.dataset.theme = d ? 'dark' : 'light'; el.firstChild.textContent = d ? '☀' : '☾'; }
 		else if (el.classList.contains('heart')) { const on = el.classList.toggle('liked'); el.firstChild.textContent = on ? '❤' : '♡'; }
