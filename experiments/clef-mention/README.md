@@ -484,6 +484,12 @@
 
 - 候補（ゲーム v1）の成績は、まだ1件も測れていない。
 - 基準（第4弾の B0 を v2 のラベルで採点）は、通信なしで計算できるが、候補の結果と並べて見るため、まだ計算していない。
+- 本文が手元になくなっていたら、先に取り直す（識別子から取り直し、当時の本文と同じかをハッシュで確かめる。2026-11-15 に、30件すべてが一致することを確認した）:
+
+```bash
+python3 -I experiments/clef-mention/steam_fetch_by_ids.py experiments/clef-mention/round4_labels_v2.json experiments/clef-mention/round4_text_hashes.json <リポジトリの外のディレクトリ>
+```
+
 - 実行の方法（枠が戻ったあと）:
 
 ```bash
