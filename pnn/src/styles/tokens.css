@@ -1,0 +1,71 @@
+/*
+ * pnn デザインシステム: 値（トークン）。docs/pnn-design-system.md の第7〜10節が仕様。
+ * 部品と画面は、ここにある変数だけを使う（px の直書きをしない）。scripts/audit-layout.mjs が見切れを検査する。
+ */
+:root {
+	/* 書体 */
+	--font: 'UnifontEX', ui-monospace, monospace;
+	--t-body: 16px;
+	--t-title: 32px;
+	--lh-ui: 1.5;
+	--lh-write: 2;
+	--lh-title: 1.4;
+
+	/* 間隔（8px の格子。半分の 4px と 12px を許す） */
+	--s1: 4px;
+	--s2: 8px;
+	--s3: 12px;
+	--s4: 16px;
+	--s5: 24px;
+	--s6: 32px;
+	--s7: 48px;
+	--s8: 64px;
+
+	/* 押せる大きさの下限（指） */
+	--tap: 44px;
+
+	/* 形 */
+	--r-pill: 999px;
+	--r-card: 24px;
+	--r-box: 0; /* ダイアログと、画面の大きな区画は直角 */
+
+	/* 画面の幅。狭いほど、横の余白を詰める */
+	--measure: 680px;
+	--gutter: var(--s4);
+	--gap: var(--s2); /* 並んだ部品のあいだ */
+
+	/* 重なり */
+	--z-grain: 1;
+	--z-app: 2;
+
+	/* 粒状感 */
+	--grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5  0 0 0 0 .4  0 0 0 0 .4  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+@media (max-width: 359px) { :root { --gutter: var(--s3); --gap: var(--s1); } }
+@media (min-width: 640px) { :root { --gutter: var(--s5); } }
+
+/* 色（ライトは本人の提案、ダークは実測の色。docs/pnn-design-system.md の第3節） */
+[data-theme='light'] {
+	--bg: #FCF6F2; --face: #F5DCD3; --ring: #F0CCC3; --bit: #F2C3B6;
+	--card: #DDA299; --card-red: #C47F77; --press: #D2948B;
+	--ink: #17181A; --soft: #4A4B4F; --on-card: #17181A;
+	--mint: #A9E3DC; --mint-glow: 120 190 180;
+	--shade: 120 60 50; --glow: 196 127 119;
+	--grain-blend: multiply; --grain-o: .10;
+}
+[data-theme='dark'] {
+	--bg: #1F1512; --face: #6F4332; --ring: #7F4F3D; --bit: #8D5947;
+	--card: #B9826C; --card-red: #CC9177; --press: #AE735C;
+	--ink: #F4E6DE; --soft: #DCCAC1; --on-card: #17181A;
+	--mint: #8FD3CA; --mint-glow: 120 190 180;
+	--shade: 0 0 0; --glow: 185 130 108;
+	--grain-blend: screen; --grain-o: .05;
+}
+
+/* 影（全方向。ずらさない） */
+:root {
+	--sh-pop: 0 6px 18px rgb(var(--glow) / .5);
+	--sh-card: 0 8px 30px rgb(var(--shade) / .18);
+	--sh-bar: 0 -6px 24px rgb(var(--shade) / .14);
+	--sh-dialog: 0 0 60px rgb(var(--shade) / .35);
+}

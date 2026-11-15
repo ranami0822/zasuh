@@ -89,24 +89,24 @@ export const live = ViewPlugin.fromClass(
 
 /** 色や大きさは、デザインシステムの変数から取る（ライトとダークは、変数が切り替える） */
 export const liveTheme = EditorView.theme({
-	'&': { height: '100%', backgroundColor: 'transparent', color: 'var(--ink)', fontSize: '16px' },
+	'&': { height: '100%', backgroundColor: 'transparent', color: 'var(--ink)', fontSize: 'var(--t-body)' },
 	'&.cm-focused': { outline: 'none' },
-	'.cm-scroller': { fontFamily: 'var(--font)', lineHeight: '2', overflow: 'auto' },
-	'.cm-content': { caretColor: 'var(--card-red)', padding: '8px 0 96px' },
-	'.cm-line': { padding: '0 2px' },
+	'.cm-scroller': { fontFamily: 'var(--font)', lineHeight: 'var(--lh-write)', overflow: 'auto' },
+	'.cm-content': { caretColor: 'var(--card-red)', padding: 'var(--s2) 0 var(--s7)' },
+	'.cm-line': { padding: '0' },
 	'.cm-cursor': { borderLeftColor: 'var(--card-red)', borderLeftWidth: '2px' },
 	'.cm-selectionBackground, &.cm-focused .cm-selectionBackground': { backgroundColor: 'rgb(var(--glow) / .35) !important' },
-	'.cm-h': { lineHeight: '1.6' },
-	'.cm-h1': { fontSize: '32px', padding: '16px 2px 4px' },
-	'.cm-h2': { fontSize: '32px', color: 'var(--soft)', padding: '12px 2px 2px' },
-	'.cm-h3': { fontSize: '16px', backgroundImage: 'linear-gradient(transparent 62%, rgb(var(--glow) / .45) 62%)', backgroundSize: 'fit-content 100%', backgroundRepeat: 'no-repeat' },
+	'.cm-h': { lineHeight: 'var(--lh-title)' },
+	'.cm-h1': { fontSize: 'var(--t-title)', padding: 'var(--s4) 0 var(--s1)' },
+	'.cm-h2': { fontSize: 'var(--t-title)', color: 'var(--soft)', padding: 'var(--s3) 0 var(--s1)' },
+	'.cm-h3': { fontSize: 'var(--t-body)', backgroundImage: 'linear-gradient(transparent 62%, rgb(var(--glow) / .45) 62%)', backgroundSize: 'fit-content 100%', backgroundRepeat: 'no-repeat' },
 	// ピクセルの書体は太字を持たないので、1px 重ねて太く見せる
 	'.cm-strong': { textShadow: '1px 0 0 currentColor' },
 	'.cm-em': { fontStyle: 'italic', color: 'var(--soft)' },
 	'.cm-strike': { textDecoration: 'line-through' },
 	// 線を使わず、面で引用を示す
-	'.cm-quote': { backgroundColor: 'var(--ring)', padding: '0 14px', color: 'var(--ink)' },
+	'.cm-quote': { backgroundColor: 'var(--ring)', padding: '0 var(--s4)', color: 'var(--ink)' },
 	'.cm-bullet': { color: 'var(--card-red)' },
-	'.cm-hr': { color: 'transparent', userSelect: 'none', backgroundImage: 'linear-gradient(var(--card), var(--card))', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: '64px 6px', borderRadius: '999px' },
+	'.cm-hr': { color: 'transparent', userSelect: 'none', backgroundImage: 'linear-gradient(var(--card), var(--card))', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'var(--s8) var(--s1)', borderRadius: 'var(--r-pill)' },
 	'.cm-hr-on': { color: 'var(--soft)', backgroundImage: 'none' }
 });

@@ -14,21 +14,30 @@
 	let saveState = $state<SaveState>('ok');
 	const saver = createSaver(store, { onState: (s) => (saveState = s) });
 
+	// 文書は $state.raw で持つ（Svelte のプロキシを IndexedDB に渡すと、保存が黙って失敗する）
 	let doc = $state.raw<Doc | null>(null);
 	let all = $state.raw<Doc[]>([]);
 	let view: EditorView | undefined;
-	let titleEl: HTMLInputElement | undefined = $state();
+	let titleEl: HTMLTextAreaElement | undefined = $state();
 	let statusDlg: HTMLDialogElement | undefined = $state();
 	let docsDlg: HTMLDialogElement | undefined = $state();
 	let confirmPublic = $state(false);
 	let armedDelete = $state<string | null>(null);
 	let theme = $state<'light' | 'dark'>('light');
 
+	/** 題は、長ければ折り返す（切らない） */
+	function fit(el: HTMLTextAreaElement | undefined) {
+		if (!el) return;
+		el.style.height = 'auto';
+		el.style.height = el.scrollHeight + 'px';
+	}
+
 	onMount(() => {
 		theme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
 		(async () => {
 			doc = await openInitial(store);
 			await tick();
+			fit(titleEl);
 			if (doc.title === '') titleEl?.focus();
 			else view?.focus();
 		})();
@@ -39,15 +48,18 @@
 		document.addEventListener('visibilitychange', onHide);
 		addEventListener('pagehide', flush);
 
-		// キーボードが出ても、下の装飾バーが見える高さに合わせる（iOS）
+		// キーボードが出ても、下の帯が見える高さに合わせる（iOS）
 		const vv = window.visualViewport;
-		const fit = () => document.documentElement.style.setProperty('--vh', (vv?.height ?? innerHeight) + 'px');
-		fit();
-		vv?.addEventListener('resize', fit);
+		const setVh = () => document.documentElement.style.setProperty('--vh', (vv?.height ?? innerHeight) + 'px');
+		setVh();
+		vv?.addEventListener('resize', setVh);
+		const onResize = () => fit(titleEl);
+		addEventListener('resize', onResize);
 		return () => {
 			document.removeEventListener('visibilitychange', onHide);
 			removeEventListener('pagehide', flush);
-			vv?.removeEventListener('resize', fit);
+			vv?.removeEventListener('resize', setVh);
+			removeEventListener('resize', onResize);
 		};
 	});
 
@@ -67,14 +79,19 @@
 		}
 	}
 
+	async function focusStart() {
+		await tick();
+		fit(titleEl);
+		if (doc?.title === '') titleEl?.focus();
+		else view?.focus();
+	}
+
 	async function open(next: Doc) {
 		await leave();
 		doc = next;
 		await store.setMeta('last', next.id);
 		docsDlg?.close();
-		await tick();
-		if (next.title === '') titleEl?.focus();
-		else view?.focus();
+		await focusStart();
 	}
 
 	async function create() {
@@ -84,8 +101,7 @@
 		await store.put(d);
 		doc = d;
 		await store.setMeta('last', d.id);
-		await tick();
-		titleEl?.focus();
+		await focusStart();
 	}
 
 	async function showDocs() {
@@ -107,6 +123,7 @@
 			doc = next ?? newDoc();
 			if (!next) await store.put(doc);
 			await store.setMeta('last', doc.id);
+			await focusStart();
 		}
 	}
 
@@ -161,46 +178,56 @@
 <svelte:head><title>{doc && labelOf(doc) ? labelOf(doc) + ' / pnn' : 'pnn'}</title></svelte:head>
 
 <div class="app">
-	<header class="top">
-		<button class="p chip" use:press={{ k: 1 }} onclick={openStatus} aria-label="状態">
-			<span class="f">{doc ? statusLabel[doc.status] : ''}</span>
-		</button>
-		<span class="dot" class:saving={saveState === 'saving'} class:error={saveState === 'error'} aria-hidden="true"></span>
-		<span class="sp"></span>
-		<button class="p chip soft" use:press={{ k: 1 }} onclick={showDocs} aria-label="いままで"><span class="f">いままで</span></button>
-		<button class="p chip soft" use:press={{ k: 1.1 }} onclick={create} aria-label="新しく書く"><span class="f">＋</span></button>
-		<button class="p chip soft" use:press={{ k: 1.1 }} onclick={toggleTheme} aria-label="明るさ"><span class="f">{theme === 'dark' ? '☀' : '☾'}</span></button>
-	</header>
+	<div class="col">
+		<header class="top">
+			<button class="p chip tight" use:press={{ k: 1 }} onclick={openStatus} aria-label="状態">
+				<span class="f">{doc ? statusLabel[doc.status] : ''}</span>
+			</button>
+			<span class="dot" class:saving={saveState === 'saving'} class:error={saveState === 'error'} aria-hidden="true"></span>
+			<span class="sp"></span>
+			<button class="p chip soft tight" use:press={{ k: 1 }} onclick={showDocs} aria-label="いままで"><span class="f">いままで</span></button>
+			<button class="p chip soft tight" use:press={{ k: 1.1 }} onclick={create} aria-label="新しく書く"><span class="f">＋</span></button>
+			<button class="p chip soft tight" use:press={{ k: 1.1 }} onclick={toggleTheme} aria-label="明るさ"><span class="f">{theme === 'dark' ? '☀' : '☾'}</span></button>
+		</header>
 
-	{#if doc}
-		{#key doc.id}
-			<input
-				class="title"
-				bind:this={titleEl}
-				value={doc.title}
-				oninput={(e) => edit({ title: e.currentTarget.value })}
-				onkeydown={(e) => { if (e.key === 'Enter' && !e.isComposing) { e.preventDefault(); view?.focus(); } }}
-				aria-label="題"
-				autocomplete="off"
-				enterkeyhint="next"
-			/>
-			<div class="editor">
-				<Editor value={doc.body} onchange={(v) => edit({ body: v })} onready={(v) => (view = v)} />
-			</div>
-		{/key}
-	{/if}
+		{#if doc}
+			{#key doc.id}
+				<textarea
+					class="field title"
+					rows="1"
+					bind:this={titleEl}
+					value={doc.title}
+					oninput={(e) => {
+						const el = e.currentTarget;
+						if (el.value.includes('\n')) el.value = el.value.replace(/\n/g, ' ');
+						fit(el);
+						edit({ title: el.value });
+					}}
+					onkeydown={(e) => { if (e.key === 'Enter' && !e.isComposing) { e.preventDefault(); view?.focus(); } }}
+					aria-label="題"
+					autocomplete="off"
+					enterkeyhint="next"
+				></textarea>
+				<div class="editor">
+					<Editor value={doc.body} onchange={(v) => edit({ body: v })} onready={(v) => (view = v)} />
+				</div>
+			{/key}
+		{/if}
+	</div>
 
-	<footer class="bar" aria-label="装飾">
-		{#each bar as b (b.label)}
-			<button
-				class="p chip soft"
-				class:gap={b.gap}
-				use:press={{ k: 1.1 }}
-				aria-label={b.title}
-				onmousedown={(e) => e.preventDefault()}
-				onclick={() => { if (view) { b.run(view); view.focus(); } }}
-			><span class="f">{b.label}</span></button>
-		{/each}
+	<footer class="band" aria-label="装飾">
+		<div class="bar">
+			{#each bar as b (b.label)}
+				<button
+					class="p chip soft"
+					class:gap={b.gap}
+					use:press={{ k: 1.1 }}
+					aria-label={b.title}
+					onmousedown={(e) => e.preventDefault()}
+					onclick={() => { if (view) { b.run(view); view.focus(); } }}
+				><span class="f">{b.label}</span></button>
+			{/each}
+		</div>
 	</footer>
 </div>
 
@@ -228,64 +255,60 @@
 					<span class="name">{labelOf(d) || '　'}</span>
 					<span class="meta">{statusLabel[d.status]} ・ {fmtDate(d.updatedAt)}</span>
 				</button>
-				<button class="p chip soft" use:press onclick={() => removeDoc(d)} aria-label="消す"><span class="f">{armedDelete === d.id ? 'ほんとに' : '消'}</span></button>
+				<button class="p chip soft tight" use:press onclick={() => removeDoc(d)} aria-label="消す"><span class="f">{armedDelete === d.id ? 'ほんとに' : '消'}</span></button>
 			</li>
 		{/each}
 	</ul>
 </dialog>
 
 <style>
+	/* 画面: 上から 列（上の列・題・本文）と、下の帯。幅は --measure までで、中央に置く */
 	.app {
-		position: relative; z-index: 2;
+		position: relative; z-index: var(--z-app);
 		height: var(--vh, 100dvh);
-		display: grid; grid-template-rows: auto auto minmax(0, 1fr) auto;
-		max-width: 720px; margin: 0 auto;
-		padding: env(safe-area-inset-top) 18px env(safe-area-inset-bottom);
+		display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto;
+		padding-top: env(safe-area-inset-top);
 	}
-	.top { display: flex; align-items: center; gap: 10px; padding: 14px 0 8px; }
-	.sp { flex: 1; }
-	.chip { padding: 8px 18px; }
-	.dot { width: 10px; height: 10px; border-radius: 50%; background: var(--mint); transition: background-color .2s; }
-	.dot.saving { background: var(--card); }
-	.dot.error { background: var(--card-red); box-shadow: 0 0 8px rgb(var(--glow)); }
+	.col {
+		min-height: 0; width: min(var(--measure), 100%); margin-inline: auto;
+		padding-inline: var(--gutter);
+		display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto minmax(0, 1fr);
+	}
 
-	.title {
-		width: 100%; border: 0; outline: 0; background: transparent; color: var(--ink);
-		font-size: 32px; line-height: 1.4; padding: 10px 2px 6px; caret-color: var(--card-red);
-	}
+	/* 上の列: 折り返さない。幅が足りないときは、余白を詰める（--gutter と .tight） */
+	.top { display: flex; flex-wrap: nowrap; align-items: center; gap: var(--gap); padding-block: var(--s3); }
+	.sp { flex: 1; min-width: 0; }
+	.dot { flex: none; width: var(--s2); height: var(--s2); border-radius: 50%; background: var(--mint); transition: background-color .2s; margin-left: var(--s1); }
+	.dot.saving { background: var(--card); }
+	.dot.error { background: var(--card-red); box-shadow: 0 0 var(--s2) rgb(var(--glow)); }
+
+	.title { padding-block: var(--s3) var(--s2); }
 	.editor { min-height: 0; }
 
+	/* 下の帯: 全幅の直角の面。中の列は --measure に揃え、横にスクロールする。右端は、続きがあることを、ぼかして示す */
+	.band { padding-bottom: env(safe-area-inset-bottom); }
 	.bar {
-		display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none;
-		padding: 10px 6px 12px; margin: 0 -18px; padding-inline: 18px;
-		background: var(--face); border-radius: var(--r-pill) var(--r-pill) 0 0;
-		box-shadow: 0 -6px 24px rgb(var(--shade) / .14);
-		-webkit-overflow-scrolling: touch;
+		width: min(var(--measure), 100%); margin-inline: auto;
+		display: flex; flex-wrap: nowrap; gap: var(--gap);
+		overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+		padding: var(--s2) var(--gutter);
+		scroll-padding-inline: var(--gutter);
+		-webkit-mask-image: linear-gradient(to right, #000 calc(100% - var(--s6)), transparent);
+		mask-image: linear-gradient(to right, #000 calc(100% - var(--s6)), transparent);
 	}
 	.bar::-webkit-scrollbar { display: none; }
-	.bar .chip { flex: none; }
-	.bar .gap { margin-left: 12px; }
+	.bar .gap { margin-left: var(--s3); }
+	.bar::after { content: ''; flex: none; width: var(--s5); }
 
-	/* ダイアログは直角。線は使わず、面の色と影で区切る */
-	.dlg {
-		border: 0; border-radius: 0; background: var(--face); color: var(--ink);
-		padding: 24px; width: min(420px, calc(100vw - 36px));
-		box-shadow: 0 0 60px rgb(var(--shade) / .35);
-		margin: auto;
-	}
-	.dlg::backdrop { background: rgb(var(--shade) / .35); }
-	.dlg.wide { width: min(560px, calc(100vw - 36px)); max-height: 80vh; }
-	.dlg h2 { font-size: 32px; font-weight: 400; margin-bottom: 18px; }
-	.row { display: flex; flex-wrap: wrap; gap: 12px; }
+	.row { display: flex; flex-wrap: wrap; gap: var(--s3); }
 	.row.end { justify-content: flex-end; }
-	.btn { padding: 14px 30px; }
 
-	.list { list-style: none; padding: 0; display: grid; gap: 10px; }
-	.item { display: flex; gap: 10px; align-items: center; }
+	.list { list-style: none; padding: 0; display: grid; gap: var(--s2); }
+	.item { display: flex; gap: var(--s2); align-items: center; }
 	.open {
 		flex: 1; min-width: 0; text-align: left; border: 0; cursor: pointer;
-		background: var(--ring); padding: 12px 18px; border-radius: 28px;
-		display: grid; gap: 2px;
+		background: var(--ring); padding: var(--s3) var(--s4); border-radius: var(--r-card);
+		display: grid; gap: var(--s1); min-height: var(--tap);
 	}
 	.item.current .open { background: var(--bit); }
 	.name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
