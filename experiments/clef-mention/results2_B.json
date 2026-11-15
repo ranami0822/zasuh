@@ -1,0 +1,5581 @@
+{
+ "stage": "B",
+ "records": [
+  {
+   "status": 200,
+   "sec": 0.3191434999999956,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "混在",
+     "probabilities": {
+      "肯定": 0.0628,
+      "否定": 0.3742,
+      "混在": 0.5156,
+      "言及なし": 0.0474
+     },
+     "confidence": 0.2161
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.9581
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.9535,
+      "否定": 0.0085,
+      "混在": 0.0188,
+      "言及なし": 0.0192
+     },
+     "confidence": 0.88
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.9749
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.0096,
+      "否定": 0.9276,
+      "混在": 0.0293,
+      "言及なし": 0.0335
+     },
+     "confidence": 0.8167
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.9539
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0058,
+      "否定": 0.008,
+      "混在": 0.0128,
+      "言及なし": 0.9734
+     },
+     "confidence": 0.9304
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.02
+    }
+   },
+   "usage": {
+    "input_tokens": 1319,
+    "output_tokens": 0
+   },
+   "sample": 1,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "否定",
+    "music": "肯定",
+    "comfort": "否定",
+    "price": "言及なし"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 1.2646472360000018,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0298,
+      "否定": 0.0174,
+      "混在": 0.016,
+      "言及なし": 0.9368
+     },
+     "confidence": 0.8388
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.0462
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.9412,
+      "否定": 0.0114,
+      "混在": 0.0198,
+      "言及なし": 0.0276
+     },
+     "confidence": 0.8494
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.9717
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0084,
+      "否定": 0.0062,
+      "混在": 0.0078,
+      "言及なし": 0.9776
+     },
+     "confidence": 0.9412
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0294
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0089,
+      "否定": 0.0062,
+      "混在": 0.0085,
+      "言及なし": 0.9764
+     },
+     "confidence": 0.9381
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0255
+    }
+   },
+   "usage": {
+    "input_tokens": 1294,
+    "output_tokens": 0
+   },
+   "sample": 2,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "肯定",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.3706043849999787,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.2528,
+      "否定": 0.0466,
+      "混在": 0.0988,
+      "言及なし": 0.6018
+     },
+     "confidence": 0.2506
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.2098
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0082,
+      "否定": 0.0049,
+      "混在": 0.0065,
+      "言及なし": 0.9804
+     },
+     "confidence": 0.9484
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0224
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0117,
+      "否定": 0.0093,
+      "混在": 0.0111,
+      "言及なし": 0.9679
+     },
+     "confidence": 0.9161
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0463
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.5878,
+      "否定": 0.0504,
+      "混在": 0.2767,
+      "言及なし": 0.0851
+     },
+     "confidence": 0.2425
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.9376
+    }
+   },
+   "usage": {
+    "input_tokens": 1298,
+    "output_tokens": 0
+   },
+   "sample": 3,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "肯定"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.49945145899999943,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0125,
+      "否定": 0.0695,
+      "混在": 0.025,
+      "言及なし": 0.893
+     },
+     "confidence": 0.7375
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.0829
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0049,
+      "否定": 0.0068,
+      "混在": 0.0072,
+      "言及なし": 0.9811
+     },
+     "confidence": 0.9503
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0183
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.009,
+      "否定": 0.9458,
+      "混在": 0.0189,
+      "言及なし": 0.0263
+     },
+     "confidence": 0.8609
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.97
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0151,
+      "否定": 0.2782,
+      "混在": 0.0509,
+      "言及なし": 0.6558
+     },
+     "confidence": 0.347
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.1557
+    }
+   },
+   "usage": {
+    "input_tokens": 1297,
+    "output_tokens": 0
+   },
+   "sample": 4,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "否定",
+    "price": "言及なし"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.7232139740000036,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "混在",
+     "probabilities": {
+      "肯定": 0.0311,
+      "否定": 0.0331,
+      "混在": 0.915,
+      "言及なし": 0.0208
+     },
+     "confidence": 0.7862
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.962
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0066,
+      "否定": 0.0049,
+      "混在": 0.0093,
+      "言及なし": 0.9792
+     },
+     "confidence": 0.9452
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0191
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0098,
+      "否定": 0.0089,
+      "混在": 0.0157,
+      "言及なし": 0.9656
+     },
+     "confidence": 0.9104
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0415
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0069,
+      "否定": 0.0065,
+      "混在": 0.013,
+      "言及なし": 0.9736
+     },
+     "confidence": 0.931
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0209
+    }
+   },
+   "usage": {
+    "input_tokens": 1299,
+    "output_tokens": 0
+   },
+   "sample": 5,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "混在",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.2856226950000007,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.1272,
+      "否定": 0.0334,
+      "混在": 0.0842,
+      "言及なし": 0.7552
+     },
+     "confidence": 0.4597
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.1689
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0157,
+      "否定": 0.0078,
+      "混在": 0.0114,
+      "言及なし": 0.9651
+     },
+     "confidence": 0.9092
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0548
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0104,
+      "否定": 0.008,
+      "混在": 0.0104,
+      "言及なし": 0.9712
+     },
+     "confidence": 0.9247
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.05
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0108,
+      "否定": 0.0097,
+      "混在": 0.0124,
+      "言及なし": 0.9671
+     },
+     "confidence": 0.9143
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0389
+    }
+   },
+   "usage": {
+    "input_tokens": 1286,
+    "output_tokens": 0
+   },
+   "sample": 6,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.4940539069999943,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.6364,
+      "否定": 0.0299,
+      "混在": 0.2562,
+      "言及なし": 0.0775
+     },
+     "confidence": 0.3034
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.9438
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.0098,
+      "否定": 0.9559,
+      "混在": 0.0177,
+      "言及なし": 0.0166
+     },
+     "confidence": 0.8859
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.9681
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0067,
+      "否定": 0.013,
+      "混在": 0.0107,
+      "言及なし": 0.9696
+     },
+     "confidence": 0.9207
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0332
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0064,
+      "否定": 0.008,
+      "混在": 0.0091,
+      "言及なし": 0.9765
+     },
+     "confidence": 0.9382
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0232
+    }
+   },
+   "usage": {
+    "input_tokens": 1299,
+    "output_tokens": 0
+   },
+   "sample": 7,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "肯定",
+    "music": "否定",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.34032437400000504,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "混在",
+     "probabilities": {
+      "肯定": 0.2772,
+      "否定": 0.0364,
+      "混在": 0.5341,
+      "言及なし": 0.1523
+     },
+     "confidence": 0.1822
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.2894
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0075,
+      "否定": 0.0059,
+      "混在": 0.0077,
+      "言及なし": 0.9789
+     },
+     "confidence": 0.9444
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0229
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0067,
+      "否定": 0.0123,
+      "混在": 0.011,
+      "言及なし": 0.97
+     },
+     "confidence": 0.9215
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0289
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.0154,
+      "否定": 0.7773,
+      "混在": 0.1686,
+      "言及なし": 0.0387
+     },
+     "confidence": 0.5124
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.9579
+    }
+   },
+   "usage": {
+    "input_tokens": 1298,
+    "output_tokens": 0
+   },
+   "sample": 8,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "肯定",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "否定"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.3534001129999922,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "混在",
+     "probabilities": {
+      "肯定": 0.0448,
+      "否定": 0.1461,
+      "混在": 0.7618,
+      "言及なし": 0.0473
+     },
+     "confidence": 0.4746
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.935
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0071,
+      "否定": 0.006,
+      "混在": 0.0086,
+      "言及なし": 0.9783
+     },
+     "confidence": 0.9431
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0182
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.8795,
+      "否定": 0.0139,
+      "混在": 0.0731,
+      "言及なし": 0.0335
+     },
+     "confidence": 0.7068
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.9661
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0067,
+      "否定": 0.0068,
+      "混在": 0.01,
+      "言及なし": 0.9765
+     },
+     "confidence": 0.9383
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0169
+    }
+   },
+   "usage": {
+    "input_tokens": 1299,
+    "output_tokens": 0
+   },
+   "sample": 9,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "否定",
+    "music": "言及なし",
+    "comfort": "肯定",
+    "price": "言及なし"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.3772174679999978,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "混在",
+     "probabilities": {
+      "肯定": 0.0141,
+      "否定": 0.0195,
+      "混在": 0.6947,
+      "言及なし": 0.2717
+     },
+     "confidence": 0.4094
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.3462
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0118,
+      "否定": 0.0094,
+      "混在": 0.0302,
+      "言及なし": 0.9486
+     },
+     "confidence": 0.868
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0396
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0155,
+      "否定": 0.0166,
+      "混在": 0.0577,
+      "言及なし": 0.9102
+     },
+     "confidence": 0.7763
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.1191
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0099,
+      "否定": 0.0095,
+      "混在": 0.022,
+      "言及なし": 0.9586
+     },
+     "confidence": 0.8928
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0334
+    }
+   },
+   "usage": {
+    "input_tokens": 1295,
+    "output_tokens": 0
+   },
+   "sample": 10,
+   "ambiguous": true,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.4265394520000143,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.3761,
+      "否定": 0.052,
+      "混在": 0.2439,
+      "言及なし": 0.328
+     },
+     "confidence": 0.0817
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.35
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0082,
+      "否定": 0.0045,
+      "混在": 0.0063,
+      "言及なし": 0.981
+     },
+     "confidence": 0.9501
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0342
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0174,
+      "否定": 0.0064,
+      "混在": 0.0092,
+      "言及なし": 0.967
+     },
+     "confidence": 0.9141
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0476
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0101,
+      "否定": 0.0073,
+      "混在": 0.01,
+      "言及なし": 0.9726
+     },
+     "confidence": 0.9282
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0395
+    }
+   },
+   "usage": {
+    "input_tokens": 1297,
+    "output_tokens": 0
+   },
+   "sample": 11,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "肯定",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.38251530299999104,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0271,
+      "否定": 0.0232,
+      "混在": 0.0903,
+      "言及なし": 0.8594
+     },
+     "confidence": 0.664
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.0461
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "混在",
+     "probabilities": {
+      "肯定": 0.0375,
+      "否定": 0.0156,
+      "混在": 0.9235,
+      "言及なし": 0.0234
+     },
+     "confidence": 0.8067
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.9698
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.0258,
+      "否定": 0.4594,
+      "混在": 0.1233,
+      "言及なし": 0.3915
+     },
+     "confidence": 0.1736
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.6278
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0055,
+      "否定": 0.0062,
+      "混在": 0.0092,
+      "言及なし": 0.9791
+     },
+     "confidence": 0.945
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0196
+    }
+   },
+   "usage": {
+    "input_tokens": 1300,
+    "output_tokens": 0
+   },
+   "sample": 12,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "肯定",
+    "comfort": "否定",
+    "price": "言及なし"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.35366677799999025,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.0272,
+      "否定": 0.5704,
+      "混在": 0.0614,
+      "言及なし": 0.341
+     },
+     "confidence": 0.2615
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.5013
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0054,
+      "否定": 0.0073,
+      "混在": 0.0072,
+      "言及なし": 0.9801
+     },
+     "confidence": 0.9477
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0237
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.0177,
+      "否定": 0.7417,
+      "混在": 0.044,
+      "言及なし": 0.1966
+     },
+     "confidence": 0.4548
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.8544
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0052,
+      "否定": 0.0095,
+      "混在": 0.008,
+      "言及なし": 0.9773
+     },
+     "confidence": 0.9404
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0215
+    }
+   },
+   "usage": {
+    "input_tokens": 1300,
+    "output_tokens": 0
+   },
+   "sample": 13,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "否定",
+    "price": "言及なし"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.5481948560000092,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.3473,
+      "否定": 0.0306,
+      "混在": 0.0398,
+      "言及なし": 0.5823
+     },
+     "confidence": 0.2829
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.044
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0076,
+      "否定": 0.0047,
+      "混在": 0.0059,
+      "言及なし": 0.9818
+     },
+     "confidence": 0.9521
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0185
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0141,
+      "否定": 0.0091,
+      "混在": 0.0113,
+      "言及なし": 0.9655
+     },
+     "confidence": 0.9101
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0372
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.941,
+      "否定": 0.0135,
+      "混在": 0.0243,
+      "言及なし": 0.0212
+     },
+     "confidence": 0.849
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.9775
+    }
+   },
+   "usage": {
+    "input_tokens": 1294,
+    "output_tokens": 0
+   },
+   "sample": 14,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "肯定"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.30551140099998975,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.7441,
+      "否定": 0.0483,
+      "混在": 0.0695,
+      "言及なし": 0.1381
+     },
+     "confidence": 0.4399
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.9063
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0073,
+      "否定": 0.0046,
+      "混在": 0.0064,
+      "言及なし": 0.9817
+     },
+     "confidence": 0.9516
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0185
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0104,
+      "否定": 0.0081,
+      "混在": 0.0095,
+      "言及なし": 0.972
+     },
+     "confidence": 0.9268
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0322
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0149,
+      "否定": 0.009,
+      "混在": 0.0123,
+      "言及なし": 0.9638
+     },
+     "confidence": 0.9058
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0357
+    }
+   },
+   "usage": {
+    "input_tokens": 1300,
+    "output_tokens": 0
+   },
+   "sample": 15,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "肯定",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.5932751629999871,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.014,
+      "否定": 0.1635,
+      "混在": 0.0345,
+      "言及なし": 0.788
+     },
+     "confidence": 0.5321
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.0368
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.0684,
+      "否定": 0.6094,
+      "混在": 0.2405,
+      "言及なし": 0.0817
+     },
+     "confidence": 0.254
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.9562
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0061,
+      "否定": 0.0091,
+      "混在": 0.0087,
+      "言及なし": 0.9761
+     },
+     "confidence": 0.9373
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0244
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0073,
+      "否定": 0.0097,
+      "混在": 0.01,
+      "言及なし": 0.973
+     },
+     "confidence": 0.9292
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0241
+    }
+   },
+   "usage": {
+    "input_tokens": 1295,
+    "output_tokens": 0
+   },
+   "sample": 16,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "否定",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.28760013500001946,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.0341,
+      "否定": 0.6267,
+      "混在": 0.1271,
+      "言及なし": 0.2121
+     },
+     "confidence": 0.2734
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.696
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0076,
+      "否定": 0.0179,
+      "混在": 0.01,
+      "言及なし": 0.9645
+     },
+     "confidence": 0.9077
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0242
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.0116,
+      "否定": 0.8622,
+      "混在": 0.036,
+      "言及なし": 0.0902
+     },
+     "confidence": 0.6707
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.9136
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0058,
+      "否定": 0.0144,
+      "混在": 0.0101,
+      "言及なし": 0.9697
+     },
+     "confidence": 0.9209
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0227
+    }
+   },
+   "usage": {
+    "input_tokens": 1293,
+    "output_tokens": 0
+   },
+   "sample": 17,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "否定",
+    "price": "言及なし"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.35483779499998036,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0404,
+      "否定": 0.0219,
+      "混在": 0.0618,
+      "言及なし": 0.8759
+     },
+     "confidence": 0.6976
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.0277
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0068,
+      "否定": 0.0047,
+      "混在": 0.0075,
+      "言及なし": 0.981
+     },
+     "confidence": 0.95
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0181
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0063,
+      "否定": 0.0109,
+      "混在": 0.0093,
+      "言及なし": 0.9735
+     },
+     "confidence": 0.9307
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.024
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "混在",
+     "probabilities": {
+      "肯定": 0.0266,
+      "否定": 0.0313,
+      "混在": 0.9159,
+      "言及なし": 0.0262
+     },
+     "confidence": 0.7883
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.976
+    }
+   },
+   "usage": {
+    "input_tokens": 1292,
+    "output_tokens": 0
+   },
+   "sample": 18,
+   "ambiguous": true,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "混在"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.4833136629999899,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0444,
+      "否定": 0.0213,
+      "混在": 0.0609,
+      "言及なし": 0.8734
+     },
+     "confidence": 0.692
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.1265
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.009,
+      "否定": 0.0074,
+      "混在": 0.0099,
+      "言及なし": 0.9737
+     },
+     "confidence": 0.931
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0446
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0086,
+      "否定": 0.0086,
+      "混在": 0.0114,
+      "言及なし": 0.9714
+     },
+     "confidence": 0.9253
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.054
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0112,
+      "否定": 0.01,
+      "混在": 0.0136,
+      "言及なし": 0.9652
+     },
+     "confidence": 0.9094
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0474
+    }
+   },
+   "usage": {
+    "input_tokens": 1290,
+    "output_tokens": 0
+   },
+   "sample": 19,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.4459460520000107,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.7486,
+      "否定": 0.0186,
+      "混在": 0.0685,
+      "言及なし": 0.1643
+     },
+     "confidence": 0.4567
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.4087
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.2751,
+      "否定": 0.0134,
+      "混在": 0.0277,
+      "言及なし": 0.6838
+     },
+     "confidence": 0.3923
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.1142
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.1755,
+      "否定": 0.0145,
+      "混在": 0.037,
+      "言及なし": 0.773
+     },
+     "confidence": 0.5065
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.1889
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0354,
+      "否定": 0.0132,
+      "混在": 0.0239,
+      "言及なし": 0.9275
+     },
+     "confidence": 0.8163
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0878
+    }
+   },
+   "usage": {
+    "input_tokens": 1288,
+    "output_tokens": 0
+   },
+   "sample": 20,
+   "ambiguous": true,
+   "expected": {
+    "gameplay": "肯定",
+    "music": "肯定",
+    "comfort": "肯定",
+    "price": "肯定"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.6296983519999912,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "混在",
+     "probabilities": {
+      "肯定": 0.0133,
+      "否定": 0.0406,
+      "混在": 0.9331,
+      "言及なし": 0.013
+     },
+     "confidence": 0.8303
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.9721
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0054,
+      "否定": 0.0046,
+      "混在": 0.0081,
+      "言及なし": 0.9819
+     },
+     "confidence": 0.9524
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.016
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0088,
+      "否定": 0.0148,
+      "混在": 0.0213,
+      "言及なし": 0.9551
+     },
+     "confidence": 0.8841
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0315
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0066,
+      "否定": 0.0114,
+      "混在": 0.012,
+      "言及なし": 0.97
+     },
+     "confidence": 0.9217
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0195
+    }
+   },
+   "usage": {
+    "input_tokens": 1295,
+    "output_tokens": 0
+   },
+   "sample": 21,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "混在",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.27305562600000144,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.029,
+      "否定": 0.0433,
+      "混在": 0.0978,
+      "言及なし": 0.8299
+     },
+     "confidence": 0.6015
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.0829
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.0166,
+      "否定": 0.8925,
+      "混在": 0.0621,
+      "言及なし": 0.0288
+     },
+     "confidence": 0.7354
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.971
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.8973,
+      "否定": 0.0129,
+      "混在": 0.0548,
+      "言及なし": 0.035
+     },
+     "confidence": 0.746
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.9595
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0062,
+      "否定": 0.0053,
+      "混在": 0.0071,
+      "言及なし": 0.9814
+     },
+     "confidence": 0.9509
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0203
+    }
+   },
+   "usage": {
+    "input_tokens": 1302,
+    "output_tokens": 0
+   },
+   "sample": 22,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "否定",
+    "comfort": "肯定",
+    "price": "言及なし"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.4807201570000075,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "混在",
+     "probabilities": {
+      "肯定": 0.1345,
+      "否定": 0.0814,
+      "混在": 0.6315,
+      "言及なし": 0.1526
+     },
+     "confidence": 0.2624
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.4955
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0087,
+      "否定": 0.008,
+      "混在": 0.0098,
+      "言及なし": 0.9735
+     },
+     "confidence": 0.9305
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0233
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0586,
+      "否定": 0.0387,
+      "混在": 0.0536,
+      "言及なし": 0.8491
+     },
+     "confidence": 0.6383
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.1685
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.014,
+      "否定": 0.8343,
+      "混在": 0.1012,
+      "言及なし": 0.0505
+     },
+     "confidence": 0.6121
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.944
+    }
+   },
+   "usage": {
+    "input_tokens": 1293,
+    "output_tokens": 0
+   },
+   "sample": 23,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "肯定",
+    "price": "否定"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 1.1381103180000025,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0229,
+      "否定": 0.222,
+      "混在": 0.0696,
+      "言及なし": 0.6855
+     },
+     "confidence": 0.366
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.1666
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0082,
+      "否定": 0.0171,
+      "混在": 0.0112,
+      "言及なし": 0.9635
+     },
+     "confidence": 0.905
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0378
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0094,
+      "否定": 0.0312,
+      "混在": 0.0152,
+      "言及なし": 0.9442
+     },
+     "confidence": 0.857
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0825
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0081,
+      "否定": 0.0199,
+      "混在": 0.0135,
+      "言及なし": 0.9585
+     },
+     "confidence": 0.8925
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0451
+    }
+   },
+   "usage": {
+    "input_tokens": 1288,
+    "output_tokens": 0
+   },
+   "sample": 24,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.28035688299999606,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0757,
+      "否定": 0.0216,
+      "混在": 0.0493,
+      "言及なし": 0.8534
+     },
+     "confidence": 0.6493
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.0362
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.9093,
+      "否定": 0.0172,
+      "混在": 0.0338,
+      "言及なし": 0.0397
+     },
+     "confidence": 0.7732
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.9603
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0088,
+      "否定": 0.0065,
+      "混在": 0.0079,
+      "言及なし": 0.9768
+     },
+     "confidence": 0.939
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0233
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0098,
+      "否定": 0.0068,
+      "混在": 0.0094,
+      "言及なし": 0.974
+     },
+     "confidence": 0.9319
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0232
+    }
+   },
+   "usage": {
+    "input_tokens": 1295,
+    "output_tokens": 0
+   },
+   "sample": 25,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "肯定",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.5351442559999953,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0727,
+      "否定": 0.0654,
+      "混在": 0.1513,
+      "言及なし": 0.7106
+     },
+     "confidence": 0.3832
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.1301
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0069,
+      "否定": 0.0123,
+      "混在": 0.0099,
+      "言及なし": 0.9709
+     },
+     "confidence": 0.9238
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0183
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.043,
+      "否定": 0.5667,
+      "混在": 0.3162,
+      "言及なし": 0.0741
+     },
+     "confidence": 0.2379
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.9649
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0049,
+      "否定": 0.0062,
+      "混在": 0.0088,
+      "言及なし": 0.9801
+     },
+     "confidence": 0.9476
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0151
+    }
+   },
+   "usage": {
+    "input_tokens": 1296,
+    "output_tokens": 0
+   },
+   "sample": 26,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "否定",
+    "price": "言及なし"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.5411901949999844,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "混在",
+     "probabilities": {
+      "肯定": 0.2379,
+      "否定": 0.0379,
+      "混在": 0.6558,
+      "言及なし": 0.0684
+     },
+     "confidence": 0.3238
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.9193
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0079,
+      "否定": 0.0047,
+      "混在": 0.0079,
+      "言及なし": 0.9795
+     },
+     "confidence": 0.946
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0189
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0139,
+      "否定": 0.0098,
+      "混在": 0.0144,
+      "言及なし": 0.9619
+     },
+     "confidence": 0.9009
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0397
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0205,
+      "否定": 0.0227,
+      "混在": 0.0353,
+      "言及なし": 0.9215
+     },
+     "confidence": 0.8017
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0251
+    }
+   },
+   "usage": {
+    "input_tokens": 1291,
+    "output_tokens": 0
+   },
+   "sample": 27,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "混在",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.29680508699999564,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0066,
+      "否定": 0.0169,
+      "混在": 0.0121,
+      "言及なし": 0.9644
+     },
+     "confidence": 0.9074
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.027
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.0119,
+      "否定": 0.9441,
+      "混在": 0.0253,
+      "言及なし": 0.0187
+     },
+     "confidence": 0.8567
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.9773
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0057,
+      "否定": 0.0074,
+      "混在": 0.0071,
+      "言及なし": 0.9798
+     },
+     "confidence": 0.9468
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0197
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0057,
+      "否定": 0.008,
+      "混在": 0.0071,
+      "言及なし": 0.9792
+     },
+     "confidence": 0.9452
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0267
+    }
+   },
+   "usage": {
+    "input_tokens": 1294,
+    "output_tokens": 0
+   },
+   "sample": 28,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "否定",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.5907008050000115,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.3775,
+      "否定": 0.0235,
+      "混在": 0.1413,
+      "言及なし": 0.4577
+     },
+     "confidence": 0.1633
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.4285
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0087,
+      "否定": 0.0054,
+      "混在": 0.0076,
+      "言及なし": 0.9783
+     },
+     "confidence": 0.9429
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0393
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.3416,
+      "否定": 0.0209,
+      "混在": 0.0647,
+      "言及なし": 0.5728
+     },
+     "confidence": 0.2658
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.2251
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0144,
+      "否定": 0.0073,
+      "混在": 0.0136,
+      "言及なし": 0.9647
+     },
+     "confidence": 0.9081
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0415
+    }
+   },
+   "usage": {
+    "input_tokens": 1294,
+    "output_tokens": 0
+   },
+   "sample": 29,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "肯定",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.39788161599997807,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.4921,
+      "否定": 0.021,
+      "混在": 0.0974,
+      "言及なし": 0.3895
+     },
+     "confidence": 0.205
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.3729
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.1719,
+      "否定": 0.0128,
+      "混在": 0.032,
+      "言及なし": 0.7833
+     },
+     "confidence": 0.5257
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.1203
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.3247,
+      "否定": 0.0262,
+      "混在": 0.0697,
+      "言及なし": 0.5794
+     },
+     "confidence": 0.2622
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.3521
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0144,
+      "否定": 0.0079,
+      "混在": 0.0141,
+      "言及なし": 0.9636
+     },
+     "confidence": 0.9053
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0799
+    }
+   },
+   "usage": {
+    "input_tokens": 1290,
+    "output_tokens": 0
+   },
+   "sample": 30,
+   "ambiguous": true,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "肯定",
+    "price": "言及なし"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.7796488060000115,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0295,
+      "否定": 0.1269,
+      "混在": 0.051,
+      "言及なし": 0.7926
+     },
+     "confidence": 0.5304
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.1007
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0073,
+      "否定": 0.0105,
+      "混在": 0.0086,
+      "言及なし": 0.9736
+     },
+     "confidence": 0.9308
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0188
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0088,
+      "否定": 0.0235,
+      "混在": 0.013,
+      "言及なし": 0.9547
+     },
+     "confidence": 0.8831
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0345
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.0114,
+      "否定": 0.9037,
+      "混在": 0.0361,
+      "言及なし": 0.0488
+     },
+     "confidence": 0.7606
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.8505
+    }
+   },
+   "usage": {
+    "input_tokens": 1290,
+    "output_tokens": 0
+   },
+   "sample": 31,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "否定"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.5207896900000151,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0276,
+      "否定": 0.0307,
+      "混在": 0.046,
+      "言及なし": 0.8957
+     },
+     "confidence": 0.7414
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.1115
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0081,
+      "否定": 0.007,
+      "混在": 0.01,
+      "言及なし": 0.9749
+     },
+     "confidence": 0.9341
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.045
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0067,
+      "否定": 0.008,
+      "混在": 0.0095,
+      "言及なし": 0.9758
+     },
+     "confidence": 0.9365
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0461
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0092,
+      "否定": 0.0109,
+      "混在": 0.0128,
+      "言及なし": 0.9671
+     },
+     "confidence": 0.9142
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0535
+    }
+   },
+   "usage": {
+    "input_tokens": 1289,
+    "output_tokens": 0
+   },
+   "sample": 32,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.46242751799999837,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "混在",
+     "probabilities": {
+      "肯定": 0.0909,
+      "否定": 0.0162,
+      "混在": 0.8672,
+      "言及なし": 0.0257
+     },
+     "confidence": 0.6816
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.9643
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.9439,
+      "否定": 0.009,
+      "混在": 0.0253,
+      "言及なし": 0.0218
+     },
+     "confidence": 0.8563
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.9713
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.0106,
+      "否定": 0.9131,
+      "混在": 0.0311,
+      "言及なし": 0.0452
+     },
+     "confidence": 0.7824
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.9655
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.1759,
+      "否定": 0.0475,
+      "混在": 0.1267,
+      "言及なし": 0.6499
+     },
+     "confidence": 0.2954
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.5301
+    }
+   },
+   "usage": {
+    "input_tokens": 1345,
+    "output_tokens": 0
+   },
+   "sample": 33,
+   "ambiguous": true,
+   "expected": {
+    "gameplay": "混在",
+    "music": "肯定",
+    "comfort": "否定",
+    "price": "言及なし"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.4228702789999943,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.3816,
+      "否定": 0.0253,
+      "混在": 0.1649,
+      "言及なし": 0.4282
+     },
+     "confidence": 0.1424
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.301
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.0119,
+      "否定": 0.8746,
+      "混在": 0.0414,
+      "言及なし": 0.0721
+     },
+     "confidence": 0.6959
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.9413
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0113,
+      "否定": 0.2458,
+      "混在": 0.0303,
+      "言及なし": 0.7126
+     },
+     "confidence": 0.4256
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.1441
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0064,
+      "否定": 0.007,
+      "混在": 0.0088,
+      "言及なし": 0.9778
+     },
+     "confidence": 0.9416
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0312
+    }
+   },
+   "usage": {
+    "input_tokens": 1297,
+    "output_tokens": 0
+   },
+   "sample": 34,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "肯定",
+    "music": "否定",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.27431381600001714,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "混在",
+     "probabilities": {
+      "肯定": 0.0379,
+      "否定": 0.1592,
+      "混在": 0.7003,
+      "言及なし": 0.1026
+     },
+     "confidence": 0.3703
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.9255
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.9546,
+      "否定": 0.0046,
+      "混在": 0.0209,
+      "言及なし": 0.0199
+     },
+     "confidence": 0.8828
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.9732
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.0165,
+      "否定": 0.5224,
+      "混在": 0.278,
+      "言及なし": 0.1831
+     },
+     "confidence": 0.1786
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.8903
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0024,
+      "否定": 0.0047,
+      "混在": 0.0103,
+      "言及なし": 0.9826
+     },
+     "confidence": 0.9542
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.012
+    }
+   },
+   "usage": {
+    "input_tokens": 1319,
+    "output_tokens": 0
+   },
+   "sample": 1,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "否定",
+    "music": "肯定",
+    "comfort": "否定",
+    "price": "言及なし"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.24448188200000232,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0193,
+      "否定": 0.0351,
+      "混在": 0.0236,
+      "言及なし": 0.922
+     },
+     "confidence": 0.8029
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.0136
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.9094,
+      "否定": 0.0106,
+      "混在": 0.0342,
+      "言及なし": 0.0458
+     },
+     "confidence": 0.7738
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.9642
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0034,
+      "否定": 0.0035,
+      "混在": 0.0031,
+      "言及なし": 0.99
+     },
+     "confidence": 0.9734
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.014
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0073,
+      "否定": 0.0028,
+      "混在": 0.004,
+      "言及なし": 0.9859
+     },
+     "confidence": 0.9628
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0142
+    }
+   },
+   "usage": {
+    "input_tokens": 1294,
+    "output_tokens": 0
+   },
+   "sample": 2,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "肯定",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.24940944699997658,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.1648,
+      "否定": 0.0348,
+      "混在": 0.3655,
+      "言及なし": 0.4349
+     },
+     "confidence": 0.1348
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.1552
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0029,
+      "否定": 0.0028,
+      "混在": 0.0038,
+      "言及なし": 0.9905
+     },
+     "confidence": 0.975
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0124
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0071,
+      "否定": 0.0032,
+      "混在": 0.0066,
+      "言及なし": 0.9831
+     },
+     "confidence": 0.9553
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0192
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "混在",
+     "probabilities": {
+      "肯定": 0.3558,
+      "否定": 0.0377,
+      "混在": 0.5406,
+      "言及なし": 0.0659
+     },
+     "confidence": 0.2328
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.9507
+    }
+   },
+   "usage": {
+    "input_tokens": 1298,
+    "output_tokens": 0
+   },
+   "sample": 3,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "肯定"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.2449592549999977,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0033,
+      "否定": 0.0204,
+      "混在": 0.0073,
+      "言及なし": 0.969
+     },
+     "confidence": 0.9192
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.0179
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0024,
+      "否定": 0.0068,
+      "混在": 0.0029,
+      "言及なし": 0.9879
+     },
+     "confidence": 0.968
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0099
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.0088,
+      "否定": 0.8936,
+      "混在": 0.0206,
+      "言及なし": 0.077
+     },
+     "confidence": 0.7399
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.9322
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0138,
+      "否定": 0.2598,
+      "混在": 0.0325,
+      "言及なし": 0.6939
+     },
+     "confidence": 0.4003
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0542
+    }
+   },
+   "usage": {
+    "input_tokens": 1297,
+    "output_tokens": 0
+   },
+   "sample": 4,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "否定",
+    "price": "言及なし"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.21875170100000219,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "混在",
+     "probabilities": {
+      "肯定": 0.0196,
+      "否定": 0.0152,
+      "混在": 0.947,
+      "言及なし": 0.0182
+     },
+     "confidence": 0.8636
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.9616
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0056,
+      "否定": 0.0036,
+      "混在": 0.0091,
+      "言及なし": 0.9817
+     },
+     "confidence": 0.9518
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.014
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0091,
+      "否定": 0.0065,
+      "混在": 0.0177,
+      "言及なし": 0.9667
+     },
+     "confidence": 0.9132
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0193
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0044,
+      "否定": 0.004,
+      "混在": 0.0108,
+      "言及なし": 0.9808
+     },
+     "confidence": 0.9494
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0125
+    }
+   },
+   "usage": {
+    "input_tokens": 1299,
+    "output_tokens": 0
+   },
+   "sample": 5,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "混在",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.23937088900001413,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.2891,
+      "否定": 0.0068,
+      "混在": 0.0117,
+      "言及なし": 0.6924
+     },
+     "confidence": 0.4176
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.0372
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.011,
+      "否定": 0.0025,
+      "混在": 0.0036,
+      "言及なし": 0.9829
+     },
+     "confidence": 0.9549
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0183
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0297,
+      "否定": 0.0028,
+      "混在": 0.0046,
+      "言及なし": 0.9629
+     },
+     "confidence": 0.9042
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0202
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0095,
+      "否定": 0.0024,
+      "混在": 0.0039,
+      "言及なし": 0.9842
+     },
+     "confidence": 0.9584
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0182
+    }
+   },
+   "usage": {
+    "input_tokens": 1286,
+    "output_tokens": 0
+   },
+   "sample": 6,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.2039877400000023,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.8333,
+      "否定": 0.0124,
+      "混在": 0.0962,
+      "言及なし": 0.0581
+     },
+     "confidence": 0.6096
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.9449
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.0036,
+      "否定": 0.9714,
+      "混在": 0.012,
+      "言及なし": 0.013
+     },
+     "confidence": 0.9253
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.9644
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0069,
+      "否定": 0.0133,
+      "混在": 0.0146,
+      "言及なし": 0.9652
+     },
+     "confidence": 0.9095
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0288
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0022,
+      "否定": 0.0036,
+      "混在": 0.0034,
+      "言及なし": 0.9908
+     },
+     "confidence": 0.9756
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.01
+    }
+   },
+   "usage": {
+    "input_tokens": 1299,
+    "output_tokens": 0
+   },
+   "sample": 7,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "肯定",
+    "music": "否定",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.19946133999999915,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.803,
+      "否定": 0.0086,
+      "混在": 0.1343,
+      "言及なし": 0.0541
+     },
+     "confidence": 0.5546
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.6912
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0208,
+      "否定": 0.0033,
+      "混在": 0.0133,
+      "言及なし": 0.9626
+     },
+     "confidence": 0.9029
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0239
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0126,
+      "否定": 0.0151,
+      "混在": 0.0299,
+      "言及なし": 0.9424
+     },
+     "confidence": 0.8526
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0266
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.0163,
+      "否定": 0.6306,
+      "混在": 0.2719,
+      "言及なし": 0.0812
+     },
+     "confidence": 0.3045
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.944
+    }
+   },
+   "usage": {
+    "input_tokens": 1298,
+    "output_tokens": 0
+   },
+   "sample": 8,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "肯定",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "否定"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.20946155100000396,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "混在",
+     "probabilities": {
+      "肯定": 0.0188,
+      "否定": 0.0425,
+      "混在": 0.9156,
+      "言及なし": 0.0231
+     },
+     "confidence": 0.788
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.9693
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0056,
+      "否定": 0.0028,
+      "混在": 0.0051,
+      "言及なし": 0.9865
+     },
+     "confidence": 0.9642
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0153
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.5903,
+      "否定": 0.0206,
+      "混在": 0.3067,
+      "言及なし": 0.0824
+     },
+     "confidence": 0.2663
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.9445
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0053,
+      "否定": 0.0031,
+      "混在": 0.0054,
+      "言及なし": 0.9862
+     },
+     "confidence": 0.9634
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0124
+    }
+   },
+   "usage": {
+    "input_tokens": 1299,
+    "output_tokens": 0
+   },
+   "sample": 9,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "否定",
+    "music": "言及なし",
+    "comfort": "肯定",
+    "price": "言及なし"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.2282165260000113,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "混在",
+     "probabilities": {
+      "肯定": 0.011,
+      "否定": 0.0123,
+      "混在": 0.6435,
+      "言及なし": 0.3332
+     },
+     "confidence": 0.3672
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.0402
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0037,
+      "否定": 0.0042,
+      "混在": 0.018,
+      "言及なし": 0.9741
+     },
+     "confidence": 0.9325
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0143
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0057,
+      "否定": 0.0067,
+      "混在": 0.0352,
+      "言及なし": 0.9524
+     },
+     "confidence": 0.8778
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0261
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.003,
+      "否定": 0.0039,
+      "混在": 0.0111,
+      "言及なし": 0.982
+     },
+     "confidence": 0.9526
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0138
+    }
+   },
+   "usage": {
+    "input_tokens": 1295,
+    "output_tokens": 0
+   },
+   "sample": 10,
+   "ambiguous": true,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.26698046199999226,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.7548,
+      "否定": 0.0096,
+      "混在": 0.1371,
+      "言及なし": 0.0985
+     },
+     "confidence": 0.4645
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.5417
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0055,
+      "否定": 0.0036,
+      "混在": 0.0067,
+      "言及なし": 0.9842
+     },
+     "confidence": 0.9583
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0136
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0256,
+      "否定": 0.0041,
+      "混在": 0.0224,
+      "言及なし": 0.9479
+     },
+     "confidence": 0.8664
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0303
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0042,
+      "否定": 0.0038,
+      "混在": 0.0119,
+      "言及なし": 0.9801
+     },
+     "confidence": 0.9477
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0112
+    }
+   },
+   "usage": {
+    "input_tokens": 1297,
+    "output_tokens": 0
+   },
+   "sample": 11,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "肯定",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.20148246800002312,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0154,
+      "否定": 0.0139,
+      "混在": 0.042,
+      "言及なし": 0.9287
+     },
+     "confidence": 0.8197
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.0218
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "混在",
+     "probabilities": {
+      "肯定": 0.0331,
+      "否定": 0.0143,
+      "混在": 0.9415,
+      "言及なし": 0.0111
+     },
+     "confidence": 0.8504
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.9638
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.0276,
+      "否定": 0.4809,
+      "混在": 0.3069,
+      "言及なし": 0.1846
+     },
+     "confidence": 0.147
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.8603
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0038,
+      "否定": 0.0042,
+      "混在": 0.0112,
+      "言及なし": 0.9808
+     },
+     "confidence": 0.9496
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0107
+    }
+   },
+   "usage": {
+    "input_tokens": 1300,
+    "output_tokens": 0
+   },
+   "sample": 12,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "肯定",
+    "comfort": "否定",
+    "price": "言及なし"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.22891757700000426,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0088,
+      "否定": 0.1493,
+      "混在": 0.055,
+      "言及なし": 0.7869
+     },
+     "confidence": 0.5262
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.0268
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0022,
+      "否定": 0.0044,
+      "混在": 0.0028,
+      "言及なし": 0.9906
+     },
+     "confidence": 0.975
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0101
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.0067,
+      "否定": 0.899,
+      "混在": 0.0289,
+      "言及なし": 0.0654
+     },
+     "confidence": 0.7512
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.8558
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0025,
+      "否定": 0.01,
+      "混在": 0.0054,
+      "言及なし": 0.9821
+     },
+     "confidence": 0.9529
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0089
+    }
+   },
+   "usage": {
+    "input_tokens": 1300,
+    "output_tokens": 0
+   },
+   "sample": 13,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "否定",
+    "price": "言及なし"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.22034585500000503,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0376,
+      "否定": 0.0071,
+      "混在": 0.0208,
+      "言及なし": 0.9345
+     },
+     "confidence": 0.8337
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.0198
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0067,
+      "否定": 0.0035,
+      "混在": 0.005,
+      "言及なし": 0.9848
+     },
+     "confidence": 0.9599
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0135
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0214,
+      "否定": 0.0054,
+      "混在": 0.0089,
+      "言及なし": 0.9643
+     },
+     "confidence": 0.9071
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0211
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.8314,
+      "否定": 0.0354,
+      "混在": 0.0862,
+      "言及なし": 0.047
+     },
+     "confidence": 0.6029
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.9683
+    }
+   },
+   "usage": {
+    "input_tokens": 1294,
+    "output_tokens": 0
+   },
+   "sample": 14,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "肯定"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.23456981600000404,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.9349,
+      "否定": 0.0064,
+      "混在": 0.0197,
+      "言及なし": 0.039
+     },
+     "confidence": 0.8347
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.9519
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0048,
+      "否定": 0.0027,
+      "混在": 0.0034,
+      "言及なし": 0.9891
+     },
+     "confidence": 0.971
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0142
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0096,
+      "否定": 0.0101,
+      "混在": 0.0091,
+      "言及なし": 0.9712
+     },
+     "confidence": 0.9246
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0227
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0071,
+      "否定": 0.0027,
+      "混在": 0.0037,
+      "言及なし": 0.9865
+     },
+     "confidence": 0.9643
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0141
+    }
+   },
+   "usage": {
+    "input_tokens": 1300,
+    "output_tokens": 0
+   },
+   "sample": 15,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "肯定",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.1993816890000062,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0053,
+      "否定": 0.0211,
+      "混在": 0.019,
+      "言及なし": 0.9546
+     },
+     "confidence": 0.8828
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.0161
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.0034,
+      "否定": 0.9684,
+      "混在": 0.0113,
+      "言及なし": 0.0169
+     },
+     "confidence": 0.9176
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.966
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0034,
+      "否定": 0.0053,
+      "混在": 0.0052,
+      "言及なし": 0.9861
+     },
+     "confidence": 0.9634
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.011
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0029,
+      "否定": 0.0049,
+      "混在": 0.0041,
+      "言及なし": 0.9881
+     },
+     "confidence": 0.9685
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0085
+    }
+   },
+   "usage": {
+    "input_tokens": 1295,
+    "output_tokens": 0
+   },
+   "sample": 16,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "否定",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.9058820930000024,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0104,
+      "否定": 0.0959,
+      "混在": 0.0417,
+      "言及なし": 0.852
+     },
+     "confidence": 0.6492
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.023
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0022,
+      "否定": 0.0056,
+      "混在": 0.0028,
+      "言及なし": 0.9894
+     },
+     "confidence": 0.9721
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0111
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.0063,
+      "否定": 0.9257,
+      "混在": 0.0211,
+      "言及なし": 0.0469
+     },
+     "confidence": 0.8129
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.9056
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0028,
+      "否定": 0.012,
+      "混在": 0.0055,
+      "言及なし": 0.9797
+     },
+     "confidence": 0.9468
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0096
+    }
+   },
+   "usage": {
+    "input_tokens": 1293,
+    "output_tokens": 0
+   },
+   "sample": 17,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "否定",
+    "price": "言及なし"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.2054820490000111,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0144,
+      "否定": 0.0046,
+      "混在": 0.0247,
+      "言及なし": 0.9563
+     },
+     "confidence": 0.8871
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.0133
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0034,
+      "否定": 0.0034,
+      "混在": 0.0059,
+      "言及なし": 0.9873
+     },
+     "confidence": 0.9666
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0107
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0053,
+      "否定": 0.006,
+      "混在": 0.0107,
+      "言及なし": 0.978
+     },
+     "confidence": 0.9421
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0134
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "混在",
+     "probabilities": {
+      "肯定": 0.0541,
+      "否定": 0.0606,
+      "混在": 0.8512,
+      "言及なし": 0.0341
+     },
+     "confidence": 0.6431
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.9713
+    }
+   },
+   "usage": {
+    "input_tokens": 1292,
+    "output_tokens": 0
+   },
+   "sample": 18,
+   "ambiguous": true,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "混在"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.20075551499999733,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0315,
+      "否定": 0.0198,
+      "混在": 0.0403,
+      "言及なし": 0.9084
+     },
+     "confidence": 0.771
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.0199
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0105,
+      "否定": 0.01,
+      "混在": 0.014,
+      "言及なし": 0.9655
+     },
+     "confidence": 0.9102
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0106
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0179,
+      "否定": 0.0134,
+      "混在": 0.0183,
+      "言及なし": 0.9504
+     },
+     "confidence": 0.8721
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.014
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0094,
+      "否定": 0.0098,
+      "混在": 0.0133,
+      "言及なし": 0.9675
+     },
+     "confidence": 0.9153
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0118
+    }
+   },
+   "usage": {
+    "input_tokens": 1290,
+    "output_tokens": 0
+   },
+   "sample": 19,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.24493513300001268,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.6916,
+      "否定": 0.0067,
+      "混在": 0.0132,
+      "言及なし": 0.2885
+     },
+     "confidence": 0.4158
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.0927
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.1859,
+      "否定": 0.0039,
+      "混在": 0.0066,
+      "言及なし": 0.8036
+     },
+     "confidence": 0.5738
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.035
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.212,
+      "否定": 0.0043,
+      "混在": 0.007,
+      "言及なし": 0.7767
+     },
+     "confidence": 0.5311
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0354
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0338,
+      "否定": 0.003,
+      "混在": 0.0047,
+      "言及なし": 0.9585
+     },
+     "confidence": 0.8932
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0211
+    }
+   },
+   "usage": {
+    "input_tokens": 1288,
+    "output_tokens": 0
+   },
+   "sample": 20,
+   "ambiguous": true,
+   "expected": {
+    "gameplay": "肯定",
+    "music": "肯定",
+    "comfort": "肯定",
+    "price": "肯定"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.2113818409999908,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "混在",
+     "probabilities": {
+      "肯定": 0.0199,
+      "否定": 0.0247,
+      "混在": 0.9369,
+      "言及なし": 0.0185
+     },
+     "confidence": 0.8388
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.9585
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0055,
+      "否定": 0.0042,
+      "混在": 0.006,
+      "言及なし": 0.9843
+     },
+     "confidence": 0.9586
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0136
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0186,
+      "否定": 0.0258,
+      "混在": 0.0411,
+      "言及なし": 0.9145
+     },
+     "confidence": 0.7853
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0386
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0033,
+      "否定": 0.0044,
+      "混在": 0.0056,
+      "言及なし": 0.9867
+     },
+     "confidence": 0.9649
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0113
+    }
+   },
+   "usage": {
+    "input_tokens": 1295,
+    "output_tokens": 0
+   },
+   "sample": 21,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "混在",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.2143651220000038,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0433,
+      "否定": 0.0396,
+      "混在": 0.1267,
+      "言及なし": 0.7904
+     },
+     "confidence": 0.5257
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.0499
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.0182,
+      "否定": 0.8047,
+      "混在": 0.1266,
+      "言及なし": 0.0505
+     },
+     "confidence": 0.5553
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.9665
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.7478,
+      "否定": 0.0094,
+      "混在": 0.195,
+      "言及なし": 0.0478
+     },
+     "confidence": 0.4662
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.929
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0047,
+      "否定": 0.0036,
+      "混在": 0.0085,
+      "言及なし": 0.9832
+     },
+     "confidence": 0.9559
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0111
+    }
+   },
+   "usage": {
+    "input_tokens": 1302,
+    "output_tokens": 0
+   },
+   "sample": 22,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "否定",
+    "comfort": "肯定",
+    "price": "言及なし"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.21274976999998785,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.8587,
+      "否定": 0.0082,
+      "混在": 0.0844,
+      "言及なし": 0.0487
+     },
+     "confidence": 0.6625
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.7534
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0043,
+      "否定": 0.0087,
+      "混在": 0.0086,
+      "言及なし": 0.9784
+     },
+     "confidence": 0.9433
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0138
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.6244,
+      "否定": 0.0123,
+      "混在": 0.1243,
+      "言及なし": 0.239
+     },
+     "confidence": 0.2834
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.3713
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.0094,
+      "否定": 0.8744,
+      "混在": 0.0822,
+      "言及なし": 0.034
+     },
+     "confidence": 0.6969
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.9561
+    }
+   },
+   "usage": {
+    "input_tokens": 1293,
+    "output_tokens": 0
+   },
+   "sample": 23,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "肯定",
+    "price": "否定"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.20720730400000775,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0054,
+      "否定": 0.0915,
+      "混在": 0.0214,
+      "言及なし": 0.8817
+     },
+     "confidence": 0.715
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.0236
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0032,
+      "否定": 0.0213,
+      "混在": 0.0068,
+      "言及なし": 0.9687
+     },
+     "confidence": 0.9186
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0128
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0041,
+      "否定": 0.0319,
+      "混在": 0.0113,
+      "言及なし": 0.9527
+     },
+     "confidence": 0.8783
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0156
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0035,
+      "否定": 0.0362,
+      "混在": 0.0115,
+      "言及なし": 0.9488
+     },
+     "confidence": 0.8689
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0152
+    }
+   },
+   "usage": {
+    "input_tokens": 1288,
+    "output_tokens": 0
+   },
+   "sample": 24,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.21179377900000418,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0222,
+      "否定": 0.006,
+      "混在": 0.0098,
+      "言及なし": 0.962
+     },
+     "confidence": 0.9014
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.0149
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.9103,
+      "否定": 0.013,
+      "混在": 0.0221,
+      "言及なし": 0.0546
+     },
+     "confidence": 0.7764
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.9595
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0098,
+      "否定": 0.0076,
+      "混在": 0.009,
+      "言及なし": 0.9736
+     },
+     "confidence": 0.931
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0143
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0077,
+      "否定": 0.0065,
+      "混在": 0.008,
+      "言及なし": 0.9778
+     },
+     "confidence": 0.9416
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0118
+    }
+   },
+   "usage": {
+    "input_tokens": 1295,
+    "output_tokens": 0
+   },
+   "sample": 25,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "肯定",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.22510800000000586,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0034,
+      "否定": 0.0195,
+      "混在": 0.0128,
+      "言及なし": 0.9643
+     },
+     "confidence": 0.9072
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.0125
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0026,
+      "否定": 0.0038,
+      "混在": 0.0031,
+      "言及なし": 0.9905
+     },
+     "confidence": 0.9747
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0105
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.0116,
+      "否定": 0.8106,
+      "混在": 0.0693,
+      "言及なし": 0.1085
+     },
+     "confidence": 0.5651
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.9163
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0029,
+      "否定": 0.0054,
+      "混在": 0.0039,
+      "言及なし": 0.9878
+     },
+     "confidence": 0.9679
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0104
+    }
+   },
+   "usage": {
+    "input_tokens": 1296,
+    "output_tokens": 0
+   },
+   "sample": 26,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "否定",
+    "price": "言及なし"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.23737944499998775,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "混在",
+     "probabilities": {
+      "肯定": 0.0316,
+      "否定": 0.0424,
+      "混在": 0.8726,
+      "言及なし": 0.0534
+     },
+     "confidence": 0.6893
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.9365
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "混在",
+     "probabilities": {
+      "肯定": 0.0816,
+      "否定": 0.1574,
+      "混在": 0.3835,
+      "言及なし": 0.3775
+     },
+     "confidence": 0.0947
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.4784
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0079,
+      "否定": 0.0118,
+      "混在": 0.03,
+      "言及なし": 0.9503
+     },
+     "confidence": 0.8723
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0224
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0321,
+      "否定": 0.0191,
+      "混在": 0.1056,
+      "言及なし": 0.8432
+     },
+     "confidence": 0.6314
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0571
+    }
+   },
+   "usage": {
+    "input_tokens": 1291,
+    "output_tokens": 0
+   },
+   "sample": 27,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "混在",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.5595930700000054,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.008,
+      "否定": 0.0534,
+      "混在": 0.0586,
+      "言及なし": 0.88
+     },
+     "confidence": 0.7076
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.0191
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.0092,
+      "否定": 0.9086,
+      "混在": 0.0415,
+      "言及なし": 0.0407
+     },
+     "confidence": 0.7721
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.9759
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0034,
+      "否定": 0.0053,
+      "混在": 0.0047,
+      "言及なし": 0.9866
+     },
+     "confidence": 0.9645
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0101
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0029,
+      "否定": 0.0046,
+      "混在": 0.0049,
+      "言及なし": 0.9876
+     },
+     "confidence": 0.9673
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0095
+    }
+   },
+   "usage": {
+    "input_tokens": 1294,
+    "output_tokens": 0
+   },
+   "sample": 28,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "否定",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.278034985000005,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0917,
+      "否定": 0.0063,
+      "混在": 0.0334,
+      "言及なし": 0.8686
+     },
+     "confidence": 0.6853
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.0428
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0085,
+      "否定": 0.0028,
+      "混在": 0.0041,
+      "言及なし": 0.9846
+     },
+     "confidence": 0.9594
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0147
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.3835,
+      "否定": 0.0183,
+      "混在": 0.1204,
+      "言及なし": 0.4778
+     },
+     "confidence": 0.1869
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.5176
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0111,
+      "否定": 0.0027,
+      "混在": 0.006,
+      "言及なし": 0.9802
+     },
+     "confidence": 0.9478
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0156
+    }
+   },
+   "usage": {
+    "input_tokens": 1294,
+    "output_tokens": 0
+   },
+   "sample": 29,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "肯定",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.26017241599998897,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.871,
+      "否定": 0.0053,
+      "混在": 0.0119,
+      "言及なし": 0.1118
+     },
+     "confidence": 0.695
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.7106
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.239,
+      "否定": 0.0059,
+      "混在": 0.0098,
+      "言及なし": 0.7453
+     },
+     "confidence": 0.4837
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.1194
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.7492,
+      "否定": 0.0075,
+      "混在": 0.022,
+      "言及なし": 0.2213
+     },
+     "confidence": 0.4811
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.4622
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0042,
+      "否定": 0.002,
+      "混在": 0.0027,
+      "言及なし": 0.9911
+     },
+     "confidence": 0.9765
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0117
+    }
+   },
+   "usage": {
+    "input_tokens": 1290,
+    "output_tokens": 0
+   },
+   "sample": 30,
+   "ambiguous": true,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "肯定",
+    "price": "言及なし"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.25664431300000956,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0138,
+      "否定": 0.0272,
+      "混在": 0.0264,
+      "言及なし": 0.9326
+     },
+     "confidence": 0.8286
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.0141
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0047,
+      "否定": 0.0121,
+      "混在": 0.0062,
+      "言及なし": 0.977
+     },
+     "confidence": 0.9397
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0096
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0083,
+      "否定": 0.0288,
+      "混在": 0.0129,
+      "言及なし": 0.95
+     },
+     "confidence": 0.8715
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0173
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.0119,
+      "否定": 0.9227,
+      "混在": 0.0301,
+      "言及なし": 0.0353
+     },
+     "confidence": 0.8049
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.9322
+    }
+   },
+   "usage": {
+    "input_tokens": 1290,
+    "output_tokens": 0
+   },
+   "sample": 31,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "否定"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.2534174660000019,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.009,
+      "否定": 0.012,
+      "混在": 0.0131,
+      "言及なし": 0.9659
+     },
+     "confidence": 0.9111
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.0154
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0103,
+      "否定": 0.0105,
+      "混在": 0.0137,
+      "言及なし": 0.9655
+     },
+     "confidence": 0.9102
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.0111
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0111,
+      "否定": 0.0116,
+      "混在": 0.0143,
+      "言及なし": 0.963
+     },
+     "confidence": 0.9037
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0139
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0125,
+      "否定": 0.0137,
+      "混在": 0.0168,
+      "言及なし": 0.957
+     },
+     "confidence": 0.8886
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0122
+    }
+   },
+   "usage": {
+    "input_tokens": 1289,
+    "output_tokens": 0
+   },
+   "sample": 32,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "言及なし",
+    "music": "言及なし",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.21716408099999285,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "混在",
+     "probabilities": {
+      "肯定": 0.2199,
+      "否定": 0.0149,
+      "混在": 0.6602,
+      "言及なし": 0.105
+     },
+     "confidence": 0.3273
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.9437
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.9818,
+      "否定": 0.0027,
+      "混在": 0.0062,
+      "言及なし": 0.0093
+     },
+     "confidence": 0.9521
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.9807
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "混在",
+     "probabilities": {
+      "肯定": 0.0362,
+      "否定": 0.3206,
+      "混在": 0.5107,
+      "言及なし": 0.1325
+     },
+     "confidence": 0.1766
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.9515
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.7055,
+      "否定": 0.0133,
+      "混在": 0.0449,
+      "言及なし": 0.2363
+     },
+     "confidence": 0.4077
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.8231
+    }
+   },
+   "usage": {
+    "input_tokens": 1345,
+    "output_tokens": 0
+   },
+   "sample": 33,
+   "ambiguous": true,
+   "expected": {
+    "gameplay": "混在",
+    "music": "肯定",
+    "comfort": "否定",
+    "price": "言及なし"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  },
+  {
+   "status": 200,
+   "sec": 0.2505573740000102,
+   "attempts": 1,
+   "answers": {
+    "gameplay_choice": {
+     "type": "choice",
+     "choice": "肯定",
+     "probabilities": {
+      "肯定": 0.8366,
+      "否定": 0.0079,
+      "混在": 0.081,
+      "言及なし": 0.0745
+     },
+     "confidence": 0.616
+    },
+    "gameplay_noul": {
+     "type": "noul",
+     "noul": 0.8229
+    },
+    "music_choice": {
+     "type": "choice",
+     "choice": "否定",
+     "probabilities": {
+      "肯定": 0.0101,
+      "否定": 0.8354,
+      "混在": 0.0894,
+      "言及なし": 0.0651
+     },
+     "confidence": 0.6136
+    },
+    "music_noul": {
+     "type": "noul",
+     "noul": 0.959
+    },
+    "comfort_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0169,
+      "否定": 0.0717,
+      "混在": 0.0801,
+      "言及なし": 0.8313
+     },
+     "confidence": 0.604
+    },
+    "comfort_noul": {
+     "type": "noul",
+     "noul": 0.0487
+    },
+    "price_choice": {
+     "type": "choice",
+     "choice": "言及なし",
+     "probabilities": {
+      "肯定": 0.0022,
+      "否定": 0.003,
+      "混在": 0.0083,
+      "言及なし": 0.9865
+     },
+     "confidence": 0.9643
+    },
+    "price_noul": {
+     "type": "noul",
+     "noul": 0.0103
+    }
+   },
+   "usage": {
+    "input_tokens": 1297,
+    "output_tokens": 0
+   },
+   "sample": 34,
+   "ambiguous": false,
+   "expected": {
+    "gameplay": "肯定",
+    "music": "否定",
+    "comfort": "言及なし",
+    "price": "言及なし"
+   },
+   "model": "clef-flash",
+   "variant": "V0",
+   "mode": "batch"
+  }
+ ]
+}
