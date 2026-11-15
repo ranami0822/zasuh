@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pnn / palette dark</title>
+<link rel="stylesheet" href="../static/fonts/unifontex.css">
+<style>
+
+/* ---- tokens (proposal B: user palette) ---- */
+.theme {
+	--font: 'UnifontEX', ui-monospace, monospace;
+	--bg: #1F1512; --face: #2B1E19; --ring: #38271F; --bit1: #45312A; --bit2: #4D372F; --hi: #5A433A;
+	--card: #86564A; --card-red: #A3665A; --press: #6F4339;
+	--gray: #9A9BA0; --gray-lt: #C4C5C8; --gray-dp: #6B6C71;
+	--ink: #F4E6DE; --ink-soft: #CDB8AF;
+	--mint: #8FD3CA; --mint-lt: #263F3B;
+	--r-pill: 999px; --r-box: 0;
+	--shade: 0 0 0; --glow: 163 102 90;
+	--grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5  0 0 0 0 .4  0 0 0 0 .4  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+	/* aliases used by the scaffold */
+	--ground: var(--bg); --surface: var(--face); --sunk: var(--ring);
+	--pink-300: var(--card); --pink-400: var(--card); --pink-500: var(--card); --pink-600: var(--card-red);
+	--almond: var(--mint); --almond-deep: var(--mint);
+	--gray-50: var(--hi); --gray-100: var(--gray-lt); --gray-500: var(--gray); --gray-900: var(--ink);
+	--skin-100: var(--hi); --skin-200: var(--face); --skin-300: var(--bit1);
+	--ink-soft: #CDB8AF;
+}
+.theme[data-theme='dark'] { display: none; }
+
+/* ---- preview scaffold ---- */
+* { box-sizing: border-box; margin: 0; }
+body { background: #888; font-family: var(--font, 'UnifontEX', monospace); font-size: 16px; line-height: 1.5; }
+.pair { display: grid; grid-template-columns: 1fr 1fr; }
+@media (max-width: 900px) { .pair { grid-template-columns: 1fr; } }
+
+.theme {
+	font-family: var(--font);
+	background: var(--ground);
+	color: var(--ink);
+	padding: 32px 28px 40px;
+	display: grid;
+	gap: 28px;
+	align-content: start;
+	min-height: 100vh;
+	position: relative;
+}
+.theme::before {
+	content: '';
+	position: absolute; inset: 0;
+	background: var(--grain);
+	opacity: .10;
+	mix-blend-mode: multiply;
+	pointer-events: none;
+}
+.theme[data-theme='dark']::before { mix-blend-mode: screen; opacity: .07; }
+.theme > * { position: relative; }
+
+h1 { font-size: 48px; line-height: 1.1; font-weight: 400; }
+h2 { font-size: 32px; line-height: 1.2; font-weight: 400; }
+
+/* swatches: faces only, no labels, no lines */
+.swatches { display: flex; flex-wrap: wrap; gap: 10px; }
+.sw { width: 56px; height: 56px; border-radius: var(--r-pill); box-shadow: 0 6px 16px rgb(var(--shade) / .22); }
+
+/* hero: pink in front, with gradient + coloured shadow */
+.hero {
+	padding: 28px;
+	border-radius: var(--r-pill);
+	background: linear-gradient(135deg, var(--card), var(--card-red));
+	color: var(--ink);
+	box-shadow: 0 14px 40px rgb(var(--glow) / .45), 0 0 0 0 transparent;
+	display: grid; gap: 6px;
+	justify-items: center; text-align: center;
+}
+
+/* surface card: face only */
+.card {
+	background: var(--surface);
+	border-radius: 28px;
+	padding: 22px;
+	display: grid; gap: 14px;
+	box-shadow: 0 8px 30px rgb(var(--shade) / .18);
+}
+
+/* pill controls */
+.row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.btn {
+	font: inherit; font-size: 16px;
+	border: 0; cursor: pointer;
+	padding: 12px 26px;
+	border-radius: var(--r-pill);
+	background: var(--pink-500);
+	color: var(--ink);
+	box-shadow: 0 6px 18px rgb(var(--glow) / .5);
+	transition: transform .12s, box-shadow .12s;
+}
+.btn:hover { transform: translateY(-1px) scale(1.03); box-shadow: 0 10px 26px rgb(var(--glow) / .6); }
+.btn:active { background: var(--press); transform: scale(.94); box-shadow: 0 2px 8px rgb(var(--glow) / .5); }
+.btn.soft { background: var(--sunk); color: var(--ink); box-shadow: none; }
+.btn.accent { color: #17181A; background: var(--mint); box-shadow: 0 6px 18px rgb(120 190 180 / .5); }
+.input {
+	font: inherit; font-size: 16px;
+	border: 0; outline: 0;
+	padding: 12px 22px;
+	border-radius: var(--r-pill);
+	background: var(--sunk);
+	color: var(--ink);
+	box-shadow: inset 0 3px 8px rgb(var(--shade) / .16);
+	min-width: 220px;
+}
+.input:focus { box-shadow: inset 0 3px 8px rgb(var(--shade) / .16), 0 0 0 4px rgb(var(--glow) / .45); }
+
+/* decoration bar: a thin horizontally scrolling strip of pills */
+.bar {
+	display: flex; gap: 8px; overflow-x: auto;
+	padding: 8px; border-radius: var(--r-pill);
+	background: var(--surface);
+	box-shadow: 0 6px 20px rgb(var(--shade) / .16);
+	scrollbar-width: none;
+}
+.bar::-webkit-scrollbar { display: none; }
+.chip {
+	flex: none; font: inherit; font-size: 16px; border: 0; cursor: pointer;
+	padding: 6px 16px; border-radius: var(--r-pill);
+	background: var(--sunk); color: var(--ink);
+}
+.chip.on { background: var(--card); color: var(--ink); }
+
+/* writing surface: inline-formatted, no divider */
+.page { display: grid; gap: 10px; }
+.page .t { font-size: 32px; line-height: 1.25; }
+.page .b { color: var(--ink); }
+.page .b strong { background: linear-gradient(transparent 55%, rgb(var(--glow) / .45) 55%); font-weight: 400; }
+.page .b em { font-style: normal; color: var(--almond-deep); }
+.dim { color: var(--ink-soft); }
+
+/* dialog / macro layout: right angles, shadow all around */
+.dialog {
+	background: var(--surface);
+	border-radius: var(--r-box);
+	padding: 24px;
+	display: grid; gap: 16px;
+	box-shadow: 0 0 60px rgb(var(--shade) / .35), 0 0 0 0 transparent;
+}
+.dialog .row { justify-content: flex-end; }
+
+/* tiny state bubbles */
+.dots { display: flex; gap: 8px; align-items: center; }
+.dot { width: 14px; height: 14px; border-radius: 50%; }
+.dot.p { background: var(--pink-500); box-shadow: 0 0 12px rgb(var(--glow) / .7); }
+.dot.a { background: var(--almond); }
+.dot.g { background: var(--gray-500); }
+</style>
+</head>
+<body style="margin:0"><div style="display:grid;grid-template-columns:repeat(4,1fr)"><main class="theme" data-theme="light" style="--ground:#FCF6F2;--bg:#FCF6F2;--face:#F5DCD3;--ring:#F0CCC3;--bit1:#F2C3B6;--bit2:#EDC0B2;--hi:#FAEAE3;--surface:#F5DCD3;--sunk:#F0CCC3;--skin-100:#FAEAE3;--skin-200:#F5DCD3;--skin-300:#F2C3B6;--card:#DDA299;--card-red:#C47F77;--press:#D2948B;--glow:221 162 153;--ink:#17181A;--ink-soft:#4A4B4F;--shade:120 60 50;background:#FCF6F2;min-height:0;padding:24px 20px 30px">
+<div style="font-size:16px;color:#4A4B4F">現在（ライト）</div>
+<div class="card">
+<div class="bar"><button class="chip on" style="color:#17181A">見出し</button><button class="chip">太字</button><button class="chip">傾き</button><button class="chip">引用</button></div>
+<div class="page"><div class="t">夜中にしか書けない</div><div class="b">恥ずかしいのに、<strong>消したくない</strong>。</div><div class="dim">いま 3 件 ・ 下書き</div></div>
+<div class="row"><button class="btn" style="color:#17181A">公開</button><button class="btn soft">下書き</button><button class="btn accent">保存</button></div>
+</div>
+<div class="hero" style="padding:16px;color:#17181A"><h2 style="font-size:32px">ほんね</h2></div>
+</main><main class="theme" data-theme="light" style="--ground:#FCF7F5;--bg:#FCF7F5;--face:#F6E9E3;--ring:#F1DDD5;--bit1:#ECD2C7;--bit2:#EACEC2;--hi:#F9F2EE;--surface:#F6E9E3;--sunk:#F1DDD5;--skin-100:#F9F2EE;--skin-200:#F6E9E3;--skin-300:#ECD2C7;--card:#CC9177;--card-red:#AE735C;--press:#B9826C;--glow:204 145 119;--ink:#17181A;--ink-soft:#4A4B4F;--shade:120 60 50;background:#FCF7F5;min-height:0;padding:24px 20px 30px">
+<div style="font-size:16px;color:#4A4B4F">実測（ライト）</div>
+<div class="card">
+<div class="bar"><button class="chip on" style="color:#17181A">見出し</button><button class="chip">太字</button><button class="chip">傾き</button><button class="chip">引用</button></div>
+<div class="page"><div class="t">夜中にしか書けない</div><div class="b">恥ずかしいのに、<strong>消したくない</strong>。</div><div class="dim">いま 3 件 ・ 下書き</div></div>
+<div class="row"><button class="btn" style="color:#17181A">公開</button><button class="btn soft">下書き</button><button class="btn accent">保存</button></div>
+</div>
+<div class="hero" style="padding:16px;color:#17181A"><h2 style="font-size:32px">ほんね</h2></div>
+</main><main class="theme" data-theme="light" style="--ground:#1F1512;--bg:#1F1512;--face:#6A4538;--ring:#774E40;--bit1:#895C4B;--bit2:#926453;--hi:#A57563;--surface:#6A4538;--sunk:#774E40;--skin-100:#A57563;--skin-200:#6A4538;--skin-300:#895C4B;--card:#BB8670;--card-red:#D09C84;--press:#A87662;--glow:187 134 112;--ink:#F4E6DE;--ink-soft:#DCCAC1;--shade:0 0 0;background:#1F1512;min-height:0;padding:24px 20px 30px">
+<div style="font-size:16px;color:#DCCAC1">現在（ダーク）</div>
+<div class="card">
+<div class="bar"><button class="chip on" style="color:#17181A">見出し</button><button class="chip">太字</button><button class="chip">傾き</button><button class="chip">引用</button></div>
+<div class="page"><div class="t">夜中にしか書けない</div><div class="b">恥ずかしいのに、<strong>消したくない</strong>。</div><div class="dim">いま 3 件 ・ 下書き</div></div>
+<div class="row"><button class="btn" style="color:#17181A">公開</button><button class="btn soft">下書き</button><button class="btn accent">保存</button></div>
+</div>
+<div class="hero" style="padding:16px;color:#17181A"><h2 style="font-size:32px">ほんね</h2></div>
+</main><main class="theme" data-theme="light" style="--ground:#1F1512;--bg:#1F1512;--face:#6F4332;--ring:#7F4F3D;--bit1:#8D5947;--bit2:#9E6552;--hi:#D7A792;--surface:#6F4332;--sunk:#7F4F3D;--skin-100:#D7A792;--skin-200:#6F4332;--skin-300:#8D5947;--card:#B9826C;--card-red:#CC9177;--press:#AE735C;--glow:185 130 108;--ink:#F4E6DE;--ink-soft:#DCCAC1;--shade:0 0 0;background:#1F1512;min-height:0;padding:24px 20px 30px">
+<div style="font-size:16px;color:#DCCAC1">実測（ダーク）</div>
+<div class="card">
+<div class="bar"><button class="chip on" style="color:#17181A">見出し</button><button class="chip">太字</button><button class="chip">傾き</button><button class="chip">引用</button></div>
+<div class="page"><div class="t">夜中にしか書けない</div><div class="b">恥ずかしいのに、<strong>消したくない</strong>。</div><div class="dim">いま 3 件 ・ 下書き</div></div>
+<div class="row"><button class="btn" style="color:#17181A">公開</button><button class="btn soft">下書き</button><button class="btn accent">保存</button></div>
+</div>
+<div class="hero" style="padding:16px;color:#17181A"><h2 style="font-size:32px">ほんね</h2></div>
+</main></div></body></html>

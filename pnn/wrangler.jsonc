@@ -1,0 +1,22 @@
+// pnn のワーカーの設定。SvelteKit のビルドの出力を、そのまま動かす。
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "pnn",
+	"compatibility_date": "2026-11-01",
+	"compatibility_flags": ["nodejs_als"],
+	"main": ".svelte-kit/cloudflare/_worker.js",
+	"assets": {
+		"binding": "ASSETS",
+		"directory": ".svelte-kit/cloudflare"
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "pnn",
+			// 本番のデータベース（2026-11-15 作成）
+			"database_id": "87fec876-d73b-4451-bf6c-27887ec08444",
+			"migrations_dir": "migrations"
+		}
+	]
+	// 秘密の鍵 PNN_SECRET は `wrangler secret put PNN_SECRET`。ローカルは .dev.vars
+}

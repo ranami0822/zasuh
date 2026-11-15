@@ -4,6 +4,7 @@
 
 - 設計: [`docs/design.md`](docs/design.md)（方針と決定事項）、[`docs/mvp-design.md`](docs/mvp-design.md)（最初のプロトタイプ）
 - 実験: [`experiments/clef-mention/`](experiments/clef-mention/README.md)（質問の形と成績の記録）
+- 第二の側面（独立）: [`docs/pink-nervous-nipples.md`](docs/pink-nervous-nipples.md)（自分をそのまま出すメディア。PWA エディタと吐き出しの場）
 
 ## 構成
 
