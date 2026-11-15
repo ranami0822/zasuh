@@ -23,7 +23,7 @@ from fontTools.ttLib import TTFont
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "node_modules/@fontsource/unifontex/files/unifontex-latin-400-normal.woff2"
-OUT = ROOT / "fonts"
+OUT = ROOT / "static" / "fonts"
 
 
 def euc_chars(rows):
