@@ -29,13 +29,19 @@ const ASPECTS = [
 	}
 ] as const;
 
-const RULE =
+export const RULE =
 	'具体的な事実・特徴・体験が書かれていれば、短くても評価として数えてください（例:「敵の種類が豊富」はゲーム性の肯定）。' +
 	'内容を伴わない賛辞や非難（「神ゲー」「最高」「微妙」など）は、どの観点にも含めず「言及なし」としてください。' +
 	'不具合・クラッシュ・動作の重さ・操作性への不満は「快適さ」だけに含め、「ゲーム性・内容」には含めないでください。' +
 	'書かれていないことは推測しないでください。';
 
-function direction(a: (typeof ASPECTS)[number]): DirectionQuestion {
+export interface AspectSpec {
+	key: string;
+	label: string;
+	scope: string;
+}
+
+export function direction(a: AspectSpec): DirectionQuestion {
 	return {
 		key: `${a.key}_choice`,
 		aspect: a.key,
@@ -54,7 +60,7 @@ function direction(a: (typeof ASPECTS)[number]): DirectionQuestion {
 	};
 }
 
-function mention(a: (typeof ASPECTS)[number]): MentionQuestion {
+export function mention(a: AspectSpec): MentionQuestion {
 	return {
 		key: `${a.key}_noul`,
 		aspect: a.key,
