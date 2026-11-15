@@ -3,7 +3,8 @@
  * 使い方: npm run build してから、`npm run audit`（4つの画面サイズで、ライトとダークを調べる）。
  * playwright は、別に入れておく（ブラウザは、環境にあるものを使う）。
  */
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { join } from 'node:path';
 import { spawn } from 'node:child_process';
 import { createRequire } from 'node:module';
 
@@ -26,6 +27,16 @@ for (const [f, pick] of lint) {
 	const bad = [...body.matchAll(/(?<![\w.-])(\d+(?:\.\d+)?)px/g)].map((m) => m[0]).filter((v) => !['1px', '2px', '0px'].includes(v));
 	bad.length ? fail(`${f}: px の直書き ${[...new Set(bad)].join(', ')}`) : ok(`${f}: px の直書きなし`);
 }
+
+// アイコンは <Icon name="..." /> だけで出す。文字（↶ ☾ ＋ など）を、画面に直書きしない
+const glyph = /[↶↷☀☾＋♡❤]/;
+const svelteFiles = (dir) => readdirSync(dir).flatMap((f) => {
+	const p = join(dir, f);
+	return statSync(p).isDirectory() ? svelteFiles(p) : p.endsWith('.svelte') ? [p] : [];
+});
+const srcDir = new URL('../src/', import.meta.url).pathname;
+const direct = svelteFiles(srcDir).filter((f) => glyph.test(readFileSync(f, 'utf8')));
+direct.length ? fail(`アイコンの直書き: ${direct.map((f) => f.replace(srcDir, '')).join(', ')}`) : ok('アイコンの直書きなし（.svelte）');
 
 // ---- 2. 画面の検査 ----
 const base = process.env.AUDIT_URL ?? 'http://localhost:4173/';
@@ -75,6 +86,19 @@ for (const [name, w, h] of sizes) {
 		if (r.barScrolls && !r.barMask) problems.push('帯が続くのに、端のぼかしがない');
 		problems.length ? fail(`${tag}: ${problems.join(' ; ')}`) : ok(`${tag}`);
 		if (theme === 'light') await p.screenshot({ path: new URL(`../.svelte-kit/audit-${name}.png`, import.meta.url).pathname });
+		await ctx.close();
+	}
+}
+// 見本の頁（/design）も、はみ出さないこと
+for (const [name, w, h] of sizes) {
+	for (const theme of ['light', 'dark']) {
+		const ctx = await browser.newContext({ viewport: { width: w, height: h }, serviceWorkers: 'block', colorScheme: theme });
+		const p = await ctx.newPage();
+		await p.goto(new URL('design', base).href);
+		await p.waitForSelector('.page');
+		await p.evaluate(() => document.fonts.ready);
+		const over = await p.evaluate(() => document.documentElement.scrollWidth > innerWidth);
+		over ? fail(`/design ${name} ${w}px ${theme}: ページが横にはみ出す`) : ok(`/design ${name} ${w}px ${theme}`);
 		await ctx.close();
 	}
 }

@@ -12,7 +12,8 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"test": "vitest run",
 		"audit": "node scripts/audit-layout.mjs",
-		"e2e": "node scripts/e2e.cjs"
+		"e2e": "node scripts/e2e.cjs",
+		"serve": "node scripts/serve.mjs"
 	},
 	"dependencies": {
 		"@codemirror/commands": "^6.8.0",

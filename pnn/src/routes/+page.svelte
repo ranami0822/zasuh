@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { onMount, tick } from 'svelte';
 	import type { EditorView } from '@codemirror/view';
-	import { redo, undo } from '@codemirror/commands';
 	import Editor from '../lib/Editor.svelte';
 	import { press } from '../lib/press';
 	import { createIdbStore } from '../lib/store';
 	import { createSaver, type SaveState } from '../lib/saver';
 	import { isEmpty, labelOf, newDoc, openInitial, statusLabel, statusOrder } from '../lib/docs';
-	import { insertRule, insertText, today, toggleLinePrefix, toggleWrap } from '../lib/editor/commands';
+	import { bar } from '../lib/editor/bar';
+	import Icon from '../lib/Icon.svelte';
 	import type { Doc, Status } from '../lib/types';
 
 	const store = createIdbStore();
@@ -150,25 +150,6 @@
 		if (e.target === dlg) dlg.close();
 	}
 
-	const bar: { label: string; title: string; run: (v: EditorView) => void; gap?: boolean }[] = [
-		{ label: '↶', title: '戻す', run: (v) => void undo(v) },
-		{ label: '↷', title: '進む', run: (v) => void redo(v) },
-		{ label: '見出し', title: '見出し', run: (v) => toggleLinePrefix(v, '# ') },
-		{ label: '太字', title: '太字', run: (v) => toggleWrap(v, '**') },
-		{ label: '傾き', title: '傾き', run: (v) => toggleWrap(v, '*') },
-		{ label: '取消', title: '取り消し線', run: (v) => toggleWrap(v, '~~') },
-		{ label: '引用', title: '引用', run: (v) => toggleLinePrefix(v, '> ') },
-		{ label: '箇条', title: '箇条書き', run: (v) => toggleLinePrefix(v, '- ') },
-		{ label: '区切り', title: '区切り線', run: (v) => insertRule(v) },
-		{ label: '「」', title: '「」', run: (v) => insertText(v, '「」', 1), gap: true },
-		{ label: '『』', title: '『』', run: (v) => insertText(v, '『』', 1) },
-		{ label: '……', title: '……', run: (v) => insertText(v, '……') },
-		{ label: '※', title: '※', run: (v) => insertText(v, '※') },
-		{ label: '♡', title: '♡', run: (v) => insertText(v, '♡') },
-		{ label: '❤', title: '❤', run: (v) => insertText(v, '❤') },
-		{ label: '日付', title: '今日の日付', run: (v) => insertText(v, today()) }
-	];
-
 	function fmtDate(t: number) {
 		const d = new Date(t);
 		return `${d.getMonth() + 1}/${d.getDate()}`;
@@ -186,8 +167,8 @@
 			<span class="dot" class:saving={saveState === 'saving'} class:error={saveState === 'error'} aria-hidden="true"></span>
 			<span class="sp"></span>
 			<button class="p chip soft tight" use:press={{ k: 1 }} onclick={showDocs} aria-label="いままで"><span class="f">いままで</span></button>
-			<button class="p chip soft tight" use:press={{ k: 1.1 }} onclick={create} aria-label="新しく書く"><span class="f">＋</span></button>
-			<button class="p chip soft tight" use:press={{ k: 1.1 }} onclick={toggleTheme} aria-label="明るさ"><span class="f">{theme === 'dark' ? '☀' : '☾'}</span></button>
+			<button class="p chip soft icon-only" use:press={{ k: 1.1 }} onclick={create} aria-label="新しく書く"><span class="f"><Icon name="plus" /></span></button>
+			<button class="p chip soft icon-only" use:press={{ k: 1.1 }} onclick={toggleTheme} aria-label="明るさ"><span class="f"><Icon name={theme === 'dark' ? 'sun' : 'moon'} /></span></button>
 		</header>
 
 		{#if doc}
@@ -217,15 +198,16 @@
 
 	<footer class="band" aria-label="装飾">
 		<div class="bar">
-			{#each bar as b (b.label)}
+			{#each bar as b (b.id)}
 				<button
 					class="p chip soft"
 					class:gap={b.gap}
+					class:icon-only={!!b.icon}
 					use:press={{ k: 1.1 }}
 					aria-label={b.title}
 					onmousedown={(e) => e.preventDefault()}
 					onclick={() => { if (view) { b.run(view); view.focus(); } }}
-				><span class="f">{b.label}</span></button>
+				><span class="f">{#if b.icon}<Icon name={b.icon} />{:else}{b.label}{/if}</span></button>
 			{/each}
 		</div>
 	</footer>
