@@ -1,0 +1,13 @@
+// SvelteKit のアダプタが、ビルドの出力先を決めるためだけに読む設定。
+// アダプタは main の場所にワーカーを書き出すので、ここでは出力先を指す。
+// 実際に動かすときの設定は wrangler.jsonc（main は src/worker.ts）。
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "zasuh",
+	"main": ".svelte-kit/cloudflare/_worker.js",
+	"compatibility_date": "2026-11-01",
+	"assets": {
+		"binding": "ASSETS",
+		"directory": ".svelte-kit/cloudflare"
+	}
+}

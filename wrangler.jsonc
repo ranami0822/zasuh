@@ -1,0 +1,34 @@
+// ワーカーの設定（開発とデプロイで使う）。
+// main は src/worker.ts。SvelteKit の出力に、定期実行を足した入口になっている。
+// SvelteKit のビルドは wrangler.sveltekit.jsonc を読む（そちらは出力先を決めるためだけの設定）。
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "zasuh",
+	"main": "src/worker.ts",
+	// src/worker.ts が読み込む、SvelteKit のビルドの出力。
+	"alias": {
+		"sveltekit-worker": "./.svelte-kit/cloudflare/_worker.js"
+	},
+	"compatibility_date": "2026-11-01",
+	"compatibility_flags": ["nodejs_als"],
+	"assets": {
+		"binding": "ASSETS",
+		"directory": ".svelte-kit/cloudflare"
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "zasuh",
+			// 本番のデータベースを作ったら、その ID に置き換える（ローカルの開発では使われない）。
+			"database_id": "00000000-0000-0000-0000-000000000000",
+			"migrations_dir": "migrations"
+		}
+	],
+	"ai": {
+		"binding": "AI"
+	},
+	"triggers": {
+		// 毎分: 読めていないレビューを拾って、読み直す。
+		"crons": ["* * * * *"]
+	}
+}

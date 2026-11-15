@@ -1,0 +1,68 @@
+{
+	"answers": {
+		"gameplay_choice": {
+			"type": "choice",
+			"choice": "言及なし",
+			"probabilities": {
+				"肯定": 0.0893,
+				"否定": 0.0339,
+				"混在": 0.3622,
+				"言及なし": 0.5146
+			},
+			"confidence": 0.2068
+		},
+		"gameplay_noul": {
+			"type": "noul",
+			"noul": 0.0453
+		},
+		"music_choice": {
+			"type": "choice",
+			"choice": "言及なし",
+			"probabilities": {
+				"肯定": 0.0044,
+				"否定": 0.0027,
+				"混在": 0.0039,
+				"言及なし": 0.989
+			},
+			"confidence": 0.9708
+		},
+		"music_noul": {
+			"type": "noul",
+			"noul": 0.0139
+		},
+		"comfort_choice": {
+			"type": "choice",
+			"choice": "言及なし",
+			"probabilities": {
+				"肯定": 0.2309,
+				"否定": 0.0637,
+				"混在": 0.2141,
+				"言及なし": 0.4913
+			},
+			"confidence": 0.1261
+		},
+		"comfort_noul": {
+			"type": "noul",
+			"noul": 0.084
+		},
+		"price_choice": {
+			"type": "choice",
+			"choice": "言及なし",
+			"probabilities": {
+				"肯定": 0.0043,
+				"否定": 0.0057,
+				"混在": 0.0063,
+				"言及なし": 0.9837
+			},
+			"confidence": 0.9569
+		},
+		"price_noul": {
+			"type": "noul",
+			"noul": 0.0108
+		}
+	},
+	"usage": {
+		"input_tokens": 1696,
+		"output_tokens": 0
+	}
+}
