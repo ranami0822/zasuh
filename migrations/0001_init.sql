@@ -12,16 +12,34 @@ CREATE TABLE works (
   created_at TEXT NOT NULL
 );
 
--- 質問セット（版つき）。定義はコードが正で、ここにはその写しとハッシュを残す。
-CREATE TABLE question_sets (
-  id INTEGER PRIMARY KEY,
-  category TEXT NOT NULL CHECK (category IN ('software', 'game')),
+-- タグ（版つき）。定義はコード（src/lib/server/tags.ts）が正で、ここにはその写しとハッシュを残す。
+-- 同じ版なのに定義が変わっていたら、読み取りを止める（過去の結果と意味がずれるため）。
+CREATE TABLE tags (
+  id TEXT NOT NULL,
   version INTEGER NOT NULL,
-  model TEXT NOT NULL,
   definition_json TEXT NOT NULL,
   definition_hash TEXT NOT NULL,
   created_at TEXT NOT NULL,
-  UNIQUE (category, version)
+  PRIMARY KEY (id, version)
+);
+
+-- 作品が選んだタグ。分野のタグ（ゲームなら4つ）は、ここに入れなくても自動で付く。
+CREATE TABLE work_tags (
+  work_id TEXT NOT NULL REFERENCES works (id),
+  tag_id TEXT NOT NULL,
+  position INTEGER NOT NULL,
+  created_at TEXT NOT NULL,
+  PRIMARY KEY (work_id, tag_id)
+);
+
+-- 質問セット。1回の問い合わせに入れた、タグ（と版）の組と、質問の並び。
+-- 同じ問い合わせに入る質問は互いに影響するので、組と順序ごとに1行にして、読み取りに記録する。
+CREATE TABLE question_sets (
+  id INTEGER PRIMARY KEY,
+  hash TEXT NOT NULL UNIQUE,
+  model TEXT NOT NULL,
+  definition_json TEXT NOT NULL,
+  created_at TEXT NOT NULL
 );
 
 -- 投稿者。MVP では匿名の端末トークン（ハッシュ）だけを持つ。
@@ -68,7 +86,7 @@ CREATE TABLE reports (
 );
 CREATE INDEX reports_status ON reports (status);
 
--- 1つの版を、1つの質問セットで読んだ結果。
+-- レビューの1つの版を、1つの質問セットで読んだ結果。
 -- running: 読み取り中（next_attempt_at までは、ほかの処理が手を出さない）
 -- error:   失敗（attempts が上限未満なら、next_attempt_at 以降にやり直す）
 CREATE TABLE readings (
@@ -93,7 +111,8 @@ CREATE TABLE readings (
 CREATE TABLE reading_answers (
   reading_id TEXT NOT NULL REFERENCES readings (id) ON DELETE CASCADE,
   question_key TEXT NOT NULL,
-  aspect TEXT,
+  tag_id TEXT NOT NULL,
+  tag_version INTEGER NOT NULL,
   kind TEXT NOT NULL,
   value TEXT NOT NULL,
   prob REAL NOT NULL,
@@ -102,17 +121,17 @@ CREATE TABLE reading_answers (
   PRIMARY KEY (reading_id, question_key)
 );
 
--- 集計（作品 × 質問セット × 観点）。aspect = '_overall' は、全観点の言及をまとめたもの。
+-- 集計（作品 × タグ）。tag_id = '_overall' は、全タグの言及をまとめたもの。
 -- 利害関係のあるレビューと、非表示のレビューは含めない。
+-- タグの版や、一緒に聞いた質問の組が違う読み取りも、同じタグなら合算する（読み直しをしない方針のため）。
 CREATE TABLE aspect_stats (
   work_id TEXT NOT NULL REFERENCES works (id),
-  question_set_id INTEGER NOT NULL REFERENCES question_sets (id),
-  aspect TEXT NOT NULL,
+  tag_id TEXT NOT NULL,
   n_mention INTEGER NOT NULL,
   n_pos INTEGER NOT NULL,
   n_neg INTEGER NOT NULL,
   n_mix INTEGER NOT NULL,
   score_lower REAL,
   updated_at TEXT NOT NULL,
-  PRIMARY KEY (work_id, question_set_id, aspect)
+  PRIMARY KEY (work_id, tag_id)
 );

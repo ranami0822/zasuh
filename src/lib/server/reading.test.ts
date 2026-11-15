@@ -1,9 +1,8 @@
 import type { D1Database } from '@cloudflare/workers-types';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { ClefError } from './clef';
-import { latestDefinition, resolveQuestionSet, toClefQuestions } from './question-sets';
+import { toClefQuestions } from './question-sets';
 import { gameV1 } from './question-sets/game-v1';
-import type { QuestionSetDefinition } from './question-sets/types';
 import { backoffMs, interpretAnswers, LEASE_MS, MAX_ATTEMPTS, readRevision } from './reading';
 import realResponse from './testing/clef-response.json';
 import { addReview, addWork, clefAnswers, createClock, createTestDb, fakeClef } from './testing/db';
@@ -25,11 +24,6 @@ describe('質問セット', () => {
 		expect(Object.keys(questions.gameplay_choice.criteria)).toEqual(['肯定', '否定', '混在', '言及なし']);
 		expect(questions.gameplay_noul).toMatchObject({ type: 'noul' });
 		expect(Object.keys(questions.gameplay_noul.criteria)).toEqual(['true', 'false']);
-	});
-
-	it('ソフトウェア用の質問セットは、まだない', () => {
-		expect(latestDefinition('software')).toBeNull();
-		expect(latestDefinition('game')).toBe(gameV1);
 	});
 });
 
@@ -120,18 +114,18 @@ describe('readRevision', () => {
 			input_tokens: 1700
 		});
 		const { results } = await db
-			.prepare("SELECT aspect, value, needs_check FROM reading_answers WHERE kind = 'direction' ORDER BY aspect")
+			.prepare("SELECT tag_id, tag_version, value, needs_check FROM reading_answers WHERE kind = 'direction' ORDER BY tag_id")
 			.all();
 		expect(results).toEqual([
-			{ aspect: 'comfort', value: 'negative', needs_check: 0 },
-			{ aspect: 'gameplay', value: 'positive', needs_check: 0 },
-			{ aspect: 'music', value: 'none', needs_check: 0 },
-			{ aspect: 'price', value: 'none', needs_check: 0 }
+			{ tag_id: 'game/comfort', tag_version: 1, value: 'negative', needs_check: 0 },
+			{ tag_id: 'game/gameplay', tag_version: 1, value: 'positive', needs_check: 0 },
+			{ tag_id: 'game/music', tag_version: 1, value: 'none', needs_check: 0 },
+			{ tag_id: 'game/price', tag_version: 1, value: 'none', needs_check: 0 }
 		]);
 		expect(await answerCount()).toBe(8);
 
 		const stats = await db
-			.prepare("SELECT n_mention, n_pos FROM aspect_stats WHERE work_id = ? AND aspect = 'gameplay'")
+			.prepare("SELECT n_mention, n_pos FROM aspect_stats WHERE work_id = ? AND tag_id = 'game/gameplay'")
 			.bind(work)
 			.first();
 		expect(stats).toEqual({ n_mention: 1, n_pos: 1 });
@@ -260,7 +254,7 @@ describe('readRevision', () => {
 		expect(await answerCount()).toBe(0);
 	});
 
-	it('質問セットのない分野（ソフトウェア）のレビューは、読まない', async () => {
+	it('タグのない作品（タグを選んでいないソフトウェア）のレビューは、読まない', async () => {
 		const { revisionId } = await addReview(db, await addWork(db, { category: 'software' }), { body: '{}' });
 		const clef = fakeClef();
 		expect(await readRevision({ db, clef, now: clock.now }, revisionId)).toEqual({
@@ -276,47 +270,5 @@ describe('readRevision', () => {
 			status: 'skipped',
 			reason: 'not_found'
 		});
-	});
-});
-
-describe('resolveQuestionSet', () => {
-	let db: D1Database;
-	let dispose: () => Promise<void>;
-	const now = new Date('2026-11-15T00:00:00.000Z');
-
-	beforeEach(async () => {
-		({ db, dispose } = await createTestDb());
-	});
-	afterEach(() => dispose());
-
-	it('最初に行を作り、2回目からは同じ行を返す', async () => {
-		const first = await resolveQuestionSet(db, 'game', now);
-		const second = await resolveQuestionSet(db, 'game', now);
-		expect(first!.id).toBe(second!.id);
-
-		const row = await db.prepare('SELECT category, version, model, definition_json FROM question_sets').first<{
-			category: string;
-			version: number;
-			model: string;
-			definition_json: string;
-		}>();
-		expect(row).toMatchObject({ category: 'game', version: 1, model: 'clef-flash' });
-		expect(JSON.parse(row!.definition_json)).toEqual(gameV1);
-	});
-
-	it('版を上げずに定義を変えたら、エラーにする', async () => {
-		await resolveQuestionSet(db, 'game', now);
-		const changed: QuestionSetDefinition = {
-			...gameV1,
-			questions: gameV1.questions.map((q, i) => (i === 0 ? { ...q, instructions: q.instructions + '（変更）' } : q))
-		};
-		await expect(resolveQuestionSet(db, 'game', now, [changed])).rejects.toThrow('版を上げて');
-	});
-
-	it('新しい版を足すと、それが現行になる', async () => {
-		const v1 = await resolveQuestionSet(db, 'game', now);
-		const v2 = await resolveQuestionSet(db, 'game', now, [gameV1, { ...gameV1, version: 2 }]);
-		expect(v2!.definition.version).toBe(2);
-		expect(v2!.id).not.toBe(v1!.id);
 	});
 });

@@ -1,6 +1,5 @@
 import type { D1Database } from '@cloudflare/workers-types';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { resolveQuestionSet } from './question-sets';
 import { readRevision } from './reading';
 import { OVERALL, ranking, recomputeWorkStats, scoreCounts, wilsonLower } from './stats';
 import { addReview, addWork, createClock, createTestDb, fakeClef } from './testing/db';
@@ -47,7 +46,7 @@ describe('集計と順位', () => {
 
 	async function stats(workId: string) {
 		const { results } = await db
-			.prepare('SELECT aspect, n_mention, n_pos, n_neg, n_mix, score_lower FROM aspect_stats WHERE work_id = ?')
+			.prepare('SELECT tag_id AS aspect, n_mention, n_pos, n_neg, n_mix, score_lower FROM aspect_stats WHERE work_id = ?')
 			.bind(workId)
 			.all<{ aspect: string; n_mention: number; n_pos: number; n_neg: number; n_mix: number; score_lower: number | null }>();
 		return Object.fromEntries(results.map((r) => [r.aspect, r]));
@@ -61,11 +60,11 @@ describe('集計と順位', () => {
 		await post(work, {});
 
 		const s = await stats(work);
-		expect(s.gameplay).toMatchObject({ n_mention: 3, n_pos: 1, n_neg: 1, n_mix: 1 });
-		expect(s.gameplay.score_lower).toBeCloseTo(wilsonLower(1.5, 3)!, 9);
-		expect(s.music).toMatchObject({ n_mention: 1, n_pos: 1 });
-		expect(s.comfort).toMatchObject({ n_mention: 1, n_neg: 1 });
-		expect(s.price).toMatchObject({ n_mention: 0, score_lower: null });
+		expect(s['game/gameplay']).toMatchObject({ n_mention: 3, n_pos: 1, n_neg: 1, n_mix: 1 });
+		expect(s['game/gameplay'].score_lower).toBeCloseTo(wilsonLower(1.5, 3)!, 9);
+		expect(s['game/music']).toMatchObject({ n_mention: 1, n_pos: 1 });
+		expect(s['game/comfort']).toMatchObject({ n_mention: 1, n_neg: 1 });
+		expect(s['game/price']).toMatchObject({ n_mention: 0, score_lower: null });
 		expect(s[OVERALL]).toMatchObject({ n_mention: 5, n_pos: 2, n_neg: 2, n_mix: 1 });
 	});
 
@@ -76,10 +75,9 @@ describe('集計と順位', () => {
 		const hidden = await post(work, { gameplay: 'positive' });
 		await db.prepare('UPDATE reviews SET hidden = 1 WHERE id = ?').bind(hidden.reviewId).run();
 
-		const qs = (await resolveQuestionSet(db, 'game', clock.now()))!;
-		await recomputeWorkStats(db, work, qs, clock.now());
+		await recomputeWorkStats(db, work, clock.now());
 
-		expect((await stats(work)).gameplay).toMatchObject({ n_mention: 1, n_pos: 0, n_neg: 1 });
+		expect((await stats(work))['game/gameplay']).toMatchObject({ n_mention: 1, n_pos: 0, n_neg: 1 });
 	});
 
 	it('順位は下限の高い順。少数の高評価は、多数の高評価より下。非表示の作品と言及のない作品は載らない', async () => {
@@ -95,14 +93,13 @@ describe('集計と順位', () => {
 		await post(hiddenWork, { gameplay: 'positive' });
 		await post(silent, {});
 
-		const qs = (await resolveQuestionSet(db, 'game', clock.now()))!;
-		const overall = await ranking(db, qs.id);
+		const overall = await ranking(db, 'game');
 		// many: 11/12、few: 1/1、bad: 肯定3・否定3（全観点の合計）。1件だけの肯定は、12件中11件の肯定より下。
 		expect(overall.map((r) => r.name)).toEqual(['many', 'few', 'bad']);
 		expect(overall[0]).toMatchObject({ nMention: 12, nPos: 11, nNeg: 1 });
 
 		// 観点を選ぶと、その観点だけで並ぶ。
-		expect((await ranking(db, qs.id, { aspect: 'gameplay' })).map((r) => r.name)).toEqual(['many', 'few', 'bad']);
-		expect((await ranking(db, qs.id, { aspect: 'music' })).map((r) => r.name)).toEqual(['bad']);
+		expect((await ranking(db, 'game', { tagId: 'game/gameplay' })).map((r) => r.name)).toEqual(['many', 'few', 'bad']);
+		expect((await ranking(db, 'game', { tagId: 'game/music' })).map((r) => r.name)).toEqual(['bad']);
 	});
 });

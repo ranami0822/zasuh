@@ -1,7 +1,6 @@
 import type { D1Database } from '@cloudflare/workers-types';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { ClefError } from './clef';
-import { gameV1 } from './question-sets/game-v1';
 import { backoffMs, readRevision } from './reading';
 import { sweepReadings } from './sweep';
 import { addReview, addWork, clefAnswers, createClock, createTestDb, editReview, fakeClef } from './testing/db';
@@ -55,7 +54,7 @@ describe('sweepReadings', () => {
 		expect((await statuses())[revisionId]).toMatchObject({ status: 'ok', attempts: 2 });
 	});
 
-	it('非表示のレビュー、非表示の作品、質問セットのない分野は拾わない', async () => {
+	it('非表示のレビュー、非表示の作品、タグのない作品は拾わない', async () => {
 		const game = await addWork(db);
 		await addReview(db, game, { body: '{}', hidden: true });
 		await addReview(db, await addWork(db, { status: 'hidden' }), { body: '{}' });
@@ -105,34 +104,9 @@ describe('sweepReadings', () => {
 		expect(s[revisionId].status).toBe('ok');
 		expect(s[edited].status).toBe('ok');
 		const stats = await db
-			.prepare("SELECT n_mention, n_pos, n_neg FROM aspect_stats WHERE work_id = ? AND aspect = 'gameplay'")
+			.prepare("SELECT n_mention, n_pos, n_neg FROM aspect_stats WHERE work_id = ? AND tag_id = 'game/gameplay'")
 			.bind(work)
 			.first();
 		expect(stats).toEqual({ n_mention: 1, n_pos: 1, n_neg: 0 });
-	});
-
-	it('質問セットが新しい版になったら、読み直す。古い版の結果は残る', async () => {
-		const work = await addWork(db);
-		const { revisionId } = await addReview(db, work, { body: '{"gameplay":"positive"}' });
-		const clef = fakeClef();
-		await readRevision({ db, clef, now: clock.now }, revisionId);
-
-		const questionSets = [gameV1, { ...gameV1, version: 2 }];
-		expect(await sweepReadings({ db, clef, now: clock.now, questionSets })).toMatchObject({ picked: 1, ok: 1 });
-
-		const { results } = await db
-			.prepare(
-				`SELECT q.version AS version, rd.status AS status
-				   FROM readings rd JOIN question_sets q ON q.id = rd.question_set_id
-				  WHERE rd.revision_id = ? ORDER BY q.version`
-			)
-			.bind(revisionId)
-			.all();
-		expect(results).toEqual([
-			{ version: 1, status: 'ok' },
-			{ version: 2, status: 'ok' }
-		]);
-		const stats = await db.prepare('SELECT COUNT(DISTINCT question_set_id) AS n FROM aspect_stats').first();
-		expect(stats).toEqual({ n: 2 });
 	});
 });

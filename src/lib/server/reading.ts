@@ -1,7 +1,8 @@
 import type { D1Database } from '@cloudflare/workers-types';
 import { ClefError, type ClefClient } from './clef';
-import { resolveQuestionSet, toClefQuestions } from './question-sets';
-import type { Direction, QuestionSetDefinition } from './question-sets/types';
+import { toClefQuestions } from './question-sets';
+import type { Category, Direction, Question } from './question-sets/types';
+import { resolveWorkQuestionSet, type TagRegistry } from './tags';
 import { recomputeWorkStats } from './stats';
 
 /** 1つの版を読む回数の上限。超えたら、自動ではやり直さない。 */
@@ -55,7 +56,7 @@ function isProb(v: unknown): v is number {
  * 質問セットのすべての質問に、決まった形の答えがなければエラーにする（一部だけ保存しない）。
  */
 export function interpretAnswers(
-	def: QuestionSetDefinition,
+	def: { questions: Question[] },
 	answers: Record<string, unknown>
 ): ReadingAnswer[] {
 	const bad = (key: string): never => {
@@ -121,8 +122,8 @@ export interface ReadingDeps {
 	db: D1Database;
 	clef: ClefClient;
 	now?: () => Date;
-	/** テスト用。省くと、コードに登録された質問セットを使う。 */
-	questionSets?: QuestionSetDefinition[];
+	/** テスト用。省くと、コードに登録されたタグを使う。 */
+	registry?: TagRegistry;
 	/** すぐにやり直す前の待ち時間（テスト用に変えられる）。 */
 	quickRetryDelayMs?: number;
 }
@@ -133,7 +134,8 @@ export type ReadOutcome =
 	| { status: 'skipped'; reason: 'not_found' | 'no_question_set' | 'busy_or_done' };
 
 /**
- * レビューの1つの版を、その分野の現行の質問セットで読んで、答えを保存する。
+ * レビューの1つの版を、その作品のいまのタグの質問で読んで、答えを保存する。
+ * 一度読めた版は、タグが変わっても読み直さない。
  * 同じ版を同時に2つの処理が読まないよう、最初に readings の行を「読み取り中」にして確保する。
  * 成功したら、その作品の集計を作り直す。
  */
@@ -143,19 +145,26 @@ export async function readRevision(deps: ReadingDeps, revisionId: string): Promi
 
 	const target = await db
 		.prepare(
-			`SELECT v.body AS body, r.work_id AS workId, w.category AS category
+			`SELECT v.body AS body, r.work_id AS workId, w.category AS category,
+			        EXISTS (SELECT 1 FROM readings rd WHERE rd.revision_id = v.id AND rd.status = 'ok') AS done
 			   FROM review_revisions v
 			   JOIN reviews r ON r.id = v.review_id
 			   JOIN works w ON w.id = r.work_id
 			  WHERE v.id = ?`
 		)
 		.bind(revisionId)
-		.first<{ body: string; workId: string; category: 'game' | 'software' }>();
+		.first<{ body: string; workId: string; category: Category; done: number }>();
 	if (!target) return { status: 'skipped', reason: 'not_found' };
+	if (target.done) return { status: 'skipped', reason: 'busy_or_done' };
 
-	const questionSet = await resolveQuestionSet(db, target.category, now(), deps.questionSets);
+	const questionSet = await resolveWorkQuestionSet(
+		db,
+		{ id: target.workId, category: target.category },
+		now(),
+		deps.registry
+	);
 	if (!questionSet) return { status: 'skipped', reason: 'no_question_set' };
-	const { definition } = questionSet;
+	const tagByKey = new Map(questionSet.definitions.map((t) => [t.key, t]));
 
 	const claimedAt = now();
 	const claim = await db
@@ -177,7 +186,7 @@ export async function readRevision(deps: ReadingDeps, revisionId: string): Promi
 			crypto.randomUUID(),
 			revisionId,
 			questionSet.id,
-			definition.model,
+			questionSet.model,
 			new Date(claimedAt.getTime() + LEASE_MS).toISOString(),
 			claimedAt.toISOString(),
 			MAX_ATTEMPTS
@@ -187,23 +196,23 @@ export async function readRevision(deps: ReadingDeps, revisionId: string): Promi
 
 	try {
 		const started = Date.now();
-		const questions = toClefQuestions(definition);
+		const questions = toClefQuestions(questionSet);
 		let result;
 		try {
-			result = await clef.run(definition.model, target.body, questions);
+			result = await clef.run(questionSet.model, target.body, questions);
 		} catch (e) {
 			// すぐに直りうる失敗（5xx、通信の失敗）は、その場で1回だけやり直す。それでも失敗したら、定期実行に任せる。
 			if (!(e instanceof ClefError) || !e.retryable) throw e;
 			await new Promise((r) => setTimeout(r, deps.quickRetryDelayMs ?? 500));
-			result = await clef.run(definition.model, target.body, questions);
+			result = await clef.run(questionSet.model, target.body, questions);
 		}
 		const latencyMs = Date.now() - started;
-		const answers = interpretAnswers(definition, result.answers);
+		const answers = interpretAnswers(questionSet, result.answers);
 
 		const insert = db.prepare(
 			`INSERT INTO reading_answers
-			   (reading_id, question_key, aspect, kind, value, prob, probs_json, needs_check)
-			 VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+			   (reading_id, question_key, tag_id, tag_version, kind, value, prob, probs_json, needs_check)
+			 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
 		);
 		await db.batch([
 			db.prepare('DELETE FROM reading_answers WHERE reading_id = ?').bind(claim.id),
@@ -211,7 +220,8 @@ export async function readRevision(deps: ReadingDeps, revisionId: string): Promi
 				insert.bind(
 					claim.id,
 					a.questionKey,
-					a.aspect,
+					tagByKey.get(a.aspect)!.id,
+					tagByKey.get(a.aspect)!.version,
 					a.kind,
 					a.value,
 					a.prob,
@@ -250,6 +260,6 @@ export async function readRevision(deps: ReadingDeps, revisionId: string): Promi
 		return { status: 'error', readingId: claim.id, error: message };
 	}
 
-	await recomputeWorkStats(db, target.workId, questionSet, now());
+	await recomputeWorkStats(db, target.workId, now());
 	return { status: 'ok', readingId: claim.id };
 }

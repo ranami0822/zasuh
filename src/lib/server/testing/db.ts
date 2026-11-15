@@ -2,7 +2,9 @@ import type { D1Database } from '@cloudflare/workers-types';
 import { convertV4MiniflareOptions, Miniflare } from 'miniflare';
 import { readdirSync, readFileSync } from 'node:fs';
 import type { ClefClient, ClefResult } from '../clef';
-import { gameV1 } from '../question-sets/game-v1';
+import type { ClefQuestion } from '../question-sets';
+import { direction, gameV1, mention } from '../question-sets/game-v1';
+import type { TagDefinition } from '../tags';
 import type { Category, Direction, QuestionSetDefinition } from '../question-sets/types';
 
 /** テスト用の D1（workerd の SQLite。本番の D1 と同じ実装）に、migrations/ をすべて適用して返す。 */
@@ -111,22 +113,52 @@ export function clefAnswers(
 	return answers;
 }
 
+const CHOICE_ID: Record<Direction, string> = { positive: '肯定', negative: '否定', mixed: '混在', none: '言及なし' };
+
+/** 送られてきた質問のすべてに、Clef の応答と同じ形で答える（キーの先頭が観点。指定のない観点は「言及なし」）。 */
+export function answersFor(
+	questions: Record<string, ClefQuestion>,
+	directions: Partial<Record<string, Direction>>
+): Record<string, unknown> {
+	const answers: Record<string, unknown> = {};
+	for (const [key, q] of Object.entries(questions)) {
+		const dir = directions[key.replace(/_(choice|noul)$/, '')] ?? 'none';
+		answers[key] =
+			q.type === 'choice'
+				? {
+						type: 'choice',
+						choice: CHOICE_ID[dir],
+						probabilities: Object.fromEntries(Object.keys(q.criteria).map((id) => [id, id === CHOICE_ID[dir] ? 0.94 : 0.02]))
+					}
+				: { type: 'noul', noul: dir === 'none' ? 0.03 : 0.97 };
+	}
+	return answers;
+}
+
+/** テスト用のタグ（質問の書式は、本番のゲームのタグと同じ）。 */
+export function testTag(id: string, key: string, version = 1): TagDefinition {
+	const spec = { key, label: key, scope: `テスト用 v${version}` };
+	return { id, key, version, label: key, questions: [direction(spec), mention(spec)] };
+}
+
 /**
- * 偽の Clef。本文を受け取って、応答（または投げるエラー）を返す関数を渡す。
- * 既定では、本文を JSON として読み、観点ごとの向きとして扱う（例: '{"gameplay":"positive"}'）。
+ * 偽の Clef。本文と質問を受け取って、応答（または投げるエラー）を返す関数を渡す。
+ * 既定では、本文を JSON として読み、観点ごとの向きとして、送られてきた質問のすべてに答える
+ * （例: '{"gameplay":"positive"}'）。
  */
 export function fakeClef(
-	respond: (state: string, call: number) => ClefResult | Promise<ClefResult> = (state) => ({
-		answers: clefAnswers(state ? JSON.parse(state) : {}),
-		inputTokens: 1700
-	})
+	respond: (state: string, call: number, questions: Record<string, ClefQuestion>) => ClefResult | Promise<ClefResult> = (
+		state,
+		_call,
+		questions
+	) => ({ answers: answersFor(questions, state ? JSON.parse(state) : {}), inputTokens: 1700 })
 ): ClefClient & { calls: { model: string; state: string; questionKeys: string[] }[] } {
 	const calls: { model: string; state: string; questionKeys: string[] }[] = [];
 	return {
 		calls,
 		async run(model, state, questions) {
 			calls.push({ model, state, questionKeys: Object.keys(questions) });
-			return respond(state, calls.length);
+			return respond(state, calls.length, questions);
 		}
 	};
 }

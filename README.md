@@ -9,7 +9,8 @@
 
 - SvelteKit（Cloudflare Workers）、D1、Workers AI（Clef）
 - `migrations/` — D1 のスキーマ
-- `src/lib/server/question-sets/` — 質問セット（版つき）。定義を変えるときは、版を上げて追加する
+- `src/lib/server/tags.ts` — タグ（版つき）と、作品のタグから質問を組み立てる処理。定義を変えるときは、版を上げて追加する
+- `src/lib/server/question-sets/` — 実験で確かめた質問の文面（ゲームの分野のタグの元）
 - `src/lib/server/reading.ts` — レビューを読んで、答えを保存する
 - `src/lib/server/sweep.ts` — 読めていないレビューを拾い直す（定期実行）
 - `src/lib/server/stats.ts` — 集計と順位（Wilson 信頼区間の下限）
