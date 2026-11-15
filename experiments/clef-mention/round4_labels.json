@@ -1,0 +1,1142 @@
+{
+ "note": "ラベルは、文脈を持たないサブエージェント3人（rubric.md のみを読む）の多数決。2人以上が一致し、かつ判断不能でないものを採用。それ以外は null（主集計から外す）。agree は一致した人数。votes は3人の回答（l1, l2, l3 の順）。レビュー本文は含まない。",
+ "labels": [
+  {
+   "id": 1,
+   "recommendationid": "239674863",
+   "appid": 275850,
+   "voted_up": true,
+   "agree": {
+    "gameplay": 2,
+    "music": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "肯定",
+     "混在",
+     "肯定"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "price": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "gameplay": "肯定",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  },
+  {
+   "id": 2,
+   "recommendationid": "238089790",
+   "appid": 413150,
+   "voted_up": true,
+   "agree": {
+    "gameplay": 3,
+    "music": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "price": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "gameplay": "肯定",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  },
+  {
+   "id": 3,
+   "recommendationid": "239856626",
+   "appid": 1086940,
+   "voted_up": true,
+   "agree": {
+    "gameplay": 3,
+    "music": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "混在",
+     "混在",
+     "混在"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "price": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "gameplay": "混在",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  },
+  {
+   "id": 4,
+   "recommendationid": "240168508",
+   "appid": 1623730,
+   "voted_up": true,
+   "agree": {
+    "gameplay": 3,
+    "music": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "price": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "gameplay": "肯定",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  },
+  {
+   "id": 5,
+   "recommendationid": "238648831",
+   "appid": 2246340,
+   "voted_up": false,
+   "agree": {
+    "gameplay": 3,
+    "music": 3,
+    "comfort": 3
+   },
+   "votes": {
+    "gameplay": [
+     "否定",
+     "否定",
+     "否定"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "否定",
+     "否定",
+     "否定"
+    ],
+    "price": [
+     "判断不能",
+     "判断不能",
+     "判断不能"
+    ]
+   },
+   "gameplay": "否定",
+   "music": "言及なし",
+   "comfort": "否定",
+   "price": null
+  },
+  {
+   "id": 6,
+   "recommendationid": "239808129",
+   "appid": 1245620,
+   "voted_up": false,
+   "agree": {
+    "gameplay": 3,
+    "music": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "否定",
+     "否定",
+     "否定"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "price": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "gameplay": "否定",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  },
+  {
+   "id": 7,
+   "recommendationid": "238312161",
+   "appid": 1091500,
+   "voted_up": true,
+   "agree": {
+    "gameplay": 3,
+    "music": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "price": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "gameplay": "肯定",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  },
+  {
+   "id": 8,
+   "recommendationid": "239601357",
+   "appid": 2246340,
+   "voted_up": false,
+   "agree": {
+    "music": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "判断不能",
+     "判断不能",
+     "判断不能"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "price": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "gameplay": null,
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  },
+  {
+   "id": 9,
+   "recommendationid": "238523738",
+   "appid": 2246340,
+   "voted_up": false,
+   "agree": {
+    "gameplay": 3,
+    "music": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "否定",
+     "否定",
+     "否定"
+    ],
+    "price": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "gameplay": "言及なし",
+   "music": "言及なし",
+   "comfort": "否定",
+   "price": "言及なし"
+  },
+  {
+   "id": 10,
+   "recommendationid": "238672317",
+   "appid": 2054970,
+   "voted_up": true,
+   "agree": {
+    "gameplay": 2,
+    "music": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "肯定",
+     "言及なし",
+     "肯定"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "否定",
+     "否定",
+     "否定"
+    ],
+    "price": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "gameplay": "肯定",
+   "music": "言及なし",
+   "comfort": "否定",
+   "price": "言及なし"
+  },
+  {
+   "id": 11,
+   "recommendationid": "240189486",
+   "appid": 1716740,
+   "voted_up": false,
+   "agree": {
+    "gameplay": 3,
+    "music": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "否定",
+     "否定",
+     "否定"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "price": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "gameplay": "否定",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  },
+  {
+   "id": 12,
+   "recommendationid": "238900718",
+   "appid": 275850,
+   "voted_up": false,
+   "agree": {
+    "gameplay": 3,
+    "music": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "否定",
+     "否定",
+     "否定"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "price": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "gameplay": "否定",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  },
+  {
+   "id": 13,
+   "recommendationid": "238534952",
+   "appid": 2246340,
+   "voted_up": true,
+   "agree": {
+    "gameplay": 3,
+    "music": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "price": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "gameplay": "肯定",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  },
+  {
+   "id": 14,
+   "recommendationid": "238563333",
+   "appid": 2054970,
+   "voted_up": false,
+   "agree": {
+    "gameplay": 3,
+    "music": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "混在",
+     "混在",
+     "混在"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "price": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "gameplay": "混在",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  },
+  {
+   "id": 15,
+   "recommendationid": "238456146",
+   "appid": 1091500,
+   "voted_up": false,
+   "agree": {
+    "gameplay": 3,
+    "music": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "否定",
+     "否定",
+     "否定"
+    ],
+    "price": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "gameplay": "言及なし",
+   "music": "言及なし",
+   "comfort": "否定",
+   "price": "言及なし"
+  },
+  {
+   "id": 16,
+   "recommendationid": "239685066",
+   "appid": 1245620,
+   "voted_up": true,
+   "agree": {
+    "gameplay": 3,
+    "music": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ],
+    "price": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "gameplay": "肯定",
+   "music": "言及なし",
+   "comfort": "肯定",
+   "price": "言及なし"
+  },
+  {
+   "id": 17,
+   "recommendationid": "237915579",
+   "appid": 1716740,
+   "voted_up": false,
+   "agree": {
+    "gameplay": 3,
+    "music": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "否定",
+     "否定",
+     "否定"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "price": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "gameplay": "否定",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  },
+  {
+   "id": 18,
+   "recommendationid": "238673327",
+   "appid": 2246340,
+   "voted_up": false,
+   "agree": {
+    "gameplay": 3,
+    "music": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "否定",
+     "否定",
+     "否定"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "price": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "gameplay": "否定",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  },
+  {
+   "id": 19,
+   "recommendationid": "238317367",
+   "appid": 2054970,
+   "voted_up": false,
+   "agree": {
+    "gameplay": 3,
+    "music": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "否定",
+     "否定",
+     "否定"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "否定",
+     "否定",
+     "否定"
+    ],
+    "price": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "gameplay": "否定",
+   "music": "言及なし",
+   "comfort": "否定",
+   "price": "言及なし"
+  },
+  {
+   "id": 20,
+   "recommendationid": "240010107",
+   "appid": 2054970,
+   "voted_up": false,
+   "agree": {
+    "gameplay": 3,
+    "music": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "否定",
+     "否定",
+     "否定"
+    ],
+    "price": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "gameplay": "肯定",
+   "music": "言及なし",
+   "comfort": "否定",
+   "price": "言及なし"
+  },
+  {
+   "id": 21,
+   "recommendationid": "237908367",
+   "appid": 1091500,
+   "voted_up": true,
+   "agree": {
+    "gameplay": 3,
+    "music": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "price": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ]
+   },
+   "gameplay": "肯定",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "肯定"
+  },
+  {
+   "id": 22,
+   "recommendationid": "240251238",
+   "appid": 1086940,
+   "voted_up": true,
+   "agree": {
+    "gameplay": 3,
+    "music": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "price": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "gameplay": "肯定",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  },
+  {
+   "id": 23,
+   "recommendationid": "237845352",
+   "appid": 1245620,
+   "voted_up": true,
+   "agree": {
+    "gameplay": 3,
+    "music": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "price": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "gameplay": "肯定",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  },
+  {
+   "id": 24,
+   "recommendationid": "238276560",
+   "appid": 1623730,
+   "voted_up": true,
+   "agree": {
+    "gameplay": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "music": [
+     "言及なし",
+     "判断不能",
+     "判断不能"
+    ],
+    "comfort": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ],
+    "price": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "gameplay": "言及なし",
+   "music": null,
+   "comfort": "肯定",
+   "price": "言及なし"
+  },
+  {
+   "id": 25,
+   "recommendationid": "237898488",
+   "appid": 2054970,
+   "voted_up": false,
+   "agree": {
+    "gameplay": 3,
+    "music": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "否定",
+     "否定",
+     "否定"
+    ],
+    "price": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "gameplay": "言及なし",
+   "music": "言及なし",
+   "comfort": "否定",
+   "price": "言及なし"
+  },
+  {
+   "id": 26,
+   "recommendationid": "238238729",
+   "appid": 413150,
+   "voted_up": true,
+   "agree": {
+    "gameplay": 3,
+    "music": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "price": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "gameplay": "肯定",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  },
+  {
+   "id": 27,
+   "recommendationid": "239363795",
+   "appid": 2246340,
+   "voted_up": true,
+   "agree": {
+    "gameplay": 2,
+    "music": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "肯定",
+     "混在",
+     "肯定"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "否定",
+     "否定",
+     "否定"
+    ],
+    "price": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "gameplay": "肯定",
+   "music": "言及なし",
+   "comfort": "否定",
+   "price": "言及なし"
+  },
+  {
+   "id": 28,
+   "recommendationid": "238915055",
+   "appid": 1091500,
+   "voted_up": false,
+   "agree": {
+    "gameplay": 3,
+    "music": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "否定",
+     "否定",
+     "否定"
+    ],
+    "price": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "gameplay": "言及なし",
+   "music": "言及なし",
+   "comfort": "否定",
+   "price": "言及なし"
+  },
+  {
+   "id": 29,
+   "recommendationid": "239768529",
+   "appid": 275850,
+   "voted_up": true,
+   "agree": {
+    "gameplay": 3,
+    "music": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "price": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "gameplay": "肯定",
+   "music": "言及なし",
+   "comfort": "言及なし",
+   "price": "言及なし"
+  },
+  {
+   "id": 30,
+   "recommendationid": "239860154",
+   "appid": 2246340,
+   "voted_up": false,
+   "agree": {
+    "gameplay": 3,
+    "music": 3,
+    "comfort": 3,
+    "price": 3
+   },
+   "votes": {
+    "gameplay": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "music": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ],
+    "comfort": [
+     "否定",
+     "否定",
+     "否定"
+    ],
+    "price": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "gameplay": "言及なし",
+   "music": "言及なし",
+   "comfort": "否定",
+   "price": "言及なし"
+  }
+ ]
+}
