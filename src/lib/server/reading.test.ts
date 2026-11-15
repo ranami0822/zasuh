@@ -201,6 +201,27 @@ describe('readRevision', () => {
 		expect(await answerCount()).toBe(8);
 	});
 
+	it('1日の利用枠を使い切って失敗が続いても、枠が戻る翌日まで、やり直しの回数が残る', async () => {
+		const { revisionId } = await addReview(db, await addWork(db), { body: '{}' });
+		const start = clock.now().getTime();
+		let quotaExhausted = true;
+		const clef = fakeClef(() => {
+			if (quotaExhausted) throw new ClefError('Clef が 429 を返しました', false);
+			return { answers: clefAnswers({}), inputTokens: null };
+		});
+
+		// 24時間のあいだ、試せるようになるたびに試して、失敗し続ける。
+		while (clock.now().getTime() - start < 24 * 60 * 60_000) {
+			const outcome = await readRevision({ db, clef, now: clock.now }, revisionId);
+			expect(outcome.status).toBe('error');
+			const row = await reading(revisionId);
+			clock.advance(new Date(row!.next_attempt_at!).getTime() - clock.now().getTime());
+		}
+
+		quotaExhausted = false;
+		expect((await readRevision({ db, clef, now: clock.now }, revisionId)).status).toBe('ok');
+	});
+
 	it('一時的な失敗は、その場で1回だけやり直す', async () => {
 		const { revisionId } = await addReview(db, await addWork(db), { body: '{}' });
 		const flaky = fakeClef((_state, call) => {

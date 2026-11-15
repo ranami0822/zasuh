@@ -15,7 +15,10 @@ export interface ClefClient {
 export class ClefError extends Error {
 	constructor(
 		message: string,
-		/** 時間をおけば成功しうる失敗か（429、5xx、通信の失敗）。 */
+		/**
+		 * すぐにやり直せば成功しうる失敗か（5xx、通信の失敗）。
+		 * 429 は含めない。利用枠の超過は、すぐにやり直しても同じ結果になる（あとで定期実行がやり直す）。
+		 */
 		readonly retryable: boolean
 	) {
 		super(message);
@@ -69,10 +72,7 @@ export function restClient(opts: {
 			}
 			if (!res.ok) {
 				const text = (await res.text().catch(() => '')).slice(0, 200);
-				throw new ClefError(
-					`Clef が ${res.status} を返しました: ${text}`,
-					res.status === 429 || res.status >= 500
-				);
+				throw new ClefError(`Clef が ${res.status} を返しました: ${text}`, res.status >= 500);
 			}
 			return toResult(await res.json());
 		}

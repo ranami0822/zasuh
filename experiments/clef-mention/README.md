@@ -480,4 +480,20 @@
 
 ## 結果
 
-（未実施）
+**未実施（2026-11-15 時点）。** 評価を実行したが、Workers AI の1日の無料枠（10,000 neurons）を使い切っていて、すべての呼び出しが 429 で失敗した（Clef-flash と Clef で各30件、その場のやり直しを含めて計120回）。同じ日の第2〜4弾で消費した分にあたる。無料枠は 00:00 UTC に戻る（料金ページの記載）。
+
+- 候補（ゲーム v1）の成績は、まだ1件も測れていない。
+- 基準（第4弾の B0 を v2 のラベルで採点）は、通信なしで計算できるが、候補の結果と並べて見るため、まだ計算していない。
+- 実行の方法（枠が戻ったあと）:
+
+```bash
+npx tsx scripts/eval-question-set.ts run <local_reviews.jsonl> results5.json
+```
+
+```bash
+npx tsx scripts/eval-question-set.ts score results5.json experiments/clef-mention/round4_labels_v2.json
+```
+
+```bash
+npx tsx scripts/eval-question-set.ts score-round4 experiments/clef-mention/results4.json experiments/clef-mention/round4_labels_v2.json clef-flash
+```

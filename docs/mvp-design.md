@@ -28,11 +28,14 @@
 - 書き込みは少なく、読み取りが多い。
 - 読み取り結果の反映は、数十秒以内で足りる（リアルタイムは不要）。
 
-コストの見積もり（実験の実測から）:
+コストと利用枠（料金は公式の料金ページ、2026-11-15 確認）:
 
-- 1レビューの読み取りは、8問をまとめた1リクエストで、入力は約 1,700 トークン（第4弾の実測）。出力トークンは 0。
-- Clef の入力料金は $0.24 / 100万トークン（公式ドキュメント）。1レビューあたり 約 $0.0004、5,000 件で 約 $2。
-- Clef-flash の料金は、ドキュメントに記載がない。未確認。
+- 1レビューの読み取りは、8問をまとめた1リクエスト。入力は、実験の文面で約 1,700 トークン（第4弾の実測）。本番用の質問セット（ゲーム v1）は文面が長いので、これより多い（未計測）。出力トークンは 0。
+- 料金（入力 100万トークンあたり）: Clef-flash は $0.038（3,455 neurons）、Clef は $0.240（21,818 neurons）。
+- **無料枠は、1日 10,000 neurons**（Free でも Paid でも同じ）。毎日 00:00 UTC に戻る。超えると、Free では呼び出しが失敗する（429）。Paid では、超過分が $0.011 / 1,000 neurons で課金される。
+- 無料枠で読める量の目安: Clef-flash は1日に約 290万トークン（1レビュー 2,000 トークンとして約 1,400 件）。Clef は約 46万トークン（同じく約 230 件）。
+- 5,000 件を読む費用の目安（1レビュー 2,000 トークンとして）: Clef-flash で約 $0.4、Clef で約 $2.4。
+- 実際に起きたこと: 実験を重ねた日に無料枠を使い切り、その日の残りは読み取りがすべて失敗した。失敗が1日続いても読み直せるよう、やり直しの間隔を決めた（4.1）。
 - 平均の応答時間は、Clef が約 0.5 秒、Clef-flash が約 0.3 秒（実験のクライアント側の往復時間）。
 
 制約:
@@ -69,7 +72,7 @@
 
 | 判断 | 選んだもの | 理由 | 見直す条件 |
 | --- | --- | --- | --- |
-| 読み取りの実行 | 投稿の直後に即時実行（`waitUntil`）+ 定期実行でやり直し | 部品が少ない。D1 の状態（`pending` / `failed`）を正とするので、取りこぼしがない | 投稿が増えて、定期実行の遅延が許容できなくなったら、Queues を入れる |
+| 読み取りの実行 | 投稿の直後に即時実行（`waitUntil`）+ 定期実行でやり直し | 部品が少ない。D1 の `readings` の状態を正とするので、取りこぼしがない | 投稿が増えて、定期実行の遅延が許容できなくなったら、Queues を入れる |
 | 順位の計算 | Worker のコードで Wilson 下限を計算し、集計テーブルに保存 | D1 の数学関数は、個別の関数名が未確認 | D1 で `sqrt` が使えると確認できたら、SQL に移せる |
 | 質問の管理 | 質問セットを、バージョンつきの JSON として保存 | 質問を変えると結果の意味が変わる。レビューごとに、どの版で読んだかを残す | タグを組み合わせる機能（F8）を入れるとき |
 | 認証 | MVP では入れない | ドメインが未定で、passkey は origin に紐づく。先に、表示と順位を試す | ドメインが決まったとき |
@@ -78,48 +81,28 @@
 
 ## 3. データモデル（D1）
 
-```
-works
-  id, slug(unique), name, category('software'|'game'), url, summary,
-  status('active'|'hidden'), created_at
+スキーマは `migrations/0001_init.sql` にある（実装済み）。テーブルは次のとおり。
 
-question_sets            -- 質問セット（版つき）
-  id, category, version, definition_json, definition_hash, model, created_at
-  -- definition_json: 観点ごとの質問（種類、質問文、選択肢）。unique(category, version)
-  -- 現行の版は、category ごとに最大の version
+| テーブル | 内容 |
+| --- | --- |
+| `works` | 作品（ソフトウェア / ゲーム） |
+| `question_sets` | 質問セット（版つき）。定義はコードが正で、その写しとハッシュを保存する |
+| `reviewers` | 投稿者（MVP では、匿名の端末トークンのハッシュ） |
+| `reviews` | レビュー（作品、投稿者、日付、利害関係、非表示の印、最新の版） |
+| `review_revisions` | レビュー本文の版（編集のたびに1行増える） |
+| `reports` | 通報 |
+| `readings` | 1つの版を、1つの質問セットで読んだ結果（状態、回数、次に試す時刻） |
+| `reading_answers` | 質問ごとの答え（値、確率、要確認の印） |
+| `aspect_stats` | 集計（作品 × 質問セット × 観点）。`_overall` は全観点の合計 |
 
-reviewers                -- 投稿者（MVP では、匿名の端末トークン）
-  id, kind('anon'|'passkey'), token_hash(unique, nullable), created_at
+最初の案から、実装で変えた点:
 
-reviews
-  id, work_id, reviewer_id, body, written_on(date),
-  disclosure('none'|'developer'|'affiliated'|'other'), disclosure_note,
-  status('pending'|'read'|'failed'|'hidden'), created_at
-
-review_revisions         -- レビュー本文の版（編集のたびに追加）
-  id, review_id, body, created_at
-  -- reviews.body は、最新の版の本文（表示用）
-
-reports                  -- 通報
-  id, review_id, reporter_id, reason('abuse'|'spam'|'conflict'|'other'), note,
-  status('open'|'closed'), created_at
-
-readings                 -- 1つの版を、1つの質問セットで読んだ結果
-  id, revision_id, question_set_id, model, status('ok'|'error'),
-  attempts, latency_ms, input_tokens, error, created_at
-  -- unique(revision_id, question_set_id)。集計には、各レビューの最新の版の読み取りだけを使う
-
-reading_answers          -- 質問ごとの答え（観点に限らず、質問のキーで持つ）
-  reading_id, question_key,        -- 例: 'gameplay_choice', 'gameplay_noul'
-  value,                           -- 例: '肯定' / 0.82
-  probs_json,                      -- 選択肢ごとの確率の生の値
-  needs_check(0|1)
-
-aspect_stats             -- 集計（作品 × 観点 × 質問セット）
-  work_id, aspect, question_set_id, n_mention, n_pos, n_neg, n_mix,
-  score_lower, updated_at
-  -- 利害関係あり（disclosure != 'none'）と、非表示のレビューは含めない
-```
+- **レビューの読み取りの状態は、`reviews` に持たない。** 「最新の版に、現行の質問セットでの成功した読み取りがあるか」を `readings` から判断する。質問セットが新しくなったときの読み直しが、同じ仕組みで拾える。
+- **非表示は、状態とは別の列（`reviews.hidden`）にした。** 読み取りの状態と混ぜると、やり直しのときに非表示が解除されてしまうため。
+- **本文は `review_revisions` だけに持つ。** `reviews.current_revision_id` が最新の版を指す。
+- `readings` に、読み取り中の印（`running`）と、次に試す時刻（`next_attempt_at`）を足した。同じ版を2つの処理が同時に読まないようにし、失敗後のやり直しの時刻を決めるため。
+- `reading_answers` に、`aspect`、`kind`（向き / 言及）、`prob` を足した。向きの値は、文面の言語に依存しない値（positive / negative / mixed / none）で保存する。
+- id は、アプリ側で作る UUID にした。
 
 設計上のポイント:
 
@@ -146,12 +129,16 @@ aspect_stats             -- 集計（作品 × 観点 × 質問セット）
 3. D1: reviewers を取得または作成（端末トークンのハッシュ）、reviews を pending で保存
 4. 応答: 受け付けた旨を返す（読み取りの完了は待たない）
 5. waitUntil: 読み取りジョブを実行
-6. 読み取りジョブ:
-   a. 現行の question_set を取得（作品のカテゴリ）
-   b. Workers AI に 8問を1リクエストで送る（最大3回、間隔を空けて再試行）
-   c. 成功: readings と reading_answers を保存、reviews.status = 'read'、集計を更新
-   d. 失敗: readings に error を記録、reviews.status = 'failed'
-7. 定期実行（毎分）: pending が一定時間以上残っているものと、failed で試行回数が残っているものを再実行
+6. 読み取りジョブ（実装済み: src/lib/server/reading.ts）:
+   a. 現行の question_set を取得（作品のカテゴリ）。質問セットのない分野（ソフトウェア）は読まない
+   b. readings の行を「読み取り中」にして確保する（同じ版を同時に読まない）
+   c. Workers AI に 8問を1リクエストで送る。5xx と通信の失敗は、その場で1回だけやり直す
+   d. 成功: 答えを検証して保存し、集計を更新する。形が想定と違う答えは、一部だけ保存せず、失敗にする
+   e. 失敗: readings に error と、次に試す時刻を記録する
+7. 定期実行（毎分、実装済み: src/lib/server/sweep.ts）:
+   読み取りの記録がないまま2分を過ぎたものと、失敗して次に試す時刻を過ぎたものを、古い順に10件まで読み直す
+   やり直しの間隔は、2分、15分、1時間、6時間、24時間（最大6回）。
+   1日の利用枠を使い切っても、枠が戻る翌日まで回数が残るようにしている
 ```
 
 ### 4.1.1 編集と通報
@@ -214,14 +201,22 @@ MVP では、匿名の端末トークン（Cookie に入れた乱数。サーバ
 
 ## 8. リスクと未確認事項
 
-### 8.1 実装前に確認すること（未確認）
+### 8.1 確認の状況
 
-- Workers のバインディング（`env.AI.run`）で、Clef-flash のモデル名が使えるか。実験は REST API でのみ確認した（`@cf/cloudflare/clef-flash`）。
+確認済み:
+
+- D1 のマイグレーション: `wrangler d1 migrations apply DB --local` で、ローカルに適用できた。
+- ワーカーの入口と定期実行: ローカルで起動して、ページの表示と、定期実行による読み直し（失敗の記録まで）を確認した。SvelteKit のアダプタには定期実行の仕組みがないので、`src/worker.ts` で包んでいる（設定は `wrangler.jsonc` と `wrangler.sveltekit.jsonc` の2つ）。
+- Clef-flash の料金と、無料枠（1.2）。
+- 読み取りジョブの失敗時の挙動（4.1）。テストで確認した。
+
+未確認:
+
+- **本番用の質問セット（ゲーム v1）の成績。** 評価（`experiments/clef-mention/README.md` の第5弾）は、無料枠を使い切っていて実行できなかった。実際の API では、まだ一度も読んでいない（テストは、実験で記録した応答を使っている）。
+- **Workers のバインディング（`env.AI.run`）での Clef-flash の呼び出し。** 実験と評価スクリプトは REST API を使う。バインディングでのモデル名と入力の形は、REST と同じと仮定している（`src/lib/server/clef.ts`）。違っていた場合は、REST のクライアントに切り替えられる。
 - Cron Trigger、`waitUntil` の実行時間の制限（Worker の CPU 時間、バックグラウンド処理の長さ）。
-- D1 のマイグレーションの方法と、ローカルでの開発環境。
-- Clef-flash の料金。
 - ui-sdk を SvelteKit で使う手順（ユーザーが示した導入プロンプトによる。公式の Svelte 用ドキュメントは、調査では未確認）。
-- 読み取りジョブの失敗時の挙動（上限、再試行間隔）。
+- 本番の D1 は、まだ作っていない（`wrangler.jsonc` の `database_id` は仮の値）。
 
 ### 8.2 設計上の主なリスク
 
@@ -241,6 +236,9 @@ MVP では、匿名の端末トークン（Cookie に入れた乱数。サーバ
 - 外部サイト（Steam など）のレビュー本文は、リポジトリに置かない。サイトで表示もしない（実験の評価のためだけに使う）。
 
 ## 9. 実装の順序（案）
+
+状況（2026-11-15）: 1、2、4、6 のうち定期実行でのやり直しまでを実装した（画面、投稿、管理画面は未着手）。ソフトウェア用の質問セットは、観点が未決のため作っていない。
+
 
 1. D1 のスキーマとマイグレーション、`question_sets`（ゲーム用 v1、ソフトウェア用 v1）。
 2. 読み取りジョブ（質問の組み立て、Workers AI の呼び出し、答えの保存）。評価セットのスクリプトも、ここで用意する。

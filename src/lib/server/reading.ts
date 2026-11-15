@@ -5,13 +5,20 @@ import type { Direction, QuestionSetDefinition } from './question-sets/types';
 import { recomputeWorkStats } from './stats';
 
 /** 1つの版を読む回数の上限。超えたら、自動ではやり直さない。 */
-export const MAX_ATTEMPTS = 5;
+export const MAX_ATTEMPTS = 6;
 /** 読み取り中の印の有効期間。処理が途中で止まっても、これを過ぎればやり直せる。 */
 export const LEASE_MS = 5 * 60_000;
 
-/** n 回目の失敗のあと、次に試すまでの間隔（2分、4分、8分、16分）。 */
+const MINUTE = 60_000;
+/**
+ * n 回目の失敗のあと、次に試すまでの間隔。
+ * 最後は24時間あける。Workers AI の1日の利用枠を使い切ると、枠が戻るまで失敗が続くので、
+ * 短い間隔だけで回数を使い切ると、枠が戻っても読まれないままになる。
+ */
+const BACKOFF_MS = [2 * MINUTE, 15 * MINUTE, 60 * MINUTE, 6 * 60 * MINUTE, 24 * 60 * MINUTE];
+
 export function backoffMs(attempts: number): number {
-	return Math.min(2 ** attempts, 60) * 60_000;
+	return BACKOFF_MS[Math.min(Math.max(attempts, 1), BACKOFF_MS.length) - 1];
 }
 
 /**
@@ -185,7 +192,7 @@ export async function readRevision(deps: ReadingDeps, revisionId: string): Promi
 		try {
 			result = await clef.run(definition.model, target.body, questions);
 		} catch (e) {
-			// 一時的な失敗は、その場で1回だけやり直す。それでも失敗したら、定期実行に任せる。
+			// すぐに直りうる失敗（5xx、通信の失敗）は、その場で1回だけやり直す。それでも失敗したら、定期実行に任せる。
 			if (!(e instanceof ClefError) || !e.retryable) throw e;
 			await new Promise((r) => setTimeout(r, deps.quickRetryDelayMs ?? 500));
 			result = await clef.run(definition.model, target.body, questions);
