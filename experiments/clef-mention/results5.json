@@ -1,0 +1,190 @@
+{
+ "questionSet": {
+  "category": "game",
+  "version": 1,
+  "hash": "0915d5c4e79994fc3e83e9374e5bdbbb22813dec82170b589aff0b09b706c0e7",
+  "model": "clef-flash"
+ },
+ "records": [
+  {
+   "sample": 1,
+   "recommendationid": "239674863",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (bd0bb497-"
+  },
+  {
+   "sample": 2,
+   "recommendationid": "238089790",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (883ff4d3-"
+  },
+  {
+   "sample": 3,
+   "recommendationid": "239856626",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (4547407d-"
+  },
+  {
+   "sample": 4,
+   "recommendationid": "240168508",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (56b7b9a9-"
+  },
+  {
+   "sample": 5,
+   "recommendationid": "238648831",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (3274d5e3-"
+  },
+  {
+   "sample": 6,
+   "recommendationid": "239808129",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (5f1ded11-"
+  },
+  {
+   "sample": 7,
+   "recommendationid": "238312161",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (b4f10b6b-"
+  },
+  {
+   "sample": 8,
+   "recommendationid": "239601357",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (9cc171f0-"
+  },
+  {
+   "sample": 9,
+   "recommendationid": "238523738",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (9c7302df-"
+  },
+  {
+   "sample": 10,
+   "recommendationid": "238672317",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (437f476f-"
+  },
+  {
+   "sample": 11,
+   "recommendationid": "240189486",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (c19986bf-"
+  },
+  {
+   "sample": 12,
+   "recommendationid": "238900718",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (21a6549c-"
+  },
+  {
+   "sample": 13,
+   "recommendationid": "238534952",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (5d2fe4e7-"
+  },
+  {
+   "sample": 14,
+   "recommendationid": "238563333",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (8ad35806-"
+  },
+  {
+   "sample": 15,
+   "recommendationid": "238456146",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (3720eaf0-"
+  },
+  {
+   "sample": 16,
+   "recommendationid": "239685066",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (62286a1a-"
+  },
+  {
+   "sample": 17,
+   "recommendationid": "237915579",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (b46e2002-"
+  },
+  {
+   "sample": 18,
+   "recommendationid": "238673327",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (9b8203a6-"
+  },
+  {
+   "sample": 19,
+   "recommendationid": "238317367",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (ba6f4d0e-"
+  },
+  {
+   "sample": 20,
+   "recommendationid": "240010107",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (d41e7325-"
+  },
+  {
+   "sample": 21,
+   "recommendationid": "237908367",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (b246f2b8-"
+  },
+  {
+   "sample": 22,
+   "recommendationid": "240251238",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (144a3529-"
+  },
+  {
+   "sample": 23,
+   "recommendationid": "237845352",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (a4aeea2c-"
+  },
+  {
+   "sample": 24,
+   "recommendationid": "238276560",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (e571805b-"
+  },
+  {
+   "sample": 25,
+   "recommendationid": "237898488",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (6bbb2fd5-"
+  },
+  {
+   "sample": 26,
+   "recommendationid": "238238729",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (cbfc5270-"
+  },
+  {
+   "sample": 27,
+   "recommendationid": "239363795",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (43f4bbd2-"
+  },
+  {
+   "sample": 28,
+   "recommendationid": "238915055",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (a7c0d474-"
+  },
+  {
+   "sample": 29,
+   "recommendationid": "239768529",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (fb860052-"
+  },
+  {
+   "sample": 30,
+   "recommendationid": "239860154",
+   "status": "error",
+   "error": "Clef が 429 を返しました: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (f1d08cf9-"
+  }
+ ]
+}
