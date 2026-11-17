@@ -62,9 +62,20 @@ CREATE TABLE reviews (
     CHECK (disclosure IN ('none', 'developer', 'affiliated', 'other')),
   disclosure_note TEXT,
   hidden INTEGER NOT NULL DEFAULT 0 CHECK (hidden IN (0, 1)),
-  created_at TEXT NOT NULL
+  -- 来歴: どこから来たレビューか。site はこのサイトでの投稿。critic（批評家の取り込み）と import（持ち込み）は、まだ使っていない。
+  source TEXT NOT NULL DEFAULT 'site' CHECK (source IN ('site', 'critic', 'import')),
+  source_url TEXT,
+  -- 文面をならした（空白・記号・全角半角の違いを除いた）あとのハッシュ。最新の版のもの。
+  text_hash TEXT,
+  -- 同じ作品の、別の投稿者の、先にあるレビューと文面がほぼ同じなら、そのレビューの id。入っていると、集計に数えない。
+  duplicate_of TEXT,
+  -- 送信元の IP を、日ごとに変わる鍵でハッシュにしたもの（1日の投稿数の上限のため。IP そのものは保存しない）。
+  ip_day_hash TEXT,
+  created_at TEXT NOT NULL,
+  UNIQUE (work_id, reviewer_id)
 );
 CREATE INDEX reviews_work ON reviews (work_id);
+CREATE INDEX reviews_ip_day ON reviews (ip_day_hash);
 
 -- レビュー本文の版。編集のたびに1行増える。
 CREATE TABLE review_revisions (
@@ -82,9 +93,11 @@ CREATE TABLE reports (
   reason TEXT NOT NULL CHECK (reason IN ('abuse', 'spam', 'conflict', 'other')),
   note TEXT,
   status TEXT NOT NULL DEFAULT 'open' CHECK (status IN ('open', 'closed')),
+  ip_day_hash TEXT,
   created_at TEXT NOT NULL
 );
 CREATE INDEX reports_status ON reports (status);
+CREATE INDEX reports_review ON reports (review_id);
 
 -- レビューの1つの版を、1つの質問セットで読んだ結果。
 -- running: 読み取り中（next_attempt_at までは、ほかの処理が手を出さない）
@@ -122,7 +135,7 @@ CREATE TABLE reading_answers (
 );
 
 -- 集計（作品 × タグ）。tag_id = '_overall' は、全タグの言及をまとめたもの。
--- 利害関係のあるレビューと、非表示のレビューは含めない。
+-- 利害関係のあるレビュー、非表示のレビュー、ほかと文面がほぼ同じレビューは含めない。
 -- タグの版や、一緒に聞いた質問の組が違う読み取りも、同じタグなら合算する（読み直しをしない方針のため）。
 CREATE TABLE aspect_stats (
   work_id TEXT NOT NULL REFERENCES works (id),
