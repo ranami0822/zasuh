@@ -69,6 +69,7 @@ describe('レビューの投稿・編集・通報・管理', () => {
 			expect(await post('a', { writtenOn: '2026-11-18' })).toEqual({ ok: false, error: 'bad_date' }); // 明日（日本時間）
 			expect(await post('a', { writtenOn: '1999-12-31' })).toEqual({ ok: false, error: 'bad_date' });
 			expect(await post('a', { writtenOn: '2026-13-01' })).toEqual({ ok: false, error: 'bad_date' });
+			expect(await post('a', { writtenOn: '2026-02-31' })).toEqual({ ok: false, error: 'bad_date' }); // 存在しない日付
 			expect(await post('a', { disclosure: 'friend' })).toEqual({ ok: false, error: 'bad_disclosure' });
 			expect(await post('a', { disclosure: 'developer', disclosureNote: 'あ'.repeat(201) })).toEqual({ ok: false, error: 'note_too_long' });
 			expect(await post('a', { workId: 'missing' })).toEqual({ ok: false, error: 'work_not_found' });

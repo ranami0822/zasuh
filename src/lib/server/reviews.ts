@@ -101,7 +101,11 @@ function validateDisclosure(disclosure: string, note: string): Failure | null {
 }
 
 function validateDate(value: string, now: Date): boolean {
-	return /^\d{4}-\d{2}-\d{2}$/.test(value) && !Number.isNaN(Date.parse(value)) && value >= '2000-01-01' && value <= todayJst(now);
+	if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+	const parsed = new Date(`${value}T00:00:00Z`);
+	// 2月31日のような、存在しない日付は、実在する日付に繰り上がるので、戻して一致するかを確かめる。
+	if (Number.isNaN(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== value) return false;
+	return value >= '2000-01-01' && value <= todayJst(now);
 }
 
 /**

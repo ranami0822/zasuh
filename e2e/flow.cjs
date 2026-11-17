@@ -13,6 +13,13 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) process
   p.on('pageerror', (e) => console.log('PAGEERROR', e.message));
   p.on('console', (m) => { if (m.type() === 'error') console.log('CONSOLE', m.text().slice(0, 200)); });
 
+  // 管理: ログインなしで、フォームの処理を直接呼べないこと
+  const anon = await (await browser.newContext()).request;
+  for (const [path, data] of [['/admin?/create', { name: 'X', slug: 'hack', category: 'game' }], ['/admin/reports?/act', { id: 'x', op: 'delete' }]]) {
+    const r = await anon.post(BASE + path, { form: data, headers: { origin: BASE }, maxRedirects: 0 });
+    ok(r.status() === 403, 'anonymous POST ' + path + ' is refused (' + r.status() + ')');
+  }
+
   // 管理: ログイン
   await p.goto(BASE + '/admin');
   ok(p.url().endsWith('/admin/login'), 'admin redirects to login');
