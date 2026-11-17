@@ -5,7 +5,11 @@
 	"type": "module",
 	"imports": {
 		"#lib": "./src/lib/index.js",
-		"#lib/*": "./src/lib/*"
+		"#lib/*": "./src/lib/*",
+		"#server/*": "./src/lib/server/*.ts",
+		"#components/*": "./src/lib/components/*",
+		"#styles/*": "./src/lib/styles/*",
+		"#messages": "./src/lib/messages.ts"
 	},
 	"scripts": {
 		"dev": "vite dev",

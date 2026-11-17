@@ -1,0 +1,427 @@
+/* Review Platform の部品（線を使わない。区切りは、面の色の差、余白、影。例外はフォーカスリングだけ）。 */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+html {
+	background: var(--bg);
+}
+body {
+	margin: 0;
+	background: var(--bg);
+	color: var(--text);
+	font-family: var(--font-body);
+	font-size: 14px;
+	line-height: 1.7;
+	letter-spacing: 0.02em;
+	-webkit-font-smoothing: antialiased;
+}
+h1,
+h2,
+h3 {
+	font-family: var(--font-heading);
+	font-weight: 400;
+	margin: 0;
+	letter-spacing: 0.01em;
+}
+h1 {
+	font-size: 32px;
+	line-height: 1.25;
+}
+h2 {
+	font-size: 20px;
+	line-height: 1.35;
+}
+h3 {
+	font-size: 16px;
+	line-height: 1.45;
+}
+p {
+	margin: 0;
+}
+a {
+	color: var(--link);
+	text-decoration: none;
+}
+a:hover {
+	color: var(--link-hover);
+	text-decoration: underline;
+}
+:focus-visible {
+	outline: none;
+	box-shadow:
+		0 0 0 var(--focus-gap) var(--surface),
+		0 0 0 calc(var(--focus-gap) + var(--focus-width)) var(--focus-ring-color);
+}
+.muted {
+	color: var(--text-muted);
+}
+.caption {
+	font-size: 11px;
+	line-height: 1.45;
+}
+.num {
+	font-variant-numeric: tabular-nums;
+}
+
+/* ページの枠 */
+.page {
+	max-width: 760px;
+	margin: 0 auto;
+	padding: var(--space-6) var(--space-4) var(--space-16);
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-6);
+}
+.header {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: var(--space-4);
+}
+.header a.brand {
+	font-family: var(--font-heading);
+	font-size: 20px;
+	color: var(--text);
+}
+.stack {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-3);
+}
+.row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space-2);
+}
+.spread {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-3);
+}
+
+/* カード */
+.card {
+	background: var(--surface);
+	border-radius: var(--radius-card);
+	box-shadow: var(--shadow-md);
+	padding: var(--space-4);
+}
+.card.faded {
+	opacity: 0.6;
+}
+
+/* ボタン（ui-sdk の Button / DialogTrigger などに付ける） */
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--space-2);
+	min-height: var(--size-control);
+	padding: var(--space-3) var(--space-6);
+	border: 0;
+	border-radius: var(--radius-cta);
+	background: var(--cta-bg);
+	color: var(--cta-fg);
+	font-family: var(--font-body);
+	font-size: 13px;
+	line-height: 20px;
+	font-weight: 500;
+	letter-spacing: 0.03em;
+	cursor: pointer;
+	text-decoration: none;
+	transition:
+		background var(--dur-press) var(--ease-standard),
+		transform var(--dur-press) var(--ease-standard);
+}
+.btn:hover {
+	background: var(--cta-bg-hover);
+	color: var(--cta-fg);
+	text-decoration: none;
+}
+.btn:active:not(:disabled) {
+	background: var(--cta-bg-pressed);
+	transform: scale(0.98);
+}
+.btn:disabled,
+.btn[data-disabled] {
+	background: var(--disabled-bg);
+	color: var(--disabled-fg);
+	cursor: not-allowed;
+}
+.btn.quiet {
+	background: var(--tag-bg);
+	color: var(--tag-fg);
+}
+.btn.quiet:hover {
+	background: var(--tag-bg-hover);
+	color: var(--tag-fg);
+}
+.btn.small {
+	min-height: 32px;
+	padding: var(--space-1) var(--space-3);
+}
+
+/* タグ */
+.tag {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-1);
+	padding: var(--space-1) var(--space-2);
+	border: 0;
+	border-radius: var(--radius-tag);
+	background: var(--tag-bg);
+	color: var(--tag-fg);
+	font-family: var(--font-body);
+	font-size: 11px;
+	line-height: 16px;
+	font-weight: 500;
+	letter-spacing: 0.02em;
+	text-decoration: none;
+}
+a.tag:hover,
+button.tag:hover {
+	background: var(--tag-bg-hover);
+	color: var(--tag-fg);
+	text-decoration: none;
+}
+.tag[aria-current='true'],
+.tag[data-pressed] {
+	background: var(--cta-bg);
+	color: var(--cta-fg);
+}
+.tag.pos {
+	background: var(--sentiment-5-tint);
+	color: var(--sentiment-5-text);
+}
+.tag.neg {
+	background: var(--sentiment-1-tint);
+	color: var(--sentiment-1-text);
+}
+.tag.mix {
+	background: var(--sentiment-3-tint);
+	color: var(--sentiment-3-text);
+}
+.tag svg {
+	width: 12px;
+	height: 12px;
+}
+
+/* 入力欄 */
+.input {
+	display: block;
+	width: 100%;
+	min-height: var(--size-control);
+	padding: var(--space-3);
+	border: 0;
+	border-radius: var(--radius-input);
+	background: var(--input-bg);
+	color: var(--text);
+	font-family: var(--font-body);
+	font-size: 14px;
+	line-height: 1.7;
+	letter-spacing: 0.02em;
+	resize: vertical;
+}
+.input::placeholder {
+	color: var(--text-muted);
+}
+.field {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-1);
+}
+.field > label,
+.field > [data-slot='field-label'] {
+	font-size: 11px;
+	line-height: 1.45;
+	font-weight: 500;
+	color: var(--text-muted);
+}
+.choice {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-2);
+	padding: var(--space-2) var(--space-3);
+	border-radius: var(--radius-tag);
+	background: var(--tag-bg);
+	color: var(--tag-fg);
+	font-size: 13px;
+	cursor: pointer;
+}
+.choice:has([data-checked]),
+.choice:has(:checked) {
+	background: var(--cta-bg);
+	color: var(--cta-fg);
+}
+.choice [data-slot='radio'],
+.choice [data-slot='checkbox'] {
+	appearance: none;
+	width: 0;
+	height: 0;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: none;
+	position: absolute;
+	opacity: 0;
+}
+
+/* バナー・塗る区画（意味を、文字の色ではなく、背景で示す） */
+.banner {
+	padding: var(--space-3);
+	border-radius: var(--radius-input);
+	font-size: 13px;
+	line-height: 1.6;
+}
+.banner.error {
+	background: var(--status-error-tint);
+	color: var(--status-error-text);
+}
+.banner.success {
+	background: var(--status-success-tint);
+	color: var(--status-success-text);
+}
+.banner.warning {
+	background: var(--status-warning-tint);
+	color: var(--status-warning-text);
+}
+.region {
+	padding: var(--space-4);
+	border-radius: var(--radius-layout);
+	background: var(--tag-bg);
+	color: var(--tag-fg);
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-3);
+}
+
+/* 向きの分布（否定 / 混在 / 肯定） */
+.dist {
+	display: flex;
+	align-items: center;
+	gap: var(--space-2);
+}
+.dist__bar {
+	flex: 1;
+	display: flex;
+	gap: 2px;
+	height: var(--bar, 8px);
+	opacity: var(--bar-opacity, 1);
+}
+.dist__bar > i {
+	display: block;
+	min-width: 2px;
+}
+.dist__bar > i:first-child {
+	border-radius: 4px 0 0 4px;
+}
+.dist__bar > i:last-child {
+	border-radius: 0 4px 4px 0;
+}
+.dist__bar .neg {
+	background: var(--sentiment-1-fill);
+}
+.dist__bar .mix {
+	background: var(--sentiment-3-fill);
+}
+.dist__bar .pos {
+	background: var(--sentiment-5-fill);
+}
+.dist__bar.empty {
+	background: var(--sentiment-track);
+	border-radius: 4px;
+}
+.dist svg {
+	width: 16px;
+	height: 16px;
+	flex: none;
+}
+.dist .end-neg {
+	color: var(--sentiment-1-fill);
+}
+.dist .end-pos {
+	color: var(--sentiment-5-fill);
+}
+.dist__count {
+	width: 40px;
+	flex: none;
+	text-align: right;
+	font-size: 11px;
+	color: var(--text-muted);
+	font-variant-numeric: tabular-nums;
+}
+
+/* 順位の一覧 */
+.rank {
+	display: grid;
+	grid-template-columns: 32px 1fr;
+	gap: var(--space-3);
+	align-items: center;
+}
+.rank__no {
+	font-family: var(--font-heading);
+	font-size: 20px;
+	text-align: right;
+	color: var(--text-muted);
+	font-variant-numeric: tabular-nums;
+}
+
+/* 月ごとの変化 */
+.months {
+	display: flex;
+	align-items: flex-end;
+	gap: var(--space-2);
+	height: 96px;
+}
+.months__col {
+	flex: 1;
+	min-width: 16px;
+	max-width: 48px;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	height: 100%;
+	gap: 2px;
+}
+.months__col i {
+	display: block;
+	min-height: 2px;
+}
+.months__col .neg {
+	background: var(--sentiment-1-fill);
+}
+.months__col .mix {
+	background: var(--sentiment-3-fill);
+}
+.months__col .pos {
+	background: var(--sentiment-5-fill);
+}
+
+/* ダイアログ（ui-sdk の Dialog） */
+[data-slot='dialog-backdrop'] {
+	position: fixed;
+	inset: 0;
+	background: rgba(19, 16, 20, 0.42);
+}
+[data-slot='dialog-content'] {
+	background: var(--surface);
+	color: var(--text);
+	border: 0;
+	border-radius: var(--radius-layout);
+	box-shadow: var(--shadow-lg);
+	padding: var(--space-5);
+	width: min(360px, calc(100vw - 32px));
+	max-height: calc(100vh - 32px);
+	overflow: auto;
+	transition: opacity var(--dur-surface) var(--ease-standard);
+}
+[data-slot='dialog-content'][data-starting-style],
+[data-slot='dialog-content'][data-ending-style],
+[data-slot='dialog-backdrop'][data-starting-style],
+[data-slot='dialog-backdrop'][data-ending-style] {
+	opacity: 0;
+}

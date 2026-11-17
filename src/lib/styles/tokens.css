@@ -1,0 +1,141 @@
+/* Review Platform のトークン（デザインシステム「Review Platform」の tokens.json から、使うものだけを写した）。
+   ライトとダークは、端末の設定に合わせる。値を直接書かず、この変数を使う。 */
+:root {
+	color-scheme: light dark;
+	--font-heading: 'Shippori Antique', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+	--font-body: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', system-ui, sans-serif;
+
+	--purple-30: #6e2673;
+	--purple-42: #9a36a1;
+	--purple-80: #e2b3e6;
+	--purple-90: #f1d9f2;
+	--purple-96: #f9f0fa;
+	--ink: #0e0710;
+	--on-ink: #faf3fb;
+	--neon: #ddef39;
+	--on-neon: #2a3004;
+	--on-bold: #ffffff;
+	--surface-bold: var(--purple-42);
+	--surface-deep: var(--purple-30);
+
+	--bg: #f4e7f6;
+	--surface: #fefafe;
+	--surface-hover: #f8eef9;
+	--text: #2c252d;
+	--text-muted: #5d5a68;
+	--text-disabled: #a09caa;
+	--link: #9a36a1;
+	--link-hover: #6e2673;
+	--tag-bg: #ebd3ee;
+	--tag-bg-hover: #e2c2e6;
+	--tag-fg: #6e2673;
+	--input-bg: #f3eaf4;
+	--cta-bg: #0e0710;
+	--cta-fg: #faf3fb;
+	--cta-bg-hover: #2a1a2d;
+	--cta-bg-pressed: #3a2840;
+	--disabled-bg: #e2dde3;
+	--disabled-fg: #a09caa;
+	--focus-ring-color: #0e0710;
+
+	--sentiment-1-fill: #a5273c;
+	--sentiment-1-tint: #f8e2e6;
+	--sentiment-1-text: #6e1827;
+	--sentiment-3-fill: #cfc9cf;
+	--sentiment-3-tint: #efebef;
+	--sentiment-3-text: #4a3f4b;
+	--sentiment-5-fill: #1f8477;
+	--sentiment-5-tint: #e1f4f1;
+	--sentiment-5-text: #124942;
+	--sentiment-track: #f7f2f7;
+
+	--status-error-tint: #faebe1;
+	--status-error-text: #62320e;
+	--status-warning-tint: #fbf5e0;
+	--status-warning-text: #62510e;
+	--status-success-tint: #e1f3fa;
+	--status-success-text: #0e4c62;
+
+	--shadow-sm: 0 1px 2px rgba(110, 38, 115, 0.1);
+	--shadow-md: 0 6px 16px rgba(110, 38, 115, 0.16), 0 1px 3px rgba(110, 38, 115, 0.1);
+	--shadow-lg: 0 16px 36px rgba(110, 38, 115, 0.24), 0 2px 6px rgba(110, 38, 115, 0.16);
+
+	--space-1: 4px;
+	--space-2: 8px;
+	--space-3: 12px;
+	--space-4: 16px;
+	--space-5: 20px;
+	--space-6: 24px;
+	--space-8: 32px;
+	--space-10: 40px;
+	--space-12: 48px;
+	--space-16: 64px;
+
+	--radius-neon: 2px;
+	--radius-tag: 6px;
+	--radius-input: 8px;
+	--radius-cta: 10px;
+	--radius-card: 14px;
+	--radius-layout: 0;
+
+	--size-control: 44px;
+	--focus-gap: 2px;
+	--focus-width: 1.5px;
+
+	--ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+	--dur-press: 160ms;
+	--dur-surface: 240ms;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: #160c17;
+		--surface: #251726;
+		--surface-hover: #2f1e31;
+		--text: #ede8ee;
+		--text-muted: #bca7be;
+		--text-disabled: #797689;
+		--link: #da90df;
+		--link-hover: #e9bcec;
+		--tag-bg: #49244c;
+		--tag-bg-hover: #56305a;
+		--tag-fg: #e9cbeb;
+		--input-bg: #3a2540;
+		--cta-bg: #faf3fb;
+		--cta-fg: #0e0710;
+		--cta-bg-hover: #ebddee;
+		--cta-bg-pressed: #dcc8df;
+		--disabled-bg: #33243a;
+		--disabled-fg: #797689;
+		--focus-ring-color: #faf3fb;
+
+		--sentiment-1-fill: #dc6a7d;
+		--sentiment-1-tint: #511f27;
+		--sentiment-1-text: #f4b8c2;
+		--sentiment-3-fill: #6d5e6e;
+		--sentiment-3-tint: #372e38;
+		--sentiment-3-text: #d6cbd7;
+		--sentiment-5-fill: #69d3c5;
+		--sentiment-5-tint: #214a44;
+		--sentiment-5-text: #c0ede7;
+		--sentiment-track: #1c111d;
+
+		--status-error-tint: #412816;
+		--status-error-text: #f6d8c1;
+		--status-warning-tint: #413816;
+		--status-warning-text: #f6ebc1;
+		--status-success-tint: #163541;
+		--status-success-text: #c1e8f6;
+
+		--shadow-sm: 0 1px 2px rgba(8, 0, 12, 0.4);
+		--shadow-md: 0 0 14px rgba(190, 83, 198, 0.24), 0 12px 48px rgba(190, 83, 198, 0.3), 0 1px 3px rgba(8, 0, 12, 0.4);
+		--shadow-lg: 0 0 20px rgba(190, 83, 198, 0.26), 0 20px 64px rgba(190, 83, 198, 0.36), 0 2px 6px rgba(8, 0, 12, 0.45);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:root {
+		--dur-press: 0ms;
+		--dur-surface: 0ms;
+	}
+}

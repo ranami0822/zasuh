@@ -4,7 +4,7 @@ import { REGISTRY, setWorkTags, type TagRegistry } from './tags';
 
 export const SLUG_PATTERN = /^[a-z0-9][a-z0-9-]{0,62}$/;
 export const CATEGORIES: readonly Category[] = ['game', 'software'];
-export const CATEGORY_LABEL: Record<Category, string> = { game: 'ゲーム', software: 'ソフトウェア' };
+export { CATEGORY_LABEL } from '../messages';
 
 export interface Work {
 	id: string;
