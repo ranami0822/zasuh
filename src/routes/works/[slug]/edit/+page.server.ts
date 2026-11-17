@@ -2,13 +2,13 @@ import { error, fail, redirect } from '@sveltejs/kit';
 import { MESSAGES } from '#messages';
 import { bindingClient } from '#server/clef';
 import { readRevision } from '#server/reading';
-import { database, deviceFor, runAfter } from '#server/request';
+import { database, deviceFor, runAfter, runtimeEnv } from '#server/request';
 import { editReview, findOwnReview, todayJst } from '#server/reviews';
 import { getWork } from '#server/works';
 import type { Actions, PageServerLoad } from './$types';
 
-async function context(event: { params: { slug: string }; platform: App.Platform | undefined; cookies: import('@sveltejs/kit').Cookies; url: URL }) {
-	const db = database(event.platform);
+async function context(event: { params: { slug: string }; cookies: import('@sveltejs/kit').Cookies; url: URL }) {
+	const db = database();
 	const work = await getWork(db, { slug: event.params.slug });
 	if (!work || work.status !== 'active') error(404, '作品が見つかりません');
 	const device = await deviceFor(event.cookies, event.url, false);
@@ -37,8 +37,8 @@ export const actions: Actions = {
 		};
 		const result = await editReview(db, { workId: work.id, deviceHash: device, ...values }, new Date());
 		if (!result.ok) return fail(400, { error: MESSAGES[result.error], values });
-		if (result.revisionId && event.platform?.env?.AI) {
-			runAfter(event.platform, readRevision({ db, clef: bindingClient(event.platform.env.AI) }, result.revisionId));
+		if (result.revisionId && runtimeEnv().AI) {
+			runAfter(readRevision({ db, clef: bindingClient(runtimeEnv().AI) }, result.revisionId));
 		}
 		redirect(303, `/works/${work.slug}?done=edited`);
 	}

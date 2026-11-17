@@ -4,8 +4,8 @@ import { latest, REGISTRY } from '#server/tags';
 import { getWork, selectedTagIds, updateWork } from '#server/works';
 import type { Actions, PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ params, platform }) => {
-	const db = database(platform);
+export const load: PageServerLoad = async ({ params }) => {
+	const db = database();
 	const work = await getWork(db, { id: params.id });
 	if (!work) error(404, '作品が見つかりません');
 	return {
@@ -25,7 +25,7 @@ const ERRORS: Record<string, string> = {
 };
 
 export const actions: Actions = {
-	save: async ({ request, params, platform }) => {
+	save: async ({ request, params }) => {
 		const form = await request.formData();
 		const input = {
 			name: String(form.get('name') ?? ''),
@@ -34,7 +34,7 @@ export const actions: Actions = {
 			status: String(form.get('status') ?? 'active')
 		};
 		const tags = form.getAll('tags').map(String);
-		const result = await updateWork(database(platform), params.id, input, tags, new Date());
+		const result = await updateWork(database(), params.id, input, tags, new Date());
 		if (!result.ok) return fail(400, { error: ERRORS[result.error] ?? '保存できませんでした。' });
 		return { saved: true };
 	}

@@ -4,14 +4,14 @@ import { database } from '#server/request';
 import { closeReports, deleteReview, setHidden } from '#server/reviews';
 import type { Actions, PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ platform }) => reviewsForModeration(database(platform));
+export const load: PageServerLoad = async () => reviewsForModeration(database());
 
 export const actions: Actions = {
-	act: async ({ request, platform }) => {
+	act: async ({ request }) => {
 		const form = await request.formData();
 		const id = String(form.get('id') ?? '');
 		const op = String(form.get('op') ?? '');
-		const db = database(platform);
+		const db = database();
 		const now = new Date();
 		let done = false;
 		if (op === 'hide') done = await setHidden(db, id, true, now);

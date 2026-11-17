@@ -5,8 +5,8 @@ import { CATEGORIES } from '#server/works';
 import type { Category } from '#server/question-sets/types';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ url, platform }) => {
-	const db = database(platform);
+export const load: PageServerLoad = async ({ url }) => {
+	const db = database();
 	const asked = url.searchParams.get('c');
 	const category = (CATEGORIES as readonly string[]).includes(asked ?? '') ? (asked as Category) : 'game';
 	const tags = await tagOptions(db, category);

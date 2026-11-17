@@ -3,13 +3,13 @@ import { MESSAGES } from '#messages';
 import { workPage } from '#server/pages';
 import { readRevision } from '#server/reading';
 import { bindingClient } from '#server/clef';
-import { database, deviceFor, runAfter, senderHash } from '#server/request';
+import { database, deviceFor, runAfter, runtimeEnv, senderHash } from '#server/request';
 import { findOwnReview, postReview, reportReview, todayJst } from '#server/reviews';
 import { getWork } from '#server/works';
 import type { Actions, PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ params, url, platform, cookies }) => {
-	const db = database(platform);
+export const load: PageServerLoad = async ({ params, url, cookies }) => {
+	const db = database();
 	const work = await getWork(db, { slug: params.slug });
 	if (!work || work.status !== 'active') error(404, '作品が見つかりません');
 	const now = new Date();
@@ -33,8 +33,8 @@ const text = (form: FormData, name: string) => String(form.get(name) ?? '');
 
 export const actions: Actions = {
 	post: async (event) => {
-		const { request, params, platform, cookies, url } = event;
-		const db = database(platform);
+		const { request, params, cookies, url } = event;
+		const db = database();
 		const work = await getWork(db, { slug: params.slug });
 		if (!work) error(404, '作品が見つかりません');
 		const form = await request.formData();
@@ -56,16 +56,16 @@ export const actions: Actions = {
 			now
 		);
 		if (!result.ok) return fail(400, { form: 'post' as const, error: MESSAGES[result.error], values });
-		if (platform?.env?.AI) {
-			runAfter(platform, readRevision({ db, clef: bindingClient(platform.env.AI) }, result.revisionId));
+		if (runtimeEnv().AI) {
+			runAfter(readRevision({ db, clef: bindingClient(runtimeEnv().AI) }, result.revisionId));
 		}
 		console.log(JSON.stringify({ event: 'review_posted', work: work.slug, duplicate: result.duplicateOf !== null }));
 		redirect(303, `/works/${work.slug}?done=posted`);
 	},
 
 	report: async (event) => {
-		const { request, params, platform, cookies, url } = event;
-		const db = database(platform);
+		const { request, params, cookies, url } = event;
+		const db = database();
 		const form = await request.formData();
 		const reviewId = text(form, 'reviewId');
 		const now = new Date();

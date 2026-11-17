@@ -4,7 +4,7 @@ import { database } from '#server/request';
 import { createWork } from '#server/works';
 import type { Actions, PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ platform }) => adminOverview(database(platform));
+export const load: PageServerLoad = async () => adminOverview(database());
 
 const ERRORS: Record<string, string> = {
 	bad_slug: 'URL 用の名前は、小文字の英数字とハイフンで、63文字以内にしてください。',
@@ -16,7 +16,7 @@ const ERRORS: Record<string, string> = {
 };
 
 export const actions: Actions = {
-	create: async ({ request, platform }) => {
+	create: async ({ request }) => {
 		const form = await request.formData();
 		const values = {
 			slug: String(form.get('slug') ?? ''),
@@ -25,7 +25,7 @@ export const actions: Actions = {
 			url: String(form.get('url') ?? ''),
 			summary: String(form.get('summary') ?? '')
 		};
-		const result = await createWork(database(platform), values, new Date());
+		const result = await createWork(database(), values, new Date());
 		if (!result.ok) return fail(400, { error: ERRORS[result.error] ?? '登録できませんでした。', values });
 		redirect(303, `/admin/works/${result.id}`);
 	}

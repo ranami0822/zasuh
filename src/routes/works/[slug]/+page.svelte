@@ -40,7 +40,7 @@
 	{/if}
 
 	<section class="card stack" aria-label="観点ごとの向き">
-		{#if data.overall}
+		{#if data.overall && data.overall.nMention > 0}
 			<Dist nNeg={data.overall.nNeg} nMix={data.overall.nMix} nPos={data.overall.nPos} />
 		{/if}
 		{#each data.tags as t (t.tagId)}
