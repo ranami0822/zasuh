@@ -1,6 +1,6 @@
 import type { D1Database } from '@cloudflare/workers-types';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { rankedWorks, tagOptions, workPage } from './pages';
+import { rankedWorks, readingStatus, tagOptions, workPage } from './pages';
 import { readRevision } from './reading';
 import { deviceTokenHash, postReview } from './reviews';
 import { addWork, createClock, createTestDb, fakeClef } from './testing/db';
@@ -53,7 +53,7 @@ describe('作品の登録と、一覧・作品ページの問い合わせ', () =
 	it('ソフトウェアの作品には、分野のタグが付き、読み取りの質問に入る', async () => {
 		const id = await addWork(db, { category: 'software' });
 		const dev = await deviceTokenHash('a');
-		const p = await postReview(db, { workId: id, deviceHash: dev, ipHash: null, body: '{"function":"positive","stability":"negative"}', writtenOn: '2026-11-16', disclosure: 'none', disclosureNote: '' }, clock.now());
+		const p = await postReview(db, { workId: id, deviceHash: dev, ipHash: null, body: '{"function":"positive","stability":"negative"}', disclosure: 'none', disclosureNote: '' }, clock.now());
 		if (!p.ok) throw new Error(p.error);
 		const clef = fakeClef();
 		await readRevision({ db, clef, now: clock.now }, p.revisionId);
@@ -69,8 +69,10 @@ describe('作品の登録と、一覧・作品ページの問い合わせ', () =
 
 	describe('並びとページ', () => {
 		const review = async (workId: string, device: string, body: string, over: { writtenOn?: string; disclosure?: string } = {}) => {
-			const p = await postReview(db, { workId, deviceHash: await deviceTokenHash(device), ipHash: null, body, writtenOn: over.writtenOn ?? '2026-11-16', disclosure: over.disclosure ?? 'none', disclosureNote: '' }, clock.now());
+			const p = await postReview(db, { workId, deviceHash: await deviceTokenHash(device), ipHash: null, body, disclosure: over.disclosure ?? 'none', disclosureNote: '' }, clock.now());
 			if (!p.ok) throw new Error(p.error);
+			// 日付は投稿した日にサーバーが決めるので、月ごとの変化を確かめるために、保存したあとで直接書き換える。
+			if (over.writtenOn) await db.prepare('UPDATE reviews SET written_on = ? WHERE id = ?').bind(over.writtenOn, p.reviewId).run();
 			await readRevision({ db, clef: fakeClef(), now: clock.now }, p.revisionId);
 			return p;
 		};
@@ -116,6 +118,30 @@ describe('作品の登録と、一覧・作品ページの問い合わせ', () =
 			const music = await workPage(db, work, { tag: 'game/music' });
 			expect(music.total).toBe(1);
 			expect(music.reviews).toHaveLength(1);
+		});
+
+		it('読み取りの状況: 読む前は pending、読んだあとは向きつきで ok。関係者と重複の印も返す', async () => {
+			const id = await addWork(db);
+			const dev = await deviceTokenHash('s');
+			const p = await postReview(db, { workId: id, deviceHash: dev, ipHash: null, body: '{"gameplay":"positive","price":"negative"}', disclosure: 'developer', disclosureNote: '', }, clock.now());
+			if (!p.ok) throw new Error(p.error);
+			expect(await readingStatus(db, p.reviewId)).toEqual({ status: 'pending', reads: [], duplicate: false, disclosed: true });
+			await readRevision({ db, clef: fakeClef(), now: clock.now }, p.revisionId);
+			expect(await readingStatus(db, p.reviewId)).toEqual({
+				status: 'ok',
+				reads: [
+					{ tagId: 'game/gameplay', label: 'ゲーム性・内容', value: 'positive' },
+					{ tagId: 'game/price', label: '価格', value: 'negative' }
+				],
+				duplicate: false,
+				disclosed: true
+			});
+			const failing = await postReview(db, { workId: id, deviceHash: await deviceTokenHash('t'), ipHash: null, body: '{"x":1}  ', disclosure: 'none', disclosureNote: '' }, clock.now());
+			if (!failing.ok) throw new Error(failing.error);
+			const broken = fakeClef(() => { throw new Error('boom'); });
+			await readRevision({ db, clef: broken, now: clock.now, quickRetryDelayMs: 0 }, failing.revisionId);
+			expect((await readingStatus(db, failing.reviewId))?.status).toBe('failed');
+			expect(await readingStatus(db, 'missing')).toBeNull();
 		});
 
 		it('ページ分け。非表示のレビューは出ない', async () => {

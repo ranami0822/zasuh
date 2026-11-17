@@ -299,11 +299,53 @@ button.tag:hover {
 	gap: var(--space-3);
 }
 
-/* 向きの分布（否定 / 混在 / 肯定） */
+/* 向きの分布（否定 / 混在 / 肯定）。hero は総合（大きい）、row は観点ごと（小さい） */
 .dist {
 	display: flex;
-	align-items: center;
+	flex-direction: column;
 	gap: var(--space-2);
+}
+.dist.row {
+	flex-direction: row;
+	align-items: center;
+	gap: var(--space-3);
+}
+.dist__top {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: var(--space-3);
+}
+.dist__total {
+	font-family: var(--font-heading);
+	font-size: 40px;
+	line-height: 1;
+}
+.dist__split {
+	display: flex;
+	gap: var(--space-2);
+	font-size: 11px;
+	color: var(--text-muted);
+	white-space: nowrap;
+}
+.dist__split .neg::before,
+.dist__split .mix::before,
+.dist__split .pos::before {
+	content: '';
+	display: inline-block;
+	width: 8px;
+	height: 8px;
+	margin-right: 4px;
+	border-radius: 2px;
+}
+.dist__split .neg::before {
+	background: var(--sentiment-1-fill);
+}
+.dist__split .mix::before {
+	background: var(--sentiment-3-fill);
+}
+.dist__split .pos::before {
+	background: var(--sentiment-5-fill);
 }
 .dist__bar {
 	flex: 1;
@@ -311,6 +353,11 @@ button.tag:hover {
 	gap: 2px;
 	height: var(--bar, 8px);
 	opacity: var(--bar-opacity, 1);
+	min-width: 40px;
+}
+.dist.hero .dist__bar {
+	flex: none;
+	width: 100%;
 }
 .dist__bar > i {
 	display: block;
@@ -334,33 +381,70 @@ button.tag:hover {
 .dist__bar.empty {
 	background: var(--sentiment-track);
 	border-radius: 4px;
-}
-.dist svg {
-	width: 16px;
-	height: 16px;
-	flex: none;
-}
-.dist .end-neg {
-	color: var(--sentiment-1-fill);
-}
-.dist .end-pos {
-	color: var(--sentiment-5-fill);
+	opacity: 1;
 }
 .dist__count {
-	width: 40px;
+	width: 28px;
 	flex: none;
 	text-align: right;
 	font-size: 11px;
 	color: var(--text-muted);
-	font-variant-numeric: tabular-nums;
+}
+
+/* 観点ごとの行: 名前、小さな棒、件数 */
+.tagrows {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-2);
+}
+.tagrow {
+	display: grid;
+	grid-template-columns: minmax(84px, 40%) 1fr;
+	align-items: center;
+	gap: var(--space-3);
+	padding: var(--space-1) 0;
+	font-size: 12px;
+	color: var(--text);
+	text-decoration: none;
+	border-radius: var(--radius-tag);
+}
+.tagrow:hover {
+	color: var(--link-hover);
+	text-decoration: none;
+}
+.tagrow[aria-current='true'] {
+	font-weight: 500;
+	color: var(--link-hover);
+}
+.tagrow.empty {
+	color: var(--text-muted);
 }
 
 /* 順位の一覧 */
 .rank {
 	display: grid;
-	grid-template-columns: 32px 1fr;
+	grid-template-columns: 32px minmax(0, 1fr);
 	gap: var(--space-3);
 	align-items: center;
+	padding: var(--space-4) var(--space-5);
+	color: inherit;
+	text-decoration: none;
+}
+.rank:hover {
+	background: var(--surface-hover);
+	text-decoration: none;
+	color: inherit;
+}
+.rank__body {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(120px, 40%);
+	align-items: center;
+	gap: var(--space-4);
+}
+.rank__body h3 {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 .rank__no {
 	font-family: var(--font-heading);
@@ -427,4 +511,185 @@ button.tag:hover {
 [data-slot='dialog-backdrop'][data-starting-style],
 [data-slot='dialog-backdrop'][data-ending-style] {
 	opacity: 0;
+}
+
+/* 作品ページ: 左に概要、右にレビュー。狭い画面では縦に積む */
+.page.wide {
+	max-width: 1000px;
+}
+.hero {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-2);
+	padding-bottom: var(--space-2);
+}
+.layout {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--space-6);
+	align-items: start;
+}
+@media (min-width: 820px) {
+	.layout {
+		grid-template-columns: 300px minmax(0, 1fr);
+	}
+	.side {
+		position: sticky;
+		top: var(--space-4);
+	}
+}
+.panel {
+	background: var(--surface);
+	border-radius: var(--radius-card);
+	box-shadow: var(--shadow-md);
+	padding: var(--space-5);
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-4);
+}
+.panel.flush {
+	padding: 0;
+	gap: 0;
+	overflow: hidden;
+}
+.main {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-4);
+	min-width: 0;
+}
+
+/* 書く場所: 薄字の入力欄。書き始めると広がる */
+.compose textarea {
+	min-height: 56px;
+	transition: min-height var(--dur-surface) var(--ease-standard);
+}
+.compose:focus-within textarea,
+.compose textarea:not(:placeholder-shown) {
+	min-height: 120px;
+}
+.compose__foot {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-3);
+	flex-wrap: wrap;
+}
+
+/* レビューの並び: 1つの面の中に、余白で区切る（1件ずつをカードにしない） */
+.reviews > article {
+	padding: var(--space-5);
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-2);
+}
+.reviews > article.faded {
+	opacity: 0.55;
+}
+.review__meta {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-3);
+	font-size: 11px;
+	color: var(--text-muted);
+}
+.review__report {
+	font: inherit;
+	font-size: 11px;
+	color: var(--text-muted);
+	background: none;
+	border: 0;
+	padding: var(--space-1) var(--space-2);
+	border-radius: var(--radius-tag);
+	cursor: pointer;
+}
+.review__report:hover {
+	background: var(--tag-bg);
+	color: var(--tag-fg);
+}
+
+/* 通知（toast）。AIが読んだ結果は、AI整理の面（深い紫）で見せる */
+[data-slot='toast-region'] {
+	position: fixed;
+	bottom: var(--space-6);
+	left: 50%;
+	translate: -50% 0;
+	width: min(380px, calc(100vw - 32px));
+	height: var(--toast-front-height);
+	z-index: 50;
+}
+[data-slot='toast-region'][data-expanded] {
+	height: calc(var(--toast-stack-height) + (var(--toast-count) - 1) * 12px);
+}
+[data-slot='toast'] {
+	--y: calc(var(--toast-index) * -12px);
+	position: absolute;
+	inset-inline: 0;
+	bottom: 0;
+	z-index: calc(100 - var(--toast-index));
+	height: var(--toast-height);
+	translate: var(--toast-swipe-x, 0px) calc(var(--y) + var(--toast-swipe-y, 0px));
+	scale: calc(1 - var(--toast-index) * 0.05);
+	transition-property: translate, scale, opacity, height;
+	transition-duration: var(--dur-surface);
+	transition-timing-function: var(--ease-standard);
+	user-select: none;
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-1);
+	padding: var(--space-4);
+	border-radius: var(--radius-card);
+	background: var(--surface-deep);
+	color: var(--on-bold);
+	box-shadow: var(--shadow-lg);
+}
+[data-slot='toast']:not([data-front], [data-expanded]) {
+	height: var(--toast-front-height);
+}
+[data-slot='toast'][data-expanded] {
+	--y: calc(-1 * (var(--toast-offset) + var(--toast-index) * 12px));
+	scale: 1;
+}
+[data-slot='toast'][data-starting-style] {
+	transition: none;
+}
+[data-slot='toast'][data-starting-style][data-front] {
+	--y: 100%;
+}
+[data-slot='toast']:is([data-starting-style]:not([data-front]), [data-ending-style]) {
+	opacity: 0;
+}
+[data-slot='toast'][data-swiping] {
+	transition: none;
+}
+[data-slot='toast-title'] {
+	font-family: var(--font-heading);
+	font-size: 16px;
+	line-height: 1.45;
+}
+[data-slot='toast-description'] {
+	font-size: 13px;
+	line-height: 1.6;
+	color: var(--purple-96);
+	white-space: pre-line;
+}
+[data-slot='toast'][data-type='success'] [data-slot='toast-title']::before {
+	content: 'AI';
+	display: inline-block;
+	margin-right: var(--space-2);
+	padding: 0 var(--space-2);
+	border-radius: var(--radius-neon);
+	background: var(--neon);
+	color: var(--on-neon);
+	font-family: var(--font-body);
+	font-size: 11px;
+	font-weight: 500;
+	line-height: 18px;
+	vertical-align: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+	[data-slot='toast'] {
+		transition-property: opacity;
+	}
 }

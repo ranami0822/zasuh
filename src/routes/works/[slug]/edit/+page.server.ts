@@ -3,7 +3,7 @@ import { MESSAGES } from '#messages';
 import { bindingClient } from '#server/clef';
 import { readRevision } from '#server/reading';
 import { database, deviceFor, runAfter, runtimeEnv } from '#server/request';
-import { editReview, findOwnReview, todayJst } from '#server/reviews';
+import { editReview, findOwnReview } from '#server/reviews';
 import { getWork } from '#server/works';
 import type { Actions, PageServerLoad } from './$types';
 
@@ -20,7 +20,7 @@ export const load: PageServerLoad = async (event) => {
 	const now = new Date();
 	const own = device ? await findOwnReview(db, work.id, device, now) : null;
 	if (!own) redirect(303, `/works/${work.slug}`);
-	return { work: { slug: work.slug, name: work.name }, own, today: todayJst(now) };
+	return { work: { slug: work.slug, name: work.name }, own };
 };
 
 export const actions: Actions = {
@@ -31,7 +31,6 @@ export const actions: Actions = {
 		const text = (name: string) => String(form.get(name) ?? '');
 		const values = {
 			body: text('body'),
-			writtenOn: text('writtenOn'),
 			disclosure: text('disclosure') || 'none',
 			disclosureNote: text('disclosureNote')
 		};

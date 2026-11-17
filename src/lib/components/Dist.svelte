@@ -1,22 +1,28 @@
 <script lang="ts">
-	/** 向きの分布（否定 / 混在 / 肯定）。言及が少ないときは、文字ではなく、細く・薄くして伝える。 */
-	let { nNeg, nMix, nPos }: { nNeg: number; nMix: number; nPos: number } = $props();
+	/**
+	 * 向きの分布（否定 / 混在 / 肯定）。言及が少ないときは、文字ではなく、細く・薄くして伝える。
+	 * size: hero は総合（大きい。割合を添える）、row は観点ごと（小さい。棒と件数だけ）。
+	 */
+	let { nNeg, nMix, nPos, size = 'row' }: { nNeg: number; nMix: number; nPos: number; size?: 'hero' | 'row' } = $props();
 
 	const n = $derived(nNeg + nMix + nPos);
-	const percent = (v: number) => (n === 0 ? '' : `${Math.round((v / n) * 100)}%`);
-	const label = $derived(
-		n === 0
-			? '言及なし'
-			: `否定 ${percent(nNeg)}、混在 ${percent(nMix)}、肯定 ${percent(nPos)}（${n}件）`
-	);
-	const bar = $derived(n < 5 ? '4px' : n < 20 ? '8px' : '12px');
-	const opacity = $derived(n < 5 ? 0.5 : 1);
+	const pct = (v: number) => (n === 0 ? 0 : Math.round((v / n) * 100));
+	const label = $derived(n === 0 ? '言及なし' : `否定 ${pct(nNeg)}%、混在 ${pct(nMix)}%、肯定 ${pct(nPos)}%（${n}件）`);
+	const thickness = $derived(size === 'hero' ? (n < 5 ? '10px' : '18px') : n < 5 ? '3px' : n < 20 ? '5px' : '7px');
+	const opacity = $derived(n < 5 ? 0.55 : 1);
 </script>
 
-<div class="dist" style:--bar={bar} style:--bar-opacity={opacity}>
-	<svg class="end-neg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="否定">
-		<path d="M7 13v-8a1 1 0 0 0 -1 -1h-2a1 1 0 0 0 -1 1v7a1 1 0 0 0 1 1h3a4 4 0 0 1 4 4v1a2 2 0 0 0 4 0v-5h3a2 2 0 0 0 2 -2l-1 -5a2 3 0 0 0 -2 -2h-7a3 3 0 0 0 -3 3" />
-	</svg>
+<div class="dist {size}" style:--bar={thickness} style:--bar-opacity={opacity}>
+	{#if size === 'hero'}
+		<div class="dist__top">
+			<span class="dist__total num">{n}</span>
+			<span class="dist__split num" aria-hidden="true">
+				<span class="neg">否定 {pct(nNeg)}%</span>
+				<span class="mix">混在 {pct(nMix)}%</span>
+				<span class="pos">肯定 {pct(nPos)}%</span>
+			</span>
+		</div>
+	{/if}
 	{#if n === 0}
 		<div class="dist__bar empty" role="img" aria-label={label}></div>
 	{:else}
@@ -26,8 +32,5 @@
 			<i class="pos" style:flex={nPos} style:display={nPos ? 'block' : 'none'}></i>
 		</div>
 	{/if}
-	<svg class="end-pos" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="肯定">
-		<path d="M7 11v8a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1v-7a1 1 0 0 1 1 -1h3a4 4 0 0 0 4 -4v-1a2 2 0 0 1 4 0v5h3a2 2 0 0 1 2 2l-1 5a2 3 0 0 1 -2 2h-7a3 3 0 0 1 -3 -3" />
-	</svg>
-	<span class="dist__count">{n}</span>
+	{#if size === 'row'}<span class="dist__count num">{n}</span>{/if}
 </div>

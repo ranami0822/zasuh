@@ -5,7 +5,6 @@ export const MESSAGES: Record<Failure, string> = {
 	work_not_found: 'この作品には投稿できません。一覧から選び直してください。',
 	body_too_short: '本文が短すぎます。5文字以上で、具体的に書いてください。',
 	body_too_long: '本文が長すぎます。4,000文字以内にしてください。',
-	bad_date: '日付が正しくありません。2000年1月1日から今日までの日付を選んでください。',
 	bad_disclosure: '利害関係の選択が正しくありません。選び直してください。',
 	note_too_long: 'メモが長すぎます。200文字以内にしてください。',
 	already_posted: 'この作品には、すでに投稿しています。直すときは、編集してください。',

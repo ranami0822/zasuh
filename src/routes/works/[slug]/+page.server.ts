@@ -4,7 +4,7 @@ import { workPage } from '#server/pages';
 import { readRevision } from '#server/reading';
 import { bindingClient } from '#server/clef';
 import { database, deviceFor, runAfter, runtimeEnv, senderHash } from '#server/request';
-import { findOwnReview, postReview, reportReview, todayJst } from '#server/reviews';
+import { findOwnReview, postReview, reportReview } from '#server/reviews';
 import { getWork } from '#server/works';
 import type { Actions, PageServerLoad } from './$types';
 
@@ -23,7 +23,6 @@ export const load: PageServerLoad = async ({ params, url, cookies }) => {
 	return {
 		...view,
 		tag,
-		today: todayJst(now),
 		own: own ? { editsLeft: own.editsLeft, expired: own.expired } : null,
 		done: url.searchParams.get('done')
 	};
@@ -40,7 +39,6 @@ export const actions: Actions = {
 		const form = await request.formData();
 		const values = {
 			body: text(form, 'body'),
-			writtenOn: text(form, 'writtenOn'),
 			disclosure: text(form, 'disclosure') || 'none',
 			disclosureNote: text(form, 'disclosureNote')
 		};

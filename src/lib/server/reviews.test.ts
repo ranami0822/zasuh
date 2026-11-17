@@ -39,7 +39,6 @@ describe('レビューの投稿・編集・通報・管理', () => {
 		deviceHash: await deviceTokenHash(device),
 		ipHash: null,
 		body: '{"gameplay":"positive"}',
-		writtenOn: '2026-11-16',
 		disclosure: 'none',
 		disclosureNote: '',
 		...over
@@ -63,22 +62,19 @@ describe('レビューの投稿・編集・通報・管理', () => {
 			expect(row).toEqual({ body: '{"gameplay":"positive"}', source: 'site', kind: 'anon' });
 		});
 
-		it('入力を検証する: 短すぎる、長すぎる、日付、利害関係、メモ、存在しない作品', async () => {
+		it('入力を検証する: 短すぎる、長すぎる、利害関係、メモ、存在しない作品', async () => {
 			expect(await post('a', { body: 'あ' })).toEqual({ ok: false, error: 'body_too_short' });
 			expect(await post('a', { body: 'あ'.repeat(4001) })).toEqual({ ok: false, error: 'body_too_long' });
-			expect(await post('a', { writtenOn: '2026-11-18' })).toEqual({ ok: false, error: 'bad_date' }); // 明日（日本時間）
-			expect(await post('a', { writtenOn: '1999-12-31' })).toEqual({ ok: false, error: 'bad_date' });
-			expect(await post('a', { writtenOn: '2026-13-01' })).toEqual({ ok: false, error: 'bad_date' });
-			expect(await post('a', { writtenOn: '2026-02-31' })).toEqual({ ok: false, error: 'bad_date' }); // 存在しない日付
 			expect(await post('a', { disclosure: 'friend' })).toEqual({ ok: false, error: 'bad_disclosure' });
 			expect(await post('a', { disclosure: 'developer', disclosureNote: 'あ'.repeat(201) })).toEqual({ ok: false, error: 'note_too_long' });
 			expect(await post('a', { workId: 'missing' })).toEqual({ ok: false, error: 'work_not_found' });
 			expect(await db.prepare('SELECT COUNT(*) AS n FROM reviews').first()).toEqual({ n: 0 });
 		});
 
-		it('日付は日本時間の今日まで', async () => {
+		it('レビューの日付は、投稿した日（日本時間）で、サーバーが決める。投稿者は決められない', async () => {
 			expect(todayJst(new Date('2026-11-17T20:00:00Z'))).toBe('2026-11-18');
-			expect(must(await post('a', { writtenOn: '2026-11-17' })).ok).toBe(true);
+			must(await postReview(db, { ...(await input('a')), writtenOn: '1999-01-01' } as PostInput, new Date('2026-11-17T20:00:00Z')));
+			expect(await db.prepare('SELECT written_on AS d FROM reviews').first()).toEqual({ d: '2026-11-18' });
 		});
 
 		it('1つの作品に、1つの端末は1件。別の端末なら投稿できる。非表示の作品には投稿できない', async () => {
@@ -150,7 +146,7 @@ describe('レビューの投稿・編集・通報・管理', () => {
 			const first = must(await post('a'));
 			await read(first.revisionId);
 			const dev = await deviceTokenHash('a');
-			const edit = (body: string) => editReview(db, { workId, deviceHash: dev, body, writtenOn: '2026-11-16', disclosure: 'none', disclosureNote: '' }, clock.now());
+			const edit = (body: string) => editReview(db, { workId, deviceHash: dev, body, disclosure: 'none', disclosureNote: '' }, clock.now());
 			for (let i = 1; i <= EDIT_MAX; i++) {
 				const r = must(await edit(`{"gameplay":"${i % 2 ? 'negative' : 'positive'}"}`));
 				expect(r.revisionId).not.toBeNull();
@@ -162,13 +158,13 @@ describe('レビューの投稿・編集・通報・管理', () => {
 			expect(revisions).toEqual({ n: 4 });
 		});
 
-		it('本文が同じで、日付や利害関係だけを直した場合は、回数に数えず、読み直さない', async () => {
+		it('本文が同じで、利害関係だけを直した場合は、回数に数えず、読み直さない。日付は変わらない', async () => {
 			const first = must(await post('a'));
 			await read(first.revisionId);
 			const dev = await deviceTokenHash('a');
-			const r = must(await editReview(db, { workId, deviceHash: dev, body: '{"gameplay":"positive"}', writtenOn: '2026-11-10', disclosure: 'developer', disclosureNote: '開発元の者です' }, clock.now()));
+			const r = must(await editReview(db, { workId, deviceHash: dev, body: '{"gameplay":"positive"}', disclosure: 'developer', disclosureNote: '開発元の者です' }, clock.now()));
 			expect(r.revisionId).toBeNull();
-			expect(await findOwnReview(db, workId, dev, clock.now())).toMatchObject({ editsUsed: 0, writtenOn: '2026-11-10', disclosure: 'developer', disclosureNote: '開発元の者です' });
+			expect(await findOwnReview(db, workId, dev, clock.now())).toMatchObject({ editsUsed: 0, writtenOn: '2026-11-17', disclosure: 'developer', disclosureNote: '開発元の者です' });
 			// 利害関係ありになったので、集計から外れる。
 			expect(await stats()).toEqual({ n_mention: 0, n_pos: 0 });
 		});
@@ -176,7 +172,7 @@ describe('レビューの投稿・編集・通報・管理', () => {
 		it('7日を過ぎると編集できない。ほかの端末や、レビューのない端末は編集できない', async () => {
 			must(await post('a'));
 			const dev = await deviceTokenHash('a');
-			const e = { workId, body: '{"gameplay":"negative"}', writtenOn: '2026-11-16', disclosure: 'none', disclosureNote: '' };
+			const e = { workId, body: '{"gameplay":"negative"}', disclosure: 'none', disclosureNote: '' };
 			expect(await editReview(db, { ...e, deviceHash: await deviceTokenHash('b') }, clock.now())).toEqual({ ok: false, error: 'not_found' });
 			clock.advance(EDIT_WINDOW_MS + 1);
 			expect(await editReview(db, { ...e, deviceHash: dev }, clock.now())).toEqual({ ok: false, error: 'edit_expired' });
@@ -188,7 +184,7 @@ describe('レビューの投稿・編集・通報・管理', () => {
 			clock.advance(60_000);
 			must(await post('b', { body: 'ロード時間が長く、起動のたびに待たされる。操作の説明もなく、最初は何をすればよいか分からなかった' }));
 			const dev = await deviceTokenHash('b');
-			const e = (body: string) => editReview(db, { workId, deviceHash: dev, body, writtenOn: '2026-11-16', disclosure: 'none', disclosureNote: '' }, clock.now());
+			const e = (body: string) => editReview(db, { workId, deviceHash: dev, body, disclosure: 'none', disclosureNote: '' }, clock.now());
 			must(await e(LONG));
 			const dup = () => db.prepare('SELECT duplicate_of AS d FROM reviews WHERE reviewer_id = (SELECT id FROM reviewers WHERE token_hash = ?)').bind(dev).first();
 			expect(await dup()).toEqual({ d: first.reviewId });

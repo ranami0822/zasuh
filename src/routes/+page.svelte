@@ -11,7 +11,7 @@
 	<Header />
 	<h1>言葉で読む、作品の評価</h1>
 
-	<nav class="stack" aria-label="絞り込み">
+	<nav class="stack" aria-label="絞り込み" style="gap: var(--space-2)">
 		<div class="row">
 			{#each data.categories as c (c.id)}
 				<a class="tag" href={href(c.id)} aria-current={c.id === data.category}>{c.label}</a>
@@ -28,11 +28,11 @@
 	{#if data.works.length === 0}
 		<p class="muted">まだ作品がありません。</p>
 	{:else}
-		<div class="stack">
+		<div class="panel flush">
 			{#each data.works as w (w.slug)}
-				<a class="card rank" href={`/works/${w.slug}`} style="color: inherit; text-decoration: none">
+				<a class="rank" href={`/works/${w.slug}`}>
 					<span class="rank__no">{w.rank ?? ''}</span>
-					<div class="stack" style="gap: var(--space-2)">
+					<div class="rank__body">
 						<h3>{w.name}</h3>
 						<Dist nNeg={w.nNeg} nMix={w.nMix} nPos={w.nPos} />
 					</div>

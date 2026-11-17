@@ -59,9 +59,11 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) process
   await a.goto(BASE + '/works/star-line');
   await a.screenshot({ path: OUT + '/work-empty.png', fullPage: true });
   await a.fill('textarea[name=body]', '運転台の操作が丁寧に作り込まれていて、夜景の見た目も美しい。ただ、ロードが長いのが残念。');
+  ok(!(await a.$('input[type=date]')), 'there is no date field (the server decides the date)');
   await a.click('button:has-text("投稿する")');
-  await a.waitForSelector('.banner.success');
-  ok((await a.textContent('.banner.success')).includes('投稿しました'), 'review posted');
+  await a.waitForSelector('[data-slot=toast]');
+  ok((await a.textContent('[data-slot=toast]')).includes('投稿しました'), 'toast shown after posting');
+  ok(!a.url().includes('done='), 'the done flag is removed from the URL');
   ok(await a.isVisible('text=この作品には、すでに投稿しています'), 'form replaced by edit link');
   ok(await a.isVisible('article:has-text("運転台の操作")'), 'review shown');
 
@@ -79,11 +81,10 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) process
   await a.waitForURL(/\/edit$/);
   await a.fill('textarea[name=body]', '運転台の操作が丁寧に作り込まれていて、夜景の見た目も美しい。ロードも速くなった。');
   await a.click('button:has-text("直す")');
-  await a.waitForSelector('.banner.success');
-  ok((await a.textContent('.banner.success')).includes('直しました'), 'review edited');
-  ok(await a.isVisible('text=編集済み'), 'edited mark shown');
+  ok(await a.waitForSelector('[data-slot=toast]:has-text("直しました")', { timeout: 10000 }).then(() => true, () => false), 'toast shown after editing');
+  ok(await a.waitForSelector('text=編集済み', { timeout: 10000 }).then(() => true, () => false), 'edited mark shown');
   await a.goto(BASE + '/works/star-line/edit');
-  ok((await a.textContent('p.muted')).includes('あと 2 回') || (await a.textContent('p.muted')).includes('あと'), 'edits left shown: ' + (await a.textContent('p.muted')).trim());
+  ok((await a.textContent('p.muted')).includes('あと'), 'edits left shown: ' + (await a.textContent('p.muted')).trim());
 
   // 読者B: 通報
   await b.goto(BASE + '/works/star-line');
@@ -112,7 +113,7 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) process
   // 一覧
   const h = await browser.newPage({ viewport: { width: 900, height: 900 } });
   await h.goto(BASE + '/');
-  ok(await h.isVisible('a.card:has-text("星屑の鉄道")'), 'work listed on home');
+  ok(await h.isVisible('a.rank:has-text("星屑の鉄道")'), 'work listed on home');
   await h.screenshot({ path: OUT + '/home.png', fullPage: true });
   await a.screenshot({ path: OUT + '/work.png', fullPage: true });
   await browser.close();

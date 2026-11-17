@@ -10,7 +10,7 @@
 	import type { PageProps } from './$types';
 
 	let { data, form }: PageProps = $props();
-	const start = $derived(form?.values ?? { body: data.own.body, writtenOn: data.own.writtenOn, disclosure: data.own.disclosure, disclosureNote: data.own.disclosureNote });
+	const start = $derived(form?.values ?? { body: data.own.body, disclosure: data.own.disclosure, disclosureNote: data.own.disclosureNote });
 	let disclosure = $state('none');
 	$effect.pre(() => {
 		disclosure = start.disclosure;
@@ -27,16 +27,12 @@
 		</p>
 	</div>
 
-	<form method="post" action="?/save" class="card stack" use:enhance>
+	<form method="post" action="?/save" class="panel" use:enhance>
 		{#if form?.error}<p class="banner error" role="alert">{form.error}</p>{/if}
 		<Field name="body">
 			<FieldLabel>レビュー</FieldLabel>
 			<Textarea class="input" rows={6} required minlength={5} maxlength={4000} disabled={locked} defaultValue={start.body} />
 		</Field>
-		<div class="field">
-			<label for="writtenOn">日付</label>
-			<input class="input" id="writtenOn" name="writtenOn" type="date" required min="2000-01-01" max={data.today} disabled={locked} value={start.writtenOn} />
-		</div>
 		<Field>
 			<FieldLabel>利害関係</FieldLabel>
 			<RadioGroup name="disclosure" bind:value={disclosure} defaultValue={start.disclosure} disabled={locked} class="row">

@@ -31,7 +31,6 @@ export type Failure =
 	| 'work_not_found'
 	| 'body_too_short'
 	| 'body_too_long'
-	| 'bad_date'
 	| 'bad_disclosure'
 	| 'note_too_long'
 	| 'already_posted'
@@ -45,7 +44,7 @@ export type Failure =
 
 export type Result<T> = ({ ok: true } & T) | { ok: false; error: Failure };
 
-/** 日本時間の今日（YYYY-MM-DD）。 */
+/** 日本時間の今日（YYYY-MM-DD）。レビューの日付は、投稿した日で、サーバーが決める（投稿者は変えられない）。 */
 export function todayJst(now: Date): string {
 	return new Date(now.getTime() + JST_OFFSET_MS).toISOString().slice(0, 10);
 }
@@ -82,7 +81,6 @@ export interface PostInput {
 	deviceHash: string;
 	ipHash: string | null;
 	body: string;
-	writtenOn: string;
 	disclosure: string;
 	disclosureNote: string;
 }
@@ -98,14 +96,6 @@ function validateDisclosure(disclosure: string, note: string): Failure | null {
 	if (!(DISCLOSURES as readonly string[]).includes(disclosure)) return 'bad_disclosure';
 	if ([...note].length > NOTE_MAX) return 'note_too_long';
 	return null;
-}
-
-function validateDate(value: string, now: Date): boolean {
-	if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
-	const parsed = new Date(`${value}T00:00:00Z`);
-	// 2月31日のような、存在しない日付は、実在する日付に繰り上がるので、戻して一致するかを確かめる。
-	if (Number.isNaN(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== value) return false;
-	return value >= '2000-01-01' && value <= todayJst(now);
 }
 
 /**
@@ -151,7 +141,6 @@ export async function postReview(
 	if (!work) return { ok: false, error: 'work_not_found' };
 	const bad = validateBody(input.body) ?? validateDisclosure(input.disclosure, input.disclosureNote);
 	if (bad) return { ok: false, error: bad };
-	if (!validateDate(input.writtenOn, now)) return { ok: false, error: 'bad_date' };
 
 	const reviewerId = await ensureReviewer(db, input.deviceHash, now);
 	const posted = await db
@@ -194,7 +183,7 @@ export async function postReview(
 					input.workId,
 					reviewerId,
 					revisionId,
-					input.writtenOn,
+					todayJst(now),
 					input.disclosure,
 					note,
 					await sha256Hex(normalizeText(body)),
@@ -275,7 +264,6 @@ export interface EditInput {
 	workId: string;
 	deviceHash: string;
 	body: string;
-	writtenOn: string;
 	disclosure: string;
 	disclosureNote: string;
 }
@@ -291,7 +279,6 @@ export async function editReview(
 	if (own.expired) return { ok: false, error: 'edit_expired' };
 	const bad = validateBody(input.body) ?? validateDisclosure(input.disclosure, input.disclosureNote);
 	if (bad) return { ok: false, error: bad };
-	if (!validateDate(input.writtenOn, now)) return { ok: false, error: 'bad_date' };
 
 	const body = input.body.trim();
 	const note = input.disclosure === 'none' ? null : input.disclosureNote.trim() || null;
@@ -314,10 +301,10 @@ export async function editReview(
 	const statements = [
 		db
 			.prepare(
-				`UPDATE reviews SET written_on = ?, disclosure = ?, disclosure_note = ?, text_hash = ?, duplicate_of = ?
+				`UPDATE reviews SET disclosure = ?, disclosure_note = ?, text_hash = ?, duplicate_of = ?
 				  WHERE id = ?`
 			)
-			.bind(input.writtenOn, input.disclosure, note, await sha256Hex(normalizeText(body)), duplicateOf, own.reviewId)
+			.bind(input.disclosure, note, await sha256Hex(normalizeText(body)), duplicateOf, own.reviewId)
 	];
 	let revisionId: string | null = null;
 	if (bodyChanged) {

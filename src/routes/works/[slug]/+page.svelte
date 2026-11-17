@@ -1,5 +1,8 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { invalidateAll, replaceState } from '$app/navigation';
+	import { toast } from '@ui-sdk/svelte/toast';
+	import { untrack } from 'svelte';
 	import { Button } from '@ui-sdk/svelte/button';
 	import { Dialog, DialogBackdrop, DialogClose, DialogContent, DialogTitle, DialogTrigger } from '@ui-sdk/svelte/dialog';
 	import { Field, FieldLabel } from '@ui-sdk/svelte/field';
@@ -20,155 +23,198 @@
 	let reported = $state<Record<string, boolean>>({});
 	let reportError = $state('');
 
+	const WORD = { positive: '肯定', negative: '否定', mixed: '混在' } as const;
+
+	/** 投稿・編集の直後に、AIの読み取りの結果を、toast で知らせる。読み取りは、応答のあとに始まるので、数秒おきに確かめる。 */
+	async function follow(kind: 'posted' | 'edited') {
+		const id = toast.loading(kind === 'posted' ? '投稿しました。読み取っています' : '直しました。読み取っています', { id: 'reading' });
+		for (let i = 0; i < 24; i++) {
+			await new Promise((r) => setTimeout(r, 1500));
+			let status: { status: string; reads: { label: string; value: keyof typeof WORD }[]; duplicate: boolean; disclosed: boolean } | null = null;
+			try {
+				const res = await fetch(`/works/${data.work.slug}/reading`);
+				if (res.ok) status = await res.json();
+			} catch {
+				/* 通信の失敗は、次の回で、もう一度確かめる */
+			}
+			if (!status) continue;
+			if (status.status === 'failed') {
+				toast.update(id, { type: 'info', title: 'いまは読み取れませんでした', description: 'あとで自動で読み直します。', duration: 8000 });
+				return;
+			}
+			if (status.status === 'ok') {
+				const lines = status.reads.map((r) => `${r.label}　${WORD[r.value]}`);
+				const notes = [
+					status.duplicate ? 'ほかのレビューと文面がほぼ同じなので、集計には数えません。' : '',
+					status.disclosed ? '関係者のレビューとして、別枠に表示します。集計には数えません。' : ''
+				].filter(Boolean);
+				toast.update(id, {
+					type: 'success',
+					title: lines.length > 0 ? '読み取りました' : '数えられる内容は、見つかりませんでした',
+					description: [...lines, ...notes].join('\n') || '具体的な事実・特徴・体験が書かれていると、観点として数えられます。',
+					duration: 9000
+				});
+				await invalidateAll();
+				return;
+			}
+		}
+		toast.update(id, { type: 'info', title: '読み取りに時間がかかっています', description: '終わると、結果が反映されます。', duration: 8000 });
+	}
+
+	// 同じページへの移動（フォーム送信のあとの redirect）では、コンポーネントが作り直されないので、onMount ではなく $effect で見る。
+	// 読み取りが終わって、データを読み直す（invalidateAll）と、load の url には ?done が残っているので、一度だけ始める印を持つ。
+	let started = false;
+	$effect(() => {
+		const done = data.done;
+		if (done !== 'posted' && done !== 'edited') {
+			started = false;
+			return;
+		}
+		if (started) return;
+		started = true;
+		untrack(() => {
+			replaceState(`/works/${data.work.slug}`, {});
+			void follow(done);
+		});
+	});
+
 	const link = (t: string | null, p = 1) => `/works/${data.work.slug}${t || p > 1 ? '?' : ''}${[t ? `t=${encodeURIComponent(t)}` : '', p > 1 ? `p=${p}` : ''].filter(Boolean).join('&')}`;
 	const maxMonth = $derived(Math.max(1, ...data.months.map((m: { nNeg: number; nMix: number; nPos: number }) => m.nNeg + m.nMix + m.nPos)));
 </script>
 
-<div class="page">
+<div class="page wide">
 	<Header />
 
-	<div class="stack">
+	<header class="hero">
 		<h1>{data.work.name}</h1>
 		{#if data.work.summary}<p class="muted">{data.work.summary}</p>{/if}
 		{#if data.work.url}<p class="caption"><a href={data.work.url} rel="noopener noreferrer nofollow">{data.work.url}</a></p>{/if}
-	</div>
+	</header>
 
-	{#if data.done === 'posted'}
-		<p class="banner success" role="status">投稿しました。</p>
-	{:else if data.done === 'edited'}
-		<p class="banner success" role="status">直しました。</p>
-	{/if}
-
-	<section class="card stack" aria-label="観点ごとの向き">
-		{#if data.overall && data.overall.nMention > 0}
-			<Dist nNeg={data.overall.nNeg} nMix={data.overall.nMix} nPos={data.overall.nPos} />
-		{/if}
-		{#each data.tags as t (t.tagId)}
-			<div class="stack" style="gap: var(--space-1)">
-				<a class="caption" href={link(data.tag === t.tagId ? null : t.tagId)} aria-current={data.tag === t.tagId}>
-					<span class="tag" aria-current={data.tag === t.tagId}>{t.label}</span>
-				</a>
-				<Dist nNeg={t.nNeg} nMix={t.nMix} nPos={t.nPos} />
-			</div>
-		{/each}
-	</section>
-
-	{#if data.months.length > 0}
-		<section class="card" aria-label="月ごとの変化">
-			<div class="months">
-				{#each data.months as m (m.month)}
-					{@const total = m.nNeg + m.nMix + m.nPos}
-					<div class="months__col" style:height="{Math.max(12, (total / maxMonth) * 100)}%" title={m.month} role="img" aria-label="{m.month}: 否定{m.nNeg}、混在{m.nMix}、肯定{m.nPos}">
-						<i class="pos" style:flex={m.nPos}></i>
-						<i class="mix" style:flex={m.nMix}></i>
-						<i class="neg" style:flex={m.nNeg}></i>
-					</div>
-				{/each}
-			</div>
-			<div class="row caption muted" style="justify-content: space-between; margin-top: var(--space-1)">
-				<span class="num">{data.months[0].month}</span>
-				<span class="num">{data.months[data.months.length - 1].month}</span>
-			</div>
-		</section>
-	{/if}
-
-	<section class="card stack" aria-label="レビューを書く">
-		{#if data.own}
-			<div class="spread">
-				<p>この作品には、すでに投稿しています。</p>
-				<a class="btn quiet" href={`/works/${data.work.slug}/edit`}>編集する</a>
-			</div>
-		{:else}
-			<form
-				method="post"
-				action="?/post"
-				class="stack"
-				use:enhance={() => async ({ update }) => {
-					await update({ reset: false });
-				}}
-			>
-				{#if postFailed}<p class="banner error" role="alert">{postFailed.error}</p>{/if}
-				<Field name="body">
-					<FieldLabel>レビュー</FieldLabel>
-					<Textarea
-						class="input"
-						rows={5}
-						required
-						minlength={5}
-						maxlength={4000}
-						placeholder="何が、どうだったか。具体的に書くほど、読み取りやすくなります。"
-						defaultValue={postFailed?.values.body ?? ''}
-					/>
-				</Field>
-				<div class="field">
-					<label for="writtenOn">日付</label>
-					<input class="input" id="writtenOn" name="writtenOn" type="date" required min="2000-01-01" max={data.today} value={postFailed?.values.writtenOn ?? data.today} />
+	<div class="layout">
+		<aside class="side">
+			<section class="panel" aria-label="観点ごとの向き">
+				<Dist size="hero" nNeg={data.overall?.nNeg ?? 0} nMix={data.overall?.nMix ?? 0} nPos={data.overall?.nPos ?? 0} />
+				<div class="tagrows">
+					{#each data.tags as t (t.tagId)}
+						<a class="tagrow" class:empty={t.nMention === 0} href={link(data.tag === t.tagId ? null : t.tagId)} aria-current={data.tag === t.tagId}>
+							<span>{t.label}</span>
+							<Dist nNeg={t.nNeg} nMix={t.nMix} nPos={t.nPos} />
+						</a>
+					{/each}
 				</div>
-				<Field>
-					<FieldLabel>利害関係</FieldLabel>
-					<RadioGroup name="disclosure" bind:value={disclosure} defaultValue={postFailed?.values.disclosure ?? 'none'} class="row">
-						{#each Object.entries(DISCLOSURE_LABEL) as [id, text] (id)}
-							<label class="choice"><Radio value={id} />{text}</label>
-						{/each}
-					</RadioGroup>
-				</Field>
-				{#if disclosure !== 'none'}
-					<Field name="disclosureNote">
-						<FieldLabel>メモ</FieldLabel>
-						<Input class="input" maxlength={200} defaultValue={postFailed?.values.disclosureNote ?? ''} />
-					</Field>
+				{#if data.months.length > 0}
+					<div aria-label="月ごとの変化">
+						<div class="months" style="height: 56px">
+							{#each data.months as m (m.month)}
+								{@const total = m.nNeg + m.nMix + m.nPos}
+								<div class="months__col" style:height="{Math.max(12, (total / maxMonth) * 100)}%" title={m.month} role="img" aria-label="{m.month}: 否定{m.nNeg}、混在{m.nMix}、肯定{m.nPos}">
+									<i class="pos" style:flex={m.nPos}></i>
+									<i class="mix" style:flex={m.nMix}></i>
+									<i class="neg" style:flex={m.nNeg}></i>
+								</div>
+							{/each}
+						</div>
+						<div class="spread caption muted" style="margin-top: var(--space-1)">
+							<span class="num">{data.months[0].month}</span>
+							<span class="num">{data.months[data.months.length - 1].month}</span>
+						</div>
+					</div>
 				{/if}
-				<div class="row"><Button type="submit" class="btn">投稿する</Button></div>
-			</form>
-		{/if}
-	</section>
+			</section>
+		</aside>
 
-	<section class="stack" id="reviews" aria-label="レビュー">
-		{#if data.tag}
-			<div class="row"><a class="tag" href={link(null)} aria-current="true">{data.tags.find((t) => t.tagId === data.tag)?.label} ×</a></div>
-		{/if}
-		{#each data.reviews as r (r.id)}
-			{@render review(r)}
-		{/each}
+		<div class="main">
+			<section class="panel compose" aria-label="レビューを書く">
+				{#if data.own}
+					<div class="spread">
+						<p>この作品には、すでに投稿しています。</p>
+						<a class="btn quiet" href={`/works/${data.work.slug}/edit`}>編集する</a>
+					</div>
+				{:else}
+					<form method="post" action="?/post" class="stack" use:enhance={() => async ({ update }) => { await update({ reset: false }); }}>
+						{#if postFailed}<p class="banner error" role="alert">{postFailed.error}</p>{/if}
+						<Field name="body">
+							<Textarea
+								class="input"
+								aria-label="レビュー"
+								required
+								minlength={5}
+								maxlength={4000}
+								placeholder="何が、どうだったか。"
+								defaultValue={postFailed?.values.body ?? ''}
+							/>
+						</Field>
+						{#if disclosure !== 'none'}
+							<Field name="disclosureNote">
+								<Input class="input" aria-label="利害関係のメモ" placeholder="関係を、一言で" maxlength={200} defaultValue={postFailed?.values.disclosureNote ?? ''} />
+							</Field>
+						{/if}
+						<div class="compose__foot">
+							<RadioGroup name="disclosure" aria-label="利害関係" bind:value={disclosure} defaultValue={postFailed?.values.disclosure ?? 'none'} class="row">
+								{#each Object.entries(DISCLOSURE_LABEL) as [id, text] (id)}
+									<label class="choice"><Radio value={id} />{id === 'none' ? '利害関係なし' : text}</label>
+								{/each}
+							</RadioGroup>
+							<Button type="submit" class="btn">投稿する</Button>
+						</div>
+					</form>
+				{/if}
+			</section>
 
-		{#if data.pageCount > 1}
-			<div class="row">
-				{#each Array.from({ length: data.pageCount }, (_, i) => i + 1) as p (p)}
-					<a class="tag" href={link(data.tag, p)} aria-current={p === data.page}>{p}</a>
-				{/each}
-			</div>
-		{/if}
-	</section>
+			{#if data.tag}
+				<div class="row"><a class="tag" href={link(null)} aria-current="true">{data.tags.find((t) => t.tagId === data.tag)?.label} ×</a></div>
+			{/if}
 
-	{#if data.disclosed.length > 0}
-		<section class="region" aria-label="関係者のレビュー">
-			<p class="caption">関係者 · {data.disclosed.length}件</p>
-			{#each data.disclosed as r (r.id)}
-				{@render review(r)}
-			{/each}
-		</section>
-	{/if}
+			{#if data.reviews.length > 0}
+				<section class="panel flush reviews" id="reviews" aria-label="レビュー">
+					{#each data.reviews as r (r.id)}
+						{@render review(r)}
+					{/each}
+				</section>
+			{/if}
+
+			{#if data.pageCount > 1}
+				<div class="row">
+					{#each Array.from({ length: data.pageCount }, (_, i) => i + 1) as p (p)}
+						<a class="tag" href={link(data.tag, p)} aria-current={p === data.page}>{p}</a>
+					{/each}
+				</div>
+			{/if}
+
+			{#if data.disclosed.length > 0}
+				<section class="region reviews" aria-label="関係者のレビュー" style="padding: 0">
+					<p class="caption" style="padding: var(--space-4) var(--space-5) 0">関係者 · {data.disclosed.length}件</p>
+					{#each data.disclosed as r (r.id)}
+						{@render review(r)}
+					{/each}
+				</section>
+			{/if}
+		</div>
+	</div>
 </div>
 
 {#snippet review(r: (typeof data.reviews)[number])}
-	<article class="card stack" class:faded={r.duplicate}>
-		<div class="row">
-			{#each r.reads as x (x.tagId)}
-				<Direction label={x.label} value={x.value} />
-			{/each}
-		</div>
+	<article class:faded={r.duplicate}>
+		{#if r.reads.length > 0}
+			<div class="row">
+				{#each r.reads as x (x.tagId)}
+					<Direction label={x.label} value={x.value} />
+				{/each}
+			</div>
+		{/if}
 		<p style="white-space: pre-wrap; overflow-wrap: anywhere">{r.body}</p>
-		<div class="spread">
-			<p class="caption muted">
+		<div class="review__meta">
+			<span>
 				<span class="num">{r.writtenOn}</span>
 				{#if r.edited} · 編集済み{/if}
 				{#if r.disclosure !== 'none'} · {DISCLOSURE_LABEL[r.disclosure]}{r.disclosureNote ? `（${r.disclosureNote}）` : ''}{/if}
-			</p>
+			</span>
 			{#if reported[r.id]}
-				<span class="caption muted">通報しました</span>
+				<span>通報しました</span>
 			{:else}
 				<Dialog open={reportOpen === r.id} onOpenChange={(open) => { reportOpen = open ? r.id : null; reportError = ''; }}>
-					<DialogTrigger class="btn quiet small">通報</DialogTrigger>
+					<DialogTrigger class="review__report">通報</DialogTrigger>
 					<DialogBackdrop />
 					<DialogContent>
 						<form

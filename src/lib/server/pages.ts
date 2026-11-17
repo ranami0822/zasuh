@@ -231,3 +231,35 @@ export async function workPage(
 		pageCount: Math.max(1, Math.ceil(total / PAGE_SIZE))
 	};
 }
+
+export interface ReadingStatus {
+	/** pending: まだ読んでいない。ok: 読めた。failed: 読み取りに失敗していて、あとで自動でやり直す。 */
+	status: 'pending' | 'ok' | 'failed';
+	reads: ReviewRow['reads'];
+	duplicate: boolean;
+	disclosed: boolean;
+}
+
+/** レビューの最新の版の読み取りの状況。投稿した直後に、結果を見せるために使う。 */
+export async function readingStatus(db: D1Database, reviewId: string, registry: TagRegistry = REGISTRY): Promise<ReadingStatus | null> {
+	const row = await db
+		.prepare(
+			`SELECT r.current_revision_id AS revisionId, v.body AS body, r.written_on AS writtenOn, r.disclosure AS disclosure,
+			        r.disclosure_note AS note, (r.duplicate_of IS NOT NULL) AS duplicate,
+			        (SELECT COUNT(*) FROM review_revisions x WHERE x.review_id = r.id) AS revisions,
+			        (SELECT rd.status FROM readings rd WHERE rd.revision_id = r.current_revision_id
+			          ORDER BY (rd.status = 'ok') DESC, rd.updated_at DESC LIMIT 1) AS readStatus
+			   FROM reviews r JOIN review_revisions v ON v.id = r.current_revision_id
+			  WHERE r.id = ?`
+		)
+		.bind(reviewId)
+		.first<{ revisionId: string; body: string; writtenOn: string; disclosure: string; note: string | null; duplicate: number; revisions: number; readStatus: string | null }>();
+	if (!row) return null;
+	const [full] = await reviewRows(db, [{ id: reviewId, ...row }], registry);
+	return {
+		status: row.readStatus === 'ok' ? 'ok' : row.readStatus === 'error' ? 'failed' : 'pending',
+		reads: full.reads,
+		duplicate: row.duplicate === 1,
+		disclosed: row.disclosure !== 'none'
+	};
+}
