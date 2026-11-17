@@ -11,6 +11,8 @@
 	},
 	"compatibility_date": "2026-11-01",
 	"compatibility_flags": ["nodejs_als"],
+	// 本番のログ（投稿・通報・読み取りの失敗を、1行の JSON で出している）を、ダッシュボードで見られるようにする。
+	"observability": { "enabled": true },
 	"assets": {
 		"binding": "ASSETS",
 		"directory": ".svelte-kit/cloudflare"
