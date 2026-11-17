@@ -10,7 +10,6 @@
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
-	<title>Zasuh</title>
 </svelte:head>
 
 {@render children()}

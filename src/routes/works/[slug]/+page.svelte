@@ -11,7 +11,9 @@
 	import { Textarea } from '@ui-sdk/svelte/textarea';
 	import Dist from '#components/Dist.svelte';
 	import Direction from '#components/Direction.svelte';
+	import Footer from '#components/Footer.svelte';
 	import Header from '#components/Header.svelte';
+	import Meta from '#components/Meta.svelte';
 	import { DISCLOSURE_LABEL, REASON_LABEL } from '#messages';
 	import type { ActionData, PageProps } from './$types';
 
@@ -81,6 +83,15 @@
 	const link = (t: string | null, p = 1) => `/works/${data.work.slug}${t || p > 1 ? '?' : ''}${[t ? `t=${encodeURIComponent(t)}` : '', p > 1 ? `p=${p}` : ''].filter(Boolean).join('&')}`;
 	const maxMonth = $derived(Math.max(1, ...data.months.map((m: { nNeg: number; nMix: number; nPos: number }) => m.nNeg + m.nMix + m.nPos)));
 </script>
+
+<Meta
+	title={data.work.name}
+	type="article"
+	description={data.work.summary ??
+		(data.overall && data.overall.nMention > 0
+			? `${data.work.name}のレビュー ${data.total}件。観点ごとの向き（肯定・否定・混在）を、AIが読み取って見せます。`
+			: `${data.work.name}のレビューを集めています。`)}
+/>
 
 <div class="page wide">
 	<Header />
@@ -192,6 +203,7 @@
 			{/if}
 		</div>
 	</div>
+	<Footer />
 </div>
 
 {#snippet review(r: (typeof data.reviews)[number])}

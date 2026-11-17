@@ -1,3 +1,4 @@
+import type { InboxError } from './server/inbox';
 import type { Failure } from './server/reviews';
 
 /** 画面に出す文。「何が起きたか」と「次にどうすればよいか」を書く。 */
@@ -32,3 +33,22 @@ export const REASON_LABEL: Record<string, string> = {
 };
 
 export const CATEGORY_LABEL: Record<'game' | 'software', string> = { game: 'ゲーム', software: 'ソフトウェア' };
+
+export const INBOX_MESSAGES: Record<InboxError, string> = {
+	bad_kind: '種類を選び直してください。',
+	body_too_short: '内容が短すぎます。5文字以上で書いてください。',
+	body_too_long: '内容が長すぎます。2,000文字以内にしてください。',
+	contact_too_long: '連絡先が長すぎます。200文字以内にしてください。',
+	bad_name: '作品名を、1〜100文字で書いてください。',
+	bad_category: '分野を選んでください。',
+	bad_url: 'リンクは、http か https で始まる URL にしてください。',
+	device_limit: '今日の上限に達しました。明日、もう一度お試しください。',
+	ip_limit: 'この回線からの今日の上限に達しました。明日、もう一度お試しください。',
+	not_found: '対象が見つかりません。'
+};
+
+export const KIND_LABEL: Record<string, string> = {
+	work_request: '作品の追加依頼',
+	contact: 'お問い合わせ',
+	dispute: '異議申し立て・削除の依頼'
+};

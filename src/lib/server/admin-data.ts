@@ -1,4 +1,5 @@
 import type { D1Database } from '@cloudflare/workers-types';
+import { openMessageCount } from './inbox';
 import { MAX_ATTEMPTS } from './reading';
 
 export interface AdminWork {
@@ -11,7 +12,7 @@ export interface AdminWork {
 }
 
 export async function adminOverview(db: D1Database) {
-	const [works, pending, failed, openReports] = await Promise.all([
+	const [works, pending, failed, openReports, openMessages] = await Promise.all([
 		db
 			.prepare(
 				`SELECT w.id AS id, w.slug AS slug, w.name AS name, w.category AS category, w.status AS status,
@@ -33,13 +34,15 @@ export async function adminOverview(db: D1Database) {
 			)
 			.bind(MAX_ATTEMPTS)
 			.first<{ n: number }>(),
-		db.prepare("SELECT COUNT(DISTINCT review_id) AS n FROM reports WHERE status = 'open'").first<{ n: number }>()
+		db.prepare("SELECT COUNT(DISTINCT review_id) AS n FROM reports WHERE status = 'open'").first<{ n: number }>(),
+		openMessageCount(db)
 	]);
 	return {
 		works: works.results,
 		pendingReadings: pending?.n ?? 0,
 		failedReadings: failed?.n ?? 0,
-		openReports: openReports?.n ?? 0
+		openReports: openReports?.n ?? 0,
+		openMessages
 	};
 }
 

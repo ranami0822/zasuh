@@ -4,7 +4,17 @@ import { database } from '#server/request';
 import { createWork } from '#server/works';
 import type { Actions, PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async () => adminOverview(database());
+export const load: PageServerLoad = async ({ url }) => ({
+	...(await adminOverview(database())),
+	// 受信箱の「作品として登録する」から来たときの、入力済みの値。
+	prefill: {
+		slug: '',
+		name: url.searchParams.get('name') ?? '',
+		category: url.searchParams.get('category') === 'software' ? 'software' : 'game',
+		url: url.searchParams.get('url') ?? '',
+		summary: ''
+	}
+});
 
 const ERRORS: Record<string, string> = {
 	bad_slug: 'URL 用の名前は、小文字の英数字とハイフンで、63文字以内にしてください。',

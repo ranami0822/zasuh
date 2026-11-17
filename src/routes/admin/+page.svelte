@@ -8,11 +8,12 @@
 	import type { PageProps } from './$types';
 
 	let { data, form }: PageProps = $props();
-	const v = $derived(form?.values ?? { slug: '', name: '', category: 'game', url: '', summary: '' });
+	const v = $derived(form?.values ?? data.prefill);
 </script>
 
 <div class="row">
 	<a class="card stack" href="/admin/reports" style="gap: 0; color: inherit; text-decoration: none"><span class="caption muted">通報のあるレビュー</span><span class="num" style="font-size: 32px">{data.openReports}</span></a>
+	<a class="card stack" href="/admin/inbox" style="gap: 0; color: inherit; text-decoration: none"><span class="caption muted">受信箱（未対応）</span><span class="num" style="font-size: 32px">{data.openMessages}</span></a>
 	<div class="card stack" style="gap: 0"><span class="caption muted">読み取り待ち</span><span class="num" style="font-size: 32px">{data.pendingReadings}</span></div>
 	<div class="card stack" style="gap: 0"><span class="caption muted">読み取りの失敗が続いている</span><span class="num" style="font-size: 32px">{data.failedReadings}</span></div>
 </div>

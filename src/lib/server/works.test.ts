@@ -1,6 +1,6 @@
 import type { D1Database } from '@cloudflare/workers-types';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { rankedWorks, readingStatus, tagOptions, workPage } from './pages';
+import { foldForSearch, rankedWorks, readingStatus, searchWorks, tagOptions, workPage } from './pages';
 import { readRevision } from './reading';
 import { deviceTokenHash, postReview } from './reviews';
 import { addWork, createClock, createTestDb, fakeClef } from './testing/db';
@@ -118,6 +118,21 @@ describe('作品の登録と、一覧・作品ページの問い合わせ', () =
 			const music = await workPage(db, work, { tag: 'game/music' });
 			expect(music.total).toBe(1);
 			expect(music.reviews).toHaveLength(1);
+		});
+
+		it('検索: 作品名の部分一致。全角半角と大文字小文字を区別せず、分野をまたぐ。非表示の作品は出ない', async () => {
+			await addWork(db, { name: 'Star Line Express' });
+			await addWork(db, { name: '星屑の鉄道' });
+			await addWork(db, { name: 'スターライン', category: 'software' });
+			await addWork(db, { name: 'STAR hidden', status: 'hidden' });
+			expect(foldForSearch(' Ｓｔａｒ  Ｌine ')).toBe('starline');
+			expect((await searchWorks(db, 'star line')).map((h) => h.name)).toEqual(['Star Line Express']);
+			expect((await searchWorks(db, 'ＳＴＡＲ')).map((h) => h.name)).toEqual(['Star Line Express']);
+			expect((await searchWorks(db, '鉄道')).map((h) => [h.name, h.category])).toEqual([['星屑の鉄道', 'game']]);
+			expect((await searchWorks(db, 'スター')).map((h) => [h.name, h.category])).toEqual([['スターライン', 'software']]);
+			expect(await searchWorks(db, '  ')).toEqual([]);
+			expect(await searchWorks(db, 'zzz')).toEqual([]);
+			expect(await searchWorks(db, '%')).toEqual([]); // LIKE の記号として扱わない
 		});
 
 		it('読み取りの状況: 読む前は pending、読んだあとは向きつきで ok。関係者と重複の印も返す', async () => {

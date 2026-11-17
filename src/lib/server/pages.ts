@@ -263,3 +263,38 @@ export async function readingStatus(db: D1Database, reviewId: string, registry: 
 		disclosed: row.disclosure !== 'none'
 	};
 }
+
+export interface SearchHit {
+	slug: string;
+	name: string;
+	category: Category;
+	nMention: number;
+	nPos: number;
+	nNeg: number;
+	nMix: number;
+}
+
+/** 検索のために、大文字小文字、全角半角、空白の違いをなくす。 */
+export function foldForSearch(text: string): string {
+	return text.normalize('NFKC').toLowerCase().replace(/\s+/g, '');
+}
+
+/** 作品名の部分一致。分野をまたぐ。表示中の作品だけ。名前の短い順（近い順）、同じなら、言及の多い順。 */
+export async function searchWorks(db: D1Database, query: string, limit = 30): Promise<SearchHit[]> {
+	const needle = foldForSearch(query);
+	if (needle === '') return [];
+	const { results } = await db
+		.prepare(
+			`SELECT w.slug AS slug, w.name AS name, w.category AS category,
+			        COALESCE(s.n_mention, 0) AS nMention, COALESCE(s.n_pos, 0) AS nPos,
+			        COALESCE(s.n_neg, 0) AS nNeg, COALESCE(s.n_mix, 0) AS nMix
+			   FROM works w LEFT JOIN aspect_stats s ON s.work_id = w.id AND s.tag_id = ?
+			  WHERE w.status = 'active'`
+		)
+		.bind(OVERALL)
+		.all<SearchHit>();
+	return results
+		.filter((w) => foldForSearch(w.name).includes(needle))
+		.sort((a, b) => a.name.length - b.name.length || b.nMention - a.nMention || a.name.localeCompare(b.name, 'ja'))
+		.slice(0, limit);
+}

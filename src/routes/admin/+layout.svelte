@@ -13,6 +13,7 @@
 			<nav class="row">
 				<a class="tag" href="/admin">作品</a>
 				<a class="tag" href="/admin/reports">通報</a>
+				<a class="tag" href="/admin/inbox">受信箱</a>
 				<form method="post" action="/admin/login?/logout"><button class="tag" type="submit">ログアウト</button></form>
 			</nav>
 		{/if}

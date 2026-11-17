@@ -110,6 +110,41 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) process
   await a.reload();
   ok(await a.isVisible('article:has-text("運転台の操作")'), 'review back after un-hiding');
 
+
+  // 検索、周辺のページ、受信箱
+  const pub = await (await browser.newContext({ viewport: { width: 900, height: 900 } })).newPage();
+  await pub.goto(BASE + '/?q=' + encodeURIComponent('星屑'));
+  ok(await pub.isVisible('a.rank:has-text("星屑の鉄道")'), 'search finds the work');
+  await pub.goto(BASE + '/?q=' + encodeURIComponent('存在しない'));
+  ok(await pub.isVisible('text=見つかりませんでした'), 'search shows the empty state with a request link');
+  for (const [path, word] of [['/terms', 'してはいけないこと'], ['/privacy', '保存する情報'], ['/me', '投稿したレビューは、ありません']]) {
+    await pub.goto(BASE + path);
+    ok(await pub.isVisible('text=' + word), path + ' opens');
+  }
+  const title = await (async () => { await pub.goto(BASE + '/works/star-line'); return pub.title(); })();
+  ok(title === '星屑の鉄道 · Zasuh', 'work page has its own title: ' + title);
+  ok((await pub.getAttribute('meta[property="og:title"]', 'content')) === '星屑の鉄道 · Zasuh', 'og:title is set');
+  const sitemap = await (await pub.request.get(BASE + '/sitemap.xml')).text();
+  ok(sitemap.includes('/works/star-line') && !sitemap.includes('/admin'), 'sitemap lists the work');
+  ok((await (await pub.request.get(BASE + '/robots.txt')).text()).includes('Disallow: /admin'), 'robots.txt hides /admin');
+
+  await pub.goto(BASE + '/contact?kind=work_request');
+  await pub.fill('input[name=workName]', '夜の図書館');
+  await pub.fill('input[name=url]', 'https://example.com/library');
+  await pub.fill('textarea[name=body]', '静かな探索ゲームです。載せてほしいです。');
+  await pub.fill('input[name=contact]', 'me@example.com');
+  await pub.click('button:has-text("送る")');
+  ok(await pub.waitForSelector('[data-slot=toast]:has-text("受け付けました")', { timeout: 10000 }).then(() => true, () => false), 'toast after sending a request');
+  await p.goto(BASE + '/admin/inbox');
+  ok(await p.isVisible('article:has-text("夜の図書館")') && await p.isVisible('text=me@example.com'), 'request shows in the admin inbox');
+  await p.click('a:has-text("作品として登録する")');
+  ok((await p.inputValue('input[name=name]')) === '夜の図書館' && (await p.inputValue('input[name=url]')) === 'https://example.com/library', 'registration form is prefilled from the request');
+  await p.goto(BASE + '/admin/inbox');
+  await p.click('article:has-text("夜の図書館") >> button:has-text("済みにする")');
+  ok(await p.waitForSelector('article.faded:has-text("夜の図書館")', { timeout: 10000 }).then(() => true, () => false), 'request can be closed');
+  await a.goto(BASE + '/me');
+  ok(await a.isVisible('a:has-text("星屑の鉄道")') && await a.isVisible('a:has-text("編集")'), '/me lists my review with an edit link');
+
   // 一覧
   const h = await browser.newPage({ viewport: { width: 900, height: 900 } });
   await h.goto(BASE + '/');
