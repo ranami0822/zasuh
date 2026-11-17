@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { ClefError } from './clef';
 import { backoffMs, readRevision } from './reading';
 import { sweepReadings } from './sweep';
-import { addReview, addWork, clefAnswers, createClock, createTestDb, editReview, fakeClef } from './testing/db';
+import { addReview, addWork, clefAnswers, createClock, createTestDb, editReview, fakeClef, registryWithoutSoftwareDomain } from './testing/db';
 
 describe('sweepReadings', () => {
 	let db: D1Database;
@@ -61,7 +61,7 @@ describe('sweepReadings', () => {
 		await addReview(db, await addWork(db, { category: 'software' }), { body: '{}' });
 		const clef = fakeClef();
 
-		expect((await sweepReadings({ db, clef, now: clock.now })).picked).toBe(0);
+		expect((await sweepReadings({ db, clef, now: clock.now, registry: registryWithoutSoftwareDomain })).picked).toBe(0);
 		expect(clef.calls).toHaveLength(0);
 	});
 

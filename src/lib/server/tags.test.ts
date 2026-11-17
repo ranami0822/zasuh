@@ -16,7 +16,12 @@ import {
 import { addReview, addWork, createClock, createTestDb, fakeClef, testTag } from './testing/db';
 
 const story = testTag('test/story', 'story');
-const withStory: TagRegistry = { ...REGISTRY, tags: [...REGISTRY.tags, story] };
+const withStory: TagRegistry = {
+	...REGISTRY,
+	tags: [...REGISTRY.tags, story],
+	// ソフトウェアの分野のタグを外して、「タグのない作品」の挙動を確かめる。
+	domainTags: { ...REGISTRY.domainTags, software: [] }
+};
 
 describe('タグ', () => {
 	let db: D1Database;

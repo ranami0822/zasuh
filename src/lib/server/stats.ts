@@ -1,5 +1,6 @@
 import type { D1Database } from '@cloudflare/workers-types';
 import type { Category } from './question-sets/types';
+import { REGISTRY, type TagRegistry } from './tags';
 
 /** 全タグの言及をまとめた行の tag_id。 */
 export const OVERALL = '_overall';
@@ -36,16 +37,26 @@ export function scoreCounts(c: AspectCounts): { nMention: number; scoreLower: nu
  * 1つの作品の集計を作り直す。
  * 数えるのは、各レビューの最新の版の、成功した読み取りだけ。
  * 利害関係のあるレビューと、非表示のレビューは数えない。
+ * 数えないレビュー: 利害関係のあるもの、非表示のもの、ほかのレビューと文面がほぼ同じもの。
  * タグの版や、一緒に聞いた質問の組が違う読み取りも、同じタグなら合算する。
+ * 総合（_overall）は、分野のタグだけで数える（追加のタグは作品ごとに違い、作品どうしを比べられなくなるため）。
  */
-export async function recomputeWorkStats(db: D1Database, workId: string, now: Date): Promise<void> {
+export async function recomputeWorkStats(
+	db: D1Database,
+	workId: string,
+	now: Date,
+	registry: TagRegistry = REGISTRY
+): Promise<void> {
+	const work = await db.prepare('SELECT category FROM works WHERE id = ?').bind(workId).first<{ category: Category }>();
+	if (!work) return;
+	const domain = new Set(registry.domainTags[work.category]);
 	const { results } = await db
 		.prepare(
 			`SELECT a.tag_id AS tagId, a.value AS value, COUNT(*) AS n
 			   FROM reviews r
 			   JOIN readings rd ON rd.revision_id = r.current_revision_id AND rd.status = 'ok'
 			   JOIN reading_answers a ON a.reading_id = rd.id AND a.kind = 'direction'
-			  WHERE r.work_id = ? AND r.hidden = 0 AND r.disclosure = 'none'
+			  WHERE r.work_id = ? AND r.hidden = 0 AND r.disclosure = 'none' AND r.duplicate_of IS NULL
 			  GROUP BY a.tag_id, a.value`
 		)
 		.bind(workId)
@@ -59,7 +70,7 @@ export async function recomputeWorkStats(db: D1Database, workId: string, now: Da
 		const field = row.value === 'positive' ? 'nPos' : row.value === 'negative' ? 'nNeg' : row.value === 'mixed' ? 'nMix' : null;
 		if (!field) continue;
 		c[field] += row.n;
-		overall[field] += row.n;
+		if (domain.has(row.tagId)) overall[field] += row.n;
 	}
 	counts.set(OVERALL, overall);
 

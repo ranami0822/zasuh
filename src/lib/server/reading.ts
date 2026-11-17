@@ -260,6 +260,6 @@ export async function readRevision(deps: ReadingDeps, revisionId: string): Promi
 		return { status: 'error', readingId: claim.id, error: message };
 	}
 
-	await recomputeWorkStats(db, target.workId, now());
+	await recomputeWorkStats(db, target.workId, now(), deps.registry);
 	return { status: 'ok', readingId: claim.id };
 }

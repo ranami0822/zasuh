@@ -4,7 +4,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import type { ClefClient, ClefResult } from '../clef';
 import type { ClefQuestion } from '../question-sets';
 import { direction, gameV1, mention } from '../question-sets/game-v1';
-import type { TagDefinition } from '../tags';
+import { REGISTRY, type TagDefinition, type TagRegistry } from '../tags';
 import type { Category, Direction, QuestionSetDefinition } from '../question-sets/types';
 
 /** テスト用の D1（workerd の SQLite。本番の D1 と同じ実装）に、migrations/ をすべて適用して返す。 */
@@ -162,3 +162,9 @@ export function fakeClef(
 		}
 	};
 }
+
+/** 本番の登録から、ソフトウェアの分野のタグを外したもの（分野のタグのない分野の挙動を確かめるため）。 */
+export const registryWithoutSoftwareDomain: TagRegistry = {
+	...REGISTRY,
+	domainTags: { ...REGISTRY.domainTags, software: [] }
+};

@@ -5,7 +5,7 @@ import { toClefQuestions } from './question-sets';
 import { gameV1 } from './question-sets/game-v1';
 import { backoffMs, interpretAnswers, LEASE_MS, MAX_ATTEMPTS, readRevision } from './reading';
 import realResponse from './testing/clef-response.json';
-import { addReview, addWork, clefAnswers, createClock, createTestDb, fakeClef } from './testing/db';
+import { addReview, addWork, clefAnswers, createClock, createTestDb, fakeClef, registryWithoutSoftwareDomain } from './testing/db';
 
 describe('質問セット', () => {
 	it('ゲーム用 v1 は、4観点 × (向き + 言及) の8問を、決まった順序で送る', () => {
@@ -257,7 +257,7 @@ describe('readRevision', () => {
 	it('タグのない作品（タグを選んでいないソフトウェア）のレビューは、読まない', async () => {
 		const { revisionId } = await addReview(db, await addWork(db, { category: 'software' }), { body: '{}' });
 		const clef = fakeClef();
-		expect(await readRevision({ db, clef, now: clock.now }, revisionId)).toEqual({
+		expect(await readRevision({ db, clef, now: clock.now, registry: registryWithoutSoftwareDomain }, revisionId)).toEqual({
 			status: 'skipped',
 			reason: 'no_question_set'
 		});
