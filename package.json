@@ -20,6 +20,7 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test": "vitest run",
 		"dev:worker": "npm run build && wrangler dev --test-scheduled",
+		"e2e": "node e2e/flow.cjs",
 		"db:migrate:local": "wrangler d1 migrations apply DB --local"
 	},
 	"devDependencies": {
