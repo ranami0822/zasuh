@@ -14,11 +14,13 @@
 	import type { PageProps } from './$types';
 
 	let { data, form }: PageProps = $props();
+	let ready = $state(false);
 	let supported = $state(true);
 	let busy = $state(false);
 	let message = $state('');
 	onMount(() => {
 		supported = supportsPasskeys();
+		ready = true;
 		if (data.recovered) toast.success('復旧しました', { description: '新しいパスキーだけが、有効です。', duration: 8000 });
 	});
 
@@ -78,14 +80,14 @@
 	<Header />
 	<h1>アカウント</h1>
 
-	{#if !supported}<p class="banner warning">このブラウザは、パスキーに対応していません。</p>{/if}
+	{#if ready && !supported}<p class="banner warning">このブラウザは、パスキーに対応していません。</p>{/if}
 	{#if message}<p class="banner error" role="alert">{message}</p>{/if}
 	{#if form && 'error' in form && form.error}<p class="banner error" role="alert">{form.error}</p>{/if}
 
 	{#if !data.account}
 		<section class="panel">
 			<p>パスキーを登録すると、端末を変えても、自分のレビューを編集できます。</p>
-			<div class="row"><Button class="btn" disabled={busy || !supported} onclick={add}>パスキーを登録する</Button></div>
+			<div class="row"><Button class="btn" disabled={busy || !ready || !supported} onclick={add}>パスキーを登録する</Button></div>
 		</section>
 	{:else}
 		<section class="panel" aria-label="パスキー">
@@ -106,7 +108,7 @@
 					</div>
 				{/each}
 			</div>
-			<div class="row"><Button class="btn quiet" disabled={busy || !supported} onclick={add}>パスキーを追加する</Button></div>
+			<div class="row"><Button class="btn quiet" disabled={busy || !ready || !supported} onclick={add}>パスキーを追加する</Button></div>
 		</section>
 
 		<section class="panel" aria-label="復旧用のメール">

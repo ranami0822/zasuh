@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto, invalidateAll } from '$app/navigation';
 	import { Button } from '@ui-sdk/svelte/button';
+	import { onMount } from 'svelte';
 	import Footer from '#components/Footer.svelte';
 	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
@@ -8,8 +9,13 @@
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
+	let ready = $state(false);
 	let busy = $state(false);
 	let message = $state('');
+
+	onMount(() => {
+		ready = true;
+	});
 
 	async function recover() {
 		busy = true;
@@ -36,7 +42,7 @@
 		{:else}
 			{#if message}<p class="banner error" role="alert">{message}</p>{/if}
 			<p class="banner warning">新しいパスキーを登録すると、これまでのパスキーと、ログイン中の端末は、すべて使えなくなります。</p>
-			<div class="row"><Button class="btn" disabled={busy} onclick={recover}>新しいパスキーを登録する</Button></div>
+			<div class="row"><Button class="btn" disabled={busy || !ready} onclick={recover}>新しいパスキーを登録する</Button></div>
 		{/if}
 	</div>
 	<Footer />

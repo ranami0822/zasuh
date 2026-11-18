@@ -7,11 +7,13 @@
 	import Meta from '#components/Meta.svelte';
 	import { loginWithPasskey, supportsPasskeys } from '#passkey';
 
+	let ready = $state(false);
 	let supported = $state(true);
 	let busy = $state(false);
 	let message = $state('');
 	onMount(() => {
 		supported = supportsPasskeys();
+		ready = true;
 	});
 
 	async function login() {
@@ -34,10 +36,10 @@
 	<Header />
 	<h1>ログイン</h1>
 	<div class="panel">
-		{#if !supported}<p class="banner warning">このブラウザは、パスキーに対応していません。</p>{/if}
+		{#if ready && !supported}<p class="banner warning">このブラウザは、パスキーに対応していません。</p>{/if}
 		{#if message}<p class="banner error" role="alert">{message}</p>{/if}
 		<div class="row">
-			<Button class="btn" disabled={busy || !supported} onclick={login}>パスキーでログイン</Button>
+			<Button class="btn" disabled={busy || !ready || !supported} onclick={login}>パスキーでログイン</Button>
 			<a class="btn quiet" href="/recover">パスキーを使えない</a>
 		</div>
 	</div>
