@@ -12,10 +12,13 @@ body {
 	background: var(--bg);
 	color: var(--text);
 	font-family: var(--font-body);
-	font-size: 14px;
-	line-height: 1.7;
-	letter-spacing: 0.02em;
+	font-size: var(--fs-body);
+	line-height: var(--lh-body);
+	/* 本文は、ベタ組み（字詰めをしない）。字間は、少しだけ広げる。 */
+	letter-spacing: var(--ls-body);
+	font-kerning: none;
 	-webkit-font-smoothing: antialiased;
+	overflow-wrap: anywhere;
 }
 h1,
 h2,
@@ -24,6 +27,11 @@ h3 {
 	font-weight: 400;
 	margin: 0;
 	letter-spacing: 0.01em;
+	/* 見出しだけ、字詰め（palt）と、文節での改行（Chrome 119 以降。ほかは、無視される）。 */
+	font-feature-settings: 'palt';
+	font-kerning: normal;
+	word-break: auto-phrase;
+	text-wrap: balance;
 }
 h1 {
 	font-size: 32px;
@@ -58,8 +66,8 @@ a:hover {
 	color: var(--text-muted);
 }
 .caption {
-	font-size: 11px;
-	line-height: 1.45;
+	font-size: var(--fs-caption);
+	line-height: 1.5;
 }
 .num {
 	font-variant-numeric: tabular-nums;
@@ -72,7 +80,8 @@ a:hover {
 	padding: var(--space-6) var(--space-4) var(--space-16);
 	display: flex;
 	flex-direction: column;
-	gap: var(--space-6);
+	/* 大きなまとまりの間は、32px。まとまりの中は、12〜16px、項目の中は、4〜8px（4px の倍数で、3段階）。 */
+	gap: var(--space-8);
 }
 .header {
 	display: flex;
@@ -89,6 +98,9 @@ a:hover {
 	display: flex;
 	flex-direction: column;
 	gap: var(--space-3);
+}
+.stack.tight {
+	gap: var(--space-1);
 }
 .row {
 	display: flex;
@@ -107,7 +119,6 @@ a:hover {
 .card {
 	background: var(--surface);
 	border-radius: var(--radius-card);
-	box-shadow: var(--shadow-md);
 	padding: var(--space-4);
 }
 .card.faded {
@@ -127,7 +138,7 @@ a:hover {
 	background: var(--cta-bg);
 	color: var(--cta-fg);
 	font-family: var(--font-body);
-	font-size: 13px;
+	font-size: var(--fs-ui);
 	line-height: 20px;
 	font-weight: 500;
 	letter-spacing: 0.03em;
@@ -176,11 +187,12 @@ a:hover {
 	background: var(--tag-bg);
 	color: var(--tag-fg);
 	font-family: var(--font-body);
-	font-size: 11px;
-	line-height: 16px;
+	font-size: var(--fs-caption);
+	line-height: 18px;
 	font-weight: 500;
 	letter-spacing: 0.02em;
 	text-decoration: none;
+	word-break: auto-phrase;
 }
 a.tag:hover,
 button.tag:hover {
@@ -221,9 +233,9 @@ button.tag:hover {
 	background: var(--input-bg);
 	color: var(--text);
 	font-family: var(--font-body);
-	font-size: 14px;
-	line-height: 1.7;
-	letter-spacing: 0.02em;
+	font-size: var(--fs-input);
+	line-height: 1.6;
+	letter-spacing: var(--ls-body);
 	resize: vertical;
 }
 .input::placeholder {
@@ -236,8 +248,8 @@ button.tag:hover {
 }
 .field > label,
 .field > [data-slot='field-label'] {
-	font-size: 11px;
-	line-height: 1.45;
+	font-size: var(--fs-caption);
+	line-height: 1.5;
 	font-weight: 500;
 	color: var(--text-muted);
 }
@@ -245,11 +257,12 @@ button.tag:hover {
 	display: inline-flex;
 	align-items: center;
 	gap: var(--space-2);
-	padding: var(--space-2) var(--space-3);
+	min-height: 36px;
+	padding: var(--space-1) var(--space-3);
 	border-radius: var(--radius-tag);
 	background: var(--tag-bg);
 	color: var(--tag-fg);
-	font-size: 13px;
+	font-size: var(--fs-ui);
 	cursor: pointer;
 }
 .choice:has([data-checked]),
@@ -274,8 +287,8 @@ button.tag:hover {
 .banner {
 	padding: var(--space-3);
 	border-radius: var(--radius-input);
-	font-size: 13px;
-	line-height: 1.6;
+	font-size: var(--fs-ui);
+	line-height: 1.65;
 }
 .banner.error {
 	background: var(--status-error-tint);
@@ -310,42 +323,38 @@ button.tag:hover {
 	align-items: center;
 	gap: var(--space-3);
 }
-.dist__top {
+.dist__caption {
 	display: flex;
 	align-items: baseline;
 	justify-content: space-between;
 	gap: var(--space-3);
-}
-.dist__total {
-	font-family: var(--font-heading);
-	font-size: 40px;
-	line-height: 1;
-}
-.dist__split {
-	display: flex;
-	gap: var(--space-2);
-	font-size: 11px;
+	font-size: var(--fs-caption);
 	color: var(--text-muted);
-	white-space: nowrap;
 }
-.dist__split .neg::before,
-.dist__split .mix::before,
-.dist__split .pos::before {
-	content: '';
-	display: inline-block;
-	width: 8px;
-	height: 8px;
-	margin-right: 4px;
-	border-radius: 2px;
+.dist__legend {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	font-size: var(--fs-ui);
+	font-variant-numeric: tabular-nums;
 }
-.dist__split .neg::before {
-	background: var(--sentiment-1-fill);
+.dist__legend > span:nth-child(2) {
+	text-align: center;
 }
-.dist__split .mix::before {
-	background: var(--sentiment-3-fill);
+.dist__legend > span:nth-child(3) {
+	text-align: right;
 }
-.dist__split .pos::before {
-	background: var(--sentiment-5-fill);
+.dist__legend b {
+	font-weight: 500;
+	margin-left: var(--space-1);
+}
+.dist__legend .neg {
+	color: var(--sentiment-1-text);
+}
+.dist__legend .mix {
+	color: var(--sentiment-3-text);
+}
+.dist__legend .pos {
+	color: var(--sentiment-5-text);
 }
 .dist__bar {
 	flex: 1;
@@ -387,7 +396,7 @@ button.tag:hover {
 	width: 28px;
 	flex: none;
 	text-align: right;
-	font-size: 11px;
+	font-size: var(--fs-caption);
 	color: var(--text-muted);
 }
 
@@ -426,7 +435,7 @@ button.tag:hover {
 	grid-template-columns: 32px minmax(0, 1fr);
 	gap: var(--space-3);
 	align-items: center;
-	padding: var(--space-4) var(--space-5);
+	padding: var(--space-5) var(--space-6);
 	color: inherit;
 	text-decoration: none;
 }
@@ -521,12 +530,11 @@ button.tag:hover {
 	display: flex;
 	flex-direction: column;
 	gap: var(--space-2);
-	padding-bottom: var(--space-2);
 }
 .layout {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);
-	gap: var(--space-6);
+	gap: var(--space-8);
 	align-items: start;
 }
 @media (min-width: 820px) {
@@ -541,11 +549,16 @@ button.tag:hover {
 .panel {
 	background: var(--surface);
 	border-radius: var(--radius-card);
-	box-shadow: var(--shadow-md);
-	padding: var(--space-5);
+	/* 影は、浮くもの（通知、ダイアログ）だけ。面は、地との色の差だけで、区別する。 */
+	padding: var(--space-6);
 	display: flex;
 	flex-direction: column;
 	gap: var(--space-4);
+}
+@media (max-width: 520px) {
+	.panel {
+		padding: var(--space-4);
+	}
 }
 .panel.flush {
 	padding: 0;
@@ -555,18 +568,21 @@ button.tag:hover {
 .main {
 	display: flex;
 	flex-direction: column;
-	gap: var(--space-4);
+	gap: var(--space-6);
 	min-width: 0;
 }
 
-/* 書く場所: 薄字の入力欄。書き始めると広がる */
-.compose textarea {
-	min-height: 56px;
-	transition: min-height var(--dur-surface) var(--ease-standard);
+/* 書く場所: カードにせず、地の上に、入力欄だけを置く。書くほど、広がる（高さの変化を、アニメーションにはしない）。 */
+.compose {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-3);
 }
-.compose:focus-within textarea,
-.compose textarea:not(:placeholder-shown) {
-	min-height: 120px;
+.compose textarea {
+	background: var(--surface);
+	field-sizing: content;
+	min-height: calc(var(--lh-body) * 3em);
+	max-height: 60vh;
 }
 .compose__foot {
 	display: flex;
@@ -575,13 +591,55 @@ button.tag:hover {
 	gap: var(--space-3);
 	flex-wrap: wrap;
 }
+.check {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-2);
+	font-size: var(--fs-ui);
+	color: var(--text-muted);
+	cursor: pointer;
+}
+.check [data-slot='checkbox'] {
+	width: 20px;
+	height: 20px;
+	border: 0;
+	border-radius: 6px;
+	background: var(--tag-bg);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--cta-fg);
+	padding: 0;
+}
+.check [data-slot='checkbox'][data-checked] {
+	background: var(--cta-bg);
+}
 
 /* レビューの並び: 1つの面の中に、余白で区切る（1件ずつをカードにしない） */
 .reviews > article {
-	padding: var(--space-5);
+	padding: var(--space-5) var(--space-6);
 	display: flex;
 	flex-direction: column;
 	gap: var(--space-2);
+}
+@media (max-width: 520px) {
+	.reviews > article {
+		padding: var(--space-4);
+	}
+}
+.reviews > article > .row:first-child {
+	margin-bottom: var(--space-1);
+}
+/* レビューの本文: 長く読むところなので、行間と字間を、少し広げる。 */
+.reading {
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+	line-height: var(--lh-reading);
+	letter-spacing: var(--ls-reading);
+	line-break: strict;
+	/* 行の終わりに、1文字だけ残らないように整える（Chrome 117 以降）。文節での改行（Chrome 119 以降）。ほかは、無視される。 */
+	text-wrap: pretty;
+	word-break: auto-phrase;
 }
 .reviews > article.faded {
 	opacity: 0.55;
@@ -591,12 +649,12 @@ button.tag:hover {
 	align-items: center;
 	justify-content: space-between;
 	gap: var(--space-3);
-	font-size: 11px;
+	font-size: var(--fs-caption);
 	color: var(--text-muted);
 }
 .review__report {
 	font: inherit;
-	font-size: 11px;
+	font-size: var(--fs-caption);
 	color: var(--text-muted);
 	background: none;
 	border: 0;
@@ -669,7 +727,7 @@ button.tag:hover {
 	line-height: 1.45;
 }
 [data-slot='toast-description'] {
-	font-size: 13px;
+	font-size: var(--fs-ui);
 	line-height: 1.6;
 	color: var(--purple-96);
 	white-space: pre-line;
@@ -683,7 +741,7 @@ button.tag:hover {
 	background: var(--neon);
 	color: var(--on-neon);
 	font-family: var(--font-body);
-	font-size: 11px;
+	font-size: var(--fs-caption);
 	font-weight: 500;
 	line-height: 18px;
 	vertical-align: 2px;
@@ -739,4 +797,14 @@ input[type='search'].input {
 	padding: var(--space-3) var(--space-4);
 	overflow-wrap: anywhere;
 	user-select: all;
+}
+
+/* 地の上に直接置く入力欄は、面の色にする（地と同じ明るさだと、見えない）。 */
+.compose .input {
+	background: var(--surface);
+}
+.check [data-slot='checkbox-indicator'] {
+	display: inline-flex;
+	width: 14px;
+	height: 14px;
 }

@@ -53,7 +53,7 @@
 	</nav>
 
 	{#if !data.q && data.works.length === 0}
-		<p class="muted">まだ作品がありません。</p>
+		<p class="muted">まだ作品がありません。<a href="/contact?kind=work_request">載せてほしい作品を頼む</a></p>
 	{:else if !data.q}
 		<div class="panel flush">
 			{#each data.works as w (w.slug)}

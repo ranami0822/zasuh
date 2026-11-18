@@ -24,7 +24,7 @@
 				<h3>{m.workName} <span class="tag">{CATEGORY_LABEL[m.category as 'game' | 'software']}</span></h3>
 				{#if m.url}<p class="caption"><a href={m.url} rel="noopener noreferrer nofollow">{m.url}</a></p>{/if}
 			{/if}
-			<p style="white-space: pre-wrap; overflow-wrap: anywhere">{m.body}</p>
+			<p class="reading">{m.body}</p>
 			{#if m.contact}<p class="caption muted">連絡先: {m.contact}</p>{/if}
 			<div class="row">
 				{#if m.kind === 'work_request'}

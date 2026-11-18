@@ -3,7 +3,7 @@
 :root {
 	color-scheme: light dark;
 	--font-heading: 'Shippori Antique', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
-	--font-body: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', system-ui, sans-serif;
+	--font-body: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic UI', 'Meiryo', sans-serif;
 
 	--purple-30: #6e2673;
 	--purple-42: #9a36a1;
@@ -59,6 +59,17 @@
 	--shadow-sm: 0 1px 2px rgba(110, 38, 115, 0.1);
 	--shadow-md: 0 6px 16px rgba(110, 38, 115, 0.16), 0 1px 3px rgba(110, 38, 115, 0.1);
 	--shadow-lg: 0 16px 36px rgba(110, 38, 115, 0.24), 0 2px 6px rgba(110, 38, 115, 0.16);
+
+	/* 文字の大きさ。日本語は、画数が多く、小さいと読みにくいので、補足も 12px 未満にしない。
+	   入力欄は 16px（これより小さいと、iPhone の Safari が、フォーカス時に画面を拡大する）。 */
+	--fs-caption: 12px;
+	--fs-ui: 14px;
+	--fs-body: 15px;
+	--fs-input: 16px;
+	--lh-body: 1.75;
+	--lh-reading: 1.9;
+	--ls-body: 0.02em;
+	--ls-reading: 0.04em;
 
 	--space-1: 4px;
 	--space-2: 8px;

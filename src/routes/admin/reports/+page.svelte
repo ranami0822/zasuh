@@ -31,7 +31,7 @@
 {#snippet item(r: (typeof data.reported)[number], showReports: boolean)}
 	<article class="card stack" class:faded={r.hidden}>
 		<p class="caption muted"><a href={`/works/${r.workSlug}`}>{r.workName}</a>{r.disclosure !== 'none' ? ` · ${DISCLOSURE_LABEL[r.disclosure]}` : ''}{r.duplicate ? ' · 文面がほぼ同じ' : ''}{r.hidden ? ' · 非表示' : ''}</p>
-		<p style="white-space: pre-wrap; overflow-wrap: anywhere">{r.body}</p>
+		<p class="reading">{r.body}</p>
 		{#if showReports}
 			<div class="row">
 				{#each r.reports as x, i (i)}<span class="tag" title={x.note ?? ''}>{REASON_LABEL[x.reason]}{x.note ? `：${x.note}` : ''}</span>{/each}

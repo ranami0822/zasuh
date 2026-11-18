@@ -6,6 +6,7 @@
 	import { untrack } from 'svelte';
 	import { Button } from '@ui-sdk/svelte/button';
 	import { Dialog, DialogBackdrop, DialogClose, DialogContent, DialogTitle, DialogTrigger } from '@ui-sdk/svelte/dialog';
+	import { Checkbox, CheckboxIndicator, type CheckedState } from '@ui-sdk/svelte/checkbox';
 	import { Field, FieldLabel } from '@ui-sdk/svelte/field';
 	import { Input } from '@ui-sdk/svelte/input';
 	import { Radio, RadioGroup } from '@ui-sdk/svelte/radio';
@@ -21,7 +22,8 @@
 	let { data, form }: PageProps & { form?: ActionData } = $props();
 
 	const postFailed = $derived(form && 'form' in form && form.form === 'post' ? form : null);
-	let disclosure = $state('none');
+	// svelte-ignore state_referenced_locally
+	let interest = $state<CheckedState>((form && 'values' in form && form.values?.disclosure && form.values.disclosure !== 'none') || false);
 	let reportOpen = $state<string | null>(null);
 	let reported = $state<Record<string, boolean>>({});
 	let reportError = $state('');
@@ -150,14 +152,14 @@
 		</aside>
 
 		<div class="main">
-			<section class="panel compose" aria-label="レビューを書く">
+			<section class="compose" aria-label="レビューを書く">
 				{#if data.own}
 					<div class="spread">
-						<p>この作品には、すでに投稿しています。</p>
+						<p class="muted">この作品には、すでに投稿しています。</p>
 						<a class="btn quiet" href={`/works/${data.work.slug}/edit`}>編集する</a>
 					</div>
 				{:else}
-					<form method="post" action="?/post" class="stack" use:enhance={() => async ({ update }) => { await update({ reset: false }); }}>
+					<form method="post" action="?/post" class="compose" use:enhance={() => async ({ update }) => { await update({ reset: false }); }}>
 						{#if postFailed}<p class="banner error" role="alert">{postFailed.error}</p>{/if}
 						<Field name="body">
 							<Textarea
@@ -170,17 +172,28 @@
 								defaultValue={postFailed?.values.body ?? ''}
 							/>
 						</Field>
-						{#if disclosure !== 'none'}
-							<Field name="disclosureNote">
-								<Input class="input" aria-label="利害関係のメモ" placeholder="関係を、一言で" maxlength={200} defaultValue={postFailed?.values.disclosureNote ?? ''} />
-							</Field>
+						{#if interest}
+							<div class="stack">
+								<RadioGroup name="disclosure" aria-label="利害関係の種類" defaultValue={postFailed?.values.disclosure && postFailed.values.disclosure !== 'none' ? postFailed.values.disclosure : 'developer'} class="row">
+									{#each Object.entries(DISCLOSURE_LABEL).filter(([id]) => id !== 'none') as [id, text] (id)}
+										<label class="choice"><Radio value={id} />{text}</label>
+									{/each}
+								</RadioGroup>
+								<Field name="disclosureNote">
+									<Input class="input" aria-label="利害関係のメモ" placeholder="関係を、一言で" maxlength={200} defaultValue={postFailed?.values.disclosureNote ?? ''} />
+								</Field>
+							</div>
+						{:else}
+							<input type="hidden" name="disclosure" value="none" />
 						{/if}
 						<div class="compose__foot">
-							<RadioGroup name="disclosure" aria-label="利害関係" bind:value={disclosure} defaultValue={postFailed?.values.disclosure ?? 'none'} class="row">
-								{#each Object.entries(DISCLOSURE_LABEL) as [id, text] (id)}
-									<label class="choice"><Radio value={id} />{id === 'none' ? '利害関係なし' : text}</label>
-								{/each}
-							</RadioGroup>
+							<label class="check">
+								<Checkbox bind:checked={interest}>
+									<CheckboxIndicator>
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5l9 -10" /></svg>
+									</CheckboxIndicator>
+								</Checkbox>作り手・関係者として書く
+							</label>
 							<Button type="submit" class="btn">投稿する</Button>
 						</div>
 					</form>
@@ -229,7 +242,7 @@
 				{/each}
 			</div>
 		{/if}
-		<p style="white-space: pre-wrap; overflow-wrap: anywhere">{r.body}</p>
+		<p class="reading">{r.body}</p>
 		<div class="review__meta">
 			<span>
 				<span class="num">{r.writtenOn}</span>

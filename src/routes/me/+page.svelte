@@ -24,7 +24,7 @@
 						<h3><a href={`/works/${r.slug}`}>{r.name}</a></h3>
 						{#if r.canEdit}<a class="btn quiet small" href={`/works/${r.slug}/edit`}>編集</a>{/if}
 					</div>
-					<p style="white-space: pre-wrap; overflow-wrap: anywhere">{r.body}</p>
+					<p class="reading">{r.body}</p>
 					<p class="review__meta"><span><span class="num">{r.writtenOn}</span> · {r.hidden ? '非表示' : READ[r.read as keyof typeof READ]}</span></p>
 				</article>
 			{/each}
