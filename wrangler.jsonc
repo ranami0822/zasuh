@@ -11,6 +11,12 @@
 	},
 	"compatibility_date": "2026-11-01",
 	"compatibility_flags": ["nodejs_als"],
+	// 公開先。anami.party のゾーン（同じアカウント）にカスタムドメインを足す。DNS の記録と証明書は、Cloudflare が自動で作る。
+	// passkey を入れるときは、この名前を、RP ID にする。一度決めたら、変えない（変えると、登録したパスキーが使えなくなる）。
+	"routes": [{ "pattern": "review.anami.party", "custom_domain": true }],
+	// 旧 URL（zasuh.crami.workers.dev）は、使わない。
+	"workers_dev": false,
+	"preview_urls": false,
 	// 本番のログ（投稿・通報・読み取りの失敗を、1行の JSON で出している）を、ダッシュボードで見られるようにする。
 	"observability": { "enabled": true },
 	"assets": {
