@@ -363,6 +363,9 @@ button.tag:hover {
 	height: var(--bar, 8px);
 	opacity: var(--bar-opacity, 1);
 	min-width: 40px;
+	/* 両端の角は、区間ごとではなく、棒全体で切り抜く（区間が1つだけでも、非表示の区間があっても、両端がそろう）。 */
+	border-radius: 4px;
+	overflow: hidden;
 }
 .dist.hero .dist__bar {
 	flex: none;
@@ -371,12 +374,6 @@ button.tag:hover {
 .dist__bar > i {
 	display: block;
 	min-width: 2px;
-}
-.dist__bar > i:first-child {
-	border-radius: 4px 0 0 4px;
-}
-.dist__bar > i:last-child {
-	border-radius: 0 4px 4px 0;
 }
 .dist__bar .neg {
 	background: var(--sentiment-1-fill);

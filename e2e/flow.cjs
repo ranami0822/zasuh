@@ -145,6 +145,10 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) process
   await a.goto(BASE + '/me');
   ok(await a.isVisible('a:has-text("星屑の鉄道")') && await a.isVisible('a:has-text("編集")'), '/me lists my review with an edit link');
 
+  // 評価の棒: 両端の角は、棒全体で切り抜く（区間ごとの角丸だと、先頭の区間が非表示のとき、左端が四角くなる）
+  const bars = await a.$$eval('.dist__bar:not(.empty)', (els) => els.map((e) => ({ clip: getComputedStyle(e).overflow, radius: getComputedStyle(e).borderTopLeftRadius, kids: [...e.children].every((c) => getComputedStyle(c).borderTopLeftRadius === '0px') })));
+  ok(bars.every((b) => b.clip === 'hidden' && b.radius !== '0px' && b.kids), 'rating bars clip both ends on the container (' + bars.length + ' non-empty bars checked)');
+
   // 一覧
   const h = await browser.newPage({ viewport: { width: 900, height: 900 } });
   await h.goto(BASE + '/');
