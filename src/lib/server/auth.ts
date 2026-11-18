@@ -59,7 +59,8 @@ export type AuthError =
 	| 'bad_email'
 	| 'email_disabled'
 	| 'email_taken'
-	| 'bad_token';
+	| 'bad_token'
+	| 'bad_code';
 
 export type AuthResult<T = object> = ({ ok: true } & T) | { ok: false; error: AuthError };
 
@@ -520,7 +521,7 @@ export async function finishRecovery(
 	token: string,
 	response: RegistrationResponseJSON,
 	now: Date
-): Promise<AuthResult<{ reviewerId: string; deviceToken: string }>> {
+): Promise<AuthResult<{ reviewerId: string; deviceToken: string; recoveryCode: string }>> {
 	const row = await findEmailToken(db, token, 'recover', now);
 	if (!row) return { ok: false, error: 'bad_token' };
 	const old = await db.prepare('SELECT id FROM credentials WHERE reviewer_id = ?').bind(row.reviewerId).all<{ id: string }>();
@@ -537,7 +538,61 @@ export async function finishRecovery(
 		db.prepare('DELETE FROM device_tokens WHERE reviewer_id = ?').bind(row.reviewerId),
 		db.prepare('UPDATE reviewers SET token_hash = NULL WHERE id = ?').bind(row.reviewerId)
 	]);
-	return { ok: true, reviewerId: row.reviewerId, deviceToken: await issueDevice(db, row.reviewerId, now, { stepup: true }) };
+	// 復旧したら、古いコードは使わず、新しいコードに替える（コードの復旧でも、メールの復旧でも）。
+	const recoveryCode = await createRecoveryCode(db, row.reviewerId, now);
+	return { ok: true, reviewerId: row.reviewerId, deviceToken: await issueDevice(db, row.reviewerId, now, { stepup: true }), recoveryCode };
+}
+
+// --- 復旧コード ---
+
+const CODE_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // 32文字（0、O、1、I を除く）
+const CODE_LENGTH = 24; // 24文字 × 5ビット = 120ビット
+const CODE_ATTEMPTS_PER_IP_PER_DAY = 20;
+
+/** 復旧コードを作る（例: ABCD-EFGH-JKLM-NPQR-STUV-WXYZ）。1回だけ表示し、保存するのは、ハッシュだけ。 */
+export function generateRecoveryCode(): string {
+	const bytes = crypto.getRandomValues(new Uint8Array(CODE_LENGTH));
+	const chars = [...bytes].map((b) => CODE_ALPHABET[b % 32]); // 256 は 32 で割り切れるので、偏らない
+	return chars.join('').replace(/(.{4})(?=.)/g, '$1-');
+}
+
+/** 入力されたコードを、そろえる（小文字、空白、ハイフンの違いをなくす）。 */
+export const normalizeRecoveryCode = (code: string): string => code.toUpperCase().replace(/[^A-Z0-9]/g, '');
+
+const codeHash = (code: string): Promise<string> => sha256Hex(`recovery-code:${normalizeRecoveryCode(code)}`);
+
+/** 新しいコードを作って、古いコードを置き換える。 */
+export async function createRecoveryCode(db: D1Database, reviewerId: string, now: Date): Promise<string> {
+	const code = generateRecoveryCode();
+	await db
+		.prepare(
+			`INSERT INTO recovery_codes (reviewer_id, code_hash, created_at) VALUES (?, ?, ?)
+			 ON CONFLICT (reviewer_id) DO UPDATE SET code_hash = excluded.code_hash, created_at = excluded.created_at`
+		)
+		.bind(reviewerId, await codeHash(code), now.toISOString())
+		.run();
+	return code;
+}
+
+export async function recoveryCodeInfo(db: D1Database, reviewerId: string): Promise<{ createdAt: string } | null> {
+	return db.prepare('SELECT created_at AS createdAt FROM recovery_codes WHERE reviewer_id = ?').bind(reviewerId).first<{ createdAt: string }>();
+}
+
+/**
+ * 復旧コードで、復旧を始める。合っていれば、15分有効の復旧のリンクの印を返す（メールの復旧と、同じ、そのあとの流れ）。
+ * 送信元ごとに、1日20回まで（総当たりを、遅くする。コードは 120 ビットなので、実質、当てられない）。
+ * 失敗の理由は、教えない。
+ */
+export async function redeemRecoveryCode(db: D1Database, rawCode: string, ipHash: string | null, now: Date): Promise<AuthResult<{ token: string }>> {
+	if (ipHash) {
+		const n = await db.prepare('SELECT COUNT(*) AS n FROM recovery_attempts WHERE ip_day_hash = ?').bind(ipHash).first<{ n: number }>();
+		if ((n?.n ?? 0) >= CODE_ATTEMPTS_PER_IP_PER_DAY) return { ok: false, error: 'bad_code' };
+		await db.prepare('INSERT INTO recovery_attempts (ip_day_hash, created_at) VALUES (?, ?)').bind(ipHash, now.toISOString()).run();
+	}
+	if (normalizeRecoveryCode(rawCode).length !== CODE_LENGTH) return { ok: false, error: 'bad_code' };
+	const row = await db.prepare('SELECT reviewer_id AS reviewerId FROM recovery_codes WHERE code_hash = ?').bind(await codeHash(rawCode)).first<{ reviewerId: string }>();
+	if (!row) return { ok: false, error: 'bad_code' };
+	return { ok: true, token: await createEmailToken(db, 'recover', row.reviewerId, 'recovery-code', RECOVER_LINK_TTL_MS, ipHash, now) };
 }
 
 export { findReviewer };

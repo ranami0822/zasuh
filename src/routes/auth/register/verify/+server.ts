@@ -1,4 +1,4 @@
-import { adoptDevice, finishRegistration, hasRecentStepup, listCredentials, markStepup } from '#server/auth';
+import { adoptDevice, createRecoveryCode, finishRegistration, hasRecentStepup, listCredentials, markStepup, recoveryCodeInfo } from '#server/auth';
 import { authContext, failure, success } from '#server/auth-request';
 import { mailerFrom } from '#server/mail';
 import { runtimeEnv } from '#server/request';
@@ -17,6 +17,8 @@ export const POST: RequestHandler = async (event) => {
 	// この端末の「ログインなしの印」が、そのまま、アカウントの端末になる。登録は、直前の本人確認にもなる。
 	await adoptDevice(db, reviewerId, device!, now);
 	await markStepup(db, device!, now);
+	// 復旧コードが、まだなければ、ここで作る（1回だけ、画面に見せる。サーバーには、ハッシュだけが残る）。
+	const recoveryCode = (await recoveryCodeInfo(db, reviewerId)) ? null : await createRecoveryCode(db, reviewerId, now);
 	console.log(JSON.stringify({ event: 'passkey_registered', first: !hadCredentials }));
-	return success({ first: !hadCredentials, emailEnabled: mailerFrom(runtimeEnv()) !== null });
+	return success({ first: !hadCredentials, emailEnabled: mailerFrom(runtimeEnv()) !== null, recoveryCode });
 };

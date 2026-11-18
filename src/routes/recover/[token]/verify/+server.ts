@@ -14,5 +14,5 @@ export const POST: RequestHandler = async (event) => {
 	if (anonymous && anonymous !== result.reviewerId) await mergeAnonymous(db, anonymous, result.reviewerId);
 	setDeviceCookie(event.cookies, event.url, result.deviceToken);
 	console.log(JSON.stringify({ event: 'passkey_recovered' }));
-	return success();
+	return success({ recoveryCode: result.recoveryCode });
 };

@@ -1,6 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import { AUTH_MESSAGES } from '#messages';
-import { accountEmail, authConfigFor, deleteCredential, hasRecentStepup, listCredentials, logout, logoutEverywhere, removeEmail, setEmail } from '#server/auth';
+import { accountEmail, authConfigFor, createRecoveryCode, deleteCredential, hasRecentStepup, listCredentials, logout, logoutEverywhere, recoveryCodeInfo, removeEmail, setEmail } from '#server/auth';
 import { mailerFrom } from '#server/mail';
 import { database, DEVICE_COOKIE, deviceFor, runtimeEnv, senderHash } from '#server/request';
 import { findReviewer } from '#server/reviews';
@@ -19,6 +19,7 @@ export const load: PageServerLoad = async ({ cookies, url }) => {
 		account: true as const,
 		credentials,
 		email: await accountEmail(db, reviewerId),
+		recoveryCode: await recoveryCodeInfo(db, reviewerId),
 		stepup: await hasRecentStepup(db, device, new Date())
 	};
 };
@@ -54,6 +55,11 @@ export const actions: Actions = {
 		if ('error' in g) return fail(403, { error: g.error });
 		await removeEmail(g.db, g.reviewerId);
 		return { emailRemoved: true };
+	},
+	regenerateCode: async (event) => {
+		const g = await guard(event, true);
+		if ('error' in g) return fail(403, { error: g.error });
+		return { recoveryCode: await createRecoveryCode(g.db, g.reviewerId, g.now) };
 	},
 	deleteCredential: async (event) => {
 		const g = await guard(event, true);

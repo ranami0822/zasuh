@@ -5,7 +5,7 @@
 	import Footer from '#components/Footer.svelte';
 	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
-	import { registerPasskey } from '#passkey';
+	import { handOffRecoveryCode, registerPasskey } from '#passkey';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
@@ -26,6 +26,7 @@
 			message = result.message;
 			return;
 		}
+		handOffRecoveryCode(result.data.recoveryCode);
 		await invalidateAll();
 		await goto('/me/security?recovered=1');
 	}

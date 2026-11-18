@@ -67,6 +67,12 @@ const sentSince = (after) => [...fs.readFileSync(LOG, 'utf8').slice(after).match
   await a.click('button:has-text("パスキーを登録する")');
   ok(await a.waitForSelector('section[aria-label="パスキー"]', { timeout: 15000 }).then(() => true, () => false), 'A: registered a passkey');
   ok(await a.isVisible('a.tag:has-text("アカウント")'), 'A: the header shows the account link');
+  const recoveryCode = (await a.textContent('[data-testid=recovery-code]').catch(() => '')) || '';
+  ok(/^([A-HJ-NP-Z2-9]{4}-){5}[A-HJ-NP-Z2-9]{4}$/.test(recoveryCode.trim()), 'A: a recovery code is shown once after registering: ' + recoveryCode.trim().slice(0, 4) + '-…');
+  await a.click('button:has-text("保存しました")');
+  ok(!(await a.isVisible('[data-testid=recovery-code]')), 'A: the code disappears after confirming');
+  await a.reload();
+  ok(!(await a.isVisible('[data-testid=recovery-code]')) && await a.isVisible('text=コードは、保存していません'), 'A: the code is never shown again (only that it is set)');
   await a.goto(BASE + '/me');
   ok(await a.isVisible('a:has-text("パスキーの試験 1")'), 'A: the review posted before registering is still mine');
   await a.goto(BASE + '/me/security');
@@ -111,6 +117,29 @@ const sentSince = (after) => [...fs.readFileSync(LOG, 'utf8').slice(after).match
   ok(await verifier.isVisible('text=このリンクは、使えません'), 'the verification link cannot be used twice');
   await b.reload();
   ok(await b.isVisible('text=確認済み'), 'B: the account page shows the verified email');
+
+  // 復旧（コード）: 端末D が、A で見せた復旧コードで復旧する。小文字でも通る。使ったコードは、使えなくなる
+  const ctxD = await browser.newContext({ viewport: { width: 900, height: 900 } });
+  const d = await ctxD.newPage();
+  await withAuthenticator(ctxD, d);
+  await d.goto(BASE + '/recover', { waitUntil: 'networkidle' });
+  await d.fill('input[name=code]', 'AAAA-AAAA-AAAA-AAAA-AAAA-AAAA');
+  await d.click('button:has-text("復旧する")');
+  ok(await d.waitForSelector('.banner.error:has-text("コードが正しくありません")', { timeout: 10000 }).then(() => true, () => false), 'D: a wrong code is refused');
+  await d.fill('input[name=code]', recoveryCode.trim().toLowerCase());
+  await d.click('button:has-text("復旧する")');
+  await d.waitForURL(/\/recover\/[A-Za-z0-9_-]{20,}/, { timeout: 10000 });
+  ok(await d.isVisible('text=これまでのパスキーと、ログイン中の端末は、すべて使えなくなります'), 'D: the right code leads to the recovery page (with the revocation warning)');
+  await d.click('button:has-text("新しいパスキーを登録する")');
+  await d.waitForURL(/\/me\/security\?recovered=1/, { timeout: 15000 });
+  const newCode = ((await d.textContent('[data-testid=recovery-code]').catch(() => '')) || '').trim();
+  ok(/^([A-HJ-NP-Z2-9]{4}-){5}[A-HJ-NP-Z2-9]{4}$/.test(newCode) && newCode !== recoveryCode.trim(), 'D: recovered, and a new recovery code is shown');
+  await d.goto(BASE + '/recover', { waitUntil: 'networkidle' });
+  await d.fill('input[name=code]', recoveryCode.trim());
+  await d.click('button:has-text("復旧する")');
+  ok(await d.waitForSelector('.banner.error:has-text("コードが正しくありません")', { timeout: 10000 }).then(() => true, () => false), 'D: the used code no longer works');
+  await a.goto(BASE + '/me/security');
+  ok(await a.isVisible('button:has-text("パスキーを登録する")') && !(await a.isVisible('section[aria-label="パスキー"]')), 'A: the old device is logged out after the code recovery');
 
   // 復旧: パスキーを失った端末C から、メールで復旧する
   const ctxC = await browser.newContext({ viewport: { width: 900, height: 900 } });

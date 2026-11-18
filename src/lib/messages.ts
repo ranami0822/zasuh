@@ -66,5 +66,6 @@ export const AUTH_MESSAGES: Record<AuthError, string> = {
 	bad_email: 'メールアドレスの形が正しくありません。',
 	email_disabled: 'メールでの復旧は、まだ使えません。',
 	email_taken: 'このメールアドレスは、使えません。',
+	bad_code: 'コードが正しくありません。入力を確かめてください（1日の入力回数にも、上限があります）。',
 	bad_token: 'このリンクは、使えません（期限切れか、使用済みです）。もう一度、メールを送ってください。'
 };

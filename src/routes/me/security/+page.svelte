@@ -10,7 +10,8 @@
 	import Footer from '#components/Footer.svelte';
 	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
-	import { registerPasskey, stepupWithPasskey, supportsPasskeys } from '#passkey';
+	import { handOffRecoveryCode, registerPasskey, stepupWithPasskey, supportsPasskeys, takeRecoveryCode } from '#passkey';
+	import RecoveryCode from '#components/RecoveryCode.svelte';
 	import type { PageProps } from './$types';
 
 	let { data, form }: PageProps = $props();
@@ -18,7 +19,9 @@
 	let supported = $state(true);
 	let busy = $state(false);
 	let message = $state('');
+	let shownCode = $state<string | null>(null);
 	onMount(() => {
+		shownCode = takeRecoveryCode();
 		supported = supportsPasskeys();
 		ready = true;
 		if (data.recovered) toast.success('復旧しました', { description: '新しいパスキーだけが、有効です。', duration: 8000 });
@@ -43,6 +46,8 @@
 			return;
 		}
 		toast.success('登録しました', { duration: 6000 });
+		handOffRecoveryCode(result.data.recoveryCode);
+		shownCode = takeRecoveryCode();
 		await invalidateAll();
 	}
 
@@ -84,6 +89,13 @@
 	{#if message}<p class="banner error" role="alert">{message}</p>{/if}
 	{#if form && 'error' in form && form.error}<p class="banner error" role="alert">{form.error}</p>{/if}
 
+	{#if form && 'recoveryCode' in form && typeof form.recoveryCode === 'string' && !shownCode}
+		<RecoveryCode code={form.recoveryCode} onsaved={() => (shownCode = null)} />
+	{/if}
+	{#if shownCode}
+		<RecoveryCode code={shownCode} onsaved={() => (shownCode = null)} />
+	{/if}
+
 	{#if !data.account}
 		<section class="panel">
 			<p>パスキーを登録すると、端末を変えても、自分のレビューを編集できます。</p>
@@ -111,11 +123,16 @@
 			<div class="row"><Button class="btn quiet" disabled={busy || !ready || !supported} onclick={add}>パスキーを追加する</Button></div>
 		</section>
 
+		<section class="panel" aria-label="復旧コード">
+			<h2>復旧コード</h2>
+			<p>{data.recoveryCode ? `設定済み（${date(data.recoveryCode.createdAt)}）。コードは、保存していません。なくしたときは、作り直してください。` : '設定されていません。'}</p>
+			<form method="post" action="?/regenerateCode" use:enhance={guarded}><Button type="submit" class="btn quiet">コードを作り直す</Button></form>
+		</section>
+
+		{#if data.emailEnabled}
 		<section class="panel" aria-label="復旧用のメール">
 			<h2>復旧用のメールアドレス</h2>
-			{#if !data.emailEnabled}
-				<p class="muted">メールでの復旧は、まだ使えません。</p>
-			{:else}
+			{#if true}
 				{#if form && 'emailSent' in form && form.emailSent}<p class="banner success" role="status">確認のメールを送りました。リンクを開いて、確認してください（1時間有効）。</p>{/if}
 				{#if data.email}
 					<p>{data.email.email} <span class="tag">{data.email.verified ? '確認済み' : '確認待ち'}</span></p>
@@ -134,6 +151,7 @@
 				{/if}
 			{/if}
 		</section>
+		{/if}
 
 		<section class="panel" aria-label="ログアウト">
 			<div class="row">

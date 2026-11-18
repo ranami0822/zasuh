@@ -729,3 +729,14 @@ input[type='search'].input {
 	background: var(--surface);
 	box-shadow: var(--shadow-sm);
 }
+
+.code {
+	font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+	font-size: 18px;
+	letter-spacing: 0.08em;
+	background: var(--input-bg);
+	border-radius: var(--radius-input);
+	padding: var(--space-3) var(--space-4);
+	overflow-wrap: anywhere;
+	user-select: all;
+}

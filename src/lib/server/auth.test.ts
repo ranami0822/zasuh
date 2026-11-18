@@ -22,12 +22,17 @@ import {
 	setEmail,
 	adoptDevice,
 	authConfigFor,
+	createRecoveryCode,
+	generateRecoveryCode,
+	normalizeRecoveryCode,
+	recoveryCodeInfo,
+	redeemRecoveryCode,
 	CHALLENGE_TTL_MS,
 	STEPUP_TTL_MS,
 	type AuthConfig
 } from './auth';
 import type { Mailer } from './mail';
-import { DEVICE_TTL_MS, deviceTokenHash, findReviewer } from './reviews';
+import { DEVICE_TTL_MS, deviceTokenHash, findReviewer, ipDayHash } from './reviews';
 import { TestAuthenticator } from './testing/authenticator';
 import { addWork, createClock, createTestDb } from './testing/db';
 
@@ -413,6 +418,90 @@ describe('パスキーと、メールでの復旧', () => {
 			expect(await finishRecovery(db, cfg, tokenA, await new TestAuthenticator().register(optionsB), clock.now())).toEqual({ ok: false, error: 'verify_failed' });
 			expect((await listCredentials(db, a.id)).map((c) => c.id)).toEqual([a.auth.id]);
 			expect((await listCredentials(db, b.id)).map((c) => c.id)).toEqual([b.auth.id]);
+		});
+	});
+
+	describe('復旧コード', () => {
+		const withCode = async () => {
+			const id = await reviewer();
+			const { auth } = await register(id);
+			const code = await createRecoveryCode(db, id, clock.now());
+			return { id, auth, code };
+		};
+
+		it('コードは、24文字（120ビット）を、4文字ずつに区切った形。紛らわしい文字（0、O、1、I）を含まない。毎回、違う', () => {
+			const codes = new Set(Array.from({ length: 200 }, () => generateRecoveryCode()));
+			expect(codes.size).toBe(200);
+			for (const c of codes) {
+				expect(c).toMatch(/^([A-HJ-NP-Z2-9]{4}-){5}[A-HJ-NP-Z2-9]{4}$/);
+			}
+			expect(normalizeRecoveryCode(' abcd-efgh jklm\nnpqr-stuv-wxyz ')).toBe('ABCDEFGHJKLMNPQRSTUVWXYZ');
+		});
+
+		it('保存するのは、ハッシュだけ。作り直すと、古いコードは、使えなくなる', async () => {
+			const { id, code } = await withCode();
+			const stored = await db.prepare('SELECT code_hash FROM recovery_codes WHERE reviewer_id = ?').bind(id).first<{ code_hash: string }>();
+			expect(stored!.code_hash).not.toContain(normalizeRecoveryCode(code));
+			expect(stored!.code_hash).toMatch(/^[0-9a-f]{64}$/);
+			const fresh = await createRecoveryCode(db, id, clock.now());
+			expect(fresh).not.toBe(code);
+			expect(await redeemRecoveryCode(db, code, null, clock.now())).toEqual({ ok: false, error: 'bad_code' });
+			expect(await redeemRecoveryCode(db, fresh, null, clock.now())).toMatchObject({ ok: true });
+			expect(await recoveryCodeInfo(db, id)).toEqual({ createdAt: clock.now().toISOString() });
+		});
+
+		it('コードで復旧できる。小文字や区切りの違いは、許す。新しいパスキーだけが残り、古いパスキーと端末は取り消され、コードは新しくなる', async () => {
+			const { id, auth: oldAuth, code } = await withCode();
+			const oldDevice = await deviceTokenHash(await issueDevice(db, id, clock.now()));
+			const redeemed = await redeemRecoveryCode(db, code.toLowerCase().replaceAll('-', ' '), null, clock.now());
+			expect(redeemed.ok).toBe(true);
+			const token = (redeemed as { token: string }).token;
+
+			const options = (await recoveryRegistrationOptions(db, cfg, token, clock.now()))!;
+			const fresh = new TestAuthenticator();
+			const done = await finishRecovery(db, cfg, token, await fresh.register(options), clock.now());
+			expect(done).toMatchObject({ ok: true, reviewerId: id });
+			expect((await listCredentials(db, id)).map((c) => c.id)).toEqual([fresh.id]);
+			expect(await findReviewer(db, oldDevice, clock.now())).toBeNull();
+			expect(await login(oldAuth)).toEqual({ ok: false, error: 'unknown_credential' });
+
+			const newCode = (done as { recoveryCode: string }).recoveryCode;
+			expect(newCode).not.toBe(code);
+			expect(await redeemRecoveryCode(db, code, null, clock.now())).toEqual({ ok: false, error: 'bad_code' }); // 使ったコードは、もう使えない
+			expect(await redeemRecoveryCode(db, newCode, null, clock.now())).toMatchObject({ ok: true });
+		});
+
+		it('間違ったコード、短いコード、空のコードは、理由を教えずに、断る。復旧のリンクの印は、15分で切れる', async () => {
+			const { code } = await withCode();
+			for (const bad of ['', 'ABCD', 'AAAA-AAAA-AAAA-AAAA-AAAA-AAAA', code.slice(0, -1) + (code.endsWith('A') ? 'B' : 'A')]) {
+				expect(await redeemRecoveryCode(db, bad, null, clock.now())).toEqual({ ok: false, error: 'bad_code' });
+			}
+			const redeemed = (await redeemRecoveryCode(db, code, null, clock.now())) as { token: string };
+			clock.advance(16 * 60_000);
+			expect(await recoveryRegistrationOptions(db, cfg, redeemed.token, clock.now())).toBeNull();
+		});
+
+		it('送信元ごとに、1日20回まで。超えると、正しいコードでも、通らない。翌日の送信元は、数え直す', async () => {
+			const { code } = await withCode();
+			const ip = await ipDayHash('198.51.100.7', 'secret', clock.now());
+			for (let i = 0; i < 20; i++) expect(await redeemRecoveryCode(db, 'AAAA-AAAA-AAAA-AAAA-AAAA-AAAA', ip, clock.now())).toEqual({ ok: false, error: 'bad_code' });
+			expect(await redeemRecoveryCode(db, code, ip, clock.now())).toEqual({ ok: false, error: 'bad_code' });
+			const tomorrow = await ipDayHash('198.51.100.7', 'secret', new Date('2026-11-19T03:00:00Z'));
+			expect(await redeemRecoveryCode(db, code, tomorrow, clock.now())).toMatchObject({ ok: true });
+		});
+
+		it('メールでの復旧のあとも、コードは新しくなる（古いコードは、使えない）', async () => {
+			const id = await reviewer();
+			await register(id);
+			const old = await createRecoveryCode(db, id, clock.now());
+			await setEmail(db, id, 'me@example.com', { mailer, origin: cfg.origin, ipHash: null }, clock.now());
+			await confirmEmail(db, tokenOf(sent.at(-1)!.text), clock.now());
+			await requestRecovery(db, 'me@example.com', { mailer, origin: cfg.origin, ipHash: null }, clock.now());
+			const token = tokenOf(sent.at(-1)!.text);
+			const options = (await recoveryRegistrationOptions(db, cfg, token, clock.now()))!;
+			const done = await finishRecovery(db, cfg, token, await new TestAuthenticator().register(options), clock.now());
+			expect(done).toMatchObject({ ok: true });
+			expect(await redeemRecoveryCode(db, old, null, clock.now())).toEqual({ ok: false, error: 'bad_code' });
 		});
 	});
 

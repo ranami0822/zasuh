@@ -55,3 +55,16 @@ export async function stepupWithPasskey(): Promise<PasskeyResult> {
 		return { ok: false, message: describe(e) };
 	}
 }
+
+const CODE_KEY = 'zs_recovery_code';
+
+/** 復旧コードを、次の画面で、1回だけ見せるために、このタブの中だけに、一時的に置く（サーバーや、ほかのタブには、送らない）。 */
+export function handOffRecoveryCode(code: unknown): void {
+	if (typeof code === 'string' && code) sessionStorage.setItem(CODE_KEY, code);
+}
+
+export function takeRecoveryCode(): string | null {
+	const code = sessionStorage.getItem(CODE_KEY);
+	sessionStorage.removeItem(CODE_KEY);
+	return code;
+}
