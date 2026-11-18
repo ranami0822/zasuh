@@ -1,3 +1,4 @@
+import type { AuthError } from './server/auth';
 import type { InboxError } from './server/inbox';
 import type { Failure } from './server/reviews';
 
@@ -51,4 +52,19 @@ export const KIND_LABEL: Record<string, string> = {
 	work_request: '作品の追加依頼',
 	contact: 'お問い合わせ',
 	dispute: '異議申し立て・削除の依頼'
+};
+
+export const AUTH_MESSAGES: Record<AuthError, string> = {
+	config: 'このアドレスでは、ログインを使えません。',
+	challenge: '確認に失敗しました。もう一度、やり直してください。',
+	verify_failed: '確認に失敗しました。もう一度、やり直してください。',
+	duplicate_credential: 'このパスキーは、すでに登録されています。',
+	unknown_credential: 'このパスキーは、登録されていません。別のパスキーを選ぶか、メールで復旧してください。',
+	not_found: '対象が見つかりません。ページを開き直してください。',
+	last_credential: '最後のパスキーは、削除できません。先に、別のパスキーを登録してください。',
+	stepup_required: '先に、パスキーで本人確認をしてください。',
+	bad_email: 'メールアドレスの形が正しくありません。',
+	email_disabled: 'メールでの復旧は、まだ使えません。',
+	email_taken: 'このメールアドレスは、使えません。',
+	bad_token: 'このリンクは、使えません（期限切れか、使用済みです）。もう一度、メールを送ってください。'
 };

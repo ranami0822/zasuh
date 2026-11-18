@@ -88,7 +88,7 @@ export async function findReviewer(db: D1Database, tokenHash: string, now: Date 
 	return row?.id ?? null;
 }
 
-async function ensureReviewer(db: D1Database, tokenHash: string, now: Date): Promise<string> {
+export async function ensureReviewer(db: D1Database, tokenHash: string, now: Date): Promise<string> {
 	const existing = await findReviewer(db, tokenHash, now);
 	if (existing) return existing;
 	const id = crypto.randomUUID();

@@ -20,7 +20,7 @@ function toDer(raw: Uint8Array): Uint8Array {
 	const int = (bytes: Uint8Array): Uint8Array => {
 		let i = 0;
 		while (i < bytes.length - 1 && bytes[i] === 0) i++;
-		let v = bytes.slice(i);
+		let v: Uint8Array = bytes.slice(i);
 		if (v[0] & 0x80) v = concat(new Uint8Array([0]), v);
 		return concat(new Uint8Array([0x02, v.length]), v);
 	};

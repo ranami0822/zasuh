@@ -9,7 +9,8 @@
 		"#server/*": "./src/lib/server/*.ts",
 		"#components/*": "./src/lib/components/*",
 		"#styles/*": "./src/lib/styles/*",
-		"#messages": "./src/lib/messages.ts"
+		"#messages": "./src/lib/messages.ts",
+		"#passkey": "./src/lib/passkey.ts"
 	},
 	"scripts": {
 		"dev": "vite dev",

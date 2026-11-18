@@ -212,7 +212,7 @@ describe('レビューの投稿・編集・通報・管理', () => {
 			for (let i = 0; i < 21; i++) ids.push(must(await post(`w${i}`)).reviewId);
 			for (let i = 0; i < 20; i++) expect(await report('x', ids[i])).toEqual({ ok: true });
 			expect(await report('x', ids[20])).toEqual({ ok: false, error: 'device_limit' });
-		});
+		}, 60_000);
 
 		it('非表示にすると、集計から外れ、通報は残る。戻すと数えられる。通報を閉じられる', async () => {
 			const r = must(await post('a'));

@@ -15,19 +15,17 @@ export function database(): D1Database {
 	return env.DB;
 }
 
+export function setDeviceCookie(cookies: Cookies, url: URL, token: string): void {
+	cookies.set(DEVICE_COOKIE, token, { path: '/', httpOnly: true, sameSite: 'lax', secure: url.protocol === 'https:', maxAge: 60 * 60 * 24 * 365 });
+}
+
 /** 端末の Cookie から、端末のハッシュを作る。create が true で Cookie がなければ、作って渡す。なければ null。 */
 export async function deviceFor(cookies: Cookies, url: URL, create: boolean): Promise<string | null> {
 	let token = cookies.get(DEVICE_COOKIE);
 	if (!token && create) {
 		const bytes = crypto.getRandomValues(new Uint8Array(32));
 		token = btoa(String.fromCharCode(...bytes)).replace(/[+/=]/g, '');
-		cookies.set(DEVICE_COOKIE, token, {
-			path: '/',
-			httpOnly: true,
-			sameSite: 'lax',
-			secure: url.protocol === 'https:',
-			maxAge: 60 * 60 * 24 * 365
-		});
+		setDeviceCookie(cookies, url, token);
 	}
 	return token ? deviceTokenHash(token) : null;
 }

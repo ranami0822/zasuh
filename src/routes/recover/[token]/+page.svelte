@@ -1,0 +1,43 @@
+<script lang="ts">
+	import { goto, invalidateAll } from '$app/navigation';
+	import { Button } from '@ui-sdk/svelte/button';
+	import Footer from '#components/Footer.svelte';
+	import Header from '#components/Header.svelte';
+	import Meta from '#components/Meta.svelte';
+	import { registerPasskey } from '#passkey';
+	import type { PageProps } from './$types';
+
+	let { data }: PageProps = $props();
+	let busy = $state(false);
+	let message = $state('');
+
+	async function recover() {
+		busy = true;
+		message = '';
+		const result = await registerPasskey({ optionsUrl: `/recover/${data.token}/options`, verifyUrl: `/recover/${data.token}/verify`, label: '復旧で登録' });
+		busy = false;
+		if (!result.ok) {
+			message = result.message;
+			return;
+		}
+		await invalidateAll();
+		await goto('/me/security?recovered=1');
+	}
+</script>
+
+<Meta title="パスキーの復旧" description="新しいパスキーを登録します。" />
+
+<div class="page">
+	<Header />
+	<h1>パスキーの復旧</h1>
+	<div class="panel">
+		{#if !data.valid}
+			<p class="banner error">このリンクは、使えません（期限切れか、使用済みです）。<a href="/recover">もう一度、メールを送る</a></p>
+		{:else}
+			{#if message}<p class="banner error" role="alert">{message}</p>{/if}
+			<p class="banner warning">新しいパスキーを登録すると、これまでのパスキーと、ログイン中の端末は、すべて使えなくなります。</p>
+			<div class="row"><Button class="btn" disabled={busy} onclick={recover}>新しいパスキーを登録する</Button></div>
+		{/if}
+	</div>
+	<Footer />
+</div>
