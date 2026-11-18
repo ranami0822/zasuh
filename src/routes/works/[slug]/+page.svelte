@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { invalidateAll, replaceState } from '$app/navigation';
+	import { goto, invalidateAll, replaceState } from '$app/navigation';
+	import { page } from '$app/state';
 	import { toast } from '@ui-sdk/svelte/toast';
 	import { untrack } from 'svelte';
 	import { Button } from '@ui-sdk/svelte/button';
@@ -28,6 +29,16 @@
 	const WORD = { positive: '肯定', negative: '否定', mixed: '混在' } as const;
 
 	/** 投稿・編集の直後に、AIの読み取りの結果を、toast で知らせる。読み取りは、応答のあとに始まるので、数秒おきに確かめる。 */
+	/** 投稿のあとに、パスキーの登録を、小さく案内する（強制しない）。 */
+	function suggestPasskey(kind: 'posted' | 'edited') {
+		if (kind !== 'posted' || page.data.account) return;
+		toast('パスキーを登録すると、端末を変えても、編集できます', {
+			id: 'passkey-suggest',
+			duration: 14000,
+			action: { label: '登録する', onAction: () => void goto('/me/security') }
+		});
+	}
+
 	async function follow(kind: 'posted' | 'edited') {
 		const id = toast.loading(kind === 'posted' ? '投稿しました。読み取っています' : '直しました。読み取っています', { id: 'reading' });
 		for (let i = 0; i < 24; i++) {
@@ -42,6 +53,7 @@
 			if (!status) continue;
 			if (status.status === 'failed') {
 				toast.update(id, { type: 'info', title: 'いまは読み取れませんでした', description: 'あとで自動で読み直します。', duration: 8000 });
+				suggestPasskey(kind);
 				return;
 			}
 			if (status.status === 'ok') {
@@ -57,10 +69,12 @@
 					duration: 9000
 				});
 				await invalidateAll();
+				suggestPasskey(kind);
 				return;
 			}
 		}
 		toast.update(id, { type: 'info', title: '読み取りに時間がかかっています', description: '終わると、結果が反映されます。', duration: 8000 });
+		suggestPasskey(kind);
 	}
 
 	// 同じページへの移動（フォーム送信のあとの redirect）では、コンポーネントが作り直されないので、onMount ではなく $effect で見る。

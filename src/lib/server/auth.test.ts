@@ -134,6 +134,19 @@ describe('パスキーと、メールでの復旧', () => {
 		});
 	});
 
+	describe('乱用への備え', () => {
+		it('ログインの開始は、誰でも呼べるので、有効なチャレンジは、新しい 4,000 件に収まる', async () => {
+			const values = Array.from({ length: 4010 }, (_, i) => `('c${i}', 'login', NULL, NULL, '2099-01-01T00:00:00.000Z', '2026-11-18T03:00:${String(Math.floor(i / 100)).padStart(2, '0')}.${String(i % 100).padStart(3, '0')}Z')`);
+			for (let i = 0; i < values.length; i += 500) {
+				await db.prepare(`INSERT INTO challenges (challenge, purpose, reviewer_id, ref, expires_at, created_at) VALUES ${values.slice(i, i + 500).join(',')}`).run();
+			}
+			await loginOptions(db, cfg, new Date('2026-11-18T04:00:00.000Z'));
+			const row = await db.prepare('SELECT COUNT(*) AS n FROM challenges').first<{ n: number }>();
+			expect(row!.n).toBeLessThanOrEqual(4000);
+			expect((await db.prepare("SELECT COUNT(*) AS n FROM challenges WHERE challenge = 'c4009'").first<{ n: number }>())!.n).toBe(1); // 新しいものは、残る
+		}, 60_000);
+	});
+
 	describe('ログインと、本人確認', () => {
 		it('パスキーで、ログインできる。署名の回数が進み、最後に使った日が付く', async () => {
 			const id = await reviewer();

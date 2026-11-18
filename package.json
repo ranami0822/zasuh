@@ -24,7 +24,8 @@
 		"e2e": "node e2e/flow.cjs",
 		"deploy": "npm run build && wrangler deploy",
 		"db:migrate:remote": "wrangler d1 migrations apply DB --remote",
-		"db:migrate:local": "wrangler d1 migrations apply DB --local"
+		"db:migrate:local": "wrangler d1 migrations apply DB --local",
+		"e2e:passkey": "node e2e/passkey.cjs"
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "^5.20261115.1",

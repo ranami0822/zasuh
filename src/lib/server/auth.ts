@@ -40,6 +40,7 @@ export function authConfigFor(url: URL): AuthConfig | null {
 export const ALGORITHMS = [-7];
 const MIN = 60_000;
 export const CHALLENGE_TTL_MS = 5 * MIN;
+const MAX_LIVE_CHALLENGES = 4000;
 export const STEPUP_TTL_MS = 5 * MIN;
 export const VERIFY_LINK_TTL_MS = 60 * MIN;
 export const RECOVER_LINK_TTL_MS = 15 * MIN;
@@ -77,6 +78,11 @@ async function saveChallenge(
 	now: Date
 ): Promise<void> {
 	await db.prepare('DELETE FROM challenges WHERE expires_at < ?').bind(now.toISOString()).run();
+	// ログインの開始は、誰でも呼べるので、有効なチャレンジが増え続けないよう、新しい 3,999 件だけを残して、1件足す（合計 4,000 件まで）。
+	await db
+		.prepare('DELETE FROM challenges WHERE created_at < (SELECT created_at FROM challenges ORDER BY created_at DESC LIMIT 1 OFFSET ?)')
+		.bind(MAX_LIVE_CHALLENGES - 2)
+		.run();
 	await db
 		.prepare('INSERT INTO challenges (challenge, purpose, reviewer_id, ref, expires_at, created_at) VALUES (?, ?, ?, ?, ?, ?)')
 		.bind(challenge, purpose, reviewerId, ref, new Date(now.getTime() + CHALLENGE_TTL_MS).toISOString(), now.toISOString())
@@ -169,7 +175,8 @@ export async function finishRegistration(
 	const { credential, credentialDeviceType, credentialBackedUp } = verification.registrationInfo;
 	const taken = await db.prepare('SELECT 1 AS x FROM credentials WHERE id = ?').bind(credential.id).first();
 	if (taken) return { ok: false, error: 'duplicate_credential' };
-	await db.batch([
+	try {
+		await db.batch([
 		db
 			.prepare(
 				`INSERT INTO credentials (id, reviewer_id, public_key, counter, transports, device_type, backed_up, label, created_at)
@@ -187,7 +194,11 @@ export async function finishRegistration(
 				now.toISOString()
 			),
 		db.prepare("UPDATE reviewers SET kind = 'passkey' WHERE id = ?").bind(reviewerId)
-	]);
+		]);
+	} catch {
+		// 同時の登録で、同じクレデンシャル ID が先に入った（主キーの重複）。上書きは、しない。
+		return { ok: false, error: 'duplicate_credential' };
+	}
 	return { ok: true, credentialId: credential.id, ref };
 }
 
@@ -516,7 +527,11 @@ export async function finishRecovery(
 	const registered = await finishRegistration(db, cfg, row.reviewerId, response, now, { purpose: 'recover' });
 	if (!registered.ok) return registered;
 	if (registered.ref !== row.hash) return { ok: false, error: 'challenge' };
-	if (!(await useEmailToken(db, row.hash, now))) return { ok: false, error: 'bad_token' };
+	if (!(await useEmailToken(db, row.hash, now))) {
+		// 同時に、別の要求が、リンクを使い切った。いま登録したパスキーは、残さない。
+		await db.prepare('DELETE FROM credentials WHERE id = ?').bind(registered.credentialId).run();
+		return { ok: false, error: 'bad_token' };
+	}
 	await db.batch([
 		...old.results.map((c) => db.prepare('DELETE FROM credentials WHERE id = ?').bind(c.id)),
 		db.prepare('DELETE FROM device_tokens WHERE reviewer_id = ?').bind(row.reviewerId),
