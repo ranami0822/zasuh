@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { invalidateAll, replaceState } from '$app/navigation';
+	import { page } from '$app/state';
 	import { toast } from '@ui-sdk/svelte/toast';
 	import { untrack } from 'svelte';
 	import { Button } from '@ui-sdk/svelte/button';
@@ -80,6 +81,9 @@
 		});
 	});
 
+	const shareHref = $derived(
+		`https://x.com/intent/post?${new URLSearchParams({ text: `${data.work.name}のレビューを、言葉で読む・書く`, url: `${page.url.origin}/works/${data.work.slug}` })}`
+	);
 	const link = (t: string | null, p = 1) => `/works/${data.work.slug}${t || p > 1 ? '?' : ''}${[t ? `t=${encodeURIComponent(t)}` : '', p > 1 ? `p=${p}` : ''].filter(Boolean).join('&')}`;
 	const maxMonth = $derived(Math.max(1, ...data.months.map((m: { nNeg: number; nMix: number; nPos: number }) => m.nNeg + m.nMix + m.nPos)));
 </script>
@@ -99,7 +103,10 @@
 	<header class="hero">
 		<h1>{data.work.name}</h1>
 		{#if data.work.summary}<p class="muted">{data.work.summary}</p>{/if}
-		{#if data.work.url}<p class="caption"><a href={data.work.url} rel="noopener noreferrer nofollow">{data.work.url}</a></p>{/if}
+		<div class="row caption" style="gap: var(--space-4)">
+			{#if data.work.url}<a href={data.work.url} rel="noopener noreferrer nofollow">{data.work.url}</a>{/if}
+			<a href={shareHref} target="_blank" rel="noopener noreferrer">Xで共有</a>
+		</div>
 	</header>
 
 	<div class="layout">

@@ -23,6 +23,7 @@
 		"e2e": "node e2e/flow.cjs",
 		"deploy": "npm run build && wrangler deploy",
 		"db:migrate:remote": "wrangler d1 migrations apply DB --remote",
+		"db:backup": "bash scripts/backup-d1.sh",
 		"db:migrate:local": "wrangler d1 migrations apply DB --local"
 	},
 	"devDependencies": {

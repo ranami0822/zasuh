@@ -24,6 +24,7 @@ npm test                    # テスト（ローカルの D1 を使う。通信�
 npm run check               # 型チェック
 npm run db:migrate:local    # ローカルの D1 にスキーマを作る
 npm run dev:worker          # ビルドして、ワーカーをローカルで動かす
+npm run db:backup           # 本番の D1 を、backups/ に書き出す（手動のバックアップ）
 ```
 
 `npm run dev:worker` は、Workers AI につなぐため、Cloudflare の認証を求める。

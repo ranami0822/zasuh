@@ -14,7 +14,25 @@
 
 <div class="page">
 	<Header />
-	<h1>言葉で読む、作品の評価</h1>
+	<div class="stack" style="gap: var(--space-2)">
+		<h1>言葉で読む、作品の評価</h1>
+		<p class="muted">書いた理由を、AIが観点ごとに読み取る。点数はありません。</p>
+	</div>
+
+	{#if data.featured}
+		{@const f = data.featured}
+		<a class="panel feature" href={`/works/${f.slug}`}>
+			<span class="caption muted">いま集めている作品</span>
+			<h2>{f.name}</h2>
+			{#if f.nMention > 0}
+				<Dist size="hero" nNeg={f.nNeg} nMix={f.nMix} nPos={f.nPos} />
+			{/if}
+			<div class="spread">
+				<span class="caption muted num">{f.nReviews > 0 ? `レビュー ${f.nReviews}件` : 'まだレビューがありません'}</span>
+				<span class="btn">{f.nReviews > 0 ? 'レビューを読む・書く' : '最初のレビューを書く'}</span>
+			</div>
+		</a>
+	{/if}
 
 	<form method="get" action="/" role="search">
 		<input class="input" type="search" name="q" value={data.q} placeholder="作品を探す" aria-label="作品を探す" maxlength="100" />
@@ -66,6 +84,25 @@
 				</a>
 			{/each}
 		</div>
+	{/if}
+	{#if !data.q}
+		<ol class="steps" aria-label="しくみ">
+			<li class="panel">
+				<span class="steps__no num">1</span>
+				<span>理由を書く</span>
+				<span class="steps__ex muted">「ロードが長くて疲れた。でも、音楽は最高」</span>
+			</li>
+			<li class="panel">
+				<span class="steps__no num">2</span>
+				<span>AIが観点ごとに読む</span>
+				<span class="steps__ex row"><span class="tag neg">快適さ</span><span class="tag pos">音楽</span></span>
+			</li>
+			<li class="panel">
+				<span class="steps__no num">3</span>
+				<span>分布で見る</span>
+				<span class="steps__ex"><Dist nNeg={2} nMix={1} nPos={6} /></span>
+			</li>
+		</ol>
 	{/if}
 	<Footer />
 </div>

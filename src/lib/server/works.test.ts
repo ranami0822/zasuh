@@ -1,9 +1,9 @@
 import type { D1Database } from '@cloudflare/workers-types';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { foldForSearch, rankedWorks, readingStatus, searchWorks, tagOptions, workPage } from './pages';
+import { featuredWork, foldForSearch, rankedWorks, readingStatus, searchWorks, tagOptions, workPage } from './pages';
 import { readRevision } from './reading';
 import { deviceTokenHash, postReview } from './reviews';
-import { addWork, createClock, createTestDb, fakeClef } from './testing/db';
+import { addReview, addWork, createClock, createTestDb, fakeClef } from './testing/db';
 import { createWork, getWork, selectedTagIds, updateWork } from './works';
 
 describe('作品の登録と、一覧・作品ページの問い合わせ', () => {
@@ -169,5 +169,45 @@ describe('作品の登録と、一覧・作品ページの問い合わせ', () =
 			await db.prepare('UPDATE reviews SET hidden = 1').run();
 			expect((await workPage(db, work, {})).total).toBe(0);
 		}, 60_000);
+	});
+});
+
+describe('トップで見せる作品', () => {
+	let db: D1Database;
+	let dispose: () => Promise<void>;
+	beforeEach(async () => {
+		({ db, dispose } = await createTestDb());
+	});
+	afterEach(() => dispose());
+
+	const now = new Date('2026-11-19T00:00:00.000Z');
+
+	it('表示中の作品がなければ null', async () => {
+		expect(await featuredWork(db, now)).toBeNull();
+		await addWork(db, { status: 'hidden' });
+		expect(await featuredWork(db, now)).toBeNull();
+	});
+
+	it('直近7日の投稿がなければ、いちばん新しく登録された作品。非表示の作品は選ばない', async () => {
+		const older = await addWork(db, { name: '古い作品' });
+		const newer = await addWork(db, { name: '新しい作品' });
+		const hidden = await addWork(db, { name: '隠した作品', status: 'hidden' });
+		await db.prepare('UPDATE works SET created_at = ? WHERE id = ?').bind('2026-11-10T00:00:00.000Z', older).run();
+		await db.prepare('UPDATE works SET created_at = ? WHERE id = ?').bind('2026-11-18T00:00:00.000Z', newer).run();
+		await db.prepare('UPDATE works SET created_at = ? WHERE id = ?').bind('2026-11-19T00:00:00.000Z', hidden).run();
+		expect(await featuredWork(db, now)).toMatchObject({ name: '新しい作品', nReviews: 0 });
+	});
+
+	it('直近7日に、いちばん多く投稿された作品。7日より前の投稿と、非表示のレビューは数えない', async () => {
+		const quiet = await addWork(db, { name: '静かな作品' });
+		const busy = await addWork(db, { name: '賑わう作品' });
+		await db.prepare('UPDATE works SET created_at = ? WHERE id = ?').bind('2026-11-18T00:00:00.000Z', quiet).run();
+		await db.prepare('UPDATE works SET created_at = ? WHERE id = ?').bind('2026-11-01T00:00:00.000Z', busy).run();
+		await addReview(db, busy, { at: new Date('2026-11-18T12:00:00.000Z') });
+		await addReview(db, busy, { at: new Date('2026-11-18T13:00:00.000Z') });
+		await addReview(db, quiet, { at: new Date('2026-11-18T14:00:00.000Z') });
+		await addReview(db, quiet, { at: new Date('2026-11-18T15:00:00.000Z'), hidden: true });
+		await addReview(db, quiet, { at: new Date('2026-10-01T15:00:00.000Z') });
+		expect(await featuredWork(db, now)).toMatchObject({ name: '賑わう作品', nReviews: 2 });
 	});
 });

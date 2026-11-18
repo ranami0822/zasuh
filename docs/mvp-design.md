@@ -457,7 +457,7 @@ MVP では、匿名の端末トークン（Cookie に入れた乱数。サーバ
 
 - `ADMIN_TOKEN`（Worker のシークレット）を知っている人が、オーナー。ログインすると、期限と署名（`ADMIN_TOKEN` で作る HMAC）を Cookie（`/admin` だけに送られる、12時間、SameSite=Strict）に入れ、毎回サーバーで照らす。**合言葉そのものは Cookie に入れない。** `ADMIN_TOKEN` がない環境では、管理画面は開かない。
 - **照らす場所は、`src/hooks.server.ts`。** 最初はレイアウトの `load` で照らしていたが、フォームの処理は `load` を通らずに直接呼べるので、ログインなしで作品を登録できてしまった（コードレビューで見つけて、ブラウザでの通しで確かめた）。いまは、`/admin` の下のすべての要求を、`/admin/login` を除いて、hook で止める（ページは `/admin/login` へ、POST は 403）。通しの確認に、この直接呼び出しを入れた。
-- 応答には、`x-content-type-options`、`x-frame-options: DENY`、`referrer-policy` を付ける。`content-security-policy` は、まだ付けていない。
+- 応答には、`x-content-type-options`、`x-frame-options: DENY`、`referrer-policy` を付ける。`content-security-policy` は、2026-11-18 に付けた（スクリプトは、SvelteKit が nonce で許可。外部は Google Fonts だけ）。
 - 合言葉の試行回数の制限は、していない（長い乱数なら実害はないが、短い合言葉は避ける）。
 - 非表示: 表示と集計から外す。戻せる。削除: レビューと、その版・読み取り結果・通報を、すべて消す。戻せない。
 - 作品の非表示: 一覧と作品ページから消える。レビューは残る。

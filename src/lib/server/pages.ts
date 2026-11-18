@@ -55,6 +55,41 @@ export async function rankedWorks(db: D1Database, category: Category, tagId?: st
 	return results.map(({ scoreLower, ...row }) => ({ ...row, rank: scoreLower === null || row.nMention === 0 ? null : ++rank }));
 }
 
+export interface FeaturedWork {
+	slug: string;
+	name: string;
+	category: Category;
+	summary: string | null;
+	nReviews: number;
+	nMention: number;
+	nPos: number;
+	nNeg: number;
+	nMix: number;
+}
+
+/**
+ * トップで大きく見せる作品。直近7日に、いちばん多くレビューが投稿された作品。
+ * 投稿が1件もなければ、いちばん新しく登録された作品。表示中の作品がなければ null。
+ * 公開直後の作品（まだレビューがない）が、そのまま前に出る。
+ */
+export async function featuredWork(db: D1Database, now: Date): Promise<FeaturedWork | null> {
+	const since = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
+	return db
+		.prepare(
+			`SELECT w.slug AS slug, w.name AS name, w.category AS category, w.summary AS summary,
+			        (SELECT COUNT(*) FROM reviews r WHERE r.work_id = w.id AND r.hidden = 0 AND r.disclosure = 'none') AS nReviews,
+			        COALESCE(s.n_mention, 0) AS nMention, COALESCE(s.n_pos, 0) AS nPos,
+			        COALESCE(s.n_neg, 0) AS nNeg, COALESCE(s.n_mix, 0) AS nMix
+			   FROM works w LEFT JOIN aspect_stats s ON s.work_id = w.id AND s.tag_id = ?
+			  WHERE w.status = 'active'
+			  ORDER BY (SELECT COUNT(*) FROM reviews r WHERE r.work_id = w.id AND r.hidden = 0 AND r.created_at >= ?) DESC,
+			           w.created_at DESC
+			  LIMIT 1`
+		)
+		.bind(OVERALL, since)
+		.first<FeaturedWork>();
+}
+
 export interface TagStat {
 	tagId: string;
 	label: string;

@@ -12,7 +12,25 @@ export default defineConfig({
 			},
 
 			// ビルドの出力先は wrangler.sveltekit.jsonc で決める（wrangler.jsonc の冒頭を参照）。
-			adapter: adapter({ config: 'wrangler.sveltekit.jsonc' })
+			adapter: adapter({ config: 'wrangler.sveltekit.jsonc' }),
+
+			// content-security-policy。インラインのスクリプトには、SvelteKit が nonce を付ける。
+			// 外部への通信は、書体（Google Fonts）だけ。style の 'unsafe-inline' は、画面の部品が style 属性を使うため。
+			csp: {
+				mode: 'auto',
+				directives: {
+					'default-src': ['self'],
+					'script-src': ['self'],
+					'style-src': ['self', 'unsafe-inline', 'https://fonts.googleapis.com'],
+					'font-src': ['self', 'https://fonts.gstatic.com'],
+					'img-src': ['self', 'data:'],
+					'connect-src': ['self'],
+					'form-action': ['self'],
+					'base-uri': ['self'],
+					'object-src': ['none'],
+					'frame-ancestors': ['none']
+				}
+			}
 		})
 	],
 	test: {
