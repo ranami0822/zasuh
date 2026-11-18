@@ -59,21 +59,44 @@ export async function ipDayHash(ip: string | null, secret: string | undefined, n
 	return sha256Hex(`ip:${secret}:${now.toISOString().slice(0, 10)}:${ip}`);
 }
 
-/** 端末のハッシュから、投稿者の行を取る。create が false なら、なければ null。 */
-export async function findReviewer(db: D1Database, tokenHash: string): Promise<string | null> {
+export const DEVICE_TTL_MS = 30 * DAY_MS;
+
+/**
+ * 端末のハッシュから、投稿者の行を取る。
+ * ログイン中の端末（device_tokens）を先に見る。期限が切れていれば、その行を消して、ログインなしの扱いに戻す。
+ * そうでなければ、これまでどおり、ログインなしの投稿者（reviewers.token_hash）を見る。
+ */
+export async function findReviewer(db: D1Database, tokenHash: string, now: Date = new Date()): Promise<string | null> {
+	const device = await db
+		.prepare('SELECT reviewer_id AS reviewerId, expires_at AS expiresAt FROM device_tokens WHERE token_hash = ?')
+		.bind(tokenHash)
+		.first<{ reviewerId: string; expiresAt: string }>();
+	if (device) {
+		if (device.expiresAt > now.toISOString()) {
+			// 使うたびに、期限を延ばす（残りが25日を切ったら）。
+			if (Date.parse(device.expiresAt) - now.getTime() < 25 * DAY_MS) {
+				await db
+					.prepare('UPDATE device_tokens SET expires_at = ?, last_used_at = ? WHERE token_hash = ?')
+					.bind(new Date(now.getTime() + DEVICE_TTL_MS).toISOString(), now.toISOString(), tokenHash)
+					.run();
+			}
+			return device.reviewerId;
+		}
+		await db.prepare('DELETE FROM device_tokens WHERE token_hash = ?').bind(tokenHash).run();
+	}
 	const row = await db.prepare('SELECT id FROM reviewers WHERE token_hash = ?').bind(tokenHash).first<{ id: string }>();
 	return row?.id ?? null;
 }
 
 async function ensureReviewer(db: D1Database, tokenHash: string, now: Date): Promise<string> {
-	const existing = await findReviewer(db, tokenHash);
+	const existing = await findReviewer(db, tokenHash, now);
 	if (existing) return existing;
 	const id = crypto.randomUUID();
 	await db
 		.prepare("INSERT OR IGNORE INTO reviewers (id, kind, token_hash, created_at) VALUES (?, 'anon', ?, ?)")
 		.bind(id, tokenHash, now.toISOString())
 		.run();
-	return (await findReviewer(db, tokenHash))!;
+	return (await findReviewer(db, tokenHash, now))!;
 }
 
 export interface PostInput {
@@ -222,17 +245,18 @@ export async function findOwnReview(
 	deviceHash: string,
 	now: Date
 ): Promise<OwnReview | null> {
+	const reviewerId = await findReviewer(db, deviceHash, now);
+	if (!reviewerId) return null;
 	const row = await db
 		.prepare(
 			`SELECT r.id AS reviewId, r.work_id AS workId, v.body AS body, r.written_on AS writtenOn,
 			        r.disclosure AS disclosure, r.disclosure_note AS note, r.created_at AS createdAt,
 			        (SELECT COUNT(*) FROM review_revisions x WHERE x.review_id = r.id) AS revisions
 			   FROM reviews r
-			   JOIN reviewers p ON p.id = r.reviewer_id
 			   JOIN review_revisions v ON v.id = r.current_revision_id
-			  WHERE r.work_id = ? AND p.token_hash = ?`
+			  WHERE r.work_id = ? AND r.reviewer_id = ?`
 		)
-		.bind(workId, deviceHash)
+		.bind(workId, reviewerId)
 		.first<{
 			reviewId: string;
 			workId: string;

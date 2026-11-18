@@ -42,13 +42,13 @@ function validUrl(value: string): boolean {
 }
 
 async function ensureSender(db: D1Database, tokenHash: string, now: Date): Promise<string> {
-	const existing = await findReviewer(db, tokenHash);
+	const existing = await findReviewer(db, tokenHash, now);
 	if (existing) return existing;
 	await db
 		.prepare("INSERT OR IGNORE INTO reviewers (id, kind, token_hash, created_at) VALUES (?, 'anon', ?, ?)")
 		.bind(crypto.randomUUID(), tokenHash, now.toISOString())
 		.run();
-	return (await findReviewer(db, tokenHash))!;
+	return (await findReviewer(db, tokenHash, now))!;
 }
 
 /** 受信箱に書き込む。種類ごとの項目（追加依頼なら、作品名・分野・リンク）を検証する。 */

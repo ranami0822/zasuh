@@ -1,11 +1,14 @@
 import { database, deviceFor } from '#server/request';
-import { EDIT_MAX, EDIT_WINDOW_MS } from '#server/reviews';
+import { EDIT_MAX, EDIT_WINDOW_MS, findReviewer } from '#server/reviews';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ cookies, url }) => {
 	const device = await deviceFor(cookies, url, false);
 	if (!device) return { reviews: [] };
-	const { results } = await database()
+	const db = database();
+	const reviewerId = await findReviewer(db, device);
+	if (!reviewerId) return { reviews: [] };
+	const { results } = await db
 		.prepare(
 			`SELECT w.slug AS slug, w.name AS name, r.written_on AS writtenOn, r.created_at AS createdAt, r.hidden AS hidden,
 			        v.body AS body,
@@ -13,13 +16,12 @@ export const load: PageServerLoad = async ({ cookies, url }) => {
 			        (SELECT rd.status FROM readings rd WHERE rd.revision_id = r.current_revision_id
 			          ORDER BY (rd.status = 'ok') DESC, rd.updated_at DESC LIMIT 1) AS readStatus
 			   FROM reviews r
-			   JOIN reviewers p ON p.id = r.reviewer_id
 			   JOIN works w ON w.id = r.work_id
 			   JOIN review_revisions v ON v.id = r.current_revision_id
-			  WHERE p.token_hash = ?
+			  WHERE r.reviewer_id = ?
 			  ORDER BY r.created_at DESC LIMIT 100`
 		)
-		.bind(device)
+		.bind(reviewerId)
 		.all<{ slug: string; name: string; writtenOn: string; createdAt: string; hidden: number; body: string; revisions: number; readStatus: string | null }>();
 	const now = Date.now();
 	return {
