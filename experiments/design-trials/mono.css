@@ -1,0 +1,124 @@
+/*
+ * 試しの案（本番には、組み込まない）: 灰色の濃淡と白黒に、差し色を1色だけ載せる。
+ * 使い方: 実画面に、このスタイルを上書きして、スクリーンショットを撮る（experiments/design-trials/README.md）。
+ *   <html data-accent="orange|red|pink|cyan"> を付ける。ダークは、端末の設定（prefers-color-scheme）に従う。
+ * 方針（ユーザーの指示）: 評価の棒は、赤と緑のまま。角は、レイアウトの面だけを直角にし、小さな部品は、小さく丸める。
+ *   独自にするのは、色・書体・面の見せ方だけ。操作（フォーム、ボタン、エラー）は、慣習のまま。
+ */
+:root {
+	--accent: #e8590c;
+	--accent-text: #b8430a; /* 明るい地の上の、文字・リンク（4.5:1 以上） */
+	--on-accent: #111111;
+
+	--bg: #e6e6e7;
+	--surface: #f7f7f7;
+	--surface-hover: #ededed;
+	--text: #111111;
+	--text-muted: #55555a; /* bg の上で 5:1 以上 */
+	--link: var(--accent-text);
+	--link-hover: #111111;
+	--tag-bg: #d6d6d8;
+	--tag-bg-hover: #c9c9cc;
+	--tag-fg: #1c1c1e;
+	--input-bg: #efeff0;
+	--cta-bg: #111111;
+	--cta-fg: #f7f7f7;
+	--cta-bg-hover: #2b2b2e;
+	--cta-bg-pressed: #3d3d41;
+	--focus-ring-color: #111111;
+	--surface-deep: #151516;
+	--neon: var(--accent);
+	--on-neon: #111111;
+	--purple-90: #c9c9cc;
+	--purple-96: #ededed;
+
+	--font-heading: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic UI', 'Meiryo', sans-serif;
+
+	/* 角: レイアウトの面（パネル、区画、ダイアログ、通知）は、直角。小さな部品だけ、少し丸める。 */
+	--radius-card: 0;
+	--radius-layout: 0;
+	--radius-tag: 3px;
+	--radius-input: 4px;
+	--radius-cta: 4px;
+	--radius-neon: 2px;
+
+	--shadow-sm: none;
+	--shadow-md: none;
+	--shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.22);
+}
+:root[data-accent='red'] { --accent: #e5322d; --accent-text: #b3201c; }
+:root[data-accent='pink'] { --accent: #ec4899; --accent-text: #be185d; }
+:root[data-accent='cyan'] { --accent: #06b6d4; --accent-text: #0e7490; }
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--accent-text: var(--accent);
+		--bg: #161617;
+		--surface: #212123;
+		--surface-hover: #2a2a2d;
+		--text: #f0f0f1;
+		--text-muted: #a4a4a9; /* bg の上で 6:1 以上 */
+		--link: var(--accent);
+		--link-hover: #ffffff;
+		--tag-bg: #333336;
+		--tag-bg-hover: #404044;
+		--tag-fg: #ececee;
+		--input-bg: #2b2b2e;
+		--cta-bg: #f0f0f1;
+		--cta-fg: #111111;
+		--cta-bg-hover: #ffffff;
+		--cta-bg-pressed: #d8d8da;
+		--focus-ring-color: #f0f0f1;
+		--surface-deep: #2b2b2e;
+		--shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+	}
+	:root[data-accent='orange'] { --accent: #ff8a3d; }
+	:root[data-accent='red'] { --accent: #ff6b66; }
+	:root[data-accent='pink'] { --accent: #ff7ab8; }
+	:root[data-accent='cyan'] { --accent: #38d6f0; }
+}
+
+/* 文字: 見出しは、太く、字間を詰め気味に。補足は、灰色。本文は、そのまま（高コントラスト）。 */
+h1, h2, h3 {
+	font-weight: 700;
+	letter-spacing: -0.01em;
+	font-family: var(--font-heading);
+}
+h1 { font-size: clamp(30px, 5.2vw, 48px); line-height: 1.2; }
+h2 { font-size: 20px; line-height: 1.35; }
+.brand {
+	font-family: var(--font-heading);
+	font-weight: 700;
+	letter-spacing: 0.02em;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
+.brand::before {
+	content: '';
+	width: 10px;
+	height: 10px;
+	background: var(--accent);
+}
+.hero .muted, .hero p { color: var(--text-muted); }
+
+/* 一色: リンクと、いま選んでいる絞り込みと、AI の印。ほかは、色を使わない。 */
+a { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.brand, .tag, .btn, .rank, .footer a, .tagrow { text-decoration: none; }
+.tag[aria-current='true'], .tag[data-pressed] {
+	background: var(--accent);
+	color: var(--on-accent);
+}
+.tagrow[aria-current='true'] { color: var(--accent-text); }
+.rank__no { color: var(--text); font-weight: 700; }
+.rank:hover { background: var(--surface-hover); }
+
+/* 入力のカーソル、フォーカスの輪郭、チェック、読み取りの印: 一色。 */
+:root { --focus-ring-color: var(--accent); }
+textarea, input { caret-color: var(--accent); }
+.check [data-slot='checkbox'][data-checked] { background: var(--accent); color: var(--on-accent); }
+.footer a:hover, .review__report:hover { color: var(--accent-text); background: transparent; }
+.dist__caption span { color: var(--text-muted); }
+.rank:hover .rank__no { color: var(--accent-text); }
+
+/* 向きのタグ（読み取り結果）と、評価の棒: 赤と緑のまま（ユーザーの指示）。差し色が赤・ピンクのときは、否定の赤と近くなる。 */
