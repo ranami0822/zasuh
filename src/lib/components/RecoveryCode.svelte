@@ -16,10 +16,10 @@
 
 <section class="panel" aria-label="復旧コード">
 	<h2>復旧コード</h2>
-	<p class="banner warning">このコードは、いまだけ表示します。パスキーが使えなくなったときに、これでアカウントを取り戻せます。パスワード管理アプリか紙に控えてください。</p>
+	<p class="banner warning">このコードは、いまだけ表示します。パスキーが使えなくなったときに、これでアカウントを取り戻せます。パスワード管理アプリか紙に保存してください。</p>
 	<p class="code num" data-testid="recovery-code">{code}</p>
 	<div class="row">
 		<Button class="btn quiet" onclick={copy}>コピーする</Button>
-		<Button class="btn" onclick={onsaved}>控えました</Button>
+		<Button class="btn" onclick={onsaved}>保存しました</Button>
 	</div>
 </section>

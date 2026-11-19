@@ -20,7 +20,7 @@
 		<h2>復旧コード</h2>
 		{#if form && 'error' in form && form.form === 'code'}<p class="banner error" role="alert">{form.error}</p>{/if}
 		<Field name="code">
-			<FieldLabel>登録のときに控えた復旧コード</FieldLabel>
+			<FieldLabel>登録のときに保存した復旧コード</FieldLabel>
 			<Input class="input" required autocomplete="off" autocapitalize="characters" spellcheck={false} maxlength={40} placeholder="XXXX-XXXX-XXXX-XXXX-XXXX-XXXX" />
 		</Field>
 		<div class="row"><Button type="submit" class="btn">復旧する</Button></div>

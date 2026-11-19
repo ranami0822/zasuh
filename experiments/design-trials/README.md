@@ -9,3 +9,4 @@
 注: この案は、`docs/mvp-design.md` の19章で、本番のデザイン（`src/lib/styles/tokens.css`）に置き換わった。比べた記録として残す。
 - `orange-text.css`: オレンジの文字の2案（明るい地の見出し / 暗い面の上だけ）。`document.documentElement.dataset.orangeText = 'light-headings' | 'dark-only'`。経緯は `docs/mvp-design.md` の20章。
   - 案B（暗い面の上だけ）を採用し、`src/lib/styles/app.css` に入れた（20.5）。
+- `banner.css`: エラー・注意・成功のバナーの3案（灰に寄せた淡い色 / 灰の面＋色の四角 / 墨の面＋色の四角）。`document.documentElement.dataset.banner = 'muted' | 'mark' | 'ink'`。

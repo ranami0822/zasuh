@@ -1,0 +1,56 @@
+/*
+ * 試しの案（本番には、組み込まない）: エラー・注意・成功のバナーの色。いまの淡いピンク・緑・クリーム色が、stone の灰色の中で浮くため。
+ *   <html data-banner="muted">: 色を灰に寄せる。面は stone に赤・緑・黄土を少し混ぜた色、文字は今の濃い色のまま。
+ *   <html data-banner="mark">: 面を灰色（tag-bg）にし、意味は、先頭の小さな四角の色（赤・緑・墨）と文字で伝える。
+ *   <html data-banner="ink">: 面を墨（通知と同じ暗い面）にし、文字は明るい灰。先頭の小さな四角の色で意味を伝える。
+ * 注意の四角は、オレンジにしない（オレンジは主ボタンだけ）。墨か、明るい灰にした。
+ */
+:root[data-banner='muted'] {
+	--status-error-tint: #e3cbc6;
+	--status-success-tint: #c9d4c4;
+	--status-warning-tint: #ddd1bd;
+}
+@media (prefers-color-scheme: dark) {
+	:root[data-banner='muted'] {
+		--status-error-tint: #3b2421;
+		--status-success-tint: #23301f;
+		--status-warning-tint: #3a3020;
+	}
+}
+
+:root[data-banner='mark'] .banner,
+:root[data-banner='ink'] .banner {
+	display: flex;
+	align-items: baseline;
+	gap: var(--space-2);
+}
+:root[data-banner='mark'] .banner::before,
+:root[data-banner='ink'] .banner::before {
+	content: '';
+	flex: none;
+	width: 8px;
+	height: 8px;
+	transform: translateY(-1px);
+}
+:root[data-banner='mark'] .banner {
+	background: var(--tag-bg);
+	color: var(--tag-fg);
+}
+:root[data-banner='ink'] .banner {
+	background: var(--surface-deep);
+	color: var(--on-bold);
+}
+:root[data-banner='mark'] .banner.error::before,
+:root[data-banner='ink'] .banner.error::before {
+	background: var(--sentiment-1-fill);
+}
+:root[data-banner='mark'] .banner.success::before,
+:root[data-banner='ink'] .banner.success::before {
+	background: var(--sentiment-5-fill);
+}
+:root[data-banner='mark'] .banner.warning::before {
+	background: var(--ink);
+}
+:root[data-banner='ink'] .banner.warning::before {
+	background: var(--on-bold);
+}
