@@ -14,6 +14,7 @@
 	import Dist from '#components/Dist.svelte';
 	import Direction from '#components/Direction.svelte';
 	import Footer from '#components/Footer.svelte';
+	import Glacier from '#components/Glacier.svelte';
 	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
 	import { DISCLOSURE_LABEL, REASON_LABEL } from '#messages';
@@ -221,11 +222,14 @@
 			{/if}
 
 			{#if data.disclosed.length > 0}
-				<section class="region reviews" aria-label="関係者のレビュー" style="padding: 0">
-					<p class="caption" style="padding: var(--space-4) var(--space-5) 0">関係者 · {data.disclosed.length}件</p>
-					{#each data.disclosed as r (r.id)}
-						{@render review(r)}
-					{/each}
+				<section class="glacier" aria-label="関係者のレビュー">
+					<Glacier seed={data.work.slug} />
+					<div class="glacier__body reviews">
+						<p class="glacier__label">関係者 · <span class="num">{data.disclosed.length}</span>件</p>
+						{#each data.disclosed as r (r.id)}
+							{@render review(r)}
+						{/each}
+					</div>
 				</section>
 			{/if}
 		</div>

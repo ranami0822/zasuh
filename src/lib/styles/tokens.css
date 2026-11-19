@@ -1,64 +1,75 @@
-/* Review Platform のトークン（デザインシステム「Review Platform」の tokens.json から、使うものだけを写した）。
-   ライトとダークは、端末の設定に合わせる。値を直接書かず、この変数を使う。 */
+/* Zasuh のデザイントークン。
+   方針: Apple の HIG にある系統色の灰色（systemGray 系）を地と面に使い、差し色は、際立つオレンジ1色だけ。
+   評価の棒は、赤・灰・緑のまま。レイアウトの面は直角。余白は、画面の幅に応じて可変（--u）。
+   灰色の値は、UIKit の systemGray / systemBackground / label の系統（私の知識。公式ページでは、再確認していない）。
+   値を直接書かず、この変数を使う。ライトとダークは、端末の設定に合わせる。
+   文字のコントラスト比（WCAG）は、検証した: 本文 18:1 以上、補足 4.7:1 以上、オレンジの文字 4.5:1 以上（ライト）/ 8:1 以上（ダーク）。 */
 :root {
 	color-scheme: light dark;
-	--font-heading: 'Shippori Antique', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
-	--font-body: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic UI', 'Meiryo', sans-serif;
+	--font-body: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Yu Gothic UI', 'Meiryo', sans-serif;
+	--font-heading: var(--font-body);
 
-	--purple-30: #6e2673;
-	--purple-42: #9a36a1;
-	--purple-80: #e2b3e6;
-	--purple-90: #f1d9f2;
-	--purple-96: #f9f0fa;
-	--ink: #0e0710;
-	--on-ink: #faf3fb;
-	--neon: #ddef39;
-	--on-neon: #2a3004;
+	/* 灰色の面 */
+	--bg: #f2f2f7;
+	--surface: #ffffff;
+	--surface-hover: #f2f2f7;
+	--surface-deep: #1c1c1e;
 	--on-bold: #ffffff;
-	--surface-bold: var(--purple-42);
-	--surface-deep: var(--purple-30);
 
-	--bg: #f4e7f6;
-	--surface: #fefafe;
-	--surface-hover: #f8eef9;
-	--text: #2c252d;
-	--text-muted: #5d5a68;
-	--text-disabled: #a09caa;
-	--link: #9a36a1;
-	--link-hover: #6e2673;
-	--tag-bg: #ebd3ee;
-	--tag-bg-hover: #e2c2e6;
-	--tag-fg: #6e2673;
-	--input-bg: #f3eaf4;
-	--cta-bg: #0e0710;
-	--cta-fg: #faf3fb;
-	--cta-bg-hover: #2a1a2d;
-	--cta-bg-pressed: #3a2840;
-	--disabled-bg: #e2dde3;
-	--disabled-fg: #a09caa;
-	--focus-ring-color: #0e0710;
+	--text: #000000;
+	--text-muted: #636366;
+	--text-disabled: #aeaeb2;
 
-	--sentiment-1-fill: #a5273c;
-	--sentiment-1-tint: #f8e2e6;
-	--sentiment-1-text: #6e1827;
-	--sentiment-3-fill: #cfc9cf;
-	--sentiment-3-tint: #efebef;
-	--sentiment-3-text: #4a3f4b;
-	--sentiment-5-fill: #1f8477;
-	--sentiment-5-tint: #e1f4f1;
-	--sentiment-5-text: #124942;
-	--sentiment-track: #f7f2f7;
+	/* 差し色（オレンジ）。面に塗るときは --accent（上の文字は黒。白だと 2.2:1 で読めない）。
+	   明るい地の上の文字・リンクは、暗い --accent-text（4.5:1 以上）。 */
+	--accent: #ff9500;
+	--accent-hover: #f08c00;
+	--accent-pressed: #e07f00;
+	--on-accent: #000000;
+	--accent-text: #a84b00;
+	--link: var(--accent-text);
+	--link-hover: #000000;
 
-	--status-error-tint: #faebe1;
-	--status-error-text: #62320e;
-	--status-warning-tint: #fbf5e0;
-	--status-warning-text: #62510e;
-	--status-success-tint: #e1f3fa;
-	--status-success-text: #0e4c62;
+	--tag-bg: #e5e5ea;
+	--tag-bg-hover: #d1d1d6;
+	--tag-fg: #1c1c1e;
+	--input-bg: #ffffff;
+	--control-line: #7c7c80; /* 入力欄・チェックの縁（地・面のどちらの上でも 3:1 以上） */
 
-	--shadow-sm: 0 1px 2px rgba(110, 38, 115, 0.1);
-	--shadow-md: 0 6px 16px rgba(110, 38, 115, 0.16), 0 1px 3px rgba(110, 38, 115, 0.1);
-	--shadow-lg: 0 16px 36px rgba(110, 38, 115, 0.24), 0 2px 6px rgba(110, 38, 115, 0.16);
+	--cta-bg: var(--accent);
+	--cta-fg: var(--on-accent);
+	--cta-bg-hover: var(--accent-hover);
+	--cta-bg-pressed: var(--accent-pressed);
+	--disabled-bg: #e5e5ea;
+	--disabled-fg: #8e8e93;
+	--focus-ring-color: #000000; /* オレンジの輪郭は、白の上で 2.2:1 しかないので、使わない */
+
+	/* 評価の棒と向きのタグ: 赤・灰・緑（愚直に）。色だけに頼らず、並び（否定・混在・肯定）と文字を添える。 */
+	--sentiment-1-fill: #e5322d;
+	--sentiment-1-tint: #fde7e5;
+	--sentiment-1-text: #8e1b14;
+	--sentiment-3-fill: #aeaeb2;
+	--sentiment-3-tint: #e5e5ea;
+	--sentiment-3-text: #3a3a3c;
+	--sentiment-5-fill: #28a04a;
+	--sentiment-5-tint: #dff5e6;
+	--sentiment-5-text: #0f5c2a;
+	--sentiment-track: #e5e5ea;
+
+	--status-error-tint: #fde7e5;
+	--status-error-text: #8e1b14;
+	--status-warning-tint: #fff1dc;
+	--status-warning-text: #7a3e00;
+	--status-success-tint: #dff5e6;
+	--status-success-text: #0f5c2a;
+
+	/* Glacier（氷の縁）の面。関係者のレビューを、ほかのレビューから分ける。 */
+	--ice-bg: #d1d1d6;
+	--ice-fg: #000000;
+	--ice-muted: #48484a;
+
+	/* 影は、浮くもの（通知、ダイアログ）だけ。面は、地との色の差で区別する。 */
+	--shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.2);
 
 	/* 文字の大きさ。日本語は、画数が多く、小さいと読みにくいので、補足も 12px 未満にしない。
 	   入力欄は 16px（これより小さいと、iPhone の Safari が、フォーカス時に画面を拡大する）。 */
@@ -71,27 +82,32 @@
 	--ls-body: 0.02em;
 	--ls-reading: 0.04em;
 
-	--space-1: 4px;
-	--space-2: 8px;
-	--space-3: 12px;
-	--space-4: 16px;
-	--space-5: 20px;
-	--space-6: 24px;
-	--space-8: 32px;
-	--space-10: 40px;
-	--space-12: 48px;
-	--space-16: 64px;
+	/* 余白は、可変。基準の単位 --u が、幅 390px で 3.5px、1440px で 5px まで、なめらかに変わる（4px の倍数ではなくなる）。
+	   文字の大きさと、操作の最小の大きさ（44px）は、変えない。 */
+	--u: clamp(3.5px, 2.943px + 0.1429vw, 5px);
+	--space-1: calc(var(--u) * 1);
+	--space-2: calc(var(--u) * 2);
+	--space-3: calc(var(--u) * 3);
+	--space-4: calc(var(--u) * 4);
+	--space-5: calc(var(--u) * 5);
+	--space-6: calc(var(--u) * 6);
+	--space-8: calc(var(--u) * 8);
+	--space-10: calc(var(--u) * 10);
+	--space-12: calc(var(--u) * 12);
+	--space-16: calc(var(--u) * 16);
 
-	--radius-neon: 2px;
-	--radius-tag: 6px;
-	--radius-input: 8px;
-	--radius-cta: 10px;
-	--radius-card: 14px;
+	/* 角: レイアウトの面（パネル、区画、ダイアログ、通知、バナー、評価の棒）は、直角。
+	   操作する小さな部品だけ、少し丸める。 */
 	--radius-layout: 0;
+	--radius-card: 0;
+	--radius-mark: 0;
+	--radius-tag: 2px;
+	--radius-input: 4px;
+	--radius-cta: 4px;
 
 	--size-control: 44px;
 	--focus-gap: 2px;
-	--focus-width: 1.5px;
+	--focus-width: 2px;
 
 	--ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
 	--dur-press: 160ms;
@@ -100,47 +116,53 @@
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		--bg: #160c17;
-		--surface: #251726;
-		--surface-hover: #2f1e31;
-		--text: #ede8ee;
-		--text-muted: #bca7be;
-		--text-disabled: #797689;
-		--link: #da90df;
-		--link-hover: #e9bcec;
-		--tag-bg: #49244c;
-		--tag-bg-hover: #56305a;
-		--tag-fg: #e9cbeb;
-		--input-bg: #3a2540;
-		--cta-bg: #faf3fb;
-		--cta-fg: #0e0710;
-		--cta-bg-hover: #ebddee;
-		--cta-bg-pressed: #dcc8df;
-		--disabled-bg: #33243a;
-		--disabled-fg: #797689;
-		--focus-ring-color: #faf3fb;
+		--bg: #000000;
+		--surface: #1c1c1e;
+		--surface-hover: #2c2c2e;
+		--surface-deep: #3a3a3c;
 
-		--sentiment-1-fill: #dc6a7d;
-		--sentiment-1-tint: #511f27;
-		--sentiment-1-text: #f4b8c2;
-		--sentiment-3-fill: #6d5e6e;
-		--sentiment-3-tint: #372e38;
-		--sentiment-3-text: #d6cbd7;
-		--sentiment-5-fill: #69d3c5;
-		--sentiment-5-tint: #214a44;
-		--sentiment-5-text: #c0ede7;
-		--sentiment-track: #1c111d;
+		--text: #ffffff;
+		--text-muted: #98989d;
+		--text-disabled: #636366;
 
-		--status-error-tint: #412816;
-		--status-error-text: #f6d8c1;
-		--status-warning-tint: #413816;
-		--status-warning-text: #f6ebc1;
-		--status-success-tint: #163541;
-		--status-success-text: #c1e8f6;
+		--accent: #ff9f0a;
+		--accent-hover: #ffb340;
+		--accent-pressed: #e58f00;
+		--accent-text: #ff9f0a;
+		--link-hover: #ffffff;
 
-		--shadow-sm: 0 1px 2px rgba(8, 0, 12, 0.4);
-		--shadow-md: 0 0 14px rgba(190, 83, 198, 0.24), 0 12px 48px rgba(190, 83, 198, 0.3), 0 1px 3px rgba(8, 0, 12, 0.4);
-		--shadow-lg: 0 0 20px rgba(190, 83, 198, 0.26), 0 20px 64px rgba(190, 83, 198, 0.36), 0 2px 6px rgba(8, 0, 12, 0.45);
+		--tag-bg: #2c2c2e;
+		--tag-bg-hover: #3a3a3c;
+		--tag-fg: #e5e5ea;
+		--input-bg: #1c1c1e;
+		--control-line: #8e8e93;
+		--disabled-bg: #2c2c2e;
+		--disabled-fg: #636366;
+		--focus-ring-color: #ffffff;
+
+		--sentiment-1-fill: #ff5a52;
+		--sentiment-1-tint: #4a1512;
+		--sentiment-1-text: #ffb3ae;
+		--sentiment-3-fill: #8e8e93;
+		--sentiment-3-tint: #2c2c2e;
+		--sentiment-3-text: #e5e5ea;
+		--sentiment-5-fill: #30d158;
+		--sentiment-5-tint: #0f3a1d;
+		--sentiment-5-text: #9ee8b4;
+		--sentiment-track: #2c2c2e;
+
+		--status-error-tint: #4a1512;
+		--status-error-text: #ffb3ae;
+		--status-warning-tint: #452a00;
+		--status-warning-text: #ffd699;
+		--status-success-tint: #0f3a1d;
+		--status-success-text: #9ee8b4;
+
+		--ice-bg: #3a3a3c;
+		--ice-fg: #ffffff;
+		--ice-muted: #aeaeb2;
+
+		--shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.7);
 	}
 }
 
