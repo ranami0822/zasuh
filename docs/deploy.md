@@ -8,6 +8,19 @@
 
 アカウントの状況: workers.dev のサブドメインは `crami`。同じアカウントに、ほかの Worker と D1 が複数ある（ほかのプロジェクトのものなので、触らない）。
 
+## ふだんの手順（2026-11-19〜。スクリプト）
+
+非 root で、作業用コピー（`/tmp/zasuh-work/deploy`）を作って、行う。`CLOUDFLARE_ACCOUNT_ID` と `CLOUDFLARE_API_TOKEN` は、環境に、ある。
+
+```bash
+scripts/deploy.sh --build-only   # ビルドだけ（本番には、触らない）
+scripts/deploy.sh                # ビルドして、デプロイ
+scripts/deploy.sh --migrate      # 本番の D1 に、マイグレーションを適用してから、デプロイ
+scripts/cf.sh d1 list            # そのほかの wrangler（非 root）。例: scripts/cf.sh secret list
+```
+
+本番の D1 への変更と、デプロイは、ユーザーの依頼があるときだけ。デプロイ後は、下の「デプロイ後の確認」を行い、確認用に作ったデータは、**自分が作った分だけ**消す。
+
 ## 初回（この順番で。済み）
 
 1. **D1 を作る**: `npx wrangler d1 create zasuh`。出てきた `database_id` を、`wrangler.jsonc` の `database_id`（いまは `0000…` の仮の値）に書いて、コミットする。
