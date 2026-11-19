@@ -10,7 +10,7 @@
 	let { data, form }: PageProps = $props();
 </script>
 
-<Meta title="パスキーの復旧" description="登録したメールアドレスに、復旧のリンクを送ります。" />
+<Meta title="パスキーの復旧" description="復旧コードか、登録したメールアドレスで、アカウントを取り戻します。" />
 
 <div class="page">
 	<Header />
@@ -20,7 +20,7 @@
 		<h2>復旧コード</h2>
 		{#if form && 'error' in form && form.form === 'code'}<p class="banner error" role="alert">{form.error}</p>{/if}
 		<Field name="code">
-			<FieldLabel>登録のときに保存した、復旧コード</FieldLabel>
+			<FieldLabel>登録のときに控えた復旧コード</FieldLabel>
 			<Input class="input" required autocomplete="off" autocapitalize="characters" spellcheck={false} maxlength={40} placeholder="XXXX-XXXX-XXXX-XXXX-XXXX-XXXX" />
 		</Field>
 		<div class="row"><Button type="submit" class="btn">復旧する</Button></div>
@@ -30,7 +30,7 @@
 		<div class="panel">
 			<h2>メール</h2>
 			{#if form && 'sent' in form && form.sent}
-				<p class="banner success" role="status">登録されたメールアドレスなら、復旧のリンクを送りました（15分有効）。届かないときは、迷惑メールを確認してください。</p>
+				<p class="banner success" role="status">登録されているアドレスなら、復旧のリンクを送りました。15分以内に開いてください。届かないときは、迷惑メールのフォルダも見てください。</p>
 			{:else}
 				{#if form && 'error' in form && form.form === 'email'}<p class="banner error" role="alert">{form.error}</p>{/if}
 				<form method="post" action="?/send" class="stack">

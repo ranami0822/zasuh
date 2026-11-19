@@ -30,13 +30,13 @@
 	}
 </script>
 
-<Meta title="ログイン" description="パスキーでログインすると、端末を変えても、自分のレビューを編集できます。" />
+<Meta title="ログイン" description="パスキーでログインすると、別の端末からでも自分のレビューを編集できます。" />
 
 <div class="page">
 	<Header />
 	<h1>ログイン</h1>
 	<div class="panel">
-		{#if ready && !supported}<p class="banner warning">このブラウザは、パスキーに対応していません。</p>{/if}
+		{#if ready && !supported}<p class="banner warning">このブラウザはパスキーに対応していません。</p>{/if}
 		{#if message}<p class="banner error" role="alert">{message}</p>{/if}
 		<div class="row">
 			<Button class="btn" disabled={busy || !ready || !supported} onclick={login}>パスキーでログイン</Button>

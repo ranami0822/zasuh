@@ -15,10 +15,10 @@
 	<h1>メールアドレスの確認</h1>
 	<div class="panel">
 		{#if form && 'confirmed' in form && form.confirmed}
-			<p class="banner success" role="status">確認しました。パスキーを使えなくなったときに、このアドレスで復旧できます。</p>
+			<p class="banner success" role="status">確認しました。パスキーが使えなくなったら、このアドレスに復旧のリンクを送れます。</p>
 			<div class="row"><a class="btn" href="/me/security">アカウントへ</a></div>
 		{:else if !data.valid}
-			<p class="banner error">このリンクは、使えません（期限切れか、使用済みです）。<a href="/me/security">アカウントから、もう一度送る</a></p>
+			<p class="banner error">このリンクは期限切れか、使用済みです。<a href="/me/security">アカウントの画面から送り直す</a></p>
 		{:else}
 			{#if form && 'error' in form && form.error}<p class="banner error" role="alert">{form.error}</p>{/if}
 			<form method="post" action="?/confirm" class="stack">

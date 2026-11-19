@@ -18,13 +18,13 @@ export function mailerFrom(env: Pick<Env, 'EMAIL' | 'MAIL_FROM'>): Mailer | null
 export function verifyMail(link: string): { subject: string; text: string } {
 	return {
 		subject: '【Zasuh】メールアドレスの確認',
-		text: `Zasuh の復旧用のメールアドレスとして登録するため、次のリンクを開いて、確認してください（1時間有効）。\n\n${link}\n\n心当たりがなければ、このメールは、無視してください。`
+		text: `Zasuh で、このアドレスを復旧用に登録しようとしています。次のリンクを1時間以内に開くと、登録が終わります。\n\n${link}\n\n心当たりがなければ、このメールは無視してください。`
 	};
 }
 
 export function recoverMail(link: string): { subject: string; text: string } {
 	return {
 		subject: '【Zasuh】パスキーの復旧',
-		text: `パスキーを使えなくなったときの復旧のリンクです。15分以内に開いて、新しいパスキーを登録してください。\n\n${link}\n\n登録すると、これまでのパスキーと、ログイン中の端末は、すべて使えなくなります。\n心当たりがなければ、このメールは、無視してください（リンクを開かなければ、何も変わりません）。`
+		text: `パスキーの復旧のリンクです。15分以内に開いて、新しいパスキーを登録してください。\n\n${link}\n\n新しいパスキーを登録すると、これまでのパスキーと、ログイン中の端末はすべて使えなくなります。\n心当たりがなければ、このメールは無視してください。リンクを開かなければ、何も変わりません。`
 	};
 }

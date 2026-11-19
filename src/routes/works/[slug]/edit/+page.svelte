@@ -23,7 +23,7 @@
 	<div class="stack">
 		<h1>{data.work.name}</h1>
 		<p class="muted">
-			編集できるのは、あと <span class="num">{data.own.editsLeft}</span> 回。{locked ? '期間（投稿から7日）を過ぎています。' : ''}
+			あと <span class="num">{data.own.editsLeft}</span> 回編集できます。{locked ? '投稿から7日を過ぎたので、もう編集できません。' : ''}
 		</p>
 	</div>
 

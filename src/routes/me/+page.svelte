@@ -5,7 +5,7 @@
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
-	const READ = { ok: '読み取り済み', pending: '読み取り待ち', failed: '読み取りに失敗（自動でやり直します）' } as const;
+	const READ = { ok: '読み取り済み', pending: '読み取り待ち', failed: '読み取れず（自動で読み直します）' } as const;
 </script>
 
 <Meta title="自分のレビュー" description="この端末から投稿したレビュー。" />
@@ -15,7 +15,7 @@
 	<h1>自分のレビュー</h1>
 
 	{#if data.reviews.length === 0}
-		<p class="muted">この端末から投稿したレビューは、ありません。</p>
+		<p class="muted">この端末から投稿したレビューは、まだありません。</p>
 	{:else}
 		<div class="panel flush reviews">
 			{#each data.reviews as r (r.slug)}

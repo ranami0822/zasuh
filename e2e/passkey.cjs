@@ -114,7 +114,7 @@ const sentSince = (after) => [...fs.readFileSync(LOG, 'utf8').slice(after).match
   await verifier.click('button:has-text("このメールアドレスを確認する")');
   ok(await verifier.waitForSelector('.banner.success:has-text("確認しました")', { timeout: 10000 }).then(() => true, () => false), 'the email is verified from a clean browser (button press)');
   await verifier.goto(found.link);
-  ok(await verifier.isVisible('text=このリンクは、使えません'), 'the verification link cannot be used twice');
+  ok(await verifier.isVisible('text=このリンクは期限切れか、使用済みです'), 'the verification link cannot be used twice');
   await b.reload();
   ok(await b.isVisible('text=確認済み'), 'B: the account page shows the verified email');
 
@@ -125,11 +125,11 @@ const sentSince = (after) => [...fs.readFileSync(LOG, 'utf8').slice(after).match
   await d.goto(BASE + '/recover', { waitUntil: 'networkidle' });
   await d.fill('input[name=code]', 'AAAA-AAAA-AAAA-AAAA-AAAA-AAAA');
   await d.click('button:has-text("復旧する")');
-  ok(await d.waitForSelector('.banner.error:has-text("コードが正しくありません")', { timeout: 10000 }).then(() => true, () => false), 'D: a wrong code is refused');
+  ok(await d.waitForSelector('.banner.error:has-text("コードが違います")', { timeout: 10000 }).then(() => true, () => false), 'D: a wrong code is refused');
   await d.fill('input[name=code]', recoveryCode.trim().toLowerCase());
   await d.click('button:has-text("復旧する")');
   await d.waitForURL(/\/recover\/[A-Za-z0-9_-]{20,}/, { timeout: 10000 });
-  ok(await d.isVisible('text=これまでのパスキーと、ログイン中の端末は、すべて使えなくなります'), 'D: the right code leads to the recovery page (with the revocation warning)');
+  ok(await d.isVisible('text=これまでのパスキーと、ログイン中の端末はすべて使えなくなります'), 'D: the right code leads to the recovery page (with the revocation warning)');
   await d.click('button:has-text("新しいパスキーを登録する")');
   await d.waitForURL(/\/me\/security\?recovered=1/, { timeout: 15000 });
   const newCode = ((await d.textContent('[data-testid=recovery-code]').catch(() => '')) || '').trim();
@@ -137,7 +137,7 @@ const sentSince = (after) => [...fs.readFileSync(LOG, 'utf8').slice(after).match
   await d.goto(BASE + '/recover', { waitUntil: 'networkidle' });
   await d.fill('input[name=code]', recoveryCode.trim());
   await d.click('button:has-text("復旧する")');
-  ok(await d.waitForSelector('.banner.error:has-text("コードが正しくありません")', { timeout: 10000 }).then(() => true, () => false), 'D: the used code no longer works');
+  ok(await d.waitForSelector('.banner.error:has-text("コードが違います")', { timeout: 10000 }).then(() => true, () => false), 'D: the used code no longer works');
   await a.goto(BASE + '/me/security');
   ok(await a.isVisible('button:has-text("パスキーを登録する")') && !(await a.isVisible('section[aria-label="パスキー"]')), 'A: the old device is logged out after the code recovery');
 
@@ -149,7 +149,7 @@ const sentSince = (after) => [...fs.readFileSync(LOG, 'utf8').slice(after).match
   await c.fill('input[name=email]', 'nobody@example.com');
   mark = fs.readFileSync(LOG, 'utf8').length;
   await c.click('button:has-text("リンクを送る")');
-  ok(await c.waitForSelector('.banner.success:has-text("登録されたメールアドレスなら")', { timeout: 10000 }).then(() => true, () => false), 'an unknown address gets the same neutral answer');
+  ok(await c.waitForSelector('.banner.success:has-text("登録されているアドレスなら")', { timeout: 10000 }).then(() => true, () => false), 'an unknown address gets the same neutral answer');
   await sleep(1500);
   ok(sentSince(mark) === 0, 'no mail is sent to an unknown address');
   await c.goto(BASE + '/recover');
@@ -159,13 +159,13 @@ const sentSince = (after) => [...fs.readFileSync(LOG, 'utf8').slice(after).match
   found = await latestLink(/https?:\/\/[^\s"\\]*\/recover\/[A-Za-z0-9_-]{20,}/g, mark);
   ok(!!found, 'the recovery link appears in the (simulated) mail');
   await c.goto(found.link);
-  ok(await c.isVisible('text=これまでのパスキーと、ログイン中の端末は、すべて使えなくなります'), 'the recovery page warns that old passkeys and devices are revoked');
+  ok(await c.isVisible('text=これまでのパスキーと、ログイン中の端末はすべて使えなくなります'), 'the recovery page warns that old passkeys and devices are revoked');
   await c.click('button:has-text("新しいパスキーを登録する")');
   await c.waitForURL(/\/me\/security\?recovered=1/, { timeout: 15000 });
   ok(await c.waitForSelector('[data-slot=toast]:has-text("復旧しました")', { timeout: 10000 }).then(() => true, () => false), 'C: recovered with a new passkey');
   ok((await c.$$('section[aria-label="パスキー"] .spread')).length === 1, 'C: exactly one passkey remains (the new one)');
   await c.goto(found.link);
-  ok(await c.isVisible('text=このリンクは、使えません'), 'the recovery link cannot be used twice');
+  ok(await c.isVisible('text=このリンクは期限切れか、使用済みです'), 'the recovery link cannot be used twice');
 
   // 取り消し: 端末B は、ログインが取り消され、古いパスキーでは、ログインできない
   await b.goto(BASE + '/me/security');

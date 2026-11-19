@@ -28,7 +28,7 @@
 		action="?/send"
 		class="panel"
 		use:enhance={() => async ({ result, update }) => {
-			if (result.type === 'success') toast.success('受け付けました', { description: '内容を確認します。返事は、連絡先を書いた場合だけ、できます。', duration: 8000 });
+			if (result.type === 'success') toast.success('受け付けました', { description: '内容を確認します。返事ができるのは、連絡先を書いた場合だけです。', duration: 8000 });
 			await update({ reset: result.type === 'success' });
 		}}
 	>
@@ -55,11 +55,11 @@
 		{/if}
 
 		<Field name="body">
-			<FieldLabel>{kind === 'dispute' ? '対象のページと、内容' : '内容'}</FieldLabel>
+			<FieldLabel>{kind === 'dispute' ? '対象のページと内容' : '内容'}</FieldLabel>
 			<Textarea class="input" rows={6} required minlength={5} maxlength={2000} defaultValue={form?.values?.body ?? ''} />
 		</Field>
 		<Field name="contact">
-			<FieldLabel>連絡先（返事がほしいときだけ。メールなど）</FieldLabel>
+			<FieldLabel>連絡先（返事がほしいときだけ。メールアドレスなど）</FieldLabel>
 			<Input class="input" maxlength={200} defaultValue={form?.values?.contact ?? ''} />
 		</Field>
 		<div class="row"><Button type="submit" class="btn">送る</Button></div>

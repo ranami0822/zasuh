@@ -64,7 +64,7 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) process
   await a.waitForSelector('[data-slot=toast]');
   ok((await a.textContent('[data-slot=toast]')).includes('投稿しました'), 'toast shown after posting');
   ok(!a.url().includes('done='), 'the done flag is removed from the URL');
-  ok(await a.isVisible('text=この作品には、すでに投稿しています'), 'form replaced by edit link');
+  ok(await a.isVisible('text=この作品にはもう投稿しています'), 'form replaced by edit link');
   ok(await a.isVisible('article:has-text("運転台の操作")'), 'review shown');
 
   // 短すぎる本文（別端末）
@@ -117,7 +117,7 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) process
   ok(await pub.isVisible('a.rank:has-text("星屑の鉄道")'), 'search finds the work');
   await pub.goto(BASE + '/?q=' + encodeURIComponent('存在しない'));
   ok(await pub.isVisible('text=見つかりませんでした'), 'search shows the empty state with a request link');
-  for (const [path, word] of [['/terms', 'してはいけないこと'], ['/privacy', '保存する情報'], ['/me', '投稿したレビューは、ありません']]) {
+  for (const [path, word] of [['/terms', 'してはいけないこと'], ['/privacy', '保存する情報'], ['/me', '投稿したレビューは、まだありません']]) {
     await pub.goto(BASE + path);
     ok(await pub.isVisible('text=' + word), path + ' opens');
   }

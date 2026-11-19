@@ -10,19 +10,19 @@
 	const href = (c: string, t?: string | null) => `/?c=${c}${t ? `&t=${encodeURIComponent(t)}` : ''}`;
 </script>
 
-<Meta description="人が書いた理由つきのレビューを、AIが観点ごとに読み取って、向きと件数で見せる。点数はありません。" />
+<Meta description="レビューに書かれた理由を、AI が観点ごとに読み取り、肯定・否定・混在の数で見せます。点数はつけません。" />
 
 <div class="page">
 	<Header />
-	<h1>言葉で読む、作品の評価</h1>
+	<h1>点数ではなく、理由を数える</h1>
 
 	<form method="get" action="/" role="search">
-		<input class="input" type="search" name="q" value={data.q} placeholder="作品を探す" aria-label="作品を探す" maxlength="100" />
+		<input class="input" type="search" name="q" value={data.q} placeholder="作品名で探す" aria-label="作品名で探す" maxlength="100" />
 	</form>
 
 	{#if data.q}
 		{#if data.hits.length === 0}
-			<p class="muted">見つかりませんでした。<a href="/contact?kind=work_request">載せてほしい作品を頼む</a></p>
+			<p class="muted">見つかりませんでした。<a href="/contact?kind=work_request">この作品の追加を頼む</a></p>
 		{:else}
 			<div class="panel flush">
 				{#each data.hits as w (w.slug)}
@@ -53,7 +53,7 @@
 	</nav>
 
 	{#if !data.q && data.works.length === 0}
-		<p class="muted">まだ作品がありません。<a href="/contact?kind=work_request">載せてほしい作品を頼む</a></p>
+		<p class="muted">まだ作品がありません。<a href="/contact?kind=work_request">作品の追加を頼む</a></p>
 	{:else if !data.q}
 		<div class="panel flush">
 			{#each data.works as w (w.slug)}

@@ -35,7 +35,7 @@
 	/** 投稿のあとに、パスキーの登録を、小さく案内する（強制しない）。 */
 	function suggestPasskey(kind: 'posted' | 'edited') {
 		if (kind !== 'posted' || page.data.account) return;
-		toast('パスキーを登録すると、端末を変えても、編集できます', {
+		toast('パスキーを登録すると、別の端末からでも編集できます', {
 			id: 'passkey-suggest',
 			duration: 14000,
 			action: { label: '登録する', onAction: () => void goto('/me/security') }
@@ -67,8 +67,8 @@
 				].filter(Boolean);
 				toast.update(id, {
 					type: 'success',
-					title: lines.length > 0 ? '読み取りました' : '数えられる内容は、見つかりませんでした',
-					description: [...lines, ...notes].join('\n') || '具体的な事実・特徴・体験が書かれていると、観点として数えられます。',
+					title: lines.length > 0 ? '読み取りました' : '観点として数えられる内容が、見つかりませんでした',
+					description: [...lines, ...notes].join('\n') || 'どこが、どうだったかを具体的に書くと、観点として数えられます。',
 					duration: 9000
 				});
 				await invalidateAll();
@@ -76,7 +76,7 @@
 				return;
 			}
 		}
-		toast.update(id, { type: 'info', title: '読み取りに時間がかかっています', description: '終わると、結果が反映されます。', duration: 8000 });
+		toast.update(id, { type: 'info', title: '読み取りに時間がかかっています', description: '終わったら、結果が画面に反映されます。', duration: 8000 });
 		suggestPasskey(kind);
 	}
 
@@ -106,7 +106,7 @@
 	type="article"
 	description={data.work.summary ??
 		(data.overall && data.overall.nMention > 0
-			? `${data.work.name}のレビュー ${data.total}件。観点ごとの向き（肯定・否定・混在）を、AIが読み取って見せます。`
+			? `${data.work.name}のレビュー ${data.total}件。AI が観点ごとに、肯定・否定・混在を読み取っています。`
 			: `${data.work.name}のレビューを集めています。`)}
 />
 
@@ -156,7 +156,7 @@
 			<section class="compose" aria-label="レビューを書く">
 				{#if data.own}
 					<div class="spread">
-						<p class="muted">この作品には、すでに投稿しています。</p>
+						<p class="muted">この作品にはもう投稿しています。</p>
 						<a class="btn quiet" href={`/works/${data.work.slug}/edit`}>編集する</a>
 					</div>
 				{:else}
@@ -181,7 +181,7 @@
 									{/each}
 								</RadioGroup>
 								<Field name="disclosureNote">
-									<Input class="input" aria-label="利害関係のメモ" placeholder="関係を、一言で" maxlength={200} defaultValue={postFailed?.values.disclosureNote ?? ''} />
+									<Input class="input" aria-label="利害関係のメモ" placeholder="作品との関係を一言で" maxlength={200} defaultValue={postFailed?.values.disclosureNote ?? ''} />
 								</Field>
 							</div>
 						{:else}

@@ -24,7 +24,7 @@
 		shownCode = takeRecoveryCode();
 		supported = supportsPasskeys();
 		ready = true;
-		if (data.recovered) toast.success('復旧しました', { description: '新しいパスキーだけが、有効です。', duration: 8000 });
+		if (data.recovered) toast.success('復旧しました', { description: '使えるのは、いま登録したパスキーだけです。', duration: 8000 });
 	});
 
 	async function add() {
@@ -85,7 +85,7 @@
 	<Header />
 	<h1>アカウント</h1>
 
-	{#if ready && !supported}<p class="banner warning">このブラウザは、パスキーに対応していません。</p>{/if}
+	{#if ready && !supported}<p class="banner warning">このブラウザはパスキーに対応していません。</p>{/if}
 	{#if message}<p class="banner error" role="alert">{message}</p>{/if}
 	{#if form && 'error' in form && form.error}<p class="banner error" role="alert">{form.error}</p>{/if}
 
@@ -98,7 +98,7 @@
 
 	{#if !data.account}
 		<section class="panel">
-			<p>パスキーを登録すると、端末を変えても、自分のレビューを編集できます。</p>
+			<p>パスキーを登録すると、別の端末からでも自分のレビューを編集できます。</p>
 			<div class="row"><Button class="btn" disabled={busy || !ready || !supported} onclick={add}>パスキーを登録する</Button></div>
 		</section>
 	{:else}
@@ -125,7 +125,7 @@
 
 		<section class="panel" aria-label="復旧コード">
 			<h2>復旧コード</h2>
-			<p>{data.recoveryCode ? `設定済み（${date(data.recoveryCode.createdAt)}）。コードは、保存していません。なくしたときは、作り直してください。` : '設定されていません。'}</p>
+			<p>{data.recoveryCode ? `設定済み（${date(data.recoveryCode.createdAt)}）。コードはこちらに残していないので、なくしたら作り直してください。` : 'まだ設定していません。'}</p>
 			<form method="post" action="?/regenerateCode" use:enhance={guarded}><Button type="submit" class="btn quiet">コードを作り直す</Button></form>
 		</section>
 
@@ -133,7 +133,7 @@
 		<section class="panel" aria-label="復旧用のメール">
 			<h2>復旧用のメールアドレス</h2>
 			{#if true}
-				{#if form && 'emailSent' in form && form.emailSent}<p class="banner success" role="status">確認のメールを送りました。リンクを開いて、確認してください（1時間有効）。</p>{/if}
+				{#if form && 'emailSent' in form && form.emailSent}<p class="banner success" role="status">確認のメールを送りました。1時間以内にリンクを開いてください。</p>{/if}
 				{#if data.email}
 					<p>{data.email.email} <span class="tag">{data.email.verified ? '確認済み' : '確認待ち'}</span></p>
 				{/if}

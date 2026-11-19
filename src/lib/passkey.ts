@@ -7,12 +7,12 @@ async function post(url: string, body: unknown = {}): Promise<{ ok: boolean; dat
 	return { ok: res.ok, data: (await res.json().catch(() => ({}))) as Record<string, unknown> };
 }
 
-const failure = (data: Record<string, unknown>): PasskeyResult => ({ ok: false, message: String(data.message ?? '失敗しました。もう一度、やり直してください。') });
+const failure = (data: Record<string, unknown>): PasskeyResult => ({ ok: false, message: String(data.message ?? 'うまくいきませんでした。もう一度試してください。') });
 
 /** ブラウザの確認画面を、利用者が閉じたとき（NotAllowedError）は、静かに戻す。 */
 function describe(e: unknown): string {
 	if (e instanceof Error && e.name === 'NotAllowedError') return 'キャンセルされました。';
-	if (e instanceof Error && e.name === 'InvalidStateError') return 'このパスキーは、すでに登録されています。';
+	if (e instanceof Error && e.name === 'InvalidStateError') return 'このパスキーは登録済みです。';
 	return 'パスキーを使えませんでした。ブラウザの設定を確かめてください。';
 }
 
