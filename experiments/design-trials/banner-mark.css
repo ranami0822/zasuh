@@ -1,0 +1,40 @@
+/*
+ * 試しの案（本番には、組み込まない）: バナーの案2（灰の面）を、選択肢やタグと見分けられるようにする。ユーザーの4つの案。
+ *   <html data-banner-mark="underline">: 下に、色の線を引く（3px）。
+ *   <html data-banner-mark="corner">: 右上の角を斜めに切り、そこに色を置く（14px の三角）。
+ *   <html data-banner-mark="bar">: 左端に、縦に色を1本置く（4px）。
+ *   <html data-banner-mark="hatch">: 左端に、細い斜めの線をいっぱい並べた帯を置く（幅 20px、線 1.5px、間 4px）。
+ * 色: エラー = 評価の赤、成功 = 評価の緑、注意 = 墨（オレンジは、主ボタンだけ）。面は、タグと同じ灰（tag-bg）、文字は tag-fg。
+ * 先頭の小さな四角（案2）は、色の印が二つにならないように、外した。
+ */
+:root[data-banner-mark] .banner {
+	--mark: var(--ink);
+	background: var(--tag-bg);
+	color: var(--tag-fg);
+}
+:root[data-banner-mark] .banner.error {
+	--mark: var(--sentiment-1-fill);
+}
+:root[data-banner-mark] .banner.success {
+	--mark: var(--sentiment-5-fill);
+}
+
+:root[data-banner-mark='underline'] .banner {
+	box-shadow: inset 0 -3px 0 var(--mark);
+}
+
+:root[data-banner-mark='corner'] .banner {
+	background: linear-gradient(225deg, var(--mark) 0 10px, var(--tag-bg) 10px);
+}
+
+:root[data-banner-mark='bar'] .banner {
+	box-shadow: inset 4px 0 0 var(--mark);
+	padding-left: calc(var(--space-3) + 4px);
+}
+
+:root[data-banner-mark='hatch'] .banner {
+	background:
+		repeating-linear-gradient(135deg, var(--mark) 0 1.5px, transparent 1.5px 5.5px) left / 20px 100% no-repeat,
+		var(--tag-bg);
+	padding-left: calc(var(--space-3) + 20px);
+}
