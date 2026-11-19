@@ -1,0 +1,52 @@
+/*
+ * 試しの案（本番には、組み込まない）: バナーの案2-D（細い斜線の帯）を、置き方を変えて比べる。
+ *   <html data-banner-hatch="left">: 左だけ（幅 20px）。
+ *   <html data-banner-hatch="both">: 左右の両側（各 20px）。
+ *   <html data-banner-hatch="right">: 右だけ（幅 20px）。
+ *   <html data-banner-hatch="full">: 全体に敷く。文字が読めるように、線の色を面の色と混ぜて薄くした（35%）。
+ *   <html data-banner-hatch="frame">: 四辺を、斜線の枠（太さ 6px）で囲む。中は灰の面。
+ *   <html data-banner-hatch="edges">: 上と下に、斜線の帯（高さ 6px）。
+ * 線: 太さ 1.5px、間 4px、135°。色: エラー = 評価の赤、成功 = 評価の緑、注意 = 墨（ダークは明るい灰）。面は tag-bg、文字は tag-fg。
+ */
+:root[data-banner-hatch] .banner {
+	--mark: var(--ink);
+	--hatch: repeating-linear-gradient(135deg, var(--mark) 0 1.5px, transparent 1.5px 5.5px);
+	background: var(--tag-bg);
+	color: var(--tag-fg);
+}
+:root[data-banner-hatch] .banner.error {
+	--mark: var(--sentiment-1-fill);
+}
+:root[data-banner-hatch] .banner.success {
+	--mark: var(--sentiment-5-fill);
+}
+
+:root[data-banner-hatch='left'] .banner {
+	background: var(--hatch) left / 20px 100% no-repeat, var(--tag-bg);
+	padding-left: calc(var(--space-3) + 20px);
+}
+:root[data-banner-hatch='both'] .banner {
+	background: var(--hatch) left / 20px 100% no-repeat, var(--hatch) right / 20px 100% no-repeat, var(--tag-bg);
+	padding-inline: calc(var(--space-3) + 20px);
+}
+:root[data-banner-hatch='right'] .banner {
+	background: var(--hatch) right / 20px 100% no-repeat, var(--tag-bg);
+	padding-right: calc(var(--space-3) + 20px);
+}
+:root[data-banner-hatch='full'] .banner {
+	--mark-soft: color-mix(in srgb, var(--mark) 35%, var(--tag-bg));
+	background: repeating-linear-gradient(135deg, var(--mark-soft) 0 1.5px, transparent 1.5px 5.5px), var(--tag-bg);
+}
+:root[data-banner-hatch='frame'] .banner {
+	border: 6px solid transparent;
+	background:
+		linear-gradient(var(--tag-bg), var(--tag-bg)) padding-box,
+		var(--hatch) border-box;
+}
+:root[data-banner-hatch='edges'] .banner {
+	background:
+		var(--hatch) top / 100% 6px no-repeat,
+		var(--hatch) bottom / 100% 6px no-repeat,
+		var(--tag-bg);
+	padding-block: calc(var(--space-3) + 6px);
+}
