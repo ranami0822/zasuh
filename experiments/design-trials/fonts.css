@@ -1,0 +1,48 @@
+/*
+ * 試しの案（本番には、組み込まない）: 書体と組版（ユーザーの案、docs/mvp-design.md の23章）。
+ *   見出し（h1、h2）は、どの案も Zen Old Mincho（明朝）。本文は、次の4案。
+ *   <html data-font="noto">: Noto Sans JP（いま）。
+ *   <html data-font="plex">: IBM Plex Sans JP。
+ *   <html data-font="zen">: Zen Kaku Gothic Antique。
+ *   <html data-font="zen-plex">: Zen Kaku Gothic Antique。英字と数字だけ IBM Plex Sans（書体の並びの先頭に置く。IBM Plex Sans には仮名・漢字がないので、和文は次の書体になる）。
+ * 組版:
+ *   text-autospace: normal — 和文と英字・数字の間に、少しだけ空きを入れる（自動。手で半角スペースを入れない）。
+ *   text-spacing-trim: trim-start — 行頭の括弧の空きを詰める（Chrome と Edge だけ。ほかは無視される）。
+ *   英字だけの箇所（サービス名、URL、日付）は、字間を 0 にする。
+ * 書体の読み込み（Google Fonts）は、試しの画面で <link> を足す。
+ */
+:root[data-font] {
+	--font-heading: 'Zen Old Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+}
+:root[data-font='noto'] {
+	--font-body: 'Noto Sans JP', sans-serif;
+}
+:root[data-font='plex'] {
+	--font-body: 'IBM Plex Sans JP', sans-serif;
+}
+:root[data-font='zen'] {
+	--font-body: 'Zen Kaku Gothic Antique', sans-serif;
+}
+:root[data-font='zen-plex'] {
+	--font-body: 'IBM Plex Sans', 'Zen Kaku Gothic Antique', sans-serif;
+}
+:root[data-font] h1,
+:root[data-font] h2 {
+	font-family: var(--font-heading);
+	font-weight: 700;
+	letter-spacing: 0.02em;
+}
+:root[data-font] .header a.brand,
+:root[data-font] h3,
+:root[data-font] .rank__no {
+	font-family: var(--font-body);
+}
+:root[data-font] body {
+	text-autospace: normal;
+	text-spacing-trim: trim-start;
+}
+:root[data-font] .header a.brand,
+:root[data-font] .num,
+:root[data-font] .hero .caption a {
+	letter-spacing: 0;
+}
