@@ -828,6 +828,18 @@ input[type='search'].input {
 	user-select: all;
 }
 
+/* オレンジの文字は、暗い面の上だけ（ユーザーの指示）: 通知の見出しと、ダークの見出し（h1）とサービス名。
+   明るい地の上では 2.2:1 で読めないので、使わない。 */
+[data-slot='toast-title'] {
+	color: var(--accent);
+}
+@media (prefers-color-scheme: dark) {
+	h1,
+	.header a.brand {
+		color: var(--accent);
+	}
+}
+
 /* Glacier: 関係者のレビューを、ほかのレビューから分ける。線ではなく、氷の縁を持つ面で分ける（1画面に1つ）。
    縁の形は、作品ごとに決まった形（乱数の種が、作品の識別子）。飾りなので、読み上げない。 */
 .glacier {

@@ -47,15 +47,15 @@
 	--disabled-fg: #78716c;
 	--focus-ring-color: #1c1917;
 
-	/* 評価の棒と向きのタグ: 赤・灰・緑。赤は、オレンジと分けるために深くした（オレンジとの明るさの比 2.1:1）。
-	   棒は、面の上で 3:1 以上（赤 3.9、灰 3.2、緑 3.4）。 */
-	--sentiment-1-fill: #c81e1e;
+	/* 評価の棒と向きのタグ: 赤・灰・緑。棒の赤と緑は、原色に近い明るい色（ユーザーの指示）。
+	   オレンジとの明るさの比は 1.8:1。面（stone-300）の上で、赤 3.2:1、灰 3.2:1、緑 2.2:1（緑は 3:1 に届かない。明るさを優先した）。 */
+	--sentiment-1-fill: #e60012;
 	--sentiment-1-tint: #fde7e5;
 	--sentiment-1-text: #8e1b14;
 	--sentiment-3-fill: #78716c;
 	--sentiment-3-tint: #a8a29e;
 	--sentiment-3-text: #1c1917;
-	--sentiment-5-fill: #15803d;
+	--sentiment-5-fill: #00a63e;
 	--sentiment-5-tint: #dff5e6;
 	--sentiment-5-text: #0f5c2a;
 	--sentiment-track: #a8a29e;
@@ -123,7 +123,7 @@
 		--bg: #1c1917;
 		--surface: #292524;
 		--surface-hover: #44403c;
-		--surface-deep: #44403c;
+		--surface-deep: #0c0a09; /* stone-950。通知の見出しのオレンジが 4.5:1 以上になるように、地より暗くした */
 
 		--text: #f5f5f4; /* 地 16:1、面 13.9:1 */
 		--text-muted: #a8a29e; /* 地 6.9:1、面 6.0:1 */
