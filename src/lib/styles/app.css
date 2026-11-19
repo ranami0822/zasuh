@@ -309,24 +309,29 @@ button.tag:hover {
 	opacity: 0;
 }
 
-/* バナー・塗る区画（意味を、文字の色ではなく、背景で示す） */
+/* バナー（エラー・注意・成功）: 面は灰（タグと同じ）。上と下に、細い斜線の帯（高さ 6px）を置き、その色で意味を示す（ユーザーの案）。
+   エラー = 評価の赤、成功 = 評価の緑、注意 = 墨。オレンジは使わない（主ボタンだけ）。意味は、文字でも伝える。 */
 .banner {
-	padding: var(--space-3);
+	--mark: var(--ink);
+	--hatch: repeating-linear-gradient(135deg, var(--mark) 0 1.5px, transparent 1.5px 5.5px);
+	padding: calc(var(--space-3) + 6px) var(--space-3);
 	border-radius: var(--radius-layout);
+	background:
+		var(--hatch) top / 100% 6px no-repeat,
+		var(--hatch) bottom / 100% 6px no-repeat,
+		var(--tag-bg);
+	color: var(--tag-fg);
 	font-size: var(--fs-ui);
 	line-height: 1.65;
 }
 .banner.error {
-	background: var(--status-error-tint);
-	color: var(--status-error-text);
+	--mark: var(--sentiment-1-fill);
 }
 .banner.success {
-	background: var(--status-success-tint);
-	color: var(--status-success-text);
+	--mark: var(--sentiment-5-fill);
 }
-.banner.warning {
-	background: var(--status-warning-tint);
-	color: var(--status-warning-text);
+.banner a {
+	color: inherit;
 }
 .region {
 	padding: var(--space-4);

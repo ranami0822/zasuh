@@ -60,13 +60,6 @@
 	--sentiment-5-text: #0f5c2a;
 	--sentiment-track: #a8a29e;
 
-	--status-error-tint: #fde7e5;
-	--status-error-text: #8e1b14;
-	--status-warning-tint: #fff1dc;
-	--status-warning-text: #7a3e00;
-	--status-success-tint: #dff5e6;
-	--status-success-text: #0f5c2a;
-
 	/* Glacier（氷の縁）の面。関係者のレビューを、ほかのレビューから分ける。 */
 	--ice-bg: #a8a29e;
 	--ice-fg: #1c1917; /* 6.9:1 */
@@ -153,13 +146,6 @@
 		--sentiment-5-tint: #0f3a1d;
 		--sentiment-5-text: #9ee8b4;
 		--sentiment-track: #44403c;
-
-		--status-error-tint: #4a1512;
-		--status-error-text: #ffb3ae;
-		--status-warning-tint: #452a00;
-		--status-warning-text: #ffd699;
-		--status-success-tint: #0f3a1d;
-		--status-success-text: #9ee8b4;
 
 		--ice-bg: #44403c;
 		--ice-fg: #f5f5f4;
