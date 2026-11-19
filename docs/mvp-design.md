@@ -833,3 +833,17 @@ MVP では、匿名の端末トークン（Cookie に入れた乱数。サーバ
 - **決めたこと（ユーザーの判断）: 灰の面（`tag-bg`）に、上と下の細い斜線の帯（高さ 6px）**。斜線は、太さ 1.5px、間 4px、135°。色は、エラー = 評価の赤、成功 = 評価の緑、注意 = 墨（ダークは明るい灰）。文字は `tag-fg`。
 - 使わなくなった `--status-*` のトークン（12 個）は、消した。
 - 意味は、色だけでなく、文字でも伝えている（「通報できませんでした。」など）。斜線は飾りで、読み上げない。
+
+## 23. 書体と組版（2026-11-19、ユーザーの案）
+
+- ユーザーの案: 書体は、ネオグロテスク・インダストリアル・スタイリッシュな方向。日本語の候補は Noto Sans JP、IBM Plex Sans JP、Zen Kaku Gothic Antique。見出しと、エキスパートには明朝（Zen Old Mincho）。組版（字間、和文と英字の混ざり方）にも気をつける。
+- 比べた4案（`experiments/design-trials/fonts.css`）→ **決めたこと（ユーザーの判断）: 本文は、英字・数字が IBM Plex Sans、和文が Zen Kaku Gothic Antique。見出し（h1、h2）は Zen Old Mincho（700）**。
+  - Zen Kaku Gothic Antique の英字・数字は、細く小さめで、和文の中で弱く見えたため、英字だけ IBM Plex Sans にした（書体の並びの先頭に置く。IBM Plex Sans には仮名・漢字がないので、和文は次の書体で出る）。
+  - h3（作品名の行）、サービス名、順位の数字、通知の見出しは、本文の書体の太字のまま。
+- 組版:
+  - `text-autospace: normal` — 和文と英字・数字の間に、少しだけ空きを入れる。主要なブラウザの最新版で使える（MDN では Baseline 2025）。手で半角スペースを入れなくてよい。
+  - `text-spacing-trim: trim-start` — 行頭の括弧の空きを詰める。Chrome と Edge だけ（ほかは無視される）。
+  - 英字・数字だけの箇所（サービス名、URL、日付、件数）は、字間を 0 にした。
+- 読み込み: Google Fonts から IBM Plex Sans（400・500・700）、Zen Kaku Gothic Antique（400・500・700）、Zen Old Mincho（700）。Noto Sans JP と、端末の書体（`-apple-system`）は、外した。
+- **まだ**: 「エキスパートには明朝」は、いまのアプリにエキスパートのレビューがないので、反映していない（ユーザーに確認中）。
+- 出典: [MDN: text-autospace](https://developer.mozilla.org/en-US/docs/Web/CSS/text-autospace)、[Chrome Developers: CSS の国際化の新機能](https://developer.chrome.com/blog/css-i18n-features)、[Can I use: text-spacing-trim](https://caniuse.com/mdn-css_properties_text-spacing-trim)。

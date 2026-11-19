@@ -6,8 +6,10 @@
    文字のコントラスト比（WCAG）は、計算して確かめた（各行の注）。 */
 :root {
 	color-scheme: light dark;
-	--font-body: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Yu Gothic UI', 'Meiryo', sans-serif;
-	--font-heading: var(--font-body);
+	/* 書体（ユーザーの判断、2026-11-19）: 本文は、英字と数字が IBM Plex Sans、和文が Zen Kaku Gothic Antique。
+	   IBM Plex Sans には仮名・漢字がないので、和文は次の書体で出る。見出し（h1、h2）は Zen Old Mincho（明朝）。 */
+	--font-body: 'IBM Plex Sans', 'Zen Kaku Gothic Antique', 'Hiragino Sans', 'Yu Gothic UI', 'Meiryo', sans-serif;
+	--font-heading: 'Zen Old Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
 
 	/* 灰色の面（stone）。地は stone-200、面は stone-300。白は使わない。 */
 	--bg: #e7e5e4;

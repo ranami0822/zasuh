@@ -19,11 +19,15 @@ body {
 	font-kerning: none;
 	-webkit-font-smoothing: antialiased;
 	overflow-wrap: anywhere;
+	/* 和文と英字・数字の間に、少しだけ空きを入れる（自動。手で半角スペースを入れない。主要なブラウザの最新版）。
+	   行頭の括弧の空きを詰める（Chrome と Edge だけ。ほかは、無視される）。 */
+	text-autospace: normal;
+	text-spacing-trim: trim-start;
 }
 h1,
 h2,
 h3 {
-	font-family: var(--font-heading);
+	font-family: var(--font-body);
 	font-weight: 700;
 	margin: 0;
 	letter-spacing: 0;
@@ -33,11 +37,16 @@ h3 {
 	word-break: auto-phrase;
 	text-wrap: balance;
 }
+/* 見出し（h1、h2）は、明朝（Zen Old Mincho）。h3（作品名の行など）は、本文の書体の太字。 */
+h1,
+h2 {
+	font-family: var(--font-heading);
+	letter-spacing: 0.02em;
+}
 h1 {
 	/* 幅に応じて、28px から 40px まで（余白と同じく、可変）。 */
 	font-size: clamp(28px, 24.4px + 0.9vw, 40px);
 	line-height: 1.25;
-	letter-spacing: -0.01em;
 }
 h2 {
 	font-size: 20px;
@@ -85,6 +94,7 @@ a.rank:hover {
 }
 .num {
 	font-variant-numeric: tabular-nums;
+	letter-spacing: 0; /* 英字・数字だけの箇所（日付、件数）は、字間を空けない */
 }
 
 /* ページの枠 */
@@ -107,9 +117,10 @@ a.rank:hover {
 	display: inline-flex;
 	align-items: center;
 	gap: var(--space-2);
-	font-family: var(--font-heading);
+	font-family: var(--font-body);
 	font-weight: 700;
 	font-size: 20px;
+	letter-spacing: 0;
 	color: var(--text);
 }
 .header a.brand::before {
@@ -486,7 +497,7 @@ button.tag:hover {
 	white-space: nowrap;
 }
 .rank__no {
-	font-family: var(--font-heading);
+	font-family: var(--font-body);
 	font-weight: 700;
 	font-size: 20px;
 	text-align: right;
@@ -557,6 +568,9 @@ button.tag:hover {
 /* 作品ページ: 左に概要、右にレビュー。狭い画面では縦に積む */
 .page.wide {
 	max-width: 1000px;
+}
+.hero .caption a {
+	letter-spacing: 0; /* URL は、英字だけなので、字間を空けない */
 }
 .hero {
 	display: flex;
@@ -756,7 +770,7 @@ button.tag:hover {
 	transition: none;
 }
 [data-slot='toast-title'] {
-	font-family: var(--font-heading);
+	font-family: var(--font-body);
 	font-weight: 700;
 	font-size: 16px;
 	line-height: 1.45;
