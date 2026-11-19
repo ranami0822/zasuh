@@ -5,51 +5,51 @@
 	--font-heading: 'Zen Old Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
 	--font-body: 'IBM Plex Sans', 'Zen Kaku Gothic Antique', 'Hiragino Sans', 'Yu Gothic UI', 'Meiryo', sans-serif;
 
-	--bg: #e7e5e4;
-	--surface: #d6d3d1;
-	--surface-hover: #e7e5e4;
-	--surface-deep: #292524;
-	--on-bold: #f5f5f4;
-	--text: #1c1917;
-	--text-muted: #57534e;
-	--text-disabled: #a8a29e;
-	--ink: #1c1917;
-	--on-ink: #f5f5f4;
+	--bg: #e5e5e5;
+	--surface: #d4d4d4;
+	--surface-hover: #e5e5e5;
+	--surface-deep: #262626;
+	--on-bold: #f5f5f5;
+	--text: #171717;
+	--text-muted: #525252;
+	--text-disabled: #a3a3a3;
+	--ink: #171717;
+	--on-ink: #f5f5f5;
 	--accent: #ff7300;
 	--accent-hover: #ff8a33;
 	--accent-pressed: #e86800;
-	--on-accent: #1c1917;
-	--link: #1c1917;
-	--link-hover: #57534e;
-	--tag-bg: #a8a29e;
-	--tag-bg-hover: #bdb8b4;
-	--tag-fg: #1c1917;
-	--input-bg: #e7e5e4;
-	--control-line: #78716c;
+	--on-accent: #171717;
+	--link: #171717;
+	--link-hover: #525252;
+	--tag-bg: #a3a3a3;
+	--tag-bg-hover: #b8b8b8;
+	--tag-fg: #171717;
+	--input-bg: #e5e5e5;
+	--control-line: #737373;
 	--cta-bg: var(--accent);
 	--cta-fg: var(--on-accent);
 	--cta-bg-hover: var(--accent-hover);
 	--cta-bg-pressed: var(--accent-pressed);
-	--disabled-bg: #d6d3d1;
-	--disabled-fg: #78716c;
-	--focus-ring-color: #1c1917;
+	--disabled-bg: #d4d4d4;
+	--disabled-fg: #737373;
+	--focus-ring-color: #171717;
 
 	--sentiment-1-fill: #e60012;
 	--sentiment-1-tint: #fde7e5;
 	--sentiment-1-text: #b3000f;
-	--sentiment-3-fill: #78716c;
-	--sentiment-3-tint: #a8a29e;
-	--sentiment-3-text: #1c1917;
+	--sentiment-3-fill: #737373;
+	--sentiment-3-tint: #a3a3a3;
+	--sentiment-3-text: #171717;
 	--sentiment-5-fill: #00a63e;
 	--sentiment-5-tint: #dff5e6;
 	--sentiment-5-text: #0f5c2a;
-	--sentiment-track: #a8a29e;
+	--sentiment-track: #a3a3a3;
 
-	--ice-bg: #a8a29e;
-	--ice-fg: #1c1917;
-	--ice-muted: #292524;
+	--ice-bg: #a3a3a3;
+	--ice-fg: #171717;
+	--ice-muted: #262626;
 
-	--shadow-lg: 0 8px 28px rgba(28, 25, 23, 0.25);
+	--shadow-lg: 0 8px 28px rgba(23, 23, 23, 0.25);
 
 	/* 文字の大きさ。日本語は、画数が多く、小さいと読みにくいので、補足も 12px 未満にしない。
 	   入力欄は 16px（これより小さいと、iPhone の Safari が、フォーカス時に画面を拡大する）。 */
@@ -94,38 +94,38 @@
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		--bg: #1c1917;
-		--surface: #292524;
-		--surface-hover: #44403c;
-		--surface-deep: #0c0a09;
-		--text: #f5f5f4;
-		--text-muted: #a8a29e;
-		--text-disabled: #57534e;
-		--ink: #f5f5f4;
-		--on-ink: #1c1917;
-		--link: #f5f5f4;
-		--link-hover: #a8a29e;
-		--tag-bg: #44403c;
-		--tag-bg-hover: #57534e;
-		--tag-fg: #f5f5f4;
-		--input-bg: #1c1917;
-		--disabled-bg: #292524;
-		--disabled-fg: #57534e;
-		--focus-ring-color: #f5f5f4;
+		--bg: #171717;
+		--surface: #262626;
+		--surface-hover: #404040;
+		--surface-deep: #0a0a0a;
+		--text: #f5f5f5;
+		--text-muted: #a3a3a3;
+		--text-disabled: #525252;
+		--ink: #f5f5f5;
+		--on-ink: #171717;
+		--link: #f5f5f5;
+		--link-hover: #a3a3a3;
+		--tag-bg: #404040;
+		--tag-bg-hover: #525252;
+		--tag-fg: #f5f5f5;
+		--input-bg: #171717;
+		--disabled-bg: #262626;
+		--disabled-fg: #525252;
+		--focus-ring-color: #f5f5f5;
 
 		--sentiment-1-fill: #dc2626;
 		--sentiment-1-tint: #4a1512;
 		--sentiment-1-text: #ff7a85;
-		--sentiment-3-tint: #44403c;
-		--sentiment-3-text: #f5f5f4;
+		--sentiment-3-tint: #404040;
+		--sentiment-3-text: #f5f5f5;
 		--sentiment-5-fill: #30d158;
 		--sentiment-5-tint: #0f3a1d;
 		--sentiment-5-text: #9ee8b4;
-		--sentiment-track: #44403c;
+		--sentiment-track: #404040;
 
-		--ice-bg: #44403c;
-		--ice-fg: #f5f5f4;
-		--ice-muted: #d6d3d1;
+		--ice-bg: #404040;
+		--ice-fg: #f5f5f5;
+		--ice-muted: #d4d4d4;
 
 		--shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.7);
 	}

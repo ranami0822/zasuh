@@ -539,7 +539,7 @@ button.tag:hover {
 [data-slot='dialog-backdrop'] {
 	position: fixed;
 	inset: 0;
-	background: rgba(19, 16, 20, 0.42);
+	background: rgba(10, 10, 10, 0.42);
 }
 [data-slot='dialog-content'] {
 	inset: 0;
@@ -776,7 +776,7 @@ button.tag:hover {
 [data-slot='toast-description'] {
 	font-size: var(--fs-ui);
 	line-height: 1.6;
-	color: #d6d3d1;
+	color: #d4d4d4;
 	white-space: pre-line;
 }
 [data-slot='toast'][data-type='success'] [data-slot='toast-title']::before {
