@@ -1,4 +1,4 @@
-/* Review Platform の部品（線を使わない。区切りは、面の色の差、余白、影。例外はフォーカスリングだけ）。 */
+/* Zasuh の部品。区切りは、面の色の差と余白。線は、入力欄とチェックの縁（操作の場所を示す）と、フォーカスの輪郭だけ。 */
 *,
 *::before,
 *::after {
@@ -19,22 +19,32 @@ body {
 	font-kerning: none;
 	-webkit-font-smoothing: antialiased;
 	overflow-wrap: anywhere;
+	/* 和文と英字・数字の間に、少しだけ空きを入れる（自動。手で半角スペースを入れない）。行頭の括弧の空きを詰める（Chrome と Edge だけ）。 */
+	text-autospace: normal;
+	text-spacing-trim: trim-start;
 }
 h1,
 h2,
 h3 {
-	font-family: var(--font-heading);
-	font-weight: 400;
+	font-family: var(--font-body);
+	font-weight: 700;
 	margin: 0;
-	letter-spacing: 0.01em;
+	letter-spacing: 0;
 	/* 見出しだけ、字詰め（palt）と、文節での改行（Chrome 119 以降。ほかは、無視される）。 */
 	font-feature-settings: 'palt';
 	font-kerning: normal;
 	word-break: auto-phrase;
 	text-wrap: balance;
 }
+/* 見出し（h1、h2）は、明朝（Zen Old Mincho）。h3（作品名の行など）は、本文の書体の太字。 */
+h1,
+h2 {
+	font-family: var(--font-heading);
+	letter-spacing: 0.02em;
+}
 h1 {
-	font-size: 32px;
+	/* 幅に応じて、28px から 40px まで（余白と同じく、可変）。 */
+	font-size: clamp(28px, 24.4px + 0.9vw, 40px);
 	line-height: 1.25;
 }
 h2 {
@@ -50,11 +60,23 @@ p {
 }
 a {
 	color: var(--link);
-	text-decoration: none;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+	text-decoration-thickness: 1px;
 }
 a:hover {
 	color: var(--link-hover);
-	text-decoration: underline;
+}
+/* 部品としての見た目があるリンクは、下線を引かない。 */
+.brand,
+.tag,
+.btn,
+.rank,
+.tagrow,
+.footer a,
+.card,
+a.rank:hover {
+	text-decoration: none;
 }
 :focus-visible {
 	outline: none;
@@ -71,6 +93,7 @@ a:hover {
 }
 .num {
 	font-variant-numeric: tabular-nums;
+	letter-spacing: 0; /* 英字・数字だけの箇所（日付、件数）は、字間を空けない */
 }
 
 /* ページの枠 */
@@ -90,9 +113,20 @@ a:hover {
 	gap: var(--space-4);
 }
 .header a.brand {
-	font-family: var(--font-heading);
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-2);
+	font-family: var(--font-body);
+	font-weight: 700;
 	font-size: 20px;
+	letter-spacing: 0;
 	color: var(--text);
+}
+.header a.brand::before {
+	content: '';
+	width: 10px;
+	height: 10px;
+	background: var(--ink);
 }
 .stack {
 	display: flex;
@@ -202,8 +236,8 @@ button.tag:hover {
 }
 .tag[aria-current='true'],
 .tag[data-pressed] {
-	background: var(--cta-bg);
-	color: var(--cta-fg);
+	background: var(--ink);
+	color: var(--on-ink);
 }
 .tag.pos {
 	background: var(--sentiment-5-tint);
@@ -231,7 +265,9 @@ button.tag:hover {
 	border: 0;
 	border-radius: var(--radius-input);
 	background: var(--input-bg);
+	box-shadow: inset 0 0 0 1px var(--control-line);
 	color: var(--text);
+	caret-color: var(--text);
 	font-family: var(--font-body);
 	font-size: var(--fs-input);
 	line-height: 1.6;
@@ -267,8 +303,8 @@ button.tag:hover {
 }
 .choice:has([data-checked]),
 .choice:has(:checked) {
-	background: var(--cta-bg);
-	color: var(--cta-fg);
+	background: var(--ink);
+	color: var(--on-ink);
 }
 .choice [data-slot='radio'],
 .choice [data-slot='checkbox'] {
@@ -283,24 +319,29 @@ button.tag:hover {
 	opacity: 0;
 }
 
-/* バナー・塗る区画（意味を、文字の色ではなく、背景で示す） */
+/* バナー（エラー・注意・成功）: 面は灰（タグと同じ）。上と下に、細い斜線の帯（高さ 6px）を置き、その色で意味を示す。
+   エラー = 評価の赤、成功 = 評価の緑、注意 = 墨。オレンジは使わない（主ボタンだけ）。意味は、文字でも伝える。 */
 .banner {
-	padding: var(--space-3);
-	border-radius: var(--radius-input);
+	--mark: var(--ink);
+	--hatch: repeating-linear-gradient(135deg, var(--mark) 0 1.5px, transparent 1.5px 5.5px);
+	padding: calc(var(--space-3) + 6px) var(--space-3);
+	border-radius: var(--radius-layout);
+	background:
+		var(--hatch) top / 100% 6px no-repeat,
+		var(--hatch) bottom / 100% 6px no-repeat,
+		var(--tag-bg);
+	color: var(--tag-fg);
 	font-size: var(--fs-ui);
 	line-height: 1.65;
 }
 .banner.error {
-	background: var(--status-error-tint);
-	color: var(--status-error-text);
+	--mark: var(--sentiment-1-fill);
 }
 .banner.success {
-	background: var(--status-success-tint);
-	color: var(--status-success-text);
+	--mark: var(--sentiment-5-fill);
 }
-.banner.warning {
-	background: var(--status-warning-tint);
-	color: var(--status-warning-text);
+.banner a {
+	color: inherit;
 }
 .region {
 	padding: var(--space-4);
@@ -363,8 +404,8 @@ button.tag:hover {
 	height: var(--bar, 8px);
 	opacity: var(--bar-opacity, 1);
 	min-width: 40px;
-	/* 両端の角は、区間ごとではなく、棒全体で切り抜く（区間が1つだけでも、非表示の区間があっても、両端がそろう）。 */
-	border-radius: 4px;
+	/* 棒は、直角。 */
+	border-radius: 0;
 	overflow: hidden;
 }
 .dist.hero .dist__bar {
@@ -386,7 +427,7 @@ button.tag:hover {
 }
 .dist__bar.empty {
 	background: var(--sentiment-track);
-	border-radius: 4px;
+	border-radius: 0;
 	opacity: 1;
 }
 .dist__count {
@@ -419,8 +460,10 @@ button.tag:hover {
 	text-decoration: none;
 }
 .tagrow[aria-current='true'] {
-	font-weight: 500;
-	color: var(--link-hover);
+	font-weight: 700;
+	color: var(--text);
+	text-decoration: underline;
+	text-underline-offset: 3px;
 }
 .tagrow.empty {
 	color: var(--text-muted);
@@ -453,10 +496,11 @@ button.tag:hover {
 	white-space: nowrap;
 }
 .rank__no {
-	font-family: var(--font-heading);
+	font-family: var(--font-body);
+	font-weight: 700;
 	font-size: 20px;
 	text-align: right;
-	color: var(--text-muted);
+	color: var(--text);
 	font-variant-numeric: tabular-nums;
 }
 
@@ -522,6 +566,9 @@ button.tag:hover {
 /* 作品ページ: 左に概要、右にレビュー。狭い画面では縦に積む */
 .page.wide {
 	max-width: 1000px;
+}
+.hero .caption a {
+	letter-spacing: 0; /* URL は、英字だけなので、字間を空けない */
 }
 .hero {
 	display: flex;
@@ -600,16 +647,18 @@ button.tag:hover {
 	width: 20px;
 	height: 20px;
 	border: 0;
-	border-radius: 6px;
-	background: var(--tag-bg);
+	border-radius: var(--radius-tag);
+	background: var(--input-bg);
+	box-shadow: inset 0 0 0 1px var(--control-line);
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	color: var(--cta-fg);
+	color: var(--on-ink);
 	padding: 0;
 }
 .check [data-slot='checkbox'][data-checked] {
-	background: var(--cta-bg);
+	background: var(--ink);
+	box-shadow: none;
 }
 
 /* レビューの並び: 1つの面の中に、余白で区切る（1件ずつをカードにしない） */
@@ -664,7 +713,7 @@ button.tag:hover {
 	color: var(--tag-fg);
 }
 
-/* 通知（toast）。AIが読んだ結果は、AI整理の面（深い紫）で見せる */
+/* 通知（toast）。AIが読んだ結果には、「AI」の印を付ける（地と文字を反転した四角） */
 [data-slot='toast-region'] {
 	position: fixed;
 	bottom: var(--space-6);
@@ -719,14 +768,15 @@ button.tag:hover {
 	transition: none;
 }
 [data-slot='toast-title'] {
-	font-family: var(--font-heading);
+	font-family: var(--font-body);
+	font-weight: 700;
 	font-size: 16px;
 	line-height: 1.45;
 }
 [data-slot='toast-description'] {
 	font-size: var(--fs-ui);
 	line-height: 1.6;
-	color: var(--purple-96);
+	color: #d6d3d1;
 	white-space: pre-line;
 }
 [data-slot='toast'][data-type='success'] [data-slot='toast-title']::before {
@@ -734,9 +784,9 @@ button.tag:hover {
 	display: inline-block;
 	margin-right: var(--space-2);
 	padding: 0 var(--space-2);
-	border-radius: var(--radius-neon);
-	background: var(--neon);
-	color: var(--on-neon);
+	border-radius: var(--radius-mark);
+	background: var(--on-bold);
+	color: var(--surface-deep);
 	font-family: var(--font-body);
 	font-size: var(--fs-caption);
 	font-weight: 500;
@@ -782,7 +832,6 @@ button.tag:hover {
 
 input[type='search'].input {
 	background: var(--surface);
-	box-shadow: var(--shadow-sm);
 }
 
 .code {
@@ -804,4 +853,43 @@ input[type='search'].input {
 	display: inline-flex;
 	width: 14px;
 	height: 14px;
+}
+
+/* オレンジの文字は、暗い面の上だけ: 通知の見出しと、ダークの見出し（h1）とサービス名。
+   明るい地の上では 2.2:1 で読めないので、使わない。 */
+[data-slot='toast-title'] {
+	color: var(--accent);
+}
+@media (prefers-color-scheme: dark) {
+	h1,
+	.header a.brand {
+		color: var(--accent);
+	}
+}
+
+/* Glacier: 関係者のレビューを、ほかのレビューから分ける。線ではなく、氷の縁を持つ面で分ける（1画面に1つ）。
+   縁の形は、作品ごとに決まった形（乱数の種が、作品の識別子）。飾りなので、読み上げない。 */
+.glacier {
+	--text-muted: var(--ice-muted);
+	color: var(--ice-fg);
+}
+.glacier__edge {
+	display: block;
+	width: 100%;
+	height: 16px; /* 氷の縁の形は、飾り。余白と違って、幅で変えない（振れ幅 ±4px） */
+	color: var(--ice-bg);
+}
+.glacier__body {
+	background: var(--ice-bg);
+	margin-top: -1px;
+}
+.glacier__label {
+	padding: var(--space-2) var(--space-6) 0;
+	font-size: var(--fs-caption);
+	color: var(--ice-muted);
+}
+@media (max-width: 520px) {
+	.glacier__label {
+		padding-inline: var(--space-4);
+	}
 }
