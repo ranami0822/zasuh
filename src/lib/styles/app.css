@@ -323,12 +323,12 @@ button.tag:hover {
    エラー = 評価の赤、成功 = 評価の緑、注意 = 墨。オレンジは使わない（主ボタンだけ）。意味は、文字でも伝える。 */
 .banner {
 	--mark: var(--ink);
-	--hatch: repeating-linear-gradient(135deg, var(--mark) 0 1.5px, transparent 1.5px 5.5px);
 	padding: calc(var(--space-3) + 6px) var(--space-3);
 	border-radius: var(--radius-layout);
+	/* 模様は、変数に入れず、直接書く（変数の中の変数は、Safari で出ないことがあるため）。 */
 	background:
-		var(--hatch) top / 100% 6px no-repeat,
-		var(--hatch) bottom / 100% 6px no-repeat,
+		repeating-linear-gradient(135deg, var(--mark) 0 1.5px, transparent 1.5px 5.5px) top / 100% 6px no-repeat,
+		repeating-linear-gradient(135deg, var(--mark) 0 1.5px, transparent 1.5px 5.5px) bottom / 100% 6px no-repeat,
 		var(--tag-bg);
 	color: var(--tag-fg);
 	font-size: var(--fs-ui);
