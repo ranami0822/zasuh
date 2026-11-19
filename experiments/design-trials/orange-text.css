@@ -1,0 +1,22 @@
+/*
+ * 試しの案（本番には、組み込まない）: オレンジの文字を使う。2つの案を比べる（docs/mvp-design.md の20章）。
+ *   <html data-orange-text="light-headings">: 明るい地の上でも、見出し（h1）とサービス名をオレンジにする。
+ *     コントラスト比は 2.2:1（地 stone-200）で、大きな文字の基準（3:1）にも届かない。承知の上で、見た目を比べるための案。
+ *   <html data-orange-text="dark-only">: 暗い面の上だけで、オレンジの文字を使う（ダークの見出しとサービス名、通知の見出し）。
+ *     stone-900 の上で 6.4:1、stone-800 の上で 5.6:1、通知の面（ライト stone-800 / ダーク stone-700）の上で 5.6 / 3.8:1。
+ * どちらも、オレンジの面（塗り）は、主ボタンだけのまま。
+ */
+:root[data-orange-text='light-headings'] h1,
+:root[data-orange-text='light-headings'] .header a.brand {
+	color: var(--accent);
+}
+
+:root[data-orange-text='dark-only'] [data-slot='toast-title'] {
+	color: var(--accent);
+}
+@media (prefers-color-scheme: dark) {
+	:root[data-orange-text='dark-only'] h1,
+	:root[data-orange-text='dark-only'] .header a.brand {
+		color: var(--accent);
+	}
+}

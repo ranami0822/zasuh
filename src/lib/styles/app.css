@@ -116,7 +116,7 @@ a.rank:hover {
 	content: '';
 	width: 10px;
 	height: 10px;
-	background: var(--accent);
+	background: var(--ink);
 }
 .stack {
 	display: flex;
@@ -226,8 +226,8 @@ button.tag:hover {
 }
 .tag[aria-current='true'],
 .tag[data-pressed] {
-	background: var(--accent);
-	color: var(--on-accent);
+	background: var(--ink);
+	color: var(--on-ink);
 }
 .tag.pos {
 	background: var(--sentiment-5-tint);
@@ -257,7 +257,7 @@ button.tag:hover {
 	background: var(--input-bg);
 	box-shadow: inset 0 0 0 1px var(--control-line);
 	color: var(--text);
-	caret-color: var(--accent);
+	caret-color: var(--text);
 	font-family: var(--font-body);
 	font-size: var(--fs-input);
 	line-height: 1.6;
@@ -293,8 +293,8 @@ button.tag:hover {
 }
 .choice:has([data-checked]),
 .choice:has(:checked) {
-	background: var(--accent);
-	color: var(--on-accent);
+	background: var(--ink);
+	color: var(--on-ink);
 }
 .choice [data-slot='radio'],
 .choice [data-slot='checkbox'] {
@@ -446,7 +446,9 @@ button.tag:hover {
 }
 .tagrow[aria-current='true'] {
 	font-weight: 700;
-	color: var(--accent-text);
+	color: var(--text);
+	text-decoration: underline;
+	text-underline-offset: 3px;
 }
 .tagrow.empty {
 	color: var(--text-muted);
@@ -486,9 +488,7 @@ button.tag:hover {
 	color: var(--text);
 	font-variant-numeric: tabular-nums;
 }
-.rank:hover .rank__no {
-	color: var(--accent-text);
-}
+
 
 /* 月ごとの変化 */
 .months {
@@ -636,11 +636,11 @@ button.tag:hover {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	color: var(--on-accent);
+	color: var(--on-ink);
 	padding: 0;
 }
 .check [data-slot='checkbox'][data-checked] {
-	background: var(--accent);
+	background: var(--ink);
 	box-shadow: none;
 }
 
@@ -696,7 +696,7 @@ button.tag:hover {
 	color: var(--tag-fg);
 }
 
-/* 通知（toast）。AIが読んだ結果には、オレンジの「AI」の印を付ける */
+/* 通知（toast）。AIが読んだ結果には、「AI」の印を付ける（地と文字を反転した四角） */
 [data-slot='toast-region'] {
 	position: fixed;
 	bottom: var(--space-6);
@@ -759,7 +759,7 @@ button.tag:hover {
 [data-slot='toast-description'] {
 	font-size: var(--fs-ui);
 	line-height: 1.6;
-	color: #e5e5ea;
+	color: #d6d3d1;
 	white-space: pre-line;
 }
 [data-slot='toast'][data-type='success'] [data-slot='toast-title']::before {
@@ -768,8 +768,8 @@ button.tag:hover {
 	margin-right: var(--space-2);
 	padding: 0 var(--space-2);
 	border-radius: var(--radius-mark);
-	background: var(--accent);
-	color: var(--on-accent);
+	background: var(--on-bold);
+	color: var(--surface-deep);
 	font-family: var(--font-body);
 	font-size: var(--fs-caption);
 	font-weight: 500;

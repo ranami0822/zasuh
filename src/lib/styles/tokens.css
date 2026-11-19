@@ -1,60 +1,64 @@
 /* Zasuh のデザイントークン。
-   方針: Apple の HIG にある系統色の灰色（systemGray 系）を地と面に使い、差し色は、際立つオレンジ1色だけ。
-   評価の棒は、赤・灰・緑のまま。レイアウトの面は直角。余白は、画面の幅に応じて可変（--u）。
-   灰色の値は、UIKit の systemGray / systemBackground / label の系統（私の知識。公式ページでは、再確認していない）。
-   値を直接書かず、この変数を使う。ライトとダークは、端末の設定に合わせる。
-   文字のコントラスト比（WCAG）は、検証した: 本文 18:1 以上、補足 4.7:1 以上、オレンジの文字 4.5:1 以上（ライト）/ 8:1 以上（ダーク）。 */
+   方針（ユーザーの指示、2026-11-19）: 灰色は stone（わずかに暖かい灰）のモノトーン。白は使わない。
+   差し色はネオンのオレンジ1色で、塗るのは主ボタンの面だけ（1画面に1か所）。評価の棒は、赤・灰・緑。
+   レイアウトの面は直角。余白は、画面の幅に応じて可変（--u）。
+   stone の値は、Tailwind CSS の stone の段（私の知識）。値を直接書かず、この変数を使う。
+   文字のコントラスト比（WCAG）は、計算して確かめた（各行の注）。 */
 :root {
 	color-scheme: light dark;
 	--font-body: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Yu Gothic UI', 'Meiryo', sans-serif;
 	--font-heading: var(--font-body);
 
-	/* 灰色の面 */
-	--bg: #f2f2f7;
-	--surface: #ffffff;
-	--surface-hover: #f2f2f7;
-	--surface-deep: #1c1c1e;
-	--on-bold: #ffffff;
+	/* 灰色の面（stone）。地は stone-200、面は stone-300。白は使わない。 */
+	--bg: #e7e5e4;
+	--surface: #d6d3d1;
+	--surface-hover: #e7e5e4; /* 面の上の行は、ポインターで明るくする */
+	--surface-deep: #292524;
+	--on-bold: #f5f5f4;
 
-	--text: #000000;
-	--text-muted: #636366;
-	--text-disabled: #aeaeb2;
+	--text: #1c1917; /* stone-900。地 13.9:1、面 11.7:1 */
+	--text-muted: #57534e; /* stone-600。地 6.1:1、面 5.1:1 */
+	--text-disabled: #a8a29e;
 
-	/* 差し色（オレンジ）。面に塗るときは --accent（上の文字は黒。白だと 2.2:1 で読めない）。
-	   明るい地の上の文字・リンクは、暗い --accent-text（4.5:1 以上）。 */
-	--accent: #ff9500;
-	--accent-hover: #f08c00;
-	--accent-pressed: #e07f00;
-	--on-accent: #000000;
-	--accent-text: #a84b00;
-	--link: var(--accent-text);
-	--link-hover: #000000;
+	/* 選択中（タグ、選択肢、チェック）と、ブランドの四角は、オレンジではなく墨（stone-900）。 */
+	--ink: #1c1917;
+	--on-ink: #f5f5f4; /* 16:1 */
 
-	--tag-bg: #e5e5ea;
-	--tag-bg-hover: #d1d1d6;
-	--tag-fg: #1c1c1e;
-	--input-bg: #ffffff;
-	--control-line: #7c7c80; /* 入力欄・チェックの縁（地・面のどちらの上でも 3:1 以上） */
+	/* 差し色（ネオンのオレンジ）。主ボタンの面だけに塗る。上の文字は stone-900（6.4:1）。
+	   画像の帯の色（#f86438）は見本で、評価の棒の赤と近すぎたので、黄寄りに寄せた。 */
+	--accent: #ff7300;
+	--accent-hover: #ff8a33; /* 文字 7.4:1 */
+	--accent-pressed: #e86800; /* 文字 5.3:1 */
+	--on-accent: #1c1917;
+	--link: #1c1917; /* リンクは、墨の文字に下線 */
+	--link-hover: #57534e;
+
+	--tag-bg: #a8a29e; /* stone-400。地の上でも、面の上でも見える。文字 6.9:1 */
+	--tag-bg-hover: #bdb8b4; /* stone-300 と 400 の中間。文字 8.9:1 */
+	--tag-fg: #1c1917;
+	--input-bg: #e7e5e4;
+	--control-line: #78716c; /* stone-500。地 3.8:1、面 3.2:1 */
 
 	--cta-bg: var(--accent);
 	--cta-fg: var(--on-accent);
 	--cta-bg-hover: var(--accent-hover);
 	--cta-bg-pressed: var(--accent-pressed);
-	--disabled-bg: #e5e5ea;
-	--disabled-fg: #8e8e93;
-	--focus-ring-color: #000000; /* オレンジの輪郭は、白の上で 2.2:1 しかないので、使わない */
+	--disabled-bg: #d6d3d1;
+	--disabled-fg: #78716c;
+	--focus-ring-color: #1c1917;
 
-	/* 評価の棒と向きのタグ: 赤・灰・緑（愚直に）。色だけに頼らず、並び（否定・混在・肯定）と文字を添える。 */
-	--sentiment-1-fill: #e5322d;
+	/* 評価の棒と向きのタグ: 赤・灰・緑。赤は、オレンジと分けるために深くした（オレンジとの明るさの比 2.1:1）。
+	   棒は、面の上で 3:1 以上（赤 3.9、灰 3.2、緑 3.4）。 */
+	--sentiment-1-fill: #c81e1e;
 	--sentiment-1-tint: #fde7e5;
 	--sentiment-1-text: #8e1b14;
-	--sentiment-3-fill: #aeaeb2;
-	--sentiment-3-tint: #e5e5ea;
-	--sentiment-3-text: #3a3a3c;
-	--sentiment-5-fill: #28a04a;
+	--sentiment-3-fill: #78716c;
+	--sentiment-3-tint: #a8a29e;
+	--sentiment-3-text: #1c1917;
+	--sentiment-5-fill: #15803d;
 	--sentiment-5-tint: #dff5e6;
 	--sentiment-5-text: #0f5c2a;
-	--sentiment-track: #e5e5ea;
+	--sentiment-track: #a8a29e;
 
 	--status-error-tint: #fde7e5;
 	--status-error-text: #8e1b14;
@@ -64,12 +68,12 @@
 	--status-success-text: #0f5c2a;
 
 	/* Glacier（氷の縁）の面。関係者のレビューを、ほかのレビューから分ける。 */
-	--ice-bg: #d1d1d6;
-	--ice-fg: #000000;
-	--ice-muted: #48484a;
+	--ice-bg: #a8a29e;
+	--ice-fg: #1c1917; /* 6.9:1 */
+	--ice-muted: #292524; /* 6.0:1 */
 
 	/* 影は、浮くもの（通知、ダイアログ）だけ。面は、地との色の差で区別する。 */
-	--shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.2);
+	--shadow-lg: 0 8px 28px rgba(28, 25, 23, 0.25);
 
 	/* 文字の大きさ。日本語は、画数が多く、小さいと読みにくいので、補足も 12px 未満にしない。
 	   入力欄は 16px（これより小さいと、iPhone の Safari が、フォーカス時に画面を拡大する）。 */
@@ -116,40 +120,39 @@
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		--bg: #000000;
-		--surface: #1c1c1e;
-		--surface-hover: #2c2c2e;
-		--surface-deep: #3a3a3c;
+		--bg: #1c1917;
+		--surface: #292524;
+		--surface-hover: #44403c;
+		--surface-deep: #44403c;
 
-		--text: #ffffff;
-		--text-muted: #98989d;
-		--text-disabled: #636366;
+		--text: #f5f5f4; /* 地 16:1、面 13.9:1 */
+		--text-muted: #a8a29e; /* 地 6.9:1、面 6.0:1 */
+		--text-disabled: #57534e;
+		--ink: #f5f5f4;
+		--on-ink: #1c1917;
 
-		--accent: #ff9f0a;
-		--accent-hover: #ffb340;
-		--accent-pressed: #e58f00;
-		--accent-text: #ff9f0a;
-		--link-hover: #ffffff;
+		--link: #f5f5f4;
+		--link-hover: #a8a29e;
 
-		--tag-bg: #2c2c2e;
-		--tag-bg-hover: #3a3a3c;
-		--tag-fg: #e5e5ea;
-		--input-bg: #1c1c1e;
-		--control-line: #8e8e93;
-		--disabled-bg: #2c2c2e;
-		--disabled-fg: #636366;
-		--focus-ring-color: #ffffff;
+		--tag-bg: #44403c;
+		--tag-bg-hover: #57534e;
+		--tag-fg: #f5f5f4; /* 9.4:1 / 7.0:1 */
+		--input-bg: #1c1917;
+		--control-line: #78716c; /* 面 3.2:1、地 3.7:1 */
+		--disabled-bg: #292524;
+		--disabled-fg: #57534e;
+		--focus-ring-color: #f5f5f4;
 
-		--sentiment-1-fill: #ff5a52;
+		--sentiment-1-fill: #dc2626; /* 面 3.1:1、オレンジとの明るさの比 1.8:1 */
 		--sentiment-1-tint: #4a1512;
 		--sentiment-1-text: #ffb3ae;
-		--sentiment-3-fill: #8e8e93;
-		--sentiment-3-tint: #2c2c2e;
-		--sentiment-3-text: #e5e5ea;
+		--sentiment-3-fill: #78716c;
+		--sentiment-3-tint: #44403c;
+		--sentiment-3-text: #f5f5f4;
 		--sentiment-5-fill: #30d158;
 		--sentiment-5-tint: #0f3a1d;
 		--sentiment-5-text: #9ee8b4;
-		--sentiment-track: #2c2c2e;
+		--sentiment-track: #44403c;
 
 		--status-error-tint: #4a1512;
 		--status-error-text: #ffb3ae;
@@ -158,9 +161,9 @@
 		--status-success-tint: #0f3a1d;
 		--status-success-text: #9ee8b4;
 
-		--ice-bg: #3a3a3c;
-		--ice-fg: #ffffff;
-		--ice-muted: #aeaeb2;
+		--ice-bg: #44403c;
+		--ice-fg: #f5f5f4;
+		--ice-muted: #d6d3d1; /* 6.9:1 */
 
 		--shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.7);
 	}
