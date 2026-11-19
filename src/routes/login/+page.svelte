@@ -42,6 +42,7 @@
 			<Button class="btn" disabled={busy || !ready || !supported} onclick={login}>パスキーでログイン</Button>
 			<a class="btn quiet" href="/recover">パスキーを使えない</a>
 		</div>
+		<p class="caption muted">はじめての人は、<a href="/me/security">パスキーを登録</a>してください。</p>
 	</div>
 	<Footer />
 </div>
