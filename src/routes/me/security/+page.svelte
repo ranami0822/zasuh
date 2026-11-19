@@ -24,7 +24,7 @@
 		shownCode = takeRecoveryCode();
 		supported = supportsPasskeys();
 		ready = true;
-		if (data.recovered) toast.success('復旧しました', { description: '新しいパスキーだけが、有効です。', duration: 8000 });
+		if (data.recovered) toast('復旧しました', { description: '新しいパスキーだけが、有効です。', duration: 8000 });
 	});
 
 	async function add() {
@@ -45,7 +45,7 @@
 			message = result.message;
 			return;
 		}
-		toast.success('登録しました', { duration: 6000 });
+		toast('登録しました', { duration: 6000 });
 		handOffRecoveryCode(result.data.recoveryCode);
 		shownCode = takeRecoveryCode();
 		await invalidateAll();

@@ -7,7 +7,7 @@
 	async function copy() {
 		try {
 			await navigator.clipboard.writeText(code);
-			toast.success('コピーしました', { duration: 3000 });
+			toast('コピーしました', { duration: 3000 });
 		} catch {
 			toast.error('コピーできませんでした。手で書き写してください。', { duration: 5000 });
 		}

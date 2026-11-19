@@ -28,7 +28,7 @@
 		action="?/send"
 		class="panel"
 		use:enhance={() => async ({ result, update }) => {
-			if (result.type === 'success') toast.success('受け付けました', { description: '内容を確認します。返事は、連絡先を書いた場合だけ、できます。', duration: 8000 });
+			if (result.type === 'success') toast('受け付けました', { description: '内容を確認します。返事は、連絡先を書いた場合だけ、できます。', duration: 8000 });
 			await update({ reset: result.type === 'success' });
 		}}
 	>
