@@ -28,6 +28,7 @@ SvelteKit 3（Svelte 5）+ `@sveltejs/adapter-cloudflare` 8、Cloudflare Workers
 
 - **SvelteKit 3 のアダプタは、`event.platform` を渡さない。** DB、AI、シークレット、`waitUntil` は、`cloudflare:workers` から読む（`src/lib/server/request.ts`）。だから、`vite dev` ではなく、**ビルドして `wrangler dev`**（`npm run dev:worker`）で動かす。
 - Workers AI のバインディングは、ローカルでも、本物を呼ぶ（無料枠 1日 10,000 neurons を使う）。AI なしで確かめるときは、`wrangler.local.jsonc`（AI と cron なし。git に入れていない）を使う。作り方は、`wrangler.jsonc` から、`ai` と `triggers` と `routes` を外す。
+- 単体テストで `cloudflare:workers` を使う部品（`request.ts`、`hooks.server.ts` など）を試すときは、`vi.mock` が効かない（アダプタが仮想モジュールに置き換えるため）。`vite.config.ts` の `test.alias` で、`src/lib/server/testing/cloudflare-workers.ts` に差し替えてあるので、そこから `setEnv` と `waitUntil` を読み込む。
 - ブラウザの通しで、ページの読み込みが終わる前にボタンを押すと、何も起きない。待つ（`networkidle`）。
 - `rm -rf` は、安全装置に止められることがある。ローカルの DB を作り直すときは、消さずに、`--persist-to` で、新しいディレクトリを指す。
 - 無料の Workers は、CPU が 10 ms/回。投稿時の「文面がほぼ同じか」の比較（`text.ts`）は、レビューの多い作品で、超えるおそれがある（`DUPLICATE_SCAN_LIMIT`）。
@@ -35,7 +36,7 @@ SvelteKit 3（Svelte 5）+ `@sveltejs/adapter-cloudflare` 8、Cloudflare Workers
 ## コマンド
 
 ```bash
-npm test                     # 単体テスト（約 110 件、30〜40秒）
+npm test                     # 単体テスト（約 180 件、30〜40秒）
 npm run check                # 型と Svelte の検査
 npm run dev:worker           # ビルドして、wrangler dev（ローカル）
 npm run e2e                  # ブラウザの通し（AI なし。空の DB と、.dev.vars の ADMIN_TOKEN=local-test-token が要る）

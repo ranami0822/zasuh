@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { ClefError, restClient } from './clef';
+import { bindingClient, ClefError, restClient } from './clef';
 import { toClefQuestions } from './question-sets';
 import { gameV1 } from './question-sets/game-v1';
 import realResponse from './testing/clef-response.json';
@@ -57,5 +57,39 @@ describe('restClient', () => {
 	it('answers のない応答は、エラーにする', async () => {
 		const { client } = clientWith(() => Response.json({ result: {}, success: true }));
 		await expect(client.run('clef', 'x', questions)).rejects.toThrow('answers');
+	});
+});
+
+describe('bindingClient', () => {
+	const questions = toClefQuestions(gameV1);
+	const aiWith = (run: (model: string, input: unknown) => Promise<unknown>) => bindingClient({ run } as never);
+
+	it('モデル名に @cf/cloudflare/ を付けて、model・state・questions を渡す', async () => {
+		const calls: { model: string; input: unknown }[] = [];
+		const client = aiWith(async (model, input) => {
+			calls.push({ model, input });
+			return { result: realResponse, success: true };
+		});
+		const result = await client.run('clef-flash', '本文', questions);
+		expect(calls).toHaveLength(1);
+		expect(calls[0].model).toBe('@cf/cloudflare/clef-flash');
+		expect(calls[0].input).toMatchObject({ model: 'clef-flash', state: '本文', questions });
+		expect(result.inputTokens).toBe(1696);
+		expect(Object.keys(result.answers)).toHaveLength(8);
+	});
+
+	it('呼び出しが投げたら、すぐにやり直せる失敗として返す。文は長くしすぎない', async () => {
+		const client = aiWith(async () => {
+			throw new Error('x'.repeat(1000));
+		});
+		const error = await client.run('clef-flash', '本文', questions).catch((e) => e);
+		expect(error).toBeInstanceOf(ClefError);
+		expect(error.retryable).toBe(true);
+		expect(error.message.length).toBeLessThanOrEqual(300);
+	});
+
+	it('answers のない応答は、エラーにする', async () => {
+		const client = aiWith(async () => ({ result: {}, success: true }));
+		await expect(client.run('clef-flash', '本文', questions)).rejects.toThrow('answers');
 	});
 });

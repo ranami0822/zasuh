@@ -14,6 +14,8 @@ import {
 	loginOptions,
 	logout,
 	logoutEverywhere,
+	normalizeEmail,
+	removeEmail,
 	markStepup,
 	mergeAnonymous,
 	recoveryRegistrationOptions,
@@ -315,6 +317,30 @@ describe('パスキーと、メールでの復旧', () => {
 			expect(await confirmEmail(db, oldToken, clock.now())).toEqual({ ok: false, error: 'bad_token' });
 			clock.advance(61 * 60_000);
 			expect(await confirmEmail(db, tokenOf(sent[1].text), clock.now())).toEqual({ ok: false, error: 'bad_token' });
+		});
+
+		it('アドレスは、全角・大文字・前後の空白をそろえて、同じものとして扱う', () => {
+			expect(normalizeEmail('  Me@Example.COM ')).toBe('me@example.com');
+			expect(normalizeEmail('ｍｅ＠ｅｘａｍｐｌｅ．ｃｏｍ')).toBe('me@example.com');
+		});
+
+		it('入力の検証: 空、@ がない、ドットがない、空白を含む、長すぎるアドレスは、断る（メールは送らない）', async () => {
+			const id = await reviewer();
+			const opts = { mailer, origin: cfg.origin, ipHash: null };
+			for (const bad of ['', 'plain', 'a@b', '@b.example', 'a@.', 'a b@c.example', `${'a'.repeat(250)}@b.example`]) {
+				expect(await setEmail(db, id, bad, opts, clock.now()), bad).toEqual({ ok: false, error: 'bad_email' });
+			}
+			expect(sent).toHaveLength(0);
+			expect(await accountEmail(db, id)).toBeNull();
+		});
+
+		it('アドレスを外すと、結びつきが消える。外したアドレスの、確認のリンクは、使えない。もう一度外しても、何も起きない', async () => {
+			const id = await reviewer();
+			await setEmail(db, id, 'me@example.com', { mailer, origin: cfg.origin, ipHash: null }, clock.now());
+			await removeEmail(db, id);
+			expect(await accountEmail(db, id)).toBeNull();
+			expect(await confirmEmail(db, tokenOf(sent[0].text), clock.now())).toEqual({ ok: false, error: 'bad_token' });
+			await expect(removeEmail(db, id)).resolves.toBeUndefined();
 		});
 
 		it('確認済みのアドレスは、別のアカウントに、結びつけられない', async () => {

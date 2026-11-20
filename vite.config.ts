@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'node:url';
 import adapter from '@sveltejs/adapter-cloudflare';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vitest/config';
@@ -17,6 +18,8 @@ export default defineConfig({
 	],
 	test: {
 		include: ['src/**/*.test.ts'],
-		environment: 'node'
+		environment: 'node',
+		// `cloudflare:workers` は Workers の中でしか動かない。テストでは、差し替えられる代わりのものを読む。
+		alias: { 'cloudflare:workers': fileURLToPath(new URL('./src/lib/server/testing/cloudflare-workers.ts', import.meta.url)) }
 	}
 });

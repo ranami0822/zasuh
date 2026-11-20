@@ -6,6 +6,7 @@ import {
 	deleteReview,
 	deviceTokenHash,
 	editReview,
+	ensureReviewer,
 	EDIT_MAX,
 	EDIT_WINDOW_MS,
 	findOwnReview,
@@ -51,6 +52,24 @@ describe('レビューの投稿・編集・通報・管理', () => {
 	const read = async (revisionId: string) => readRevision({ db, clef: fakeClef(), now: clock.now }, revisionId);
 	const stats = async (tag = 'game/gameplay') =>
 		(await db.prepare('SELECT n_mention, n_pos FROM aspect_stats WHERE work_id = ? AND tag_id = ?').bind(workId, tag).first()) ?? { n_mention: 0, n_pos: 0 };
+
+	describe('投稿者の行', () => {
+		it('端末のハッシュごとに、投稿者を1人だけ作る。同じ端末なら、いつも同じ投稿者', async () => {
+			const a = await deviceTokenHash('a');
+			const first = await ensureReviewer(db, a, clock.now());
+			expect(await ensureReviewer(db, a, clock.now())).toBe(first);
+			expect(await ensureReviewer(db, await deviceTokenHash('b'), clock.now())).not.toBe(first);
+			const row = await db.prepare("SELECT COUNT(*) AS n FROM reviewers WHERE token_hash = ? AND kind = 'anon'").bind(a).first();
+			expect(row).toEqual({ n: 1 });
+		});
+
+		it('同時に呼んでも、投稿者は増えない', async () => {
+			const a = await deviceTokenHash('race');
+			const ids = await Promise.all([1, 2, 3, 4].map(() => ensureReviewer(db, a, clock.now())));
+			expect(new Set(ids).size).toBe(1);
+			expect(await db.prepare('SELECT COUNT(*) AS n FROM reviewers WHERE token_hash = ?').bind(a).first()).toEqual({ n: 1 });
+		});
+	});
 
 	describe('投稿', () => {
 		it('保存して、版を1つ作る。投稿者は端末のハッシュだけで、本文は前後の空白を除く', async () => {
@@ -242,6 +261,11 @@ describe('レビューの投稿・編集・通報・管理', () => {
 			}
 			expect(await db.prepare('SELECT COUNT(*) AS n FROM reading_answers').first()).toEqual({ n: 8 });
 			expect(await stats()).toEqual({ n_mention: 1, n_pos: 0 });
+		});
+
+		it('存在しないレビューへの、非表示・削除は、何もせずに false を返す', async () => {
+			expect(await setHidden(db, 'missing', true, clock.now())).toBe(false);
+			expect(await deleteReview(db, 'missing', clock.now())).toBe(false);
 		});
 	});
 });
