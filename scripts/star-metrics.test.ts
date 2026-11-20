@@ -105,8 +105,26 @@ describe('星の実験の質問', () => {
 		expect(q.criteria).toEqual(STAR_LEVELS.map((t) => `この観点について、${t}`));
 		expect(q.instructions).toContain('gameplay');
 		expect(q.instructions).not.toContain('「言及なし」');
-		expect(STAR_LEVELS[0]).toContain('大きく否定');
-		expect(STAR_LEVELS[4]).toContain('大きく肯定');
+		expect(q.instructions).toContain('点の数や、文章の長さは、星に入れません');
+	});
+
+	it('星の基準は、ユーザーの決定のとおり（rubric-stars.md v0.1）', () => {
+		const [s1, s2, s3, s4, s5] = STAR_LEVELS;
+		// 星5・星1: 具体的な根拠 + 強い言い方。根拠は1点でよい
+		expect(s5).toContain('具体的な根拠があり、強い言い方');
+		expect(s5).toContain('1点でも');
+		expect(s1).toContain('具体的な悪い点があり、強い言い方');
+		expect(s1).toContain('1点でも');
+		// 星4・星2: 強い言い方でなくてよい。混在は、多いほうに寄せる
+		expect(s4).toContain('強い言い方でなくてもよい');
+		expect(s4).toContain('良い点が多く、悪い点が少しだけ');
+		expect(s2).toContain('強い言い方でなくてもよい');
+		expect(s2).toContain('悪い点が多く、良い点が少しだけ');
+		// 星3: 釣り合った混在、または、良くも悪くもない
+		expect(s3).toContain('同じ程度');
+		expect(s3).toContain('良くも悪くもない');
+		// 深さ（複数の点）は、段階の条件に入れない
+		for (const level of STAR_LEVELS) expect(level).not.toContain('複数');
 	});
 
 	it('各観点に、星の質問が1つ。キーは観点ごとに違う', () => {
