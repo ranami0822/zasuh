@@ -1,0 +1,8897 @@
+{
+ "condition": "S3",
+ "model": "clef-flash",
+ "questionSetHash": "f22f564539f0d17f2f3272a8f8ea9c60d3ac85275203a94a053ab24f2d5a5784",
+ "records": [
+  {
+   "sample": 101,
+   "run": 0,
+   "recommendationid": "230893231",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 495,
+   "inputTokens": 2949,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.6618,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.4647,
+     "probs": null,
+     "star": {
+      "score": 4.4876000000000005,
+      "levels": [
+       0.0033,
+       0.0032,
+       0.0124,
+       0.4647,
+       0.5164
+      ],
+      "confidence": 0.3534
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0091,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.24,
+     "probs": null,
+     "star": {
+      "score": 3.1619,
+      "levels": [
+       0.1544,
+       0.1588,
+       0.24,
+       0.2642,
+       0.1826
+      ],
+      "confidence": 0.0123
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.04,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.1716,
+     "probs": null,
+     "star": {
+      "score": 3.0857,
+      "levels": [
+       0.2178,
+       0.1527,
+       0.1716,
+       0.2418,
+       0.2161
+      ],
+      "confidence": 0.0067
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0175,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3053,
+     "probs": null,
+     "star": {
+      "score": 3.0395,
+      "levels": [
+       0.1733,
+       0.1378,
+       0.3053,
+       0.2431,
+       0.1405
+      ],
+      "confidence": 0.0263
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 102,
+   "run": 0,
+   "recommendationid": "218701580",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 181,
+   "inputTokens": 3002,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.585,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.5629,
+     "probs": null,
+     "star": {
+      "score": 1.9333,
+      "levels": [
+       0.3327,
+       0.5629,
+       0.0209,
+       0.0055,
+       0.078
+      ],
+      "confidence": 0.2926
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0107,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2253,
+     "probs": null,
+     "star": {
+      "score": 2.752,
+      "levels": [
+       0.2236,
+       0.2586,
+       0.2253,
+       0.1272,
+       0.1653
+      ],
+      "confidence": 0.0139
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.08,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3856,
+     "probs": null,
+     "star": {
+      "score": 2.1629,
+      "levels": [
+       0.3626,
+       0.3856,
+       0.1057,
+       0.0188,
+       0.1273
+      ],
+      "confidence": 0.1348
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.014,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2559,
+     "probs": null,
+     "star": {
+      "score": 2.5436,
+      "levels": [
+       0.2561,
+       0.2774,
+       0.2559,
+       0.0881,
+       0.1225
+      ],
+      "confidence": 0.0385
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 103,
+   "run": 0,
+   "recommendationid": "225767001",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 175,
+   "inputTokens": 3113,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8335,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.5071,
+     "probs": null,
+     "star": {
+      "score": 1.8695,
+      "levels": [
+       0.3841,
+       0.5071,
+       0.0299,
+       0.013,
+       0.0659
+      ],
+      "confidence": 0.2626
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0132,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3018,
+     "probs": null,
+     "star": {
+      "score": 2.8918999999999997,
+      "levels": [
+       0.1854,
+       0.1999,
+       0.3018,
+       0.1632,
+       0.1497
+      ],
+      "confidence": 0.0181
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.5866,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.4739,
+     "probs": null,
+     "star": {
+      "score": 1.8439999999999999,
+      "levels": [
+       0.4214,
+       0.4739,
+       0.0223,
+       0.0041,
+       0.0783
+      ],
+      "confidence": 0.261
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.7934,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.4893,
+     "probs": null,
+     "star": {
+      "score": 3.2309,
+      "levels": [
+       0.076,
+       0.0921,
+       0.4893,
+       0.21,
+       0.1326
+      ],
+      "confidence": 0.1442
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 104,
+   "run": 0,
+   "recommendationid": "215416277",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 170,
+   "inputTokens": 2965,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1927,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3456,
+     "probs": null,
+     "star": {
+      "score": 3.1426,
+      "levels": [
+       0.0967,
+       0.1754,
+       0.3456,
+       0.2532,
+       0.1291
+      ],
+      "confidence": 0.0504
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0109,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2744,
+     "probs": null,
+     "star": {
+      "score": 3.1916,
+      "levels": [
+       0.1352,
+       0.1501,
+       0.2744,
+       0.2686,
+       0.1717
+      ],
+      "confidence": 0.0222
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.736,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.4991,
+     "probs": null,
+     "star": {
+      "score": 1.7383,
+      "levels": [
+       0.41,
+       0.4991,
+       0.0587,
+       0.0071,
+       0.0251
+      ],
+      "confidence": 0.2767
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0145,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3986,
+     "probs": null,
+     "star": {
+      "score": 2.8827,
+      "levels": [
+       0.1508,
+       0.1868,
+       0.3986,
+       0.1563,
+       0.1075
+      ],
+      "confidence": 0.0656
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 105,
+   "run": 0,
+   "recommendationid": "215754020",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 208,
+   "inputTokens": 2919,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8739,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.537,
+     "probs": null,
+     "star": {
+      "score": 4.217499999999999,
+      "levels": [
+       0.0175,
+       0.0148,
+       0.0655,
+       0.537,
+       0.3652
+      ],
+      "confidence": 0.2832
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0119,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2801,
+     "probs": null,
+     "star": {
+      "score": 3.2266,
+      "levels": [
+       0.1264,
+       0.1488,
+       0.2801,
+       0.2612,
+       0.1835
+      ],
+      "confidence": 0.0231
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.2639,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.2986,
+     "probs": null,
+     "star": {
+      "score": 2.3876,
+      "levels": [
+       0.2741,
+       0.2986,
+       0.2829,
+       0.0543,
+       0.0901
+      ],
+      "confidence": 0.0692
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0123,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3503,
+     "probs": null,
+     "star": {
+      "score": 2.8668,
+      "levels": [
+       0.191,
+       0.1639,
+       0.3503,
+       0.177,
+       0.1178
+      ],
+      "confidence": 0.039
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 106,
+   "run": 0,
+   "recommendationid": "216699642",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 180,
+   "inputTokens": 2891,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.7361,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.4697,
+     "probs": null,
+     "star": {
+      "score": 2.533,
+      "levels": [
+       0.1648,
+       0.2837,
+       0.4697,
+       0.0171,
+       0.0647
+      ],
+      "confidence": 0.1659
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0086,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.4682,
+     "probs": null,
+     "star": {
+      "score": 2.9122,
+      "levels": [
+       0.1296,
+       0.1685,
+       0.4682,
+       0.1274,
+       0.1063
+      ],
+      "confidence": 0.1149
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0199,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3737,
+     "probs": null,
+     "star": {
+      "score": 2.7812,
+      "levels": [
+       0.1969,
+       0.1948,
+       0.3737,
+       0.0994,
+       0.1352
+      ],
+      "confidence": 0.0557
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0158,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.4687,
+     "probs": null,
+     "star": {
+      "score": 2.8022,
+      "levels": [
+       0.1688,
+       0.1633,
+       0.4687,
+       0.0952,
+       0.104
+      ],
+      "confidence": 0.1185
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 107,
+   "run": 0,
+   "recommendationid": "229059162",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 216,
+   "inputTokens": 2923,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.3889,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.4415,
+     "probs": null,
+     "star": {
+      "score": 2.2567,
+      "levels": [
+       0.3358,
+       0.4415,
+       0.0348,
+       0.006,
+       0.1819
+      ],
+      "confidence": 0.1775
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0098,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2651,
+     "probs": null,
+     "star": {
+      "score": 2.7186,
+      "levels": [
+       0.2175,
+       0.2578,
+       0.2651,
+       0.1078,
+       0.1518
+      ],
+      "confidence": 0.0234
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8495,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.4592,
+     "probs": null,
+     "star": {
+      "score": 1.9036,
+      "levels": [
+       0.4174,
+       0.4592,
+       0.0229,
+       0.0033,
+       0.0972
+      ],
+      "confidence": 0.2439
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0145,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2459,
+     "probs": null,
+     "star": {
+      "score": 2.5732999999999997,
+      "levels": [
+       0.2313,
+       0.3157,
+       0.2459,
+       0.0627,
+       0.1444
+      ],
+      "confidence": 0.048
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 108,
+   "run": 0,
+   "recommendationid": "218747591",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 193,
+   "inputTokens": 3002,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.2024,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.5416,
+     "probs": null,
+     "star": {
+      "score": 4.2093,
+      "levels": [
+       0.012,
+       0.0136,
+       0.0801,
+       0.5416,
+       0.3527
+      ],
+      "confidence": 0.2806
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0106,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2455,
+     "probs": null,
+     "star": {
+      "score": 3.3173,
+      "levels": [
+       0.118,
+       0.1332,
+       0.2455,
+       0.3201,
+       0.1832
+      ],
+      "confidence": 0.035
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8569,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.6295,
+     "probs": null,
+     "star": {
+      "score": 4.3099,
+      "levels": [
+       0.0039,
+       0.0037,
+       0.0169,
+       0.6295,
+       0.346
+      ],
+      "confidence": 0.3953
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0452,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.3935,
+     "probs": null,
+     "star": {
+      "score": 4.3574,
+      "levels": [
+       0.0151,
+       0.0148,
+       0.0721,
+       0.3935,
+       0.5045
+      ],
+      "confidence": 0.2687
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 109,
+   "run": 0,
+   "recommendationid": "216005856",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 306,
+   "inputTokens": 2902,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0371,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2489,
+     "probs": null,
+     "star": {
+      "score": 2.5719000000000003,
+      "levels": [
+       0.2399,
+       0.299,
+       0.2489,
+       0.0737,
+       0.1385
+      ],
+      "confidence": 0.0419
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0102,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2776,
+     "probs": null,
+     "star": {
+      "score": 2.8407999999999998,
+      "levels": [
+       0.2012,
+       0.2149,
+       0.2776,
+       0.1543,
+       0.152
+      ],
+      "confidence": 0.0133
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.9312,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.4205,
+     "probs": null,
+     "star": {
+      "score": 1.8572,
+      "levels": [
+       0.4647,
+       0.4205,
+       0.0096,
+       0.0034,
+       0.1018
+      ],
+      "confidence": 0.254
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0149,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3301,
+     "probs": null,
+     "star": {
+      "score": 2.451,
+      "levels": [
+       0.2517,
+       0.3301,
+       0.2403,
+       0.0714,
+       0.1065
+      ],
+      "confidence": 0.0581
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 110,
+   "run": 0,
+   "recommendationid": "237170535",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 247,
+   "inputTokens": 2915,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8169,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.4849,
+     "probs": null,
+     "star": {
+      "score": 3.5247,
+      "levels": [
+       0.0294,
+       0.049,
+       0.363,
+       0.4849,
+       0.0737
+      ],
+      "confidence": 0.2195
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0097,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3278,
+     "probs": null,
+     "star": {
+      "score": 3.2071,
+      "levels": [
+       0.1207,
+       0.1412,
+       0.3278,
+       0.2308,
+       0.1795
+      ],
+      "confidence": 0.0343
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0534,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3945,
+     "probs": null,
+     "star": {
+      "score": 3.2123,
+      "levels": [
+       0.1062,
+       0.1198,
+       0.3945,
+       0.2146,
+       0.1649
+      ],
+      "confidence": 0.0682
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0107,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.4438,
+     "probs": null,
+     "star": {
+      "score": 3.2102,
+      "levels": [
+       0.0924,
+       0.105,
+       0.4438,
+       0.2174,
+       0.1414
+      ],
+      "confidence": 0.1047
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 111,
+   "run": 0,
+   "recommendationid": "231893193",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 172,
+   "inputTokens": 2879,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0289,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3326,
+     "probs": null,
+     "star": {
+      "score": 2.3272,
+      "levels": [
+       0.3521,
+       0.3326,
+       0.1061,
+       0.0544,
+       0.1548
+      ],
+      "confidence": 0.091
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.012,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.29,
+     "probs": null,
+     "star": {
+      "score": 2.7388,
+      "levels": [
+       0.2307,
+       0.2088,
+       0.29,
+       0.1322,
+       0.1383
+      ],
+      "confidence": 0.0219
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.9093,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.194,
+     "probs": null,
+     "star": {
+      "score": 2.4181,
+      "levels": [
+       0.4976,
+       0.194,
+       0.0035,
+       0.0023,
+       0.3026
+      ],
+      "confidence": 0.221
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0459,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3189,
+     "probs": null,
+     "star": {
+      "score": 2.3419,
+      "levels": [
+       0.3838,
+       0.3189,
+       0.0743,
+       0.0177,
+       0.2053
+      ],
+      "confidence": 0.1212
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 112,
+   "run": 0,
+   "recommendationid": "226802291",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 177,
+   "inputTokens": 2887,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1353,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.4657,
+     "probs": null,
+     "star": {
+      "score": 3.9414,
+      "levels": [
+       0.021,
+       0.0298,
+       0.2098,
+       0.4657,
+       0.2737
+      ],
+      "confidence": 0.1715
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0124,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2885,
+     "probs": null,
+     "star": {
+      "score": 3.4396,
+      "levels": [
+       0.0962,
+       0.104,
+       0.2885,
+       0.2864,
+       0.2249
+      ],
+      "confidence": 0.0449
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0866,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.3989,
+     "probs": null,
+     "star": {
+      "score": 3.7315,
+      "levels": [
+       0.0724,
+       0.0619,
+       0.1971,
+       0.3989,
+       0.2697
+      ],
+      "confidence": 0.0997
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0116,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2859,
+     "probs": null,
+     "star": {
+      "score": 3.4474,
+      "levels": [
+       0.0875,
+       0.0913,
+       0.2859,
+       0.3569,
+       0.1784
+      ],
+      "confidence": 0.0712
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 113,
+   "run": 0,
+   "recommendationid": "230981296",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 176,
+   "inputTokens": 2968,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8538,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.4916,
+     "probs": null,
+     "star": {
+      "score": 4.4687,
+      "levels": [
+       0.0032,
+       0.0031,
+       0.0088,
+       0.4916,
+       0.4933
+      ],
+      "confidence": 0.3563
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.7719,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.804,
+     "probs": null,
+     "star": {
+      "score": 4.1172,
+      "levels": [
+       0.0067,
+       0.0062,
+       0.0167,
+       0.804,
+       0.1664
+      ],
+      "confidence": 0.593
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.2477,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.5867,
+     "probs": null,
+     "star": {
+      "score": 4.2612000000000005,
+      "levels": [
+       0.0123,
+       0.0118,
+       0.0338,
+       0.5867,
+       0.3554
+      ],
+      "confidence": 0.34
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0137,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2885,
+     "probs": null,
+     "star": {
+      "score": 3.4128,
+      "levels": [
+       0.1051,
+       0.1047,
+       0.2885,
+       0.2756,
+       0.2261
+      ],
+      "confidence": 0.0404
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 114,
+   "run": 0,
+   "recommendationid": "214083519",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 275,
+   "inputTokens": 2890,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.5631,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.4782,
+     "probs": null,
+     "star": {
+      "score": 2.0429,
+      "levels": [
+       0.3611,
+       0.4782,
+       0.0364,
+       0.0055,
+       0.1188
+      ],
+      "confidence": 0.2181
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0124,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2027,
+     "probs": null,
+     "star": {
+      "score": 2.5467,
+      "levels": [
+       0.2097,
+       0.3722,
+       0.2027,
+       0.0926,
+       0.1228
+      ],
+      "confidence": 0.059
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8529,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.4929,
+     "probs": null,
+     "star": {
+      "score": 1.8657,
+      "levels": [
+       0.4045,
+       0.4929,
+       0.0174,
+       0.003,
+       0.0822
+      ],
+      "confidence": 0.267
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0131,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2706,
+     "probs": null,
+     "star": {
+      "score": 2.5056000000000003,
+      "levels": [
+       0.2492,
+       0.2987,
+       0.2706,
+       0.0603,
+       0.1212
+      ],
+      "confidence": 0.0536
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 115,
+   "run": 0,
+   "recommendationid": "239156458",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 179,
+   "inputTokens": 2948,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.5049,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.4521,
+     "probs": null,
+     "star": {
+      "score": 4.0953,
+      "levels": [
+       0.0272,
+       0.026,
+       0.1328,
+       0.4521,
+       0.3619
+      ],
+      "confidence": 0.193
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0096,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2763,
+     "probs": null,
+     "star": {
+      "score": 3.305,
+      "levels": [
+       0.1162,
+       0.1221,
+       0.2763,
+       0.3112,
+       0.1742
+      ],
+      "confidence": 0.0399
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0341,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3211,
+     "probs": null,
+     "star": {
+      "score": 3.3466,
+      "levels": [
+       0.0885,
+       0.1086,
+       0.3211,
+       0.3314,
+       0.1504
+      ],
+      "confidence": 0.069
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0128,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3457,
+     "probs": null,
+     "star": {
+      "score": 3.1909,
+      "levels": [
+       0.1197,
+       0.133,
+       0.3457,
+       0.2397,
+       0.1619
+      ],
+      "confidence": 0.044
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 116,
+   "run": 0,
+   "recommendationid": "224512387",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 196,
+   "inputTokens": 2962,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.773,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.5851,
+     "probs": null,
+     "star": {
+      "score": 2.0743,
+      "levels": [
+       0.2769,
+       0.5851,
+       0.0293,
+       0.0042,
+       0.1045
+      ],
+      "confidence": 0.2885
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0159,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3084,
+     "probs": null,
+     "star": {
+      "score": 2.4973,
+      "levels": [
+       0.2567,
+       0.3084,
+       0.2325,
+       0.0858,
+       0.1166
+      ],
+      "confidence": 0.045
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.3486,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.5209,
+     "probs": null,
+     "star": {
+      "score": 2.1178999999999997,
+      "levels": [
+       0.2843,
+       0.5209,
+       0.0874,
+       0.0075,
+       0.0999
+      ],
+      "confidence": 0.2123
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0142,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3291,
+     "probs": null,
+     "star": {
+      "score": 2.5008,
+      "levels": [
+       0.2265,
+       0.2963,
+       0.3291,
+       0.0462,
+       0.1019
+      ],
+      "confidence": 0.0749
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 117,
+   "run": 0,
+   "recommendationid": "232285312",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 148,
+   "inputTokens": 2892,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.7535,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "5",
+     "prob": 0.6741,
+     "probs": null,
+     "star": {
+      "score": 4.6373,
+      "levels": [
+       0.0051,
+       0.0049,
+       0.0118,
+       0.3041,
+       0.6741
+      ],
+      "confidence": 0.4339
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.3203,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.5732,
+     "probs": null,
+     "star": {
+      "score": 4.2913,
+      "levels": [
+       0.0116,
+       0.0117,
+       0.0271,
+       0.5732,
+       0.3764
+      ],
+      "confidence": 0.3391
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0256,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.4092,
+     "probs": null,
+     "star": {
+      "score": 4.0121,
+      "levels": [
+       0.0516,
+       0.0517,
+       0.1086,
+       0.4092,
+       0.3789
+      ],
+      "confidence": 0.1602
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.7181,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.6562,
+     "probs": null,
+     "star": {
+      "score": 4.2447,
+      "levels": [
+       0.0061,
+       0.0059,
+       0.0286,
+       0.6562,
+       0.3032
+      ],
+      "confidence": 0.4043
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 118,
+   "run": 0,
+   "recommendationid": "227402533",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 398,
+   "inputTokens": 3011,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.813,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.6283,
+     "probs": null,
+     "star": {
+      "score": 4.184,
+      "levels": [
+       0.0079,
+       0.0068,
+       0.0678,
+       0.6283,
+       0.2892
+      ],
+      "confidence": 0.3538
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0133,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.293,
+     "probs": null,
+     "star": {
+      "score": 3.219,
+      "levels": [
+       0.1178,
+       0.1489,
+       0.293,
+       0.2772,
+       0.1631
+      ],
+      "confidence": 0.0317
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0229,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3221,
+     "probs": null,
+     "star": {
+      "score": 3.4724,
+      "levels": [
+       0.0698,
+       0.0877,
+       0.3221,
+       0.3412,
+       0.1792
+      ],
+      "confidence": 0.0811
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0152,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3675,
+     "probs": null,
+     "star": {
+      "score": 3.3925,
+      "levels": [
+       0.0794,
+       0.0825,
+       0.3675,
+       0.3073,
+       0.1633
+      ],
+      "confidence": 0.0866
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 119,
+   "run": 0,
+   "recommendationid": "220404432",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 366,
+   "inputTokens": 2896,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.7204,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.5066,
+     "probs": null,
+     "star": {
+      "score": 1.8218999999999999,
+      "levels": [
+       0.407,
+       0.5066,
+       0.0134,
+       0.0035,
+       0.0695
+      ],
+      "confidence": 0.2841
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0131,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2197,
+     "probs": null,
+     "star": {
+      "score": 2.6142000000000003,
+      "levels": [
+       0.2247,
+       0.3153,
+       0.2197,
+       0.1016,
+       0.1387
+      ],
+      "confidence": 0.0347
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.2687,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.4007,
+     "probs": null,
+     "star": {
+      "score": 2.3042,
+      "levels": [
+       0.3436,
+       0.4007,
+       0.0539,
+       0.0115,
+       0.1903
+      ],
+      "confidence": 0.1473
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0137,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2369,
+     "probs": null,
+     "star": {
+      "score": 2.5033000000000003,
+      "levels": [
+       0.2609,
+       0.3044,
+       0.2369,
+       0.0662,
+       0.1316
+      ],
+      "confidence": 0.0482
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 120,
+   "run": 0,
+   "recommendationid": "239251760",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 159,
+   "inputTokens": 2929,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.5935,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.5313,
+     "probs": null,
+     "star": {
+      "score": 3.6082,
+      "levels": [
+       0.0414,
+       0.0476,
+       0.276,
+       0.5313,
+       0.1037
+      ],
+      "confidence": 0.2165
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0102,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2588,
+     "probs": null,
+     "star": {
+      "score": 3.1352,
+      "levels": [
+       0.1537,
+       0.1535,
+       0.2588,
+       0.2718,
+       0.1622
+      ],
+      "confidence": 0.0179
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.4129,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3097,
+     "probs": null,
+     "star": {
+      "score": 2.1707,
+      "levels": [
+       0.3772,
+       0.3097,
+       0.1534,
+       0.0845,
+       0.0752
+      ],
+      "confidence": 0.0932
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.019,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3462,
+     "probs": null,
+     "star": {
+      "score": 3.0916,
+      "levels": [
+       0.1623,
+       0.1106,
+       0.3462,
+       0.235,
+       0.1459
+      ],
+      "confidence": 0.0437
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 121,
+   "run": 0,
+   "recommendationid": "230900048",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 159,
+   "inputTokens": 3074,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8287,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.491,
+     "probs": null,
+     "star": {
+      "score": 2.3827,
+      "levels": [
+       0.1402,
+       0.491,
+       0.2542,
+       0.075,
+       0.0396
+      ],
+      "confidence": 0.1657
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0098,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2762,
+     "probs": null,
+     "star": {
+      "score": 2.9987,
+      "levels": [
+       0.1789,
+       0.1766,
+       0.2762,
+       0.2035,
+       0.1648
+      ],
+      "confidence": 0.0101
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0819,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3458,
+     "probs": null,
+     "star": {
+      "score": 2.4496,
+      "levels": [
+       0.2686,
+       0.3458,
+       0.1948,
+       0.0489,
+       0.1419
+      ],
+      "confidence": 0.0653
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0116,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.341,
+     "probs": null,
+     "star": {
+      "score": 2.9226,
+      "levels": [
+       0.1646,
+       0.1937,
+       0.341,
+       0.1559,
+       0.1448
+      ],
+      "confidence": 0.0327
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 122,
+   "run": 0,
+   "recommendationid": "231866353",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 174,
+   "inputTokens": 3076,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8055,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.4613,
+     "probs": null,
+     "star": {
+      "score": 2.6803,
+      "levels": [
+       0.1077,
+       0.29,
+       0.4613,
+       0.0965,
+       0.0445
+      ],
+      "confidence": 0.1498
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0132,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3047,
+     "probs": null,
+     "star": {
+      "score": 3.0136,
+      "levels": [
+       0.1533,
+       0.182,
+       0.3047,
+       0.2178,
+       0.1422
+      ],
+      "confidence": 0.0214
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.3371,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3084,
+     "probs": null,
+     "star": {
+      "score": 2.2619,
+      "levels": [
+       0.3048,
+       0.3084,
+       0.2536,
+       0.0864,
+       0.0468
+      ],
+      "confidence": 0.0775
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8335,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.5521,
+     "probs": null,
+     "star": {
+      "score": 3.8741,
+      "levels": [
+       0.0135,
+       0.0146,
+       0.238,
+       0.5521,
+       0.1818
+      ],
+      "confidence": 0.2436
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 123,
+   "run": 0,
+   "recommendationid": "235119762",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 153,
+   "inputTokens": 2899,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.6667,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.4816,
+     "probs": null,
+     "star": {
+      "score": 2.2182,
+      "levels": [
+       0.2085,
+       0.4816,
+       0.2399,
+       0.0234,
+       0.0466
+      ],
+      "confidence": 0.1696
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0102,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3442,
+     "probs": null,
+     "star": {
+      "score": 2.6812,
+      "levels": [
+       0.1652,
+       0.2924,
+       0.3442,
+       0.0925,
+       0.1057
+      ],
+      "confidence": 0.0637
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0434,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3216,
+     "probs": null,
+     "star": {
+      "score": 2.4394,
+      "levels": [
+       0.2485,
+       0.3216,
+       0.2763,
+       0.0493,
+       0.1043
+      ],
+      "confidence": 0.0685
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0132,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.4661,
+     "probs": null,
+     "star": {
+      "score": 2.7908,
+      "levels": [
+       0.1609,
+       0.1802,
+       0.4661,
+       0.0928,
+       0.1
+      ],
+      "confidence": 0.1178
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 124,
+   "run": 0,
+   "recommendationid": "213693155",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 193,
+   "inputTokens": 2903,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8756,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.6489,
+     "probs": null,
+     "star": {
+      "score": 4.0248,
+      "levels": [
+       0.0148,
+       0.017,
+       0.1081,
+       0.6489,
+       0.2112
+      ],
+      "confidence": 0.3473
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0163,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.3473,
+     "probs": null,
+     "star": {
+      "score": 3.5837,
+      "levels": [
+       0.0815,
+       0.0938,
+       0.2308,
+       0.3473,
+       0.2466
+      ],
+      "confidence": 0.0627
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1465,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.3404,
+     "probs": null,
+     "star": {
+      "score": 3.6072,
+      "levels": [
+       0.059,
+       0.0593,
+       0.3193,
+       0.3404,
+       0.222
+      ],
+      "confidence": 0.0926
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0139,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3702,
+     "probs": null,
+     "star": {
+      "score": 3.2615,
+      "levels": [
+       0.1034,
+       0.1149,
+       0.3702,
+       0.2398,
+       0.1717
+      ],
+      "confidence": 0.0599
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 125,
+   "run": 0,
+   "recommendationid": "220705586",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 163,
+   "inputTokens": 2989,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.4154,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.0982,
+     "probs": null,
+     "star": {
+      "score": 3.2862,
+      "levels": [
+       0.1738,
+       0.1555,
+       0.0982,
+       0.3557,
+       0.2168
+      ],
+      "confidence": 0.0469
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0113,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2198,
+     "probs": null,
+     "star": {
+      "score": 3.236,
+      "levels": [
+       0.1609,
+       0.1256,
+       0.2198,
+       0.3039,
+       0.1898
+      ],
+      "confidence": 0.0229
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.2249,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.4273,
+     "probs": null,
+     "star": {
+      "score": 3.556,
+      "levels": [
+       0.1167,
+       0.1096,
+       0.1106,
+       0.4273,
+       0.2358
+      ],
+      "confidence": 0.0951
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0104,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3369,
+     "probs": null,
+     "star": {
+      "score": 3.065,
+      "levels": [
+       0.156,
+       0.1428,
+       0.3369,
+       0.2088,
+       0.1555
+      ],
+      "confidence": 0.0325
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 126,
+   "run": 0,
+   "recommendationid": "240517564",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 160,
+   "inputTokens": 2967,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.438,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3821,
+     "probs": null,
+     "star": {
+      "score": 2.1887,
+      "levels": [
+       0.4098,
+       0.3821,
+       0.0107,
+       0.0043,
+       0.1931
+      ],
+      "confidence": 0.1893
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0125,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.1748,
+     "probs": null,
+     "star": {
+      "score": 2.5237,
+      "levels": [
+       0.2778,
+       0.3085,
+       0.1748,
+       0.0901,
+       0.1488
+      ],
+      "confidence": 0.0414
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.2667,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3674,
+     "probs": null,
+     "star": {
+      "score": 2.1742999999999997,
+      "levels": [
+       0.4106,
+       0.3674,
+       0.0359,
+       0.0094,
+       0.1767
+      ],
+      "confidence": 0.1702
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0452,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3404,
+     "probs": null,
+     "star": {
+      "score": 2.3617999999999997,
+      "levels": [
+       0.3489,
+       0.3404,
+       0.0991,
+       0.023,
+       0.1886
+      ],
+      "confidence": 0.1044
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 127,
+   "run": 0,
+   "recommendationid": "231342239",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 151,
+   "inputTokens": 2939,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1307,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2476,
+     "probs": null,
+     "star": {
+      "score": 2.6186,
+      "levels": [
+       0.251,
+       0.2742,
+       0.2476,
+       0.0598,
+       0.1674
+      ],
+      "confidence": 0.0388
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0101,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2635,
+     "probs": null,
+     "star": {
+      "score": 2.8327,
+      "levels": [
+       0.2005,
+       0.2303,
+       0.2635,
+       0.1474,
+       0.1583
+      ],
+      "confidence": 0.0118
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0244,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2618,
+     "probs": null,
+     "star": {
+      "score": 2.5558,
+      "levels": [
+       0.2303,
+       0.3119,
+       0.2618,
+       0.0637,
+       0.1323
+      ],
+      "confidence": 0.0505
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.011,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3472,
+     "probs": null,
+     "star": {
+      "score": 2.776,
+      "levels": [
+       0.1927,
+       0.2176,
+       0.3472,
+       0.1062,
+       0.1363
+      ],
+      "confidence": 0.0436
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 128,
+   "run": 0,
+   "recommendationid": "237608141",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 303,
+   "inputTokens": 3011,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8611,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.5607,
+     "probs": null,
+     "star": {
+      "score": 4.3739,
+      "levels": [
+       0.0035,
+       0.0035,
+       0.0205,
+       0.5607,
+       0.4118
+      ],
+      "confidence": 0.3556
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.017,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2245,
+     "probs": null,
+     "star": {
+      "score": 3.4949,
+      "levels": [
+       0.0933,
+       0.124,
+       0.2245,
+       0.3109,
+       0.2473
+      ],
+      "confidence": 0.0404
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.2221,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.4818,
+     "probs": null,
+     "star": {
+      "score": 4.1864,
+      "levels": [
+       0.0167,
+       0.0182,
+       0.1052,
+       0.4818,
+       0.3781
+      ],
+      "confidence": 0.2335
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0234,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.3305,
+     "probs": null,
+     "star": {
+      "score": 3.6409,
+      "levels": [
+       0.0654,
+       0.0688,
+       0.2803,
+       0.3305,
+       0.255
+      ],
+      "confidence": 0.0773
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 129,
+   "run": 0,
+   "recommendationid": "232822129",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 147,
+   "inputTokens": 2895,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0238,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.2748,
+     "probs": null,
+     "star": {
+      "score": 2.2907,
+      "levels": [
+       0.3729,
+       0.2748,
+       0.1449,
+       0.1036,
+       0.1038
+      ],
+      "confidence": 0.0713
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0117,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2259,
+     "probs": null,
+     "star": {
+      "score": 2.7843999999999998,
+      "levels": [
+       0.2154,
+       0.2481,
+       0.2259,
+       0.1578,
+       0.1528
+      ],
+      "confidence": 0.009
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.9394,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.446,
+     "probs": null,
+     "star": {
+      "score": 1.8712,
+      "levels": [
+       0.4432,
+       0.446,
+       0.0071,
+       0.0038,
+       0.0999
+      ],
+      "confidence": 0.2567
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0365,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3299,
+     "probs": null,
+     "star": {
+      "score": 2.3133999999999997,
+      "levels": [
+       0.3187,
+       0.3299,
+       0.193,
+       0.0361,
+       0.1223
+      ],
+      "confidence": 0.0799
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 130,
+   "run": 0,
+   "recommendationid": "224889725",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 172,
+   "inputTokens": 2954,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8643,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.5715,
+     "probs": null,
+     "star": {
+      "score": 2.0646,
+      "levels": [
+       0.2584,
+       0.5715,
+       0.0847,
+       0.0178,
+       0.0676
+      ],
+      "confidence": 0.2568
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0116,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2671,
+     "probs": null,
+     "star": {
+      "score": 2.7606,
+      "levels": [
+       0.2034,
+       0.2545,
+       0.2671,
+       0.128,
+       0.147
+      ],
+      "confidence": 0.0193
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.043,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3188,
+     "probs": null,
+     "star": {
+      "score": 2.4132,
+      "levels": [
+       0.2734,
+       0.3188,
+       0.2458,
+       0.0452,
+       0.1168
+      ],
+      "confidence": 0.0656
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0187,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3659,
+     "probs": null,
+     "star": {
+      "score": 2.5513,
+      "levels": [
+       0.1952,
+       0.293,
+       0.3659,
+       0.0571,
+       0.0888
+      ],
+      "confidence": 0.0862
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 131,
+   "run": 0,
+   "recommendationid": "219049743",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 173,
+   "inputTokens": 2953,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8406,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.4985,
+     "probs": null,
+     "star": {
+      "score": 1.8048,
+      "levels": [
+       0.409,
+       0.4985,
+       0.0283,
+       0.007,
+       0.0572
+      ],
+      "confidence": 0.2749
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0128,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2372,
+     "probs": null,
+     "star": {
+      "score": 2.7331000000000003,
+      "levels": [
+       0.2217,
+       0.259,
+       0.2372,
+       0.1288,
+       0.1533
+      ],
+      "confidence": 0.0157
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0889,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3221,
+     "probs": null,
+     "star": {
+      "score": 2.4603,
+      "levels": [
+       0.3287,
+       0.3221,
+       0.1162,
+       0.0262,
+       0.2068
+      ],
+      "confidence": 0.0859
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0293,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.2921,
+     "probs": null,
+     "star": {
+      "score": 2.3334,
+      "levels": [
+       0.3343,
+       0.2921,
+       0.2043,
+       0.0443,
+       0.125
+      ],
+      "confidence": 0.0705
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 132,
+   "run": 0,
+   "recommendationid": "220463525",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 159,
+   "inputTokens": 2919,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.7588,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.5373,
+     "probs": null,
+     "star": {
+      "score": 1.8596,
+      "levels": [
+       0.3575,
+       0.5373,
+       0.0372,
+       0.0243,
+       0.0437
+      ],
+      "confidence": 0.2754
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0116,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2614,
+     "probs": null,
+     "star": {
+      "score": 2.8175,
+      "levels": [
+       0.2141,
+       0.2161,
+       0.2614,
+       0.1551,
+       0.1533
+      ],
+      "confidence": 0.0105
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0199,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3306,
+     "probs": null,
+     "star": {
+      "score": 2.4834,
+      "levels": [
+       0.2714,
+       0.3306,
+       0.1778,
+       0.0837,
+       0.1365
+      ],
+      "confidence": 0.0503
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0777,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.1818,
+     "probs": null,
+     "star": {
+      "score": 2.5646,
+      "levels": [
+       0.2534,
+       0.3387,
+       0.1818,
+       0.042,
+       0.1841
+      ],
+      "confidence": 0.0596
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 133,
+   "run": 0,
+   "recommendationid": "226237217",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 257,
+   "inputTokens": 2921,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.3194,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2306,
+     "probs": null,
+     "star": {
+      "score": 2.5471,
+      "levels": [
+       0.1708,
+       0.3944,
+       0.2306,
+       0.1253,
+       0.0789
+      ],
+      "confidence": 0.0748
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0213,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.4264,
+     "probs": null,
+     "star": {
+      "score": 2.1924,
+      "levels": [
+       0.2709,
+       0.4264,
+       0.2053,
+       0.0343,
+       0.0631
+      ],
+      "confidence": 0.1281
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.7715,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.4856,
+     "probs": null,
+     "star": {
+      "score": 1.8159999999999998,
+      "levels": [
+       0.417,
+       0.4856,
+       0.0277,
+       0.0038,
+       0.0659
+      ],
+      "confidence": 0.2685
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0123,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3542,
+     "probs": null,
+     "star": {
+      "score": 2.5568999999999997,
+      "levels": [
+       0.2083,
+       0.2772,
+       0.3542,
+       0.0701,
+       0.0902
+      ],
+      "confidence": 0.0734
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 134,
+   "run": 0,
+   "recommendationid": "213051412",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 184,
+   "inputTokens": 2900,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0435,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.2982,
+     "probs": null,
+     "star": {
+      "score": 2.04,
+      "levels": [
+       0.4664,
+       0.2982,
+       0.0836,
+       0.0324,
+       0.1194
+      ],
+      "confidence": 0.161
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0104,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2255,
+     "probs": null,
+     "star": {
+      "score": 2.5423,
+      "levels": [
+       0.268,
+       0.2762,
+       0.2255,
+       0.106,
+       0.1243
+      ],
+      "confidence": 0.0321
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.9004,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.2826,
+     "probs": null,
+     "star": {
+      "score": 2.0326,
+      "levels": [
+       0.5265,
+       0.2826,
+       0.0053,
+       0.0032,
+       0.1824
+      ],
+      "confidence": 0.2379
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0137,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3335,
+     "probs": null,
+     "star": {
+      "score": 2.3738,
+      "levels": [
+       0.2962,
+       0.3335,
+       0.1887,
+       0.0636,
+       0.118
+      ],
+      "confidence": 0.0656
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 135,
+   "run": 0,
+   "recommendationid": "217612821",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 201,
+   "inputTokens": 2892,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.058,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.314,
+     "probs": null,
+     "star": {
+      "score": 3.159,
+      "levels": [
+       0.1087,
+       0.1365,
+       0.314,
+       0.3688,
+       0.072
+      ],
+      "confidence": 0.0878
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0105,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2568,
+     "probs": null,
+     "star": {
+      "score": 3.0438,
+      "levels": [
+       0.1724,
+       0.1655,
+       0.2568,
+       0.2563,
+       0.149
+      ],
+      "confidence": 0.0137
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.7618,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.4421,
+     "probs": null,
+     "star": {
+      "score": 1.7031,
+      "levels": [
+       0.4776,
+       0.4421,
+       0.0258,
+       0.0085,
+       0.046
+      ],
+      "confidence": 0.2831
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0145,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.2276,
+     "probs": null,
+     "star": {
+      "score": 2.46,
+      "levels": [
+       0.2816,
+       0.2276,
+       0.3216,
+       0.0875,
+       0.0817
+      ],
+      "confidence": 0.0611
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 136,
+   "run": 0,
+   "recommendationid": "239686941",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 174,
+   "inputTokens": 3148,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8083,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.5028,
+     "probs": null,
+     "star": {
+      "score": 1.8495,
+      "levels": [
+       0.3934,
+       0.5028,
+       0.0297,
+       0.0091,
+       0.065
+      ],
+      "confidence": 0.266
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0118,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2576,
+     "probs": null,
+     "star": {
+      "score": 2.8014,
+      "levels": [
+       0.2238,
+       0.2146,
+       0.2576,
+       0.1443,
+       0.1597
+      ],
+      "confidence": 0.011
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.086,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3401,
+     "probs": null,
+     "star": {
+      "score": 2.3238000000000003,
+      "levels": [
+       0.3524,
+       0.3401,
+       0.1101,
+       0.026,
+       0.1714
+      ],
+      "confidence": 0.1025
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0317,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2401,
+     "probs": null,
+     "star": {
+      "score": 2.8064999999999998,
+      "levels": [
+       0.2247,
+       0.254,
+       0.2401,
+       0.0524,
+       0.2288
+      ],
+      "confidence": 0.0347
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 137,
+   "run": 0,
+   "recommendationid": "213975786",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 169,
+   "inputTokens": 2923,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.4447,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.4325,
+     "probs": null,
+     "star": {
+      "score": 2.154,
+      "levels": [
+       0.3771,
+       0.4325,
+       0.017,
+       0.0061,
+       0.1673
+      ],
+      "confidence": 0.1969
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.012,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3526,
+     "probs": null,
+     "star": {
+      "score": 2.4356,
+      "levels": [
+       0.2584,
+       0.3526,
+       0.2003,
+       0.0722,
+       0.1165
+      ],
+      "confidence": 0.0625
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8942,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3973,
+     "probs": null,
+     "star": {
+      "score": 2.0918,
+      "levels": [
+       0.4244,
+       0.3973,
+       0.0082,
+       0.0022,
+       0.1679
+      ],
+      "confidence": 0.2078
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0164,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.2969,
+     "probs": null,
+     "star": {
+      "score": 2.498,
+      "levels": [
+       0.3025,
+       0.2969,
+       0.182,
+       0.0373,
+       0.1813
+      ],
+      "confidence": 0.0588
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 138,
+   "run": 0,
+   "recommendationid": "222669699",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 165,
+   "inputTokens": 2969,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.6377,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.757,
+     "probs": null,
+     "star": {
+      "score": 4.0233,
+      "levels": [
+       0.0067,
+       0.0094,
+       0.0825,
+       0.757,
+       0.1444
+      ],
+      "confidence": 0.5012
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0135,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2794,
+     "probs": null,
+     "star": {
+      "score": 3.3181,
+      "levels": [
+       0.1041,
+       0.1287,
+       0.2794,
+       0.3207,
+       0.1671
+      ],
+      "confidence": 0.0453
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.048,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3047,
+     "probs": null,
+     "star": {
+      "score": 3.4257,
+      "levels": [
+       0.0925,
+       0.0923,
+       0.3047,
+       0.318,
+       0.1925
+      ],
+      "confidence": 0.0601
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0165,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3694,
+     "probs": null,
+     "star": {
+      "score": 3.2734,
+      "levels": [
+       0.0969,
+       0.1036,
+       0.3694,
+       0.2895,
+       0.1406
+      ],
+      "confidence": 0.0752
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 139,
+   "run": 0,
+   "recommendationid": "209922861",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 150,
+   "inputTokens": 2952,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.5213,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.484,
+     "probs": null,
+     "star": {
+      "score": 4.338699999999999,
+      "levels": [
+       0.0273,
+       0.0084,
+       0.0215,
+       0.484,
+       0.4588
+      ],
+      "confidence": 0.3076
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0156,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.3293,
+     "probs": null,
+     "star": {
+      "score": 3.5903,
+      "levels": [
+       0.0889,
+       0.0939,
+       0.2216,
+       0.3293,
+       0.2663
+      ],
+      "confidence": 0.0565
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0882,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2502,
+     "probs": null,
+     "star": {
+      "score": 2.6866000000000003,
+      "levels": [
+       0.2518,
+       0.2305,
+       0.2502,
+       0.1142,
+       0.1533
+      ],
+      "confidence": 0.0196
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0116,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3286,
+     "probs": null,
+     "star": {
+      "score": 3.2099,
+      "levels": [
+       0.1388,
+       0.12,
+       0.3286,
+       0.2176,
+       0.195
+      ],
+      "confidence": 0.0338
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 140,
+   "run": 0,
+   "recommendationid": "227773690",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 161,
+   "inputTokens": 2893,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.3095,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.4843,
+     "probs": null,
+     "star": {
+      "score": 1.9165999999999999,
+      "levels": [
+       0.394,
+       0.4843,
+       0.0249,
+       0.0048,
+       0.092
+      ],
+      "confidence": 0.2486
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0093,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.1947,
+     "probs": null,
+     "star": {
+      "score": 2.6352,
+      "levels": [
+       0.2466,
+       0.2937,
+       0.1947,
+       0.1078,
+       0.1572
+      ],
+      "confidence": 0.0267
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0701,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3717,
+     "probs": null,
+     "star": {
+      "score": 2.4555,
+      "levels": [
+       0.3165,
+       0.3717,
+       0.0732,
+       0.0169,
+       0.2217
+      ],
+      "confidence": 0.1165
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.4875,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3283,
+     "probs": null,
+     "star": {
+      "score": 2.5394,
+      "levels": [
+       0.2148,
+       0.304,
+       0.3283,
+       0.033,
+       0.1199
+      ],
+      "confidence": 0.0773
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 141,
+   "run": 0,
+   "recommendationid": "229587782",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 166,
+   "inputTokens": 3109,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.6704,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.584,
+     "probs": null,
+     "star": {
+      "score": 4.3198,
+      "levels": [
+       0.0058,
+       0.0051,
+       0.0288,
+       0.584,
+       0.3763
+      ],
+      "confidence": 0.3544
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0132,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2618,
+     "probs": null,
+     "star": {
+      "score": 3.2836,
+      "levels": [
+       0.1237,
+       0.1304,
+       0.2618,
+       0.3068,
+       0.1773
+      ],
+      "confidence": 0.033
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1735,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.5619,
+     "probs": null,
+     "star": {
+      "score": 3.9576,
+      "levels": [
+       0.0443,
+       0.0266,
+       0.1117,
+       0.5619,
+       0.2555
+      ],
+      "confidence": 0.2452
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0208,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.4116,
+     "probs": null,
+     "star": {
+      "score": 3.6116,
+      "levels": [
+       0.0676,
+       0.0716,
+       0.2458,
+       0.4116,
+       0.2034
+      ],
+      "confidence": 0.1011
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 142,
+   "run": 0,
+   "recommendationid": "229757801",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 159,
+   "inputTokens": 2928,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8284,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.6043,
+     "probs": null,
+     "star": {
+      "score": 4.2713,
+      "levels": [
+       0.0057,
+       0.0055,
+       0.0426,
+       0.6043,
+       0.3419
+      ],
+      "confidence": 0.3549
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0136,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2366,
+     "probs": null,
+     "star": {
+      "score": 3.1915,
+      "levels": [
+       0.147,
+       0.1562,
+       0.2366,
+       0.2787,
+       0.1815
+      ],
+      "confidence": 0.0158
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.2082,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.4801,
+     "probs": null,
+     "star": {
+      "score": 3.9843,
+      "levels": [
+       0.0383,
+       0.0287,
+       0.1482,
+       0.4801,
+       0.3047
+      ],
+      "confidence": 0.1845
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0216,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.3512,
+     "probs": null,
+     "star": {
+      "score": 3.7616,
+      "levels": [
+       0.0592,
+       0.0553,
+       0.2423,
+       0.3512,
+       0.292
+      ],
+      "confidence": 0.0924
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 143,
+   "run": 0,
+   "recommendationid": "234149192",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 152,
+   "inputTokens": 2933,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.5638,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.4766,
+     "probs": null,
+     "star": {
+      "score": 4.4534,
+      "levels": [
+       0.0047,
+       0.0045,
+       0.0189,
+       0.4766,
+       0.4953
+      ],
+      "confidence": 0.3411
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0107,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2238,
+     "probs": null,
+     "star": {
+      "score": 3.283,
+      "levels": [
+       0.1297,
+       0.1494,
+       0.2238,
+       0.3024,
+       0.1947
+      ],
+      "confidence": 0.0232
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0704,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.5159,
+     "probs": null,
+     "star": {
+      "score": 4.0584,
+      "levels": [
+       0.0301,
+       0.0298,
+       0.1079,
+       0.5159,
+       0.3163
+      ],
+      "confidence": 0.2245
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0203,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.324,
+     "probs": null,
+     "star": {
+      "score": 3.5997,
+      "levels": [
+       0.08,
+       0.0838,
+       0.2524,
+       0.324,
+       0.2598
+      ],
+      "confidence": 0.062
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 144,
+   "run": 0,
+   "recommendationid": "238025357",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 156,
+   "inputTokens": 2903,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8208,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "5",
+     "prob": 0.5354,
+     "probs": null,
+     "star": {
+      "score": 4.5122,
+      "levels": [
+       0.0032,
+       0.0028,
+       0.0082,
+       0.4504,
+       0.5354
+      ],
+      "confidence": 0.362
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0168,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2465,
+     "probs": null,
+     "star": {
+      "score": 3.4691,
+      "levels": [
+       0.0972,
+       0.1043,
+       0.2465,
+       0.3363,
+       0.2157
+      ],
+      "confidence": 0.0509
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1634,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.4709,
+     "probs": null,
+     "star": {
+      "score": 3.9846,
+      "levels": [
+       0.0333,
+       0.0362,
+       0.1514,
+       0.4709,
+       0.3082
+      ],
+      "confidence": 0.1776
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0145,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.3407,
+     "probs": null,
+     "star": {
+      "score": 3.5458,
+      "levels": [
+       0.0806,
+       0.095,
+       0.253,
+       0.3407,
+       0.2307
+      ],
+      "confidence": 0.061
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 145,
+   "run": 0,
+   "recommendationid": "231972862",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 167,
+   "inputTokens": 2984,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0209,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.2613,
+     "probs": null,
+     "star": {
+      "score": 2.2962,
+      "levels": [
+       0.4123,
+       0.2613,
+       0.1056,
+       0.0597,
+       0.1611
+      ],
+      "confidence": 0.0987
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0099,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2302,
+     "probs": null,
+     "star": {
+      "score": 2.7193,
+      "levels": [
+       0.2602,
+       0.2144,
+       0.2302,
+       0.1363,
+       0.1589
+      ],
+      "confidence": 0.0131
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.9289,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.194,
+     "probs": null,
+     "star": {
+      "score": 2.2043999999999997,
+      "levels": [
+       0.5512,
+       0.194,
+       0.0033,
+       0.0023,
+       0.2492
+      ],
+      "confidence": 0.2544
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0225,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3697,
+     "probs": null,
+     "star": {
+      "score": 2.4154999999999998,
+      "levels": [
+       0.2788,
+       0.3697,
+       0.1554,
+       0.0494,
+       0.1467
+      ],
+      "confidence": 0.0781
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 146,
+   "run": 0,
+   "recommendationid": "221361243",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 167,
+   "inputTokens": 2939,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.2721,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3927,
+     "probs": null,
+     "star": {
+      "score": 3.4558,
+      "levels": [
+       0.038,
+       0.0448,
+       0.3927,
+       0.4725,
+       0.052
+      ],
+      "confidence": 0.2296
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.014,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3848,
+     "probs": null,
+     "star": {
+      "score": 3.2537,
+      "levels": [
+       0.0876,
+       0.0907,
+       0.3848,
+       0.3541,
+       0.0828
+      ],
+      "confidence": 0.1203
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.9234,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.333,
+     "probs": null,
+     "star": {
+      "score": 1.7012,
+      "levels": [
+       0.5677,
+       0.333,
+       0.01,
+       0.0091,
+       0.0802
+      ],
+      "confidence": 0.2997
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0134,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3777,
+     "probs": null,
+     "star": {
+      "score": 2.7325,
+      "levels": [
+       0.1934,
+       0.2074,
+       0.3777,
+       0.1164,
+       0.1051
+      ],
+      "confidence": 0.0596
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 147,
+   "run": 0,
+   "recommendationid": "233281064",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 172,
+   "inputTokens": 2896,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.4097,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3736,
+     "probs": null,
+     "star": {
+      "score": 2.2298,
+      "levels": [
+       0.4093,
+       0.3736,
+       0.0048,
+       0.0028,
+       0.2095
+      ],
+      "confidence": 0.1887
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0108,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.1997,
+     "probs": null,
+     "star": {
+      "score": 2.5349,
+      "levels": [
+       0.2673,
+       0.3009,
+       0.1997,
+       0.0938,
+       0.1383
+      ],
+      "confidence": 0.0372
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.3568,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3172,
+     "probs": null,
+     "star": {
+      "score": 2.4892000000000003,
+      "levels": [
+       0.3773,
+       0.3172,
+       0.0212,
+       0.0077,
+       0.2766
+      ],
+      "confidence": 0.1499
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.4551,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.2761,
+     "probs": null,
+     "star": {
+      "score": 2.2645999999999997,
+      "levels": [
+       0.4701,
+       0.2761,
+       0.0114,
+       0.0039,
+       0.2385
+      ],
+      "confidence": 0.1928
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 148,
+   "run": 0,
+   "recommendationid": "233813828",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 164,
+   "inputTokens": 2903,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.6658,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.4831,
+     "probs": null,
+     "star": {
+      "score": 4.470000000000001,
+      "levels": [
+       0.0039,
+       0.0034,
+       0.0105,
+       0.4831,
+       0.4991
+      ],
+      "confidence": 0.3532
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0117,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.3602,
+     "probs": null,
+     "star": {
+      "score": 3.5382,
+      "levels": [
+       0.0991,
+       0.1004,
+       0.202,
+       0.3602,
+       0.2383
+      ],
+      "confidence": 0.059
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0272,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.3788,
+     "probs": null,
+     "star": {
+      "score": 3.8623,
+      "levels": [
+       0.0616,
+       0.0634,
+       0.1611,
+       0.3788,
+       0.3351
+      ],
+      "confidence": 0.1119
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.5525,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "5",
+     "prob": 0.7,
+     "probs": null,
+     "star": {
+      "score": 4.6604,
+      "levels": [
+       0.0052,
+       0.0045,
+       0.015,
+       0.2753,
+       0.7
+      ],
+      "confidence": 0.4576
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 149,
+   "run": 0,
+   "recommendationid": "221746693",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 183,
+   "inputTokens": 2924,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.5473,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.3623,
+     "probs": null,
+     "star": {
+      "score": 4.0479,
+      "levels": [
+       0.0708,
+       0.0355,
+       0.1001,
+       0.3623,
+       0.4313
+      ],
+      "confidence": 0.167
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0118,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2977,
+     "probs": null,
+     "star": {
+      "score": 3.2972,
+      "levels": [
+       0.1181,
+       0.1183,
+       0.2977,
+       0.28,
+       0.1859
+      ],
+      "confidence": 0.0369
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.207,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.2757,
+     "probs": null,
+     "star": {
+      "score": 2.3981,
+      "levels": [
+       0.2844,
+       0.2757,
+       0.2993,
+       0.0386,
+       0.102
+      ],
+      "confidence": 0.0729
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0214,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3582,
+     "probs": null,
+     "star": {
+      "score": 2.6643,
+      "levels": [
+       0.228,
+       0.1996,
+       0.3582,
+       0.1083,
+       0.1059
+      ],
+      "confidence": 0.0539
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 150,
+   "run": 0,
+   "recommendationid": "210366318",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 176,
+   "inputTokens": 2924,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8369,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.5058,
+     "probs": null,
+     "star": {
+      "score": 4.4414,
+      "levels": [
+       0.0032,
+       0.0032,
+       0.0153,
+       0.5058,
+       0.4725
+      ],
+      "confidence": 0.3492
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0158,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3076,
+     "probs": null,
+     "star": {
+      "score": 3.3465,
+      "levels": [
+       0.1015,
+       0.1209,
+       0.3076,
+       0.2695,
+       0.2005
+      ],
+      "confidence": 0.0404
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.3116,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.6017,
+     "probs": null,
+     "star": {
+      "score": 4.1544,
+      "levels": [
+       0.0119,
+       0.0122,
+       0.0798,
+       0.6017,
+       0.2944
+      ],
+      "confidence": 0.3192
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0161,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.3213,
+     "probs": null,
+     "star": {
+      "score": 3.5317,
+      "levels": [
+       0.0835,
+       0.083,
+       0.2821,
+       0.3213,
+       0.2301
+      ],
+      "confidence": 0.0621
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 151,
+   "run": 0,
+   "recommendationid": "228758201",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 155,
+   "inputTokens": 2903,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.4945,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.4851,
+     "probs": null,
+     "star": {
+      "score": 4.461,
+      "levels": [
+       0.0048,
+       0.0054,
+       0.0092,
+       0.4851,
+       0.4955
+      ],
+      "confidence": 0.3512
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1862,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.5647,
+     "probs": null,
+     "star": {
+      "score": 4.2681000000000004,
+      "levels": [
+       0.0132,
+       0.0135,
+       0.0369,
+       0.5647,
+       0.3717
+      ],
+      "confidence": 0.3234
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.7342,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.5239,
+     "probs": null,
+     "star": {
+      "score": 4.1777999999999995,
+      "levels": [
+       0.0346,
+       0.0195,
+       0.0506,
+       0.5239,
+       0.3714
+      ],
+      "confidence": 0.2707
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0149,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.3902,
+     "probs": null,
+     "star": {
+      "score": 3.6284,
+      "levels": [
+       0.0844,
+       0.0907,
+       0.1858,
+       0.3902,
+       0.2489
+      ],
+      "confidence": 0.0801
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 152,
+   "run": 0,
+   "recommendationid": "218656005",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 157,
+   "inputTokens": 2927,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8479,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.5892,
+     "probs": null,
+     "star": {
+      "score": 4.3346,
+      "levels": [
+       0.0052,
+       0.0045,
+       0.021,
+       0.5892,
+       0.3801
+      ],
+      "confidence": 0.3652
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0121,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2621,
+     "probs": null,
+     "star": {
+      "score": 3.3806,
+      "levels": [
+       0.1056,
+       0.1269,
+       0.2621,
+       0.292,
+       0.2134
+      ],
+      "confidence": 0.0334
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0498,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.4013,
+     "probs": null,
+     "star": {
+      "score": 3.8501,
+      "levels": [
+       0.0486,
+       0.0516,
+       0.1997,
+       0.4013,
+       0.2988
+      ],
+      "confidence": 0.119
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0141,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2886,
+     "probs": null,
+     "star": {
+      "score": 3.4432,
+      "levels": [
+       0.0892,
+       0.1029,
+       0.2886,
+       0.3141,
+       0.2052
+      ],
+      "confidence": 0.0532
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 153,
+   "run": 0,
+   "recommendationid": "214167247",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 148,
+   "inputTokens": 2919,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8477,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.5579,
+     "probs": null,
+     "star": {
+      "score": 1.9275,
+      "levels": [
+       0.3288,
+       0.5579,
+       0.0355,
+       0.0124,
+       0.0654
+      ],
+      "confidence": 0.2814
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0125,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.265,
+     "probs": null,
+     "star": {
+      "score": 2.8548999999999998,
+      "levels": [
+       0.2016,
+       0.221,
+       0.265,
+       0.1458,
+       0.1666
+      ],
+      "confidence": 0.0109
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.2141,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3865,
+     "probs": null,
+     "star": {
+      "score": 2.221,
+      "levels": [
+       0.3346,
+       0.3865,
+       0.1324,
+       0.0161,
+       0.1304
+      ],
+      "confidence": 0.1202
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0134,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2804,
+     "probs": null,
+     "star": {
+      "score": 2.6178999999999997,
+      "levels": [
+       0.2313,
+       0.2653,
+       0.2804,
+       0.1002,
+       0.1228
+      ],
+      "confidence": 0.0345
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 154,
+   "run": 0,
+   "recommendationid": "234973066",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 164,
+   "inputTokens": 2947,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8261,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3891,
+     "probs": null,
+     "star": {
+      "score": 2.4173,
+      "levels": [
+       0.349,
+       0.3891,
+       0.0083,
+       0.0027,
+       0.2509
+      ],
+      "confidence": 0.1703
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0114,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2451,
+     "probs": null,
+     "star": {
+      "score": 2.7428,
+      "levels": [
+       0.225,
+       0.2493,
+       0.2451,
+       0.1189,
+       0.1617
+      ],
+      "confidence": 0.0164
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.236,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.4469,
+     "probs": null,
+     "star": {
+      "score": 2.2189,
+      "levels": [
+       0.3229,
+       0.4469,
+       0.0692,
+       0.0106,
+       0.1504
+      ],
+      "confidence": 0.1644
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.022,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3886,
+     "probs": null,
+     "star": {
+      "score": 2.2694,
+      "levels": [
+       0.3074,
+       0.3886,
+       0.1501,
+       0.0351,
+       0.1188
+      ],
+      "confidence": 0.1042
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 155,
+   "run": 0,
+   "recommendationid": "235670213",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 164,
+   "inputTokens": 2903,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.5965,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.5338,
+     "probs": null,
+     "star": {
+      "score": 4.2933,
+      "levels": [
+       0.0078,
+       0.0069,
+       0.0604,
+       0.5338,
+       0.3911
+      ],
+      "confidence": 0.3021
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0133,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2861,
+     "probs": null,
+     "star": {
+      "score": 3.2931,
+      "levels": [
+       0.1193,
+       0.1307,
+       0.2861,
+       0.2653,
+       0.1986
+      ],
+      "confidence": 0.0288
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0987,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2609,
+     "probs": null,
+     "star": {
+      "score": 2.6888,
+      "levels": [
+       0.2292,
+       0.2445,
+       0.2609,
+       0.1392,
+       0.1262
+      ],
+      "confidence": 0.0196
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0127,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3382,
+     "probs": null,
+     "star": {
+      "score": 3.3542,
+      "levels": [
+       0.0931,
+       0.0861,
+       0.3382,
+       0.3388,
+       0.1438
+      ],
+      "confidence": 0.0824
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 156,
+   "run": 0,
+   "recommendationid": "229130193",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 165,
+   "inputTokens": 2965,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.7941,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3553,
+     "probs": null,
+     "star": {
+      "score": 2.5933,
+      "levels": [
+       0.1061,
+       0.3864,
+       0.3553,
+       0.1125,
+       0.0397
+      ],
+      "confidence": 0.1263
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0119,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.268,
+     "probs": null,
+     "star": {
+      "score": 2.9303999999999997,
+      "levels": [
+       0.1784,
+       0.2016,
+       0.268,
+       0.2151,
+       0.1369
+      ],
+      "confidence": 0.0116
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.4381,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.4927,
+     "probs": null,
+     "star": {
+      "score": 2.0991,
+      "levels": [
+       0.2802,
+       0.4927,
+       0.1277,
+       0.0467,
+       0.0527
+      ],
+      "confidence": 0.1781
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.016,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3541,
+     "probs": null,
+     "star": {
+      "score": 2.6196,
+      "levels": [
+       0.2054,
+       0.2524,
+       0.3541,
+       0.0935,
+       0.0946
+      ],
+      "confidence": 0.0612
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 157,
+   "run": 0,
+   "recommendationid": "234354066",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 157,
+   "inputTokens": 2885,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.6038,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.7603,
+     "probs": null,
+     "star": {
+      "score": 4.0741,
+      "levels": [
+       0.0056,
+       0.0064,
+       0.0619,
+       0.7603,
+       0.1658
+      ],
+      "confidence": 0.5117
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0125,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2937,
+     "probs": null,
+     "star": {
+      "score": 3.2795,
+      "levels": [
+       0.1124,
+       0.1262,
+       0.2937,
+       0.3048,
+       0.1629
+      ],
+      "confidence": 0.0428
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1471,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.48,
+     "probs": null,
+     "star": {
+      "score": 3.9843,
+      "levels": [
+       0.0266,
+       0.0228,
+       0.1805,
+       0.48,
+       0.2901
+      ],
+      "confidence": 0.1854
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0173,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.3788,
+     "probs": null,
+     "star": {
+      "score": 3.6479,
+      "levels": [
+       0.0509,
+       0.0562,
+       0.3005,
+       0.3788,
+       0.2136
+      ],
+      "confidence": 0.1064
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 158,
+   "run": 0,
+   "recommendationid": "231023522",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 167,
+   "inputTokens": 3050,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8061,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.5718,
+     "probs": null,
+     "star": {
+      "score": 2.1353999999999997,
+      "levels": [
+       0.2246,
+       0.5718,
+       0.1111,
+       0.0286,
+       0.0639
+      ],
+      "confidence": 0.2433
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.4596,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.8897,
+     "probs": null,
+     "star": {
+      "score": 3.9657,
+      "levels": [
+       0.0066,
+       0.0099,
+       0.0442,
+       0.8897,
+       0.0496
+      ],
+      "confidence": 0.7451
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.2335,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3592,
+     "probs": null,
+     "star": {
+      "score": 2.4703,
+      "levels": [
+       0.2712,
+       0.3592,
+       0.1601,
+       0.0472,
+       0.1623
+      ],
+      "confidence": 0.071
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0131,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3985,
+     "probs": null,
+     "star": {
+      "score": 2.7994000000000003,
+      "levels": [
+       0.161,
+       0.2185,
+       0.3985,
+       0.1043,
+       0.1177
+      ],
+      "confidence": 0.0715
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 159,
+   "run": 0,
+   "recommendationid": "215717811",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 201,
+   "inputTokens": 2924,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.6244,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.391,
+     "probs": null,
+     "star": {
+      "score": 3.0303,
+      "levels": [
+       0.0857,
+       0.2095,
+       0.391,
+       0.2163,
+       0.0975
+      ],
+      "confidence": 0.0755
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0127,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2979,
+     "probs": null,
+     "star": {
+      "score": 2.8361,
+      "levels": [
+       0.1815,
+       0.2315,
+       0.2979,
+       0.1475,
+       0.1416
+      ],
+      "confidence": 0.0214
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.6796,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.6126,
+     "probs": null,
+     "star": {
+      "score": 2.0275,
+      "levels": [
+       0.2611,
+       0.6126,
+       0.0421,
+       0.006,
+       0.0782
+      ],
+      "confidence": 0.3142
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0136,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3101,
+     "probs": null,
+     "star": {
+      "score": 2.5963000000000003,
+      "levels": [
+       0.2292,
+       0.2623,
+       0.3101,
+       0.08,
+       0.1184
+      ],
+      "confidence": 0.0474
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 160,
+   "run": 0,
+   "recommendationid": "220819666",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 196,
+   "inputTokens": 2888,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0183,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.4657,
+     "probs": null,
+     "star": {
+      "score": 3.612,
+      "levels": [
+       0.0748,
+       0.0879,
+       0.1798,
+       0.4657,
+       0.1918
+      ],
+      "confidence": 0.1242
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0108,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2783,
+     "probs": null,
+     "star": {
+      "score": 3.1691,
+      "levels": [
+       0.1333,
+       0.1464,
+       0.2783,
+       0.302,
+       0.14
+      ],
+      "confidence": 0.0343
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.7523,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2859,
+     "probs": null,
+     "star": {
+      "score": 3.2223,
+      "levels": [
+       0.1198,
+       0.1578,
+       0.2859,
+       0.2533,
+       0.1832
+      ],
+      "confidence": 0.0234
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0197,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3686,
+     "probs": null,
+     "star": {
+      "score": 3.3419,
+      "levels": [
+       0.082,
+       0.0995,
+       0.3686,
+       0.2945,
+       0.1554
+      ],
+      "confidence": 0.0792
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 161,
+   "run": 0,
+   "recommendationid": "230343766",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 164,
+   "inputTokens": 2888,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0458,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2221,
+     "probs": null,
+     "star": {
+      "score": 2.7929,
+      "levels": [
+       0.2128,
+       0.2308,
+       0.2221,
+       0.2193,
+       0.115
+      ],
+      "confidence": 0.0115
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0103,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2261,
+     "probs": null,
+     "star": {
+      "score": 2.8419,
+      "levels": [
+       0.2246,
+       0.2132,
+       0.2261,
+       0.1681,
+       0.168
+      ],
+      "confidence": 0.0044
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.9231,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.4329,
+     "probs": null,
+     "star": {
+      "score": 1.9247999999999998,
+      "levels": [
+       0.4339,
+       0.4329,
+       0.0173,
+       0.0064,
+       0.1095
+      ],
+      "confidence": 0.235
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.024,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3146,
+     "probs": null,
+     "star": {
+      "score": 2.4169,
+      "levels": [
+       0.2849,
+       0.3146,
+       0.2173,
+       0.0651,
+       0.1181
+      ],
+      "confidence": 0.0569
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 162,
+   "run": 0,
+   "recommendationid": "228890898",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 165,
+   "inputTokens": 2893,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0186,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.2949,
+     "probs": null,
+     "star": {
+      "score": 2.4762,
+      "levels": [
+       0.2951,
+       0.2949,
+       0.1998,
+       0.0591,
+       0.1511
+      ],
+      "confidence": 0.0503
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0092,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.2313,
+     "probs": null,
+     "star": {
+      "score": 2.497,
+      "levels": [
+       0.3321,
+       0.2313,
+       0.1865,
+       0.1077,
+       0.1424
+      ],
+      "confidence": 0.0381
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0429,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3197,
+     "probs": null,
+     "star": {
+      "score": 2.0575,
+      "levels": [
+       0.4493,
+       0.3197,
+       0.0808,
+       0.0244,
+       0.1258
+      ],
+      "confidence": 0.1588
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.9292,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.2853,
+     "probs": null,
+     "star": {
+      "score": 2.3784,
+      "levels": [
+       0.431,
+       0.2853,
+       0.0194,
+       0.003,
+       0.2613
+      ],
+      "confidence": 0.1698
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 163,
+   "run": 0,
+   "recommendationid": "228227908",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 357,
+   "inputTokens": 2927,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.444,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.5791,
+     "probs": null,
+     "star": {
+      "score": 1.9561,
+      "levels": [
+       0.2904,
+       0.5791,
+       0.066,
+       0.0129,
+       0.0516
+      ],
+      "confidence": 0.2836
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0094,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2175,
+     "probs": null,
+     "star": {
+      "score": 2.7264999999999997,
+      "levels": [
+       0.2039,
+       0.295,
+       0.2175,
+       0.138,
+       0.1456
+      ],
+      "confidence": 0.0202
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.5914,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.4807,
+     "probs": null,
+     "star": {
+      "score": 1.865,
+      "levels": [
+       0.4041,
+       0.4807,
+       0.0364,
+       0.0037,
+       0.0751
+      ],
+      "confidence": 0.2517
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0136,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3007,
+     "probs": null,
+     "star": {
+      "score": 2.4648000000000003,
+      "levels": [
+       0.2432,
+       0.3007,
+       0.2976,
+       0.0651,
+       0.0934
+      ],
+      "confidence": 0.0639
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 164,
+   "run": 0,
+   "recommendationid": "213205579",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 163,
+   "inputTokens": 2904,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1207,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.413,
+     "probs": null,
+     "star": {
+      "score": 1.8961999999999999,
+      "levels": [
+       0.447,
+       0.413,
+       0.0277,
+       0.0214,
+       0.0909
+      ],
+      "confidence": 0.2248
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0082,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.1763,
+     "probs": null,
+     "star": {
+      "score": 2.5233,
+      "levels": [
+       0.3201,
+       0.2425,
+       0.1763,
+       0.1161,
+       0.145
+      ],
+      "confidence": 0.0336
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8328,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3677,
+     "probs": null,
+     "star": {
+      "score": 1.8723,
+      "levels": [
+       0.5026,
+       0.3677,
+       0.0057,
+       0.0026,
+       0.1214
+      ],
+      "confidence": 0.2533
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0095,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.1967,
+     "probs": null,
+     "star": {
+      "score": 2.5232,
+      "levels": [
+       0.275,
+       0.2991,
+       0.1967,
+       0.0863,
+       0.1429
+      ],
+      "confidence": 0.0395
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 165,
+   "run": 0,
+   "recommendationid": "214976074",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 201,
+   "inputTokens": 2938,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.6721,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.478,
+     "probs": null,
+     "star": {
+      "score": 4.4689,
+      "levels": [
+       0.0035,
+       0.0033,
+       0.0146,
+       0.478,
+       0.5006
+      ],
+      "confidence": 0.3492
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0138,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.228,
+     "probs": null,
+     "star": {
+      "score": 3.433,
+      "levels": [
+       0.1023,
+       0.1132,
+       0.228,
+       0.3623,
+       0.1942
+      ],
+      "confidence": 0.0553
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0183,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2347,
+     "probs": null,
+     "star": {
+      "score": 3.3272,
+      "levels": [
+       0.1348,
+       0.1198,
+       0.2347,
+       0.3046,
+       0.2061
+      ],
+      "confidence": 0.0286
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0105,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3131,
+     "probs": null,
+     "star": {
+      "score": 3.1969,
+      "levels": [
+       0.1298,
+       0.1309,
+       0.3131,
+       0.2651,
+       0.1611
+      ],
+      "confidence": 0.0353
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 166,
+   "run": 0,
+   "recommendationid": "225879879",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 148,
+   "inputTokens": 2925,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.9027,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.5848,
+     "probs": null,
+     "star": {
+      "score": 4.183199999999999,
+      "levels": [
+       0.0217,
+       0.0133,
+       0.0526,
+       0.5848,
+       0.3276
+      ],
+      "confidence": 0.3159
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.3685,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.3745,
+     "probs": null,
+     "star": {
+      "score": 4.4867,
+      "levels": [
+       0.013,
+       0.0115,
+       0.0261,
+       0.3745,
+       0.5749
+      ],
+      "confidence": 0.3396
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0245,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2618,
+     "probs": null,
+     "star": {
+      "score": 3.0164,
+      "levels": [
+       0.1904,
+       0.1547,
+       0.2618,
+       0.2344,
+       0.1587
+      ],
+      "confidence": 0.0111
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0119,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2914,
+     "probs": null,
+     "star": {
+      "score": 3.3264,
+      "levels": [
+       0.1174,
+       0.1107,
+       0.2914,
+       0.289,
+       0.1915
+      ],
+      "confidence": 0.0389
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 167,
+   "run": 0,
+   "recommendationid": "220271203",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 212,
+   "inputTokens": 2972,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8888,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.4034,
+     "probs": null,
+     "star": {
+      "score": 2.973,
+      "levels": [
+       0.1435,
+       0.1422,
+       0.4034,
+       0.2195,
+       0.0914
+      ],
+      "confidence": 0.0751
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0111,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3258,
+     "probs": null,
+     "star": {
+      "score": 3.0946,
+      "levels": [
+       0.1408,
+       0.1572,
+       0.3258,
+       0.2189,
+       0.1573
+      ],
+      "confidence": 0.0292
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1127,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.2664,
+     "probs": null,
+     "star": {
+      "score": 2.403,
+      "levels": [
+       0.3173,
+       0.2664,
+       0.2305,
+       0.0674,
+       0.1184
+      ],
+      "confidence": 0.0542
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0151,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.5265,
+     "probs": null,
+     "star": {
+      "score": 2.9089,
+      "levels": [
+       0.1333,
+       0.1305,
+       0.5265,
+       0.1132,
+       0.0965
+      ],
+      "confidence": 0.1676
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 168,
+   "run": 0,
+   "recommendationid": "211034723",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 191,
+   "inputTokens": 2971,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.7595,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.514,
+     "probs": null,
+     "star": {
+      "score": 4.2646,
+      "levels": [
+       0.0081,
+       0.0101,
+       0.0793,
+       0.514,
+       0.3885
+      ],
+      "confidence": 0.2769
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0119,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2889,
+     "probs": null,
+     "star": {
+      "score": 3.2854,
+      "levels": [
+       0.117,
+       0.1288,
+       0.2889,
+       0.2823,
+       0.183
+      ],
+      "confidence": 0.0336
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0997,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.4812,
+     "probs": null,
+     "star": {
+      "score": 3.9166,
+      "levels": [
+       0.0328,
+       0.0301,
+       0.1904,
+       0.4812,
+       0.2655
+      ],
+      "confidence": 0.1754
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0274,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.4022,
+     "probs": null,
+     "star": {
+      "score": 3.6874,
+      "levels": [
+       0.0527,
+       0.0553,
+       0.2668,
+       0.4022,
+       0.223
+      ],
+      "confidence": 0.1106
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 169,
+   "run": 0,
+   "recommendationid": "234263715",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 260,
+   "inputTokens": 2935,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0551,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.521,
+     "probs": null,
+     "star": {
+      "score": 3.6517,
+      "levels": [
+       0.0338,
+       0.0313,
+       0.2991,
+       0.521,
+       0.1148
+      ],
+      "confidence": 0.2202
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0117,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.287,
+     "probs": null,
+     "star": {
+      "score": 3.1882,
+      "levels": [
+       0.1375,
+       0.1283,
+       0.287,
+       0.3028,
+       0.1444
+      ],
+      "confidence": 0.0378
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0407,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.3529,
+     "probs": null,
+     "star": {
+      "score": 2.5168,
+      "levels": [
+       0.2358,
+       0.2425,
+       0.3529,
+       0.1068,
+       0.062
+      ],
+      "confidence": 0.0677
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0119,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.4206,
+     "probs": null,
+     "star": {
+      "score": 3.1942,
+      "levels": [
+       0.1051,
+       0.0934,
+       0.4206,
+       0.264,
+       0.1169
+      ],
+      "confidence": 0.1001
+     },
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 170,
+   "run": 0,
+   "recommendationid": "226999275",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 165,
+   "inputTokens": 2933,
+   "answers": [
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8378,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_star",
+     "aspect": "gameplay",
+     "kind": "star",
+     "value": "4",
+     "prob": 0.5164,
+     "probs": null,
+     "star": {
+      "score": 3.9994,
+      "levels": [
+       0.0292,
+       0.0208,
+       0.1525,
+       0.5164,
+       0.2811
+      ],
+      "confidence": 0.2127
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0117,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_star",
+     "aspect": "music",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.2728,
+     "probs": null,
+     "star": {
+      "score": 3.0442,
+      "levels": [
+       0.1637,
+       0.1867,
+       0.2728,
+       0.1953,
+       0.1815
+      ],
+      "confidence": 0.009
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1132,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_star",
+     "aspect": "comfort",
+     "kind": "star",
+     "value": "2",
+     "prob": 0.3127,
+     "probs": null,
+     "star": {
+      "score": 2.2827,
+      "levels": [
+       0.2942,
+       0.3127,
+       0.2762,
+       0.0499,
+       0.067
+      ],
+      "confidence": 0.0845
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0167,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_star",
+     "aspect": "price",
+     "kind": "star",
+     "value": "3",
+     "prob": 0.463,
+     "probs": null,
+     "star": {
+      "score": 2.8965,
+      "levels": [
+       0.1518,
+       0.138,
+       0.463,
+       0.1562,
+       0.091
+      ],
+      "confidence": 0.1114
+     },
+     "needsCheck": false
+    }
+   ]
+  }
+ ]
+}
