@@ -1,0 +1,7217 @@
+{
+ "condition": "B0",
+ "model": "clef-flash",
+ "questionSetHash": "72e4246cbe9176879d8006128788455c25b48b925a14bbd34a053a3ae99d4bb3",
+ "records": [
+  {
+   "sample": 101,
+   "run": 0,
+   "recommendationid": "230893231",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 491,
+   "inputTokens": 2305,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "positive",
+     "prob": 0.7488,
+     "probs": {
+      "positive": 0.7488,
+      "negative": 0.0086,
+      "mixed": 0.055,
+      "none": 0.1876
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.6263,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9911,
+     "probs": {
+      "positive": 0.0031,
+      "negative": 0.0027,
+      "mixed": 0.0031,
+      "none": 0.9911
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0119,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.962,
+     "probs": {
+      "positive": 0.0089,
+      "negative": 0.0176,
+      "mixed": 0.0115,
+      "none": 0.962
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0336,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9833,
+     "probs": {
+      "positive": 0.0069,
+      "negative": 0.0039,
+      "mixed": 0.0059,
+      "none": 0.9833
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0177,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 102,
+   "run": 0,
+   "recommendationid": "218701580",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 158,
+   "inputTokens": 2358,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.8433,
+     "probs": {
+      "positive": 0.0045,
+      "negative": 0.8433,
+      "mixed": 0.0465,
+      "none": 0.1057
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.7965,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9891,
+     "probs": {
+      "positive": 0.0021,
+      "negative": 0.0061,
+      "mixed": 0.0027,
+      "none": 0.9891
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0133,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9209,
+     "probs": {
+      "positive": 0.0037,
+      "negative": 0.06,
+      "mixed": 0.0154,
+      "none": 0.9209
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0727,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9852,
+     "probs": {
+      "positive": 0.0023,
+      "negative": 0.0083,
+      "mixed": 0.0042,
+      "none": 0.9852
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0156,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 103,
+   "run": 0,
+   "recommendationid": "225767001",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 157,
+   "inputTokens": 2469,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.852,
+     "probs": {
+      "positive": 0.0056,
+      "negative": 0.852,
+      "mixed": 0.0856,
+      "none": 0.0568
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8963,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.985,
+     "probs": {
+      "positive": 0.0072,
+      "negative": 0.0044,
+      "mixed": 0.0034,
+      "none": 0.985
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0126,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.7006,
+     "probs": {
+      "positive": 0.0089,
+      "negative": 0.7006,
+      "mixed": 0.0396,
+      "none": 0.2509
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.6477,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "mixed",
+     "prob": 0.383,
+     "probs": {
+      "positive": 0.2464,
+      "negative": 0.106,
+      "mixed": 0.383,
+      "none": 0.2646
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.6584,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 104,
+   "run": 0,
+   "recommendationid": "215416277",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 149,
+   "inputTokens": 2321,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "mixed",
+     "prob": 0.7691,
+     "probs": {
+      "positive": 0.0356,
+      "negative": 0.0435,
+      "mixed": 0.7691,
+      "none": 0.1518
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.131,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9894,
+     "probs": {
+      "positive": 0.0041,
+      "negative": 0.0034,
+      "mixed": 0.0031,
+      "none": 0.9894
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0129,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.5788,
+     "probs": {
+      "positive": 0.0117,
+      "negative": 0.5788,
+      "mixed": 0.0699,
+      "none": 0.3396
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.6533,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9868,
+     "probs": {
+      "positive": 0.0032,
+      "negative": 0.0043,
+      "mixed": 0.0057,
+      "none": 0.9868
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0143,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 105,
+   "run": 0,
+   "recommendationid": "215754020",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 217,
+   "inputTokens": 2275,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "mixed",
+     "prob": 0.744,
+     "probs": {
+      "positive": 0.158,
+      "negative": 0.0171,
+      "mixed": 0.744,
+      "none": 0.0809
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.9094,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9876,
+     "probs": {
+      "positive": 0.0046,
+      "negative": 0.0035,
+      "mixed": 0.0043,
+      "none": 0.9876
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0148,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.6213,
+     "probs": {
+      "positive": 0.0272,
+      "negative": 0.2124,
+      "mixed": 0.1391,
+      "none": 0.6213
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1394,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9863,
+     "probs": {
+      "positive": 0.0044,
+      "negative": 0.0039,
+      "mixed": 0.0054,
+      "none": 0.9863
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.015,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 106,
+   "run": 0,
+   "recommendationid": "216699642",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 164,
+   "inputTokens": 2247,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "mixed",
+     "prob": 0.5769,
+     "probs": {
+      "positive": 0.0082,
+      "negative": 0.2331,
+      "mixed": 0.5769,
+      "none": 0.1818
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.4463,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9876,
+     "probs": {
+      "positive": 0.0023,
+      "negative": 0.0048,
+      "mixed": 0.0053,
+      "none": 0.9876
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0124,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9828,
+     "probs": {
+      "positive": 0.0025,
+      "negative": 0.0082,
+      "mixed": 0.0065,
+      "none": 0.9828
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0203,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9807,
+     "probs": {
+      "positive": 0.0028,
+      "negative": 0.0068,
+      "mixed": 0.0097,
+      "none": 0.9807
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0135,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 107,
+   "run": 0,
+   "recommendationid": "229059162",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 174,
+   "inputTokens": 2279,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.5243,
+     "probs": {
+      "positive": 0.0107,
+      "negative": 0.5243,
+      "mixed": 0.034,
+      "none": 0.431
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.2625,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9894,
+     "probs": {
+      "positive": 0.002,
+      "negative": 0.0061,
+      "mixed": 0.0025,
+      "none": 0.9894
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0132,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.8928,
+     "probs": {
+      "positive": 0.006,
+      "negative": 0.8928,
+      "mixed": 0.0208,
+      "none": 0.0804
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8225,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9822,
+     "probs": {
+      "positive": 0.0023,
+      "negative": 0.0113,
+      "mixed": 0.0042,
+      "none": 0.9822
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0162,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 108,
+   "run": 0,
+   "recommendationid": "218747591",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 208,
+   "inputTokens": 2358,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.6652,
+     "probs": {
+      "positive": 0.246,
+      "negative": 0.012,
+      "mixed": 0.0768,
+      "none": 0.6652
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1794,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9904,
+     "probs": {
+      "positive": 0.0038,
+      "negative": 0.0027,
+      "mixed": 0.0031,
+      "none": 0.9904
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0146,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "positive",
+     "prob": 0.8538,
+     "probs": {
+      "positive": 0.8538,
+      "negative": 0.0088,
+      "mixed": 0.0305,
+      "none": 0.1069
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8857,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9476,
+     "probs": {
+      "positive": 0.038,
+      "negative": 0.0041,
+      "mixed": 0.0103,
+      "none": 0.9476
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0414,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 109,
+   "run": 0,
+   "recommendationid": "216005856",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 194,
+   "inputTokens": 2258,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.7661,
+     "probs": {
+      "positive": 0.0187,
+      "negative": 0.1709,
+      "mixed": 0.0443,
+      "none": 0.7661
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0218,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9865,
+     "probs": {
+      "positive": 0.0033,
+      "negative": 0.0062,
+      "mixed": 0.004,
+      "none": 0.9865
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0132,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.9423,
+     "probs": {
+      "positive": 0.0083,
+      "negative": 0.9423,
+      "mixed": 0.0164,
+      "none": 0.033
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.9317,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9832,
+     "probs": {
+      "positive": 0.0033,
+      "negative": 0.0086,
+      "mixed": 0.0049,
+      "none": 0.9832
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0124,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 110,
+   "run": 0,
+   "recommendationid": "237170535",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 168,
+   "inputTokens": 2271,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "mixed",
+     "prob": 0.8222,
+     "probs": {
+      "positive": 0.0537,
+      "negative": 0.0225,
+      "mixed": 0.8222,
+      "none": 0.1016
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8349,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9892,
+     "probs": {
+      "positive": 0.0041,
+      "negative": 0.0029,
+      "mixed": 0.0038,
+      "none": 0.9892
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0136,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9677,
+     "probs": {
+      "positive": 0.0076,
+      "negative": 0.0098,
+      "mixed": 0.0149,
+      "none": 0.9677
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0454,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9889,
+     "probs": {
+      "positive": 0.0039,
+      "negative": 0.0032,
+      "mixed": 0.004,
+      "none": 0.9889
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0129,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 111,
+   "run": 0,
+   "recommendationid": "231893193",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 143,
+   "inputTokens": 2235,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9507,
+     "probs": {
+      "positive": 0.0053,
+      "negative": 0.0335,
+      "mixed": 0.0105,
+      "none": 0.9507
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.017,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9861,
+     "probs": {
+      "positive": 0.0029,
+      "negative": 0.0073,
+      "mixed": 0.0037,
+      "none": 0.9861
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.012,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.9648,
+     "probs": {
+      "positive": 0.0039,
+      "negative": 0.9648,
+      "mixed": 0.0081,
+      "none": 0.0232
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.9226,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.7714,
+     "probs": {
+      "positive": 0.0107,
+      "negative": 0.1763,
+      "mixed": 0.0416,
+      "none": 0.7714
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0507,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 112,
+   "run": 0,
+   "recommendationid": "226802291",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 159,
+   "inputTokens": 2243,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.5976,
+     "probs": {
+      "positive": 0.0693,
+      "negative": 0.0111,
+      "mixed": 0.322,
+      "none": 0.5976
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0778,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.988,
+     "probs": {
+      "positive": 0.0051,
+      "negative": 0.003,
+      "mixed": 0.0039,
+      "none": 0.988
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.012,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.8505,
+     "probs": {
+      "positive": 0.0538,
+      "negative": 0.0264,
+      "mixed": 0.0693,
+      "none": 0.8505
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.12,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9886,
+     "probs": {
+      "positive": 0.0042,
+      "negative": 0.0032,
+      "mixed": 0.004,
+      "none": 0.9886
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0112,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 113,
+   "run": 0,
+   "recommendationid": "230981296",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 340,
+   "inputTokens": 2324,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "positive",
+     "prob": 0.901,
+     "probs": {
+      "positive": 0.901,
+      "negative": 0.0052,
+      "mixed": 0.0075,
+      "none": 0.0863
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.9032,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "positive",
+     "prob": 0.9318,
+     "probs": {
+      "positive": 0.9318,
+      "negative": 0.005,
+      "mixed": 0.0079,
+      "none": 0.0553
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.7207,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.7719,
+     "probs": {
+      "positive": 0.2031,
+      "negative": 0.0099,
+      "mixed": 0.0151,
+      "none": 0.7719
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1533,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.99,
+     "probs": {
+      "positive": 0.0046,
+      "negative": 0.0025,
+      "mixed": 0.0029,
+      "none": 0.99
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0138,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 114,
+   "run": 0,
+   "recommendationid": "214083519",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 302,
+   "inputTokens": 2246,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.6451,
+     "probs": {
+      "positive": 0.01,
+      "negative": 0.6451,
+      "mixed": 0.0441,
+      "none": 0.3008
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.2345,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9853,
+     "probs": {
+      "positive": 0.0023,
+      "negative": 0.0092,
+      "mixed": 0.0032,
+      "none": 0.9853
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0142,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.9385,
+     "probs": {
+      "positive": 0.0044,
+      "negative": 0.9385,
+      "mixed": 0.013,
+      "none": 0.0441
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8585,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9788,
+     "probs": {
+      "positive": 0.0024,
+      "negative": 0.0141,
+      "mixed": 0.0047,
+      "none": 0.9788
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0135,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 115,
+   "run": 0,
+   "recommendationid": "239156458",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 159,
+   "inputTokens": 2304,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.522,
+     "probs": {
+      "positive": 0.2736,
+      "negative": 0.0328,
+      "mixed": 0.1716,
+      "none": 0.522
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.2291,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9916,
+     "probs": {
+      "positive": 0.0029,
+      "negative": 0.0027,
+      "mixed": 0.0028,
+      "none": 0.9916
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0124,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9636,
+     "probs": {
+      "positive": 0.0131,
+      "negative": 0.0131,
+      "mixed": 0.0102,
+      "none": 0.9636
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0389,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9889,
+     "probs": {
+      "positive": 0.004,
+      "negative": 0.0034,
+      "mixed": 0.0037,
+      "none": 0.9889
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0121,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 116,
+   "run": 0,
+   "recommendationid": "224512387",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 141,
+   "inputTokens": 2318,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.8113,
+     "probs": {
+      "positive": 0.0054,
+      "negative": 0.8113,
+      "mixed": 0.046,
+      "none": 0.1373
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.7068,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9798,
+     "probs": {
+      "positive": 0.0022,
+      "negative": 0.0143,
+      "mixed": 0.0037,
+      "none": 0.9798
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0231,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.6314,
+     "probs": {
+      "positive": 0.0101,
+      "negative": 0.311,
+      "mixed": 0.0475,
+      "none": 0.6314
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.2023,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9818,
+     "probs": {
+      "positive": 0.0023,
+      "negative": 0.011,
+      "mixed": 0.0049,
+      "none": 0.9818
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.02,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 117,
+   "run": 0,
+   "recommendationid": "232285312",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 245,
+   "inputTokens": 2248,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "positive",
+     "prob": 0.7228,
+     "probs": {
+      "positive": 0.7228,
+      "negative": 0.0086,
+      "mixed": 0.0139,
+      "none": 0.2547
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.7013,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "positive",
+     "prob": 0.8933,
+     "probs": {
+      "positive": 0.8933,
+      "negative": 0.0061,
+      "mixed": 0.01,
+      "none": 0.0906
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.2181,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9795,
+     "probs": {
+      "positive": 0.014,
+      "negative": 0.0033,
+      "mixed": 0.0032,
+      "none": 0.9795
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0232,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "positive",
+     "prob": 0.9141,
+     "probs": {
+      "positive": 0.9141,
+      "negative": 0.0064,
+      "mixed": 0.0156,
+      "none": 0.0639
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.7434,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 118,
+   "run": 0,
+   "recommendationid": "227402533",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 178,
+   "inputTokens": 2367,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "mixed",
+     "prob": 0.5336,
+     "probs": {
+      "positive": 0.346,
+      "negative": 0.0098,
+      "mixed": 0.5336,
+      "none": 0.1106
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.904,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.986,
+     "probs": {
+      "positive": 0.0054,
+      "negative": 0.0041,
+      "mixed": 0.0045,
+      "none": 0.986
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0142,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9718,
+     "probs": {
+      "positive": 0.0104,
+      "negative": 0.0055,
+      "mixed": 0.0123,
+      "none": 0.9718
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0267,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9823,
+     "probs": {
+      "positive": 0.0074,
+      "negative": 0.0042,
+      "mixed": 0.0061,
+      "none": 0.9823
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0161,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 119,
+   "run": 0,
+   "recommendationid": "220404432",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 223,
+   "inputTokens": 2252,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.9203,
+     "probs": {
+      "positive": 0.0038,
+      "negative": 0.9203,
+      "mixed": 0.0117,
+      "none": 0.0642
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.686,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.987,
+     "probs": {
+      "positive": 0.0025,
+      "negative": 0.0074,
+      "mixed": 0.0031,
+      "none": 0.987
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0131,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.7647,
+     "probs": {
+      "positive": 0.0073,
+      "negative": 0.204,
+      "mixed": 0.024,
+      "none": 0.7647
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1666,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9798,
+     "probs": {
+      "positive": 0.0027,
+      "negative": 0.0126,
+      "mixed": 0.0049,
+      "none": 0.9798
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0151,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 120,
+   "run": 0,
+   "recommendationid": "239251760",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 152,
+   "inputTokens": 2285,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "mixed",
+     "prob": 0.7905,
+     "probs": {
+      "positive": 0.0639,
+      "negative": 0.0339,
+      "mixed": 0.7905,
+      "none": 0.1117
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.489,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9905,
+     "probs": {
+      "positive": 0.0029,
+      "negative": 0.0033,
+      "mixed": 0.0033,
+      "none": 0.9905
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0119,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.4763,
+     "probs": {
+      "positive": 0.045,
+      "negative": 0.2908,
+      "mixed": 0.1879,
+      "none": 0.4763
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.3325,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9804,
+     "probs": {
+      "positive": 0.0057,
+      "negative": 0.0059,
+      "mixed": 0.008,
+      "none": 0.9804
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0237,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 121,
+   "run": 0,
+   "recommendationid": "230900048",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 167,
+   "inputTokens": 2430,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "mixed",
+     "prob": 0.8317,
+     "probs": {
+      "positive": 0.0123,
+      "negative": 0.1265,
+      "mixed": 0.8317,
+      "none": 0.0295
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.9271,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9893,
+     "probs": {
+      "positive": 0.0032,
+      "negative": 0.0041,
+      "mixed": 0.0034,
+      "none": 0.9893
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0105,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.8952,
+     "probs": {
+      "positive": 0.0067,
+      "negative": 0.0715,
+      "mixed": 0.0266,
+      "none": 0.8952
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0599,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9861,
+     "probs": {
+      "positive": 0.0027,
+      "negative": 0.0052,
+      "mixed": 0.006,
+      "none": 0.9861
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0143,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 122,
+   "run": 0,
+   "recommendationid": "231866353",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 197,
+   "inputTokens": 2432,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "mixed",
+     "prob": 0.849,
+     "probs": {
+      "positive": 0.0189,
+      "negative": 0.0555,
+      "mixed": 0.849,
+      "none": 0.0766
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8814,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9913,
+     "probs": {
+      "positive": 0.0024,
+      "negative": 0.0032,
+      "mixed": 0.0031,
+      "none": 0.9913
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0119,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.3479,
+     "probs": {
+      "positive": 0.0438,
+      "negative": 0.2935,
+      "mixed": 0.3148,
+      "none": 0.3479
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.5343,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "positive",
+     "prob": 0.3892,
+     "probs": {
+      "positive": 0.3892,
+      "negative": 0.0273,
+      "mixed": 0.3589,
+      "none": 0.2246
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.7874,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 123,
+   "run": 0,
+   "recommendationid": "235119762",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 145,
+   "inputTokens": 2255,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "mixed",
+     "prob": 0.6134,
+     "probs": {
+      "positive": 0.0064,
+      "negative": 0.2044,
+      "mixed": 0.6134,
+      "none": 0.1758
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.4462,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9883,
+     "probs": {
+      "positive": 0.002,
+      "negative": 0.0061,
+      "mixed": 0.0036,
+      "none": 0.9883
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0141,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9291,
+     "probs": {
+      "positive": 0.0038,
+      "negative": 0.0469,
+      "mixed": 0.0202,
+      "none": 0.9291
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0544,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9843,
+     "probs": {
+      "positive": 0.0023,
+      "negative": 0.0068,
+      "mixed": 0.0066,
+      "none": 0.9843
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0143,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 124,
+   "run": 0,
+   "recommendationid": "213693155",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 160,
+   "inputTokens": 2259,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "mixed",
+     "prob": 0.6717,
+     "probs": {
+      "positive": 0.2227,
+      "negative": 0.0111,
+      "mixed": 0.6717,
+      "none": 0.0945
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.9227,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9834,
+     "probs": {
+      "positive": 0.0092,
+      "negative": 0.0033,
+      "mixed": 0.0041,
+      "none": 0.9834
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0201,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.6926,
+     "probs": {
+      "positive": 0.1782,
+      "negative": 0.0212,
+      "mixed": 0.108,
+      "none": 0.6926
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1346,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9867,
+     "probs": {
+      "positive": 0.0058,
+      "negative": 0.003,
+      "mixed": 0.0045,
+      "none": 0.9867
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0159,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 125,
+   "run": 0,
+   "recommendationid": "220705586",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 377,
+   "inputTokens": 2345,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "mixed",
+     "prob": 0.5206,
+     "probs": {
+      "positive": 0.103,
+      "negative": 0.1322,
+      "mixed": 0.5206,
+      "none": 0.2442
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.5972,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9855,
+     "probs": {
+      "positive": 0.0063,
+      "negative": 0.0044,
+      "mixed": 0.0038,
+      "none": 0.9855
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0129,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.7118,
+     "probs": {
+      "positive": 0.1363,
+      "negative": 0.0534,
+      "mixed": 0.0985,
+      "none": 0.7118
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1794,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9882,
+     "probs": {
+      "positive": 0.0042,
+      "negative": 0.0031,
+      "mixed": 0.0045,
+      "none": 0.9882
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0108,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 126,
+   "run": 0,
+   "recommendationid": "240517564",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 155,
+   "inputTokens": 2323,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.708,
+     "probs": {
+      "positive": 0.0064,
+      "negative": 0.708,
+      "mixed": 0.0206,
+      "none": 0.265
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1847,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9826,
+     "probs": {
+      "positive": 0.0022,
+      "negative": 0.0124,
+      "mixed": 0.0028,
+      "none": 0.9826
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0137,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.5151,
+     "probs": {
+      "positive": 0.0098,
+      "negative": 0.4499,
+      "mixed": 0.0252,
+      "none": 0.5151
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1974,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9132,
+     "probs": {
+      "positive": 0.0042,
+      "negative": 0.0709,
+      "mixed": 0.0117,
+      "none": 0.9132
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0324,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 127,
+   "run": 0,
+   "recommendationid": "231342239",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 135,
+   "inputTokens": 2295,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.6624,
+     "probs": {
+      "positive": 0.0262,
+      "negative": 0.1403,
+      "mixed": 0.1711,
+      "none": 0.6624
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0554,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9903,
+     "probs": {
+      "positive": 0.0025,
+      "negative": 0.0039,
+      "mixed": 0.0033,
+      "none": 0.9903
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0105,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9752,
+     "probs": {
+      "positive": 0.0035,
+      "negative": 0.0146,
+      "mixed": 0.0067,
+      "none": 0.9752
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0208,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9867,
+     "probs": {
+      "positive": 0.0029,
+      "negative": 0.0059,
+      "mixed": 0.0045,
+      "none": 0.9867
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0114,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 128,
+   "run": 0,
+   "recommendationid": "237608141",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 167,
+   "inputTokens": 2367,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "positive",
+     "prob": 0.9054,
+     "probs": {
+      "positive": 0.9054,
+      "negative": 0.0073,
+      "mixed": 0.023,
+      "none": 0.0643
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.9532,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9884,
+     "probs": {
+      "positive": 0.0057,
+      "negative": 0.0028,
+      "mixed": 0.0031,
+      "none": 0.9884
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0172,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9159,
+     "probs": {
+      "positive": 0.0638,
+      "negative": 0.0088,
+      "mixed": 0.0115,
+      "none": 0.9159
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1411,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9811,
+     "probs": {
+      "positive": 0.0104,
+      "negative": 0.0034,
+      "mixed": 0.0051,
+      "none": 0.9811
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0227,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 129,
+   "run": 0,
+   "recommendationid": "232822129",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 158,
+   "inputTokens": 2251,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9344,
+     "probs": {
+      "positive": 0.0062,
+      "negative": 0.0497,
+      "mixed": 0.0097,
+      "none": 0.9344
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0173,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9817,
+     "probs": {
+      "positive": 0.0044,
+      "negative": 0.0087,
+      "mixed": 0.0052,
+      "none": 0.9817
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0121,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.9604,
+     "probs": {
+      "positive": 0.0073,
+      "negative": 0.9604,
+      "mixed": 0.0127,
+      "none": 0.0196
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.9477,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9144,
+     "probs": {
+      "positive": 0.0083,
+      "negative": 0.058,
+      "mixed": 0.0193,
+      "none": 0.9144
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0383,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 130,
+   "run": 0,
+   "recommendationid": "224889725",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 149,
+   "inputTokens": 2310,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.6213,
+     "probs": {
+      "positive": 0.009,
+      "negative": 0.6213,
+      "mixed": 0.2618,
+      "none": 0.1079
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.9055,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9897,
+     "probs": {
+      "positive": 0.0022,
+      "negative": 0.0051,
+      "mixed": 0.003,
+      "none": 0.9897
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0116,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9638,
+     "probs": {
+      "positive": 0.0028,
+      "negative": 0.0229,
+      "mixed": 0.0105,
+      "none": 0.9638
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0381,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9807,
+     "probs": {
+      "positive": 0.0027,
+      "negative": 0.0098,
+      "mixed": 0.0068,
+      "none": 0.9807
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0177,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 131,
+   "run": 0,
+   "recommendationid": "219049743",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 248,
+   "inputTokens": 2309,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.843,
+     "probs": {
+      "positive": 0.0049,
+      "negative": 0.843,
+      "mixed": 0.0881,
+      "none": 0.064
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.9093,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.991,
+     "probs": {
+      "positive": 0.0022,
+      "negative": 0.0042,
+      "mixed": 0.0026,
+      "none": 0.991
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0108,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.8718,
+     "probs": {
+      "positive": 0.0062,
+      "negative": 0.097,
+      "mixed": 0.025,
+      "none": 0.8718
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1083,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9476,
+     "probs": {
+      "positive": 0.004,
+      "negative": 0.0305,
+      "mixed": 0.0179,
+      "none": 0.9476
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0296,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 132,
+   "run": 0,
+   "recommendationid": "220463525",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 159,
+   "inputTokens": 2275,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.6306,
+     "probs": {
+      "positive": 0.0105,
+      "negative": 0.6306,
+      "mixed": 0.2873,
+      "none": 0.0716
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8848,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9888,
+     "probs": {
+      "positive": 0.0025,
+      "negative": 0.0056,
+      "mixed": 0.0031,
+      "none": 0.9888
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.013,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9828,
+     "probs": {
+      "positive": 0.0024,
+      "negative": 0.011,
+      "mixed": 0.0038,
+      "none": 0.9828
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0269,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9403,
+     "probs": {
+      "positive": 0.0052,
+      "negative": 0.0346,
+      "mixed": 0.0199,
+      "none": 0.9403
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.042,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 133,
+   "run": 0,
+   "recommendationid": "226237217",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 139,
+   "inputTokens": 2277,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "mixed",
+     "prob": 0.5731,
+     "probs": {
+      "positive": 0.0374,
+      "negative": 0.1661,
+      "mixed": 0.5731,
+      "none": 0.2234
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.2058,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9704,
+     "probs": {
+      "positive": 0.0023,
+      "negative": 0.0228,
+      "mixed": 0.0045,
+      "none": 0.9704
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0332,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.82,
+     "probs": {
+      "positive": 0.008,
+      "negative": 0.82,
+      "mixed": 0.063,
+      "none": 0.109
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8662,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9796,
+     "probs": {
+      "positive": 0.0028,
+      "negative": 0.0096,
+      "mixed": 0.008,
+      "none": 0.9796
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0147,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 134,
+   "run": 0,
+   "recommendationid": "213051412",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 234,
+   "inputTokens": 2256,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.8406,
+     "probs": {
+      "positive": 0.0062,
+      "negative": 0.1389,
+      "mixed": 0.0143,
+      "none": 0.8406
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0301,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9868,
+     "probs": {
+      "positive": 0.0028,
+      "negative": 0.007,
+      "mixed": 0.0034,
+      "none": 0.9868
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0127,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.9381,
+     "probs": {
+      "positive": 0.0075,
+      "negative": 0.9381,
+      "mixed": 0.0136,
+      "none": 0.0408
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8903,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9719,
+     "probs": {
+      "positive": 0.0038,
+      "negative": 0.0184,
+      "mixed": 0.0059,
+      "none": 0.9719
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0172,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 135,
+   "run": 0,
+   "recommendationid": "217612821",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 223,
+   "inputTokens": 2248,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.7389,
+     "probs": {
+      "positive": 0.0683,
+      "negative": 0.0657,
+      "mixed": 0.1271,
+      "none": 0.7389
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0284,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9855,
+     "probs": {
+      "positive": 0.0054,
+      "negative": 0.0055,
+      "mixed": 0.0036,
+      "none": 0.9855
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0127,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.77,
+     "probs": {
+      "positive": 0.0291,
+      "negative": 0.77,
+      "mixed": 0.0816,
+      "none": 0.1193
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.6584,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9773,
+     "probs": {
+      "positive": 0.0045,
+      "negative": 0.0108,
+      "mixed": 0.0074,
+      "none": 0.9773
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0135,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 136,
+   "run": 0,
+   "recommendationid": "239686941",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 182,
+   "inputTokens": 2504,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.844,
+     "probs": {
+      "positive": 0.0051,
+      "negative": 0.844,
+      "mixed": 0.0798,
+      "none": 0.0711
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8307,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9861,
+     "probs": {
+      "positive": 0.0023,
+      "negative": 0.0085,
+      "mixed": 0.0031,
+      "none": 0.9861
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0116,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9105,
+     "probs": {
+      "positive": 0.0043,
+      "negative": 0.0653,
+      "mixed": 0.0199,
+      "none": 0.9105
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0558,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9664,
+     "probs": {
+      "positive": 0.0027,
+      "negative": 0.0222,
+      "mixed": 0.0087,
+      "none": 0.9664
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0263,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 137,
+   "run": 0,
+   "recommendationid": "213975786",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 165,
+   "inputTokens": 2279,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.5847,
+     "probs": {
+      "positive": 0.0071,
+      "negative": 0.5847,
+      "mixed": 0.0238,
+      "none": 0.3844
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.187,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9879,
+     "probs": {
+      "positive": 0.0021,
+      "negative": 0.0072,
+      "mixed": 0.0028,
+      "none": 0.9879
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.014,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.945,
+     "probs": {
+      "positive": 0.0043,
+      "negative": 0.945,
+      "mixed": 0.0102,
+      "none": 0.0405
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.9,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9804,
+     "probs": {
+      "positive": 0.0025,
+      "negative": 0.0125,
+      "mixed": 0.0046,
+      "none": 0.9804
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.017,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 138,
+   "run": 0,
+   "recommendationid": "222669699",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 152,
+   "inputTokens": 2325,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.4509,
+     "probs": {
+      "positive": 0.3549,
+      "negative": 0.0117,
+      "mixed": 0.1825,
+      "none": 0.4509
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.2099,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9891,
+     "probs": {
+      "positive": 0.0048,
+      "negative": 0.0027,
+      "mixed": 0.0034,
+      "none": 0.9891
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0145,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9741,
+     "probs": {
+      "positive": 0.014,
+      "negative": 0.0048,
+      "mixed": 0.0071,
+      "none": 0.9741
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0373,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9856,
+     "probs": {
+      "positive": 0.005,
+      "negative": 0.0039,
+      "mixed": 0.0055,
+      "none": 0.9856
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0177,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 139,
+   "run": 0,
+   "recommendationid": "209922861",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 153,
+   "inputTokens": 2308,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "mixed",
+     "prob": 0.6031,
+     "probs": {
+      "positive": 0.145,
+      "negative": 0.0247,
+      "mixed": 0.6031,
+      "none": 0.2272
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.5005,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9892,
+     "probs": {
+      "positive": 0.0046,
+      "negative": 0.0025,
+      "mixed": 0.0037,
+      "none": 0.9892
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0151,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.8615,
+     "probs": {
+      "positive": 0.0105,
+      "negative": 0.0631,
+      "mixed": 0.0649,
+      "none": 0.8615
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0957,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9883,
+     "probs": {
+      "positive": 0.004,
+      "negative": 0.0029,
+      "mixed": 0.0048,
+      "none": 0.9883
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0108,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 140,
+   "run": 0,
+   "recommendationid": "227773690",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 144,
+   "inputTokens": 2249,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.7653,
+     "probs": {
+      "positive": 0.0054,
+      "negative": 0.7653,
+      "mixed": 0.0723,
+      "none": 0.157
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.3969,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9896,
+     "probs": {
+      "positive": 0.0019,
+      "negative": 0.0059,
+      "mixed": 0.0026,
+      "none": 0.9896
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0115,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.7917,
+     "probs": {
+      "positive": 0.0082,
+      "negative": 0.1798,
+      "mixed": 0.0203,
+      "none": 0.7917
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.134,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "mixed",
+     "prob": 0.4481,
+     "probs": {
+      "positive": 0.0197,
+      "negative": 0.3089,
+      "mixed": 0.4481,
+      "none": 0.2233
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.3769,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 141,
+   "run": 0,
+   "recommendationid": "229587782",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 150,
+   "inputTokens": 2465,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "positive",
+     "prob": 0.6275,
+     "probs": {
+      "positive": 0.6275,
+      "negative": 0.0097,
+      "mixed": 0.1504,
+      "none": 0.2124
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.5541,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9898,
+     "probs": {
+      "positive": 0.0042,
+      "negative": 0.003,
+      "mixed": 0.003,
+      "none": 0.9898
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0136,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.829,
+     "probs": {
+      "positive": 0.1223,
+      "negative": 0.0203,
+      "mixed": 0.0284,
+      "none": 0.829
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0893,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9829,
+     "probs": {
+      "positive": 0.0097,
+      "negative": 0.003,
+      "mixed": 0.0044,
+      "none": 0.9829
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0196,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 142,
+   "run": 0,
+   "recommendationid": "229757801",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 156,
+   "inputTokens": 2284,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "positive",
+     "prob": 0.4924,
+     "probs": {
+      "positive": 0.4924,
+      "negative": 0.012,
+      "mixed": 0.2213,
+      "none": 0.2743
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8673,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9895,
+     "probs": {
+      "positive": 0.0045,
+      "negative": 0.003,
+      "mixed": 0.003,
+      "none": 0.9895
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0144,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.8177,
+     "probs": {
+      "positive": 0.1128,
+      "negative": 0.0251,
+      "mixed": 0.0444,
+      "none": 0.8177
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1579,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9783,
+     "probs": {
+      "positive": 0.0109,
+      "negative": 0.004,
+      "mixed": 0.0068,
+      "none": 0.9783
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0229,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 143,
+   "run": 0,
+   "recommendationid": "234149192",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 143,
+   "inputTokens": 2289,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "positive",
+     "prob": 0.8368,
+     "probs": {
+      "positive": 0.8368,
+      "negative": 0.0052,
+      "mixed": 0.0117,
+      "none": 0.1463
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.5701,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9914,
+     "probs": {
+      "positive": 0.0033,
+      "negative": 0.0026,
+      "mixed": 0.0027,
+      "none": 0.9914
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0135,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9396,
+     "probs": {
+      "positive": 0.0454,
+      "negative": 0.006,
+      "mixed": 0.009,
+      "none": 0.9396
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0448,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9828,
+     "probs": {
+      "positive": 0.0083,
+      "negative": 0.0032,
+      "mixed": 0.0057,
+      "none": 0.9828
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0184,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 144,
+   "run": 0,
+   "recommendationid": "238025357",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 135,
+   "inputTokens": 2259,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "positive",
+     "prob": 0.8374,
+     "probs": {
+      "positive": 0.8374,
+      "negative": 0.0066,
+      "mixed": 0.0379,
+      "none": 0.1181
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8357,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9874,
+     "probs": {
+      "positive": 0.0062,
+      "negative": 0.003,
+      "mixed": 0.0034,
+      "none": 0.9874
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0183,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9572,
+     "probs": {
+      "positive": 0.0294,
+      "negative": 0.0054,
+      "mixed": 0.008,
+      "none": 0.9572
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0644,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9875,
+     "probs": {
+      "positive": 0.0058,
+      "negative": 0.0029,
+      "mixed": 0.0038,
+      "none": 0.9875
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0145,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 145,
+   "run": 0,
+   "recommendationid": "231972862",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 141,
+   "inputTokens": 2340,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9661,
+     "probs": {
+      "positive": 0.0034,
+      "negative": 0.0251,
+      "mixed": 0.0054,
+      "none": 0.9661
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0145,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9874,
+     "probs": {
+      "positive": 0.0025,
+      "negative": 0.007,
+      "mixed": 0.0031,
+      "none": 0.9874
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0112,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.9616,
+     "probs": {
+      "positive": 0.004,
+      "negative": 0.9616,
+      "mixed": 0.0095,
+      "none": 0.0249
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.9396,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9641,
+     "probs": {
+      "positive": 0.0029,
+      "negative": 0.0263,
+      "mixed": 0.0067,
+      "none": 0.9641
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0203,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 146,
+   "run": 0,
+   "recommendationid": "221361243",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 150,
+   "inputTokens": 2295,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "mixed",
+     "prob": 0.5002,
+     "probs": {
+      "positive": 0.1028,
+      "negative": 0.0423,
+      "mixed": 0.5002,
+      "none": 0.3547
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1695,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9879,
+     "probs": {
+      "positive": 0.0046,
+      "negative": 0.0034,
+      "mixed": 0.0041,
+      "none": 0.9879
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0139,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.861,
+     "probs": {
+      "positive": 0.0156,
+      "negative": 0.861,
+      "mixed": 0.0913,
+      "none": 0.0321
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.9468,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9845,
+     "probs": {
+      "positive": 0.0032,
+      "negative": 0.0058,
+      "mixed": 0.0065,
+      "none": 0.9845
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.013,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 147,
+   "run": 0,
+   "recommendationid": "233281064",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 149,
+   "inputTokens": 2252,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.7811,
+     "probs": {
+      "positive": 0.0054,
+      "negative": 0.7811,
+      "mixed": 0.0102,
+      "none": 0.2033
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.3575,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9854,
+     "probs": {
+      "positive": 0.0022,
+      "negative": 0.0097,
+      "mixed": 0.0027,
+      "none": 0.9854
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0143,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.5682,
+     "probs": {
+      "positive": 0.0087,
+      "negative": 0.3994,
+      "mixed": 0.0237,
+      "none": 0.5682
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.2662,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.6744,
+     "probs": {
+      "positive": 0.0091,
+      "negative": 0.6744,
+      "mixed": 0.0387,
+      "none": 0.2778
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.349,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 148,
+   "run": 0,
+   "recommendationid": "233813828",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 163,
+   "inputTokens": 2259,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "positive",
+     "prob": 0.7827,
+     "probs": {
+      "positive": 0.7827,
+      "negative": 0.0061,
+      "mixed": 0.0133,
+      "none": 0.1979
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.6908,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9874,
+     "probs": {
+      "positive": 0.0071,
+      "negative": 0.0026,
+      "mixed": 0.0029,
+      "none": 0.9874
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0123,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9803,
+     "probs": {
+      "positive": 0.011,
+      "negative": 0.004,
+      "mixed": 0.0047,
+      "none": 0.9803
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0292,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "positive",
+     "prob": 0.855,
+     "probs": {
+      "positive": 0.855,
+      "negative": 0.0087,
+      "mixed": 0.0344,
+      "none": 0.1019
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.5917,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 149,
+   "run": 0,
+   "recommendationid": "221746693",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 151,
+   "inputTokens": 2280,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "mixed",
+     "prob": 0.3589,
+     "probs": {
+      "positive": 0.3241,
+      "negative": 0.0566,
+      "mixed": 0.3589,
+      "none": 0.2604
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.5545,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9907,
+     "probs": {
+      "positive": 0.0036,
+      "negative": 0.0027,
+      "mixed": 0.003,
+      "none": 0.9907
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0127,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.6628,
+     "probs": {
+      "positive": 0.0156,
+      "negative": 0.1918,
+      "mixed": 0.1298,
+      "none": 0.6628
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.2656,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9787,
+     "probs": {
+      "positive": 0.0046,
+      "negative": 0.0081,
+      "mixed": 0.0086,
+      "none": 0.9787
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.015,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 150,
+   "run": 0,
+   "recommendationid": "210366318",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 151,
+   "inputTokens": 2280,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "positive",
+     "prob": 0.8387,
+     "probs": {
+      "positive": 0.8387,
+      "negative": 0.0046,
+      "mixed": 0.0311,
+      "none": 0.1256
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.829,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9899,
+     "probs": {
+      "positive": 0.0048,
+      "negative": 0.0026,
+      "mixed": 0.0027,
+      "none": 0.9899
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0166,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.6972,
+     "probs": {
+      "positive": 0.2657,
+      "negative": 0.0117,
+      "mixed": 0.0254,
+      "none": 0.6972
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.2543,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9864,
+     "probs": {
+      "positive": 0.0074,
+      "negative": 0.0026,
+      "mixed": 0.0036,
+      "none": 0.9864
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0181,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 151,
+   "run": 0,
+   "recommendationid": "228758201",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 183,
+   "inputTokens": 2259,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "positive",
+     "prob": 0.5876,
+     "probs": {
+      "positive": 0.5876,
+      "negative": 0.0093,
+      "mixed": 0.0273,
+      "none": 0.3758
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.3859,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "positive",
+     "prob": 0.6653,
+     "probs": {
+      "positive": 0.6653,
+      "negative": 0.0074,
+      "mixed": 0.0143,
+      "none": 0.313
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.2722,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "positive",
+     "prob": 0.7411,
+     "probs": {
+      "positive": 0.7411,
+      "negative": 0.0352,
+      "mixed": 0.0929,
+      "none": 0.1308
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.7236,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9842,
+     "probs": {
+      "positive": 0.0089,
+      "negative": 0.0029,
+      "mixed": 0.004,
+      "none": 0.9842
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0159,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 152,
+   "run": 0,
+   "recommendationid": "218656005",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 150,
+   "inputTokens": 2283,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "positive",
+     "prob": 0.7297,
+     "probs": {
+      "positive": 0.7297,
+      "negative": 0.0103,
+      "mixed": 0.0945,
+      "none": 0.1655
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8411,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9841,
+     "probs": {
+      "positive": 0.0076,
+      "negative": 0.004,
+      "mixed": 0.0043,
+      "none": 0.9841
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0162,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9623,
+     "probs": {
+      "positive": 0.0223,
+      "negative": 0.0063,
+      "mixed": 0.0091,
+      "none": 0.9623
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0452,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9812,
+     "probs": {
+      "positive": 0.0088,
+      "negative": 0.0041,
+      "mixed": 0.0059,
+      "none": 0.9812
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0196,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 153,
+   "run": 0,
+   "recommendationid": "214167247",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 232,
+   "inputTokens": 2275,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.8345,
+     "probs": {
+      "positive": 0.0091,
+      "negative": 0.8345,
+      "mixed": 0.0788,
+      "none": 0.0776
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8859,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9883,
+     "probs": {
+      "positive": 0.0027,
+      "negative": 0.0059,
+      "mixed": 0.0031,
+      "none": 0.9883
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0128,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.8431,
+     "probs": {
+      "positive": 0.0051,
+      "negative": 0.1278,
+      "mixed": 0.024,
+      "none": 0.8431
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1354,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9793,
+     "probs": {
+      "positive": 0.003,
+      "negative": 0.0129,
+      "mixed": 0.0048,
+      "none": 0.9793
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0148,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 154,
+   "run": 0,
+   "recommendationid": "234973066",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 146,
+   "inputTokens": 2303,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.9222,
+     "probs": {
+      "positive": 0.0038,
+      "negative": 0.9222,
+      "mixed": 0.0083,
+      "none": 0.0657
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8146,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9882,
+     "probs": {
+      "positive": 0.0022,
+      "negative": 0.0069,
+      "mixed": 0.0027,
+      "none": 0.9882
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0116,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.859,
+     "probs": {
+      "positive": 0.0051,
+      "negative": 0.1262,
+      "mixed": 0.0097,
+      "none": 0.859
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1976,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9755,
+     "probs": {
+      "positive": 0.0026,
+      "negative": 0.0173,
+      "mixed": 0.0046,
+      "none": 0.9755
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0192,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 155,
+   "run": 0,
+   "recommendationid": "235670213",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 147,
+   "inputTokens": 2259,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "positive",
+     "prob": 0.5333,
+     "probs": {
+      "positive": 0.5333,
+      "negative": 0.015,
+      "mixed": 0.1817,
+      "none": 0.27
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.7275,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9897,
+     "probs": {
+      "positive": 0.0042,
+      "negative": 0.0028,
+      "mixed": 0.0033,
+      "none": 0.9897
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0148,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.822,
+     "probs": {
+      "positive": 0.029,
+      "negative": 0.0548,
+      "mixed": 0.0942,
+      "none": 0.822
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1578,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9875,
+     "probs": {
+      "positive": 0.0054,
+      "negative": 0.003,
+      "mixed": 0.0041,
+      "none": 0.9875
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0122,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 156,
+   "run": 0,
+   "recommendationid": "229130193",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 159,
+   "inputTokens": 2321,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "mixed",
+     "prob": 0.8056,
+     "probs": {
+      "positive": 0.0143,
+      "negative": 0.0847,
+      "mixed": 0.8056,
+      "none": 0.0954
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.6577,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9892,
+     "probs": {
+      "positive": 0.0024,
+      "negative": 0.0053,
+      "mixed": 0.0031,
+      "none": 0.9892
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0125,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.4157,
+     "probs": {
+      "positive": 0.0294,
+      "negative": 0.4157,
+      "mixed": 0.2513,
+      "none": 0.3036
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.3528,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9832,
+     "probs": {
+      "positive": 0.0027,
+      "negative": 0.0073,
+      "mixed": 0.0068,
+      "none": 0.9832
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0146,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 157,
+   "run": 0,
+   "recommendationid": "234354066",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 152,
+   "inputTokens": 2241,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "positive",
+     "prob": 0.584,
+     "probs": {
+      "positive": 0.584,
+      "negative": 0.0079,
+      "mixed": 0.1026,
+      "none": 0.3055
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.6598,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9876,
+     "probs": {
+      "positive": 0.0048,
+      "negative": 0.0035,
+      "mixed": 0.0041,
+      "none": 0.9876
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0158,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.6692,
+     "probs": {
+      "positive": 0.1945,
+      "negative": 0.0395,
+      "mixed": 0.0968,
+      "none": 0.6692
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.3384,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.978,
+     "probs": {
+      "positive": 0.0123,
+      "negative": 0.0035,
+      "mixed": 0.0062,
+      "none": 0.978
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0247,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 158,
+   "run": 0,
+   "recommendationid": "231023522",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 367,
+   "inputTokens": 2406,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "mixed",
+     "prob": 0.558,
+     "probs": {
+      "positive": 0.0072,
+      "negative": 0.3764,
+      "mixed": 0.558,
+      "none": 0.0584
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8804,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "positive",
+     "prob": 0.9417,
+     "probs": {
+      "positive": 0.9417,
+      "negative": 0.0058,
+      "mixed": 0.0137,
+      "none": 0.0388
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.3952,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.7922,
+     "probs": {
+      "positive": 0.0072,
+      "negative": 0.1574,
+      "mixed": 0.0432,
+      "none": 0.7922
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1308,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9888,
+     "probs": {
+      "positive": 0.002,
+      "negative": 0.0055,
+      "mixed": 0.0037,
+      "none": 0.9888
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0158,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 159,
+   "run": 0,
+   "recommendationid": "215717811",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 157,
+   "inputTokens": 2280,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "mixed",
+     "prob": 0.6762,
+     "probs": {
+      "positive": 0.0479,
+      "negative": 0.1028,
+      "mixed": 0.6762,
+      "none": 0.1731
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.607,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9888,
+     "probs": {
+      "positive": 0.0028,
+      "negative": 0.0048,
+      "mixed": 0.0036,
+      "none": 0.9888
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0128,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.7059,
+     "probs": {
+      "positive": 0.0118,
+      "negative": 0.7059,
+      "mixed": 0.1125,
+      "none": 0.1698
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.6511,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9816,
+     "probs": {
+      "positive": 0.0032,
+      "negative": 0.009,
+      "mixed": 0.0062,
+      "none": 0.9816
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0159,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 160,
+   "run": 0,
+   "recommendationid": "220819666",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 158,
+   "inputTokens": 2244,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9704,
+     "probs": {
+      "positive": 0.0155,
+      "negative": 0.0058,
+      "mixed": 0.0083,
+      "none": 0.9704
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0163,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9892,
+     "probs": {
+      "positive": 0.004,
+      "negative": 0.0032,
+      "mixed": 0.0036,
+      "none": 0.9892
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0133,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "mixed",
+     "prob": 0.5787,
+     "probs": {
+      "positive": 0.139,
+      "negative": 0.1448,
+      "mixed": 0.5787,
+      "none": 0.1375
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8518,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9806,
+     "probs": {
+      "positive": 0.0062,
+      "negative": 0.0054,
+      "mixed": 0.0078,
+      "none": 0.9806
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0182,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 161,
+   "run": 0,
+   "recommendationid": "230343766",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 138,
+   "inputTokens": 2244,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.6582,
+     "probs": {
+      "positive": 0.0327,
+      "negative": 0.2233,
+      "mixed": 0.0858,
+      "none": 0.6582
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0264,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9867,
+     "probs": {
+      "positive": 0.0031,
+      "negative": 0.0067,
+      "mixed": 0.0035,
+      "none": 0.9867
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0115,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.8836,
+     "probs": {
+      "positive": 0.0108,
+      "negative": 0.8836,
+      "mixed": 0.0545,
+      "none": 0.0511
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.9294,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9577,
+     "probs": {
+      "positive": 0.0041,
+      "negative": 0.0273,
+      "mixed": 0.0109,
+      "none": 0.9577
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0259,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 162,
+   "run": 0,
+   "recommendationid": "228890898",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 174,
+   "inputTokens": 2249,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9646,
+     "probs": {
+      "positive": 0.004,
+      "negative": 0.0241,
+      "mixed": 0.0073,
+      "none": 0.9646
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0156,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9829,
+     "probs": {
+      "positive": 0.003,
+      "negative": 0.0104,
+      "mixed": 0.0037,
+      "none": 0.9829
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0129,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.8223,
+     "probs": {
+      "positive": 0.0079,
+      "negative": 0.1521,
+      "mixed": 0.0177,
+      "none": 0.8223
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0554,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.8509,
+     "probs": {
+      "positive": 0.0096,
+      "negative": 0.8509,
+      "mixed": 0.0988,
+      "none": 0.0407
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.9452,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 163,
+   "run": 0,
+   "recommendationid": "228227908",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 140,
+   "inputTokens": 2283,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.5752,
+     "probs": {
+      "positive": 0.0076,
+      "negative": 0.5752,
+      "mixed": 0.1087,
+      "none": 0.3085
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.3346,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9891,
+     "probs": {
+      "positive": 0.0024,
+      "negative": 0.0056,
+      "mixed": 0.0029,
+      "none": 0.9891
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0123,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.7858,
+     "probs": {
+      "positive": 0.0068,
+      "negative": 0.7858,
+      "mixed": 0.0406,
+      "none": 0.1668
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.6777,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9757,
+     "probs": {
+      "positive": 0.003,
+      "negative": 0.0149,
+      "mixed": 0.0064,
+      "none": 0.9757
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0205,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 164,
+   "run": 0,
+   "recommendationid": "213205579",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 149,
+   "inputTokens": 2260,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.5274,
+     "probs": {
+      "positive": 0.0121,
+      "negative": 0.4245,
+      "mixed": 0.036,
+      "none": 0.5274
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0426,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.99,
+     "probs": {
+      "positive": 0.0023,
+      "negative": 0.0049,
+      "mixed": 0.0028,
+      "none": 0.99
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0119,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "negative",
+     "prob": 0.9233,
+     "probs": {
+      "positive": 0.005,
+      "negative": 0.9233,
+      "mixed": 0.013,
+      "none": 0.0587
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8188,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9878,
+     "probs": {
+      "positive": 0.0023,
+      "negative": 0.0067,
+      "mixed": 0.0032,
+      "none": 0.9878
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0125,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 165,
+   "run": 0,
+   "recommendationid": "214976074",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 152,
+   "inputTokens": 2294,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "positive",
+     "prob": 0.709,
+     "probs": {
+      "positive": 0.709,
+      "negative": 0.0078,
+      "mixed": 0.1079,
+      "none": 0.1753
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.6767,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9868,
+     "probs": {
+      "positive": 0.0066,
+      "negative": 0.003,
+      "mixed": 0.0036,
+      "none": 0.9868
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0192,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9859,
+     "probs": {
+      "positive": 0.0056,
+      "negative": 0.0043,
+      "mixed": 0.0042,
+      "none": 0.9859
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0253,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.988,
+     "probs": {
+      "positive": 0.0052,
+      "negative": 0.0032,
+      "mixed": 0.0036,
+      "none": 0.988
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0151,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 166,
+   "run": 0,
+   "recommendationid": "225879879",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 156,
+   "inputTokens": 2281,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "mixed",
+     "prob": 0.8385,
+     "probs": {
+      "positive": 0.0887,
+      "negative": 0.0175,
+      "mixed": 0.8385,
+      "none": 0.0553
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.9423,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "positive",
+     "prob": 0.9142,
+     "probs": {
+      "positive": 0.9142,
+      "negative": 0.0071,
+      "mixed": 0.0121,
+      "none": 0.0666
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.2518,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9585,
+     "probs": {
+      "positive": 0.0098,
+      "negative": 0.0165,
+      "mixed": 0.0152,
+      "none": 0.9585
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0436,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9876,
+     "probs": {
+      "positive": 0.0047,
+      "negative": 0.0035,
+      "mixed": 0.0042,
+      "none": 0.9876
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0132,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 167,
+   "run": 0,
+   "recommendationid": "220271203",
+   "votedUp": false,
+   "status": "ok",
+   "latencyMs": 167,
+   "inputTokens": 2328,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "mixed",
+     "prob": 0.9406,
+     "probs": {
+      "positive": 0.0107,
+      "negative": 0.0253,
+      "mixed": 0.9406,
+      "none": 0.0234
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.9611,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.989,
+     "probs": {
+      "positive": 0.0029,
+      "negative": 0.0043,
+      "mixed": 0.0038,
+      "none": 0.989
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0131,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.8805,
+     "probs": {
+      "positive": 0.0098,
+      "negative": 0.0714,
+      "mixed": 0.0383,
+      "none": 0.8805
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1449,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9841,
+     "probs": {
+      "positive": 0.0032,
+      "negative": 0.0053,
+      "mixed": 0.0074,
+      "none": 0.9841
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0142,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 168,
+   "run": 0,
+   "recommendationid": "211034723",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 350,
+   "inputTokens": 2327,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "positive",
+     "prob": 0.357,
+     "probs": {
+      "positive": 0.357,
+      "negative": 0.0095,
+      "mixed": 0.3254,
+      "none": 0.3081
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8828,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9891,
+     "probs": {
+      "positive": 0.0049,
+      "negative": 0.0028,
+      "mixed": 0.0032,
+      "none": 0.9891
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.015,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9391,
+     "probs": {
+      "positive": 0.0386,
+      "negative": 0.0071,
+      "mixed": 0.0152,
+      "none": 0.9391
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.107,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9843,
+     "probs": {
+      "positive": 0.0081,
+      "negative": 0.0028,
+      "mixed": 0.0048,
+      "none": 0.9843
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0213,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 169,
+   "run": 0,
+   "recommendationid": "234263715",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 137,
+   "inputTokens": 2291,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.6888,
+     "probs": {
+      "positive": 0.1148,
+      "negative": 0.0119,
+      "mixed": 0.1845,
+      "none": 0.6888
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0361,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9872,
+     "probs": {
+      "positive": 0.0053,
+      "negative": 0.0033,
+      "mixed": 0.0042,
+      "none": 0.9872
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0131,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9222,
+     "probs": {
+      "positive": 0.0099,
+      "negative": 0.0364,
+      "mixed": 0.0315,
+      "none": 0.9222
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0385,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9856,
+     "probs": {
+      "positive": 0.0052,
+      "negative": 0.0036,
+      "mixed": 0.0056,
+      "none": 0.9856
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0134,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  },
+  {
+   "sample": 170,
+   "run": 0,
+   "recommendationid": "226999275",
+   "votedUp": true,
+   "status": "ok",
+   "latencyMs": 181,
+   "inputTokens": 2289,
+   "answers": [
+    {
+     "questionKey": "gameplay_choice",
+     "aspect": "gameplay",
+     "kind": "direction",
+     "value": "mixed",
+     "prob": 0.7933,
+     "probs": {
+      "positive": 0.0959,
+      "negative": 0.0183,
+      "mixed": 0.7933,
+      "none": 0.0925
+     },
+     "needsCheck": true
+    },
+    {
+     "questionKey": "gameplay_noul",
+     "aspect": "gameplay",
+     "kind": "mention",
+     "value": "true",
+     "prob": 0.8809,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_choice",
+     "aspect": "music",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.9903,
+     "probs": {
+      "positive": 0.0032,
+      "negative": 0.0032,
+      "mixed": 0.0033,
+      "none": 0.9903
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "music_noul",
+     "aspect": "music",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0126,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_choice",
+     "aspect": "comfort",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.8114,
+     "probs": {
+      "positive": 0.0081,
+      "negative": 0.0998,
+      "mixed": 0.0807,
+      "none": 0.8114
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "comfort_noul",
+     "aspect": "comfort",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.1223,
+     "probs": null,
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_choice",
+     "aspect": "price",
+     "kind": "direction",
+     "value": "none",
+     "prob": 0.983,
+     "probs": {
+      "positive": 0.0047,
+      "negative": 0.0054,
+      "mixed": 0.0069,
+      "none": 0.983
+     },
+     "needsCheck": false
+    },
+    {
+     "questionKey": "price_noul",
+     "aspect": "price",
+     "kind": "mention",
+     "value": "false",
+     "prob": 0.0167,
+     "probs": null,
+     "needsCheck": false
+    }
+   ]
+  }
+ ]
+}
