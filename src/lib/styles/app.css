@@ -806,9 +806,11 @@ button.tag:hover {
 	gap: var(--space-2) var(--space-5);
 	font-size: 12px;
 	padding-top: var(--space-4);
+	/* ページの終わりを、細いオレンジの線で区切る（ユーザーの指示）。線は飾りで、意味は持たない。 */
+	border-top: 1px solid var(--accent);
 }
 .footer a {
-	color: var(--text-muted);
+	color: var(--text);
 }
 .prose {
 	gap: var(--space-6);
