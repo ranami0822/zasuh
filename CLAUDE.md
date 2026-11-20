@@ -45,6 +45,16 @@ scripts/deploy.sh --build-only   # 作業用コピーで、ビルドだけ（本
 
 Playwright は、グローバルに入っている（依存に入れていない）。
 
+## 仕事の任せ方（delegate と spec-driven-dev）
+
+- 設計が決まっていて、検査で正しさが分かる仕事（CRUD、画面の部品、テストの追加）は、`coder-haiku`（`.claude/agents/`）に任せる。設計は、文章ではなく、**型だけのコードと、失敗するテスト**で渡す（関数の型、置くファイル、エラーの扱い、共通部の場所まで決める）。
+- 判断が要る仕事は、`delegate:builder`。`reading.ts`、`auth.ts`、`migrations/`、本番に触る作業は、Haiku に任せない。
+- 最後のレビューは、`delegate:reviewer`（仕様と差分だけ渡す）。差分が 50 行未満なら、省く。
+- 完了の検査は、`npm run check` と、変更に関わる `npm test`。全件（30〜40秒）は、最後に1回、直接実行する（`runner` は要らない）。画面を変えたときだけ、`npm run e2e`。
+- 毎回の指示に入れる: `$lib` は使わない、`#server/...` を使う、本番・Cloudflare・デプロイに触らない、テストでデータを消すときは自分が作ったものだけ。
+- `spec-driven-dev` の標準の確認は、この文書にある決まりだけを見る。書いていない決まりは、確認の対象にならない。
+- 費用は、`agent-cost` で、Haiku と Sonnet を同じ設計で比べて確かめる。Haiku が Sonnet の約 20 分の 1（10万トークンまで）という価格は、第三者の記事で、**未確認**。測った結果で、この節を直す。
+
 ## 本番の状態（2026-11-19）
 
 - Worker `zasuh`、D1 `zasuh`（ID は `wrangler.jsonc`）、`review.anami.party`（カスタムドメイン）。`workers.dev` は、無効。マイグレーションは、0001〜0004 を適用済み。
