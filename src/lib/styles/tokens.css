@@ -49,6 +49,12 @@
 	--ice-fg: #171717;
 	--ice-muted: #262626;
 
+	/* タイトルの帯（灰色のグラデーションと粒状感）。 */
+	--band-from: #f5f5f5;
+	--band-to: #a3a3a3;
+	--band-fg: #171717;
+	--band-muted: #262626;
+
 	--shadow-lg: 0 8px 28px rgba(23, 23, 23, 0.25);
 
 	/* 文字の大きさ。日本語は、画数が多く、小さいと読みにくいので、補足も 12px 未満にしない。
@@ -126,6 +132,11 @@
 		--ice-bg: #404040;
 		--ice-fg: #f5f5f5;
 		--ice-muted: #d4d4d4;
+
+		--band-from: #525252;
+		--band-to: #171717;
+		--band-fg: #f5f5f5;
+		--band-muted: #d4d4d4;
 
 		--shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.7);
 	}

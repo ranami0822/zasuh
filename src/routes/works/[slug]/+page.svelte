@@ -16,7 +16,7 @@
 	import Glacier from '#components/Glacier.svelte';
 	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
-	import { DISCLOSURE_LABEL, REASON_LABEL } from '#messages';
+	import { CATEGORY_LABEL, DISCLOSURE_LABEL, REASON_LABEL } from '#messages';
 	import type { ActionData, PageProps } from './$types';
 
 	let { data, form }: PageProps & { form?: ActionData } = $props();
@@ -112,10 +112,14 @@
 <div class="page wide">
 	<Header />
 
-	<header class="hero">
+	<header class="hero band">
+		<nav class="crumbs" aria-label="パンくず">
+			<a href="/">一覧</a><span aria-hidden="true">/</span><a href={`/?c=${data.work.category}`}>{CATEGORY_LABEL[data.work.category]}</a>
+		</nav>
 		<h1>{data.work.name}</h1>
 		{#if data.work.summary}<p class="muted">{data.work.summary}</p>{/if}
 		{#if data.work.url}<p class="caption"><a href={data.work.url} rel="noopener noreferrer nofollow">{data.work.url}</a></p>{/if}
+		<i class="stripe" aria-hidden="true"></i>
 	</header>
 
 	<div class="layout">
