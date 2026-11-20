@@ -912,7 +912,7 @@ input[type='search'].input {
 }
 
 /* タイトルの帯: 灰色のグラデーションに、粒状感を重ねる（ユーザーの案 H）。文字は、帯専用の色（4.5:1 以上）。
-   中身: パンくず（本物のリンク）、見出し、斜線の印。粒状感は、飾りなので、読み上げない。 */
+   中身: パンくず（本物のリンク）、見出し。色は、作品ごとに、登録のときに決められる（`--band-*` を、インラインで上書き）。粒状感は、飾りなので、読み上げない。 */
 .band {
 	position: relative;
 	isolation: isolate;
@@ -949,13 +949,4 @@ input[type='search'].input {
 }
 .crumbs a:hover {
 	text-decoration: underline;
-}
-/* 斜線の印: 縞の本数で幅を決めて、端が、縞の途中で切れないようにする（縞 4px、間 6px、6本 = 54px）。 */
-.stripe {
-	display: block;
-	width: 54px;
-	height: 8px;
-	background: repeating-linear-gradient(90deg, var(--band-fg) 0 4px, transparent 4px 10px);
-	transform: skewX(-45deg);
-	transform-origin: bottom left;
 }

@@ -31,6 +31,22 @@ describe('作品の登録と、一覧・作品ページの問い合わせ', () =
 		expect(await createWork(db, { ...input, slug: 'a', url: 'not a url' }, clock.now())).toEqual({ ok: false, error: 'bad_url' });
 	});
 
+	it('タイトルの帯の色を、登録と編集で決める。指定がなければ null。文字が読めない組み合わせと、正しくない色は断る', async () => {
+		const r = (await createWork(db, { ...input, bandFrom: '#FFD7B0', bandTo: '#D9A77A' }, clock.now())) as { ok: true; id: string };
+		expect(r.ok).toBe(true);
+		expect(await getWork(db, { id: r.id })).toMatchObject({ bandFrom: '#ffd7b0', bandTo: '#d9a77a' });
+		expect(await createWork(db, { ...input, slug: 'plain' }, clock.now())).toMatchObject({ ok: true });
+		expect(await getWork(db, { slug: 'plain' })).toMatchObject({ bandFrom: null, bandTo: null });
+		// 中間の明るさで、墨でも白でも読めない
+		expect(await createWork(db, { ...input, slug: 'mid', bandFrom: '#808080', bandTo: '#909090' }, clock.now())).toEqual({ ok: false, error: 'bad_band' });
+		expect(await createWork(db, { ...input, slug: 'bad', bandFrom: 'red', bandTo: '#ffffff' }, clock.now())).toEqual({ ok: false, error: 'bad_band' });
+		// 片方だけは、断る
+		expect(await createWork(db, { ...input, slug: 'half', bandFrom: '#ffffff', bandTo: '' }, clock.now())).toEqual({ ok: false, error: 'bad_band' });
+		// 編集で、色を外す
+		expect(await updateWork(db, r.id, { name: '星屑の鉄道', url: '', summary: '', status: 'active', bandFrom: '', bandTo: '' }, [], clock.now())).toEqual({ ok: true });
+		expect(await getWork(db, { id: r.id })).toMatchObject({ bandFrom: null, bandTo: null });
+	});
+
 	it('追加のタグを選ぶ。その分野の追加のタグだけ選べる。選んだタグは、読み取りの質問に入る', async () => {
 		const r = (await createWork(db, input, clock.now())) as { ok: true; id: string };
 		const edit = { name: '星屑の鉄道', url: '', summary: '', status: 'active' };

@@ -112,14 +112,19 @@
 <div class="page wide">
 	<Header />
 
-	<header class="hero band">
+	<header
+		class="hero band"
+		style:--band-from={data.band?.from}
+		style:--band-to={data.band?.to}
+		style:--band-fg={data.band?.fg}
+		style:--band-muted={data.band?.muted}
+	>
 		<nav class="crumbs" aria-label="パンくず">
 			<a href="/">一覧</a><span aria-hidden="true">/</span><a href={`/?c=${data.work.category}`}>{CATEGORY_LABEL[data.work.category]}</a>
 		</nav>
 		<h1>{data.work.name}</h1>
 		{#if data.work.summary}<p class="muted">{data.work.summary}</p>{/if}
 		{#if data.work.url}<p class="caption"><a href={data.work.url} rel="noopener noreferrer nofollow">{data.work.url}</a></p>{/if}
-		<i class="stripe" aria-hidden="true"></i>
 	</header>
 
 	<div class="layout">

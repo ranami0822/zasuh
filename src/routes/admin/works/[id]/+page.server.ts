@@ -20,6 +20,7 @@ const ERRORS: Record<string, string> = {
 	bad_name: '名前は、1〜100文字にしてください。',
 	bad_url: 'リンクは、http か https で始まる URL にしてください。',
 	summary_too_long: '紹介文は、500文字以内にしてください。',
+	bad_band: 'タイトルの帯の色が、正しくないか、文字が読みにくくなる組み合わせです。',
 	bad_tags: 'タグの選択が正しくありません。',
 	not_found: '作品が見つかりません。'
 };
@@ -31,7 +32,9 @@ export const actions: Actions = {
 			name: String(form.get('name') ?? ''),
 			url: String(form.get('url') ?? ''),
 			summary: String(form.get('summary') ?? ''),
-			status: String(form.get('status') ?? 'active')
+			status: String(form.get('status') ?? 'active'),
+			bandFrom: String(form.get('bandFrom') ?? ''),
+			bandTo: String(form.get('bandTo') ?? '')
 		};
 		const tags = form.getAll('tags').map(String);
 		const result = await updateWork(database(), params.id, input, tags, new Date());

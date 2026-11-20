@@ -1,4 +1,5 @@
 import { error, fail, redirect } from '@sveltejs/kit';
+import { bandFor } from '#band';
 import { MESSAGES } from '#messages';
 import { workPage } from '#server/pages';
 import { readRevision } from '#server/reading';
@@ -23,6 +24,8 @@ export const load: PageServerLoad = async ({ params, url, cookies }) => {
 	return {
 		...view,
 		tag,
+		/** 作品ごとの帯の色（指定がなければ null で、既定の灰色）。 */
+		band: work.bandFrom && work.bandTo ? bandFor(work.bandFrom, work.bandTo) : null,
 		own: own ? { editsLeft: own.editsLeft, expired: own.expired } : null,
 		done: url.searchParams.get('done')
 	};

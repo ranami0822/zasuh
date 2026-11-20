@@ -1,4 +1,5 @@
 <script lang="ts">
+	import BandFields from '#components/BandFields.svelte';
 	import { Button } from '@ui-sdk/svelte/button';
 	import { Field, FieldLabel } from '@ui-sdk/svelte/field';
 	import { Input } from '@ui-sdk/svelte/input';
@@ -42,5 +43,6 @@
 	</Field>
 	<Field name="url"><FieldLabel>リンク</FieldLabel><Input class="input" type="url" defaultValue={v.url} /></Field>
 	<Field name="summary"><FieldLabel>紹介文</FieldLabel><Textarea class="input" rows={3} maxlength={500} defaultValue={v.summary} /></Field>
+	<BandFields from={v.bandFrom} to={v.bandTo} />
 	<div class="row"><Button type="submit" class="btn">登録する</Button></div>
 </form>

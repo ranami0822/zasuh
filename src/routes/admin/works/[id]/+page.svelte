@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { Button } from '@ui-sdk/svelte/button';
+	import BandFields from '#components/BandFields.svelte';
 	import { Checkbox } from '@ui-sdk/svelte/checkbox';
 	import { Field, FieldLabel } from '@ui-sdk/svelte/field';
 	import { Input } from '@ui-sdk/svelte/input';
@@ -23,6 +24,8 @@
 	<Field name="name"><FieldLabel>名前</FieldLabel><Input class="input" required maxlength={100} defaultValue={data.work.name} /></Field>
 	<Field name="url"><FieldLabel>リンク</FieldLabel><Input class="input" type="url" defaultValue={data.work.url ?? ''} /></Field>
 	<Field name="summary"><FieldLabel>紹介文</FieldLabel><Textarea class="input" rows={3} maxlength={500} defaultValue={data.work.summary ?? ''} /></Field>
+
+	<BandFields from={data.work.bandFrom} to={data.work.bandTo} />
 
 	<div class="stack" style="gap: var(--space-2)">
 		<span class="caption muted">分野のタグ（自動で付く）</span>

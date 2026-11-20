@@ -1,4 +1,5 @@
 import type { D1Database } from '@cloudflare/workers-types';
+import { bandFor } from '#band';
 import type { Category } from './question-sets/types';
 import { REGISTRY, setWorkTags, type TagRegistry } from './tags';
 
@@ -13,10 +14,13 @@ export interface Work {
 	category: Category;
 	url: string | null;
 	summary: string | null;
+	/** タイトルの帯の色（#rrggbb）。どちらも null なら、既定の灰色。 */
+	bandFrom: string | null;
+	bandTo: string | null;
 	status: 'active' | 'hidden';
 }
 
-export type WorkError = 'bad_slug' | 'slug_taken' | 'bad_name' | 'bad_category' | 'bad_url' | 'summary_too_long' | 'not_found' | 'bad_tags';
+export type WorkError = 'bad_slug' | 'slug_taken' | 'bad_name' | 'bad_category' | 'bad_url' | 'summary_too_long' | 'not_found' | 'bad_tags' | 'bad_band';
 
 export interface WorkInput {
 	slug: string;
@@ -24,6 +28,9 @@ export interface WorkInput {
 	category: string;
 	url: string;
 	summary: string;
+	/** 空なら、既定の灰色。指定するときは、2つとも。 */
+	bandFrom?: string;
+	bandTo?: string;
 }
 
 function validate(input: WorkInput): WorkError | null {
@@ -40,7 +47,17 @@ function validate(input: WorkInput): WorkError | null {
 		}
 	}
 	if ([...input.summary].length > 500) return 'summary_too_long';
+	const from = input.bandFrom?.trim() ?? '';
+	const to = input.bandTo?.trim() ?? '';
+	if ((from || to) && !bandFor(from, to)) return 'bad_band';
 	return null;
+}
+
+/** 帯の色を、保存する形（小文字の #rrggbb。指定がなければ、2つとも null）にそろえる。validate のあとに呼ぶ。 */
+function bandColumns(input: { bandFrom?: string; bandTo?: string }): [string | null, string | null] {
+	const from = input.bandFrom?.trim().toLowerCase() ?? '';
+	const to = input.bandTo?.trim().toLowerCase() ?? '';
+	return from && to ? [from, to] : [null, null];
 }
 
 export async function createWork(db: D1Database, input: WorkInput, now: Date): Promise<{ ok: true; id: string } | { ok: false; error: WorkError }> {
@@ -49,8 +66,8 @@ export async function createWork(db: D1Database, input: WorkInput, now: Date): P
 	const id = crypto.randomUUID();
 	try {
 		await db
-			.prepare('INSERT INTO works (id, slug, name, category, url, summary, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)')
-			.bind(id, input.slug, input.name.trim(), input.category, input.url.trim() || null, input.summary.trim() || null, now.toISOString())
+			.prepare('INSERT INTO works (id, slug, name, category, url, summary, band_from, band_to, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)')
+			.bind(id, input.slug, input.name.trim(), input.category, input.url.trim() || null, input.summary.trim() || null, ...bandColumns(input), now.toISOString())
 			.run();
 	} catch {
 		return { ok: false, error: 'slug_taken' };
@@ -61,7 +78,7 @@ export async function createWork(db: D1Database, input: WorkInput, now: Date): P
 export async function getWork(db: D1Database, by: { id: string } | { slug: string }): Promise<Work | null> {
 	const [column, value] = 'id' in by ? ['id', by.id] : ['slug', by.slug];
 	return db
-		.prepare(`SELECT id, slug, name, category, url, summary, status FROM works WHERE ${column} = ?`)
+		.prepare(`SELECT id, slug, name, category, url, summary, band_from AS bandFrom, band_to AS bandTo, status FROM works WHERE ${column} = ?`)
 		.bind(value)
 		.first<Work>();
 }
@@ -70,7 +87,7 @@ export async function getWork(db: D1Database, by: { id: string } | { slug: strin
 export async function updateWork(
 	db: D1Database,
 	id: string,
-	input: { name: string; url: string; summary: string; status: string },
+	input: { name: string; url: string; summary: string; status: string; bandFrom?: string; bandTo?: string },
 	tagIds: string[],
 	now: Date,
 	registry: TagRegistry = REGISTRY
@@ -87,8 +104,8 @@ export async function updateWork(
 		return { ok: false, error: 'bad_tags' };
 	}
 	await db
-		.prepare('UPDATE works SET name = ?, url = ?, summary = ?, status = ? WHERE id = ?')
-		.bind(input.name.trim(), input.url.trim() || null, input.summary.trim() || null, input.status === 'hidden' ? 'hidden' : 'active', id)
+		.prepare('UPDATE works SET name = ?, url = ?, summary = ?, band_from = ?, band_to = ?, status = ? WHERE id = ?')
+		.bind(input.name.trim(), input.url.trim() || null, input.summary.trim() || null, ...bandColumns(input), input.status === 'hidden' ? 'hidden' : 'active', id)
 		.run();
 	return { ok: true };
 }

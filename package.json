@@ -10,6 +10,7 @@
 		"#components/*": "./src/lib/components/*",
 		"#styles/*": "./src/lib/styles/*",
 		"#messages": "./src/lib/messages.ts",
+		"#band": "./src/lib/band.ts",
 		"#passkey": "./src/lib/passkey.ts"
 	},
 	"scripts": {
