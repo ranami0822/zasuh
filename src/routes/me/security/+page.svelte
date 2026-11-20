@@ -7,7 +7,6 @@
 	import { Input } from '@ui-sdk/svelte/input';
 	import { toast } from '@ui-sdk/svelte/toast';
 	import { onMount } from 'svelte';
-	import Footer from '#components/Footer.svelte';
 	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
 	import { handOffRecoveryCode, registerPasskey, stepupWithPasskey, supportsPasskeys, takeRecoveryCode } from '#passkey';
@@ -160,5 +159,4 @@
 			</div>
 		</section>
 	{/if}
-	<Footer />
 </div>

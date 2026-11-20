@@ -13,7 +13,6 @@
 	import { Textarea } from '@ui-sdk/svelte/textarea';
 	import Dist from '#components/Dist.svelte';
 	import Direction from '#components/Direction.svelte';
-	import Footer from '#components/Footer.svelte';
 	import Glacier from '#components/Glacier.svelte';
 	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
@@ -231,7 +230,6 @@
 			{/if}
 		</div>
 	</div>
-	<Footer />
 </div>
 
 {#snippet review(r: (typeof data.reviews)[number])}

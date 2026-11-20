@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Dist from '#components/Dist.svelte';
-	import Footer from '#components/Footer.svelte';
 	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
 	import { CATEGORY_LABEL } from '#messages';
@@ -67,5 +66,4 @@
 			{/each}
 		</div>
 	{/if}
-	<Footer />
 </div>

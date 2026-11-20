@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Footer from '#components/Footer.svelte';
 	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
 </script>
@@ -47,5 +46,4 @@
 			<p>自分のレビューの削除、お問い合わせの内容の削除は、<a href="/contact?kind=dispute">お問い合わせ</a>から、依頼してください。</p>
 		</section>
 	</div>
-	<Footer />
 </div>

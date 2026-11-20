@@ -2,7 +2,6 @@
 	import { goto, invalidateAll } from '$app/navigation';
 	import { Button } from '@ui-sdk/svelte/button';
 	import { onMount } from 'svelte';
-	import Footer from '#components/Footer.svelte';
 	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
 	import { loginWithPasskey, supportsPasskeys } from '#passkey';
@@ -44,5 +43,4 @@
 		</div>
 		<p class="caption muted">はじめての人は、<a href="/me/security">パスキーを登録</a>してください。</p>
 	</div>
-	<Footer />
 </div>

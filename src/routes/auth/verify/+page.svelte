@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { Button } from '@ui-sdk/svelte/button';
-	import Footer from '#components/Footer.svelte';
 	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
 	import type { PageProps } from './$types';
@@ -27,5 +26,4 @@
 			</form>
 		{/if}
 	</div>
-	<Footer />
 </div>

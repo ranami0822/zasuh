@@ -2,7 +2,6 @@
 	import { Button } from '@ui-sdk/svelte/button';
 	import { Field, FieldLabel } from '@ui-sdk/svelte/field';
 	import { Input } from '@ui-sdk/svelte/input';
-	import Footer from '#components/Footer.svelte';
 	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
 	import type { PageProps } from './$types';
@@ -43,5 +42,4 @@
 			{/if}
 		</div>
 	{/if}
-	<Footer />
 </div>

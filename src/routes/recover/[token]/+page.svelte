@@ -2,7 +2,6 @@
 	import { goto, invalidateAll } from '$app/navigation';
 	import { Button } from '@ui-sdk/svelte/button';
 	import { onMount } from 'svelte';
-	import Footer from '#components/Footer.svelte';
 	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
 	import { handOffRecoveryCode, registerPasskey } from '#passkey';
@@ -46,5 +45,4 @@
 			<div class="row"><Button class="btn" disabled={busy || !ready} onclick={recover}>新しいパスキーを登録する</Button></div>
 		{/if}
 	</div>
-	<Footer />
 </div>

@@ -6,7 +6,6 @@
 	import { Input } from '@ui-sdk/svelte/input';
 	import { Radio, RadioGroup } from '@ui-sdk/svelte/radio';
 	import { Textarea } from '@ui-sdk/svelte/textarea';
-	import Footer from '#components/Footer.svelte';
 	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
 	import { KIND_LABEL } from '#messages';
@@ -64,5 +63,4 @@
 		</Field>
 		<div class="row"><Button type="submit" class="btn">送る</Button></div>
 	</form>
-	<Footer />
 </div>

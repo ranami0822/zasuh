@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Footer from '#components/Footer.svelte';
 	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
 </script>
@@ -62,5 +61,4 @@
 			<p><a href="/contact">お問い合わせ</a>から、連絡してください。</p>
 		</section>
 	</div>
-	<Footer />
 </div>

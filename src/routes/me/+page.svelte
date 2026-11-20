@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Footer from '#components/Footer.svelte';
 	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
 	import type { PageProps } from './$types';
@@ -30,5 +29,4 @@
 			{/each}
 		</div>
 	{/if}
-	<Footer />
 </div>
