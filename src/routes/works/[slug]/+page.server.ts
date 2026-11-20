@@ -2,6 +2,7 @@ import { error, fail, redirect } from '@sveltejs/kit';
 import { bandFor } from '#band';
 import { MESSAGES } from '#messages';
 import { workPage } from '#server/pages';
+import { shareMeta } from '#server/share';
 import { readRevision } from '#server/reading';
 import { bindingClient } from '#server/clef';
 import { database, deviceFor, runAfter, runtimeEnv, senderHash } from '#server/request';
@@ -27,7 +28,8 @@ export const load: PageServerLoad = async ({ params, url, cookies }) => {
 		/** 作品ごとの帯の色（指定がなければ null で、既定の灰色）。 */
 		band: work.bandFrom && work.bandTo ? bandFor(work.bandFrom, work.bandTo) : null,
 		own: own ? { editsLeft: own.editsLeft, expired: own.expired } : null,
-		done: url.searchParams.get('done')
+		done: url.searchParams.get('done'),
+		share: shareMeta({ slug: work.slug, overall: data.overall }, url.origin)
 	};
 };
 

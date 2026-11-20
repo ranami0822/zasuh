@@ -100,14 +100,7 @@
 	const maxMonth = $derived(Math.max(1, ...data.months.map((m: { nNeg: number; nMix: number; nPos: number }) => m.nNeg + m.nMix + m.nPos)));
 </script>
 
-<Meta
-	title={data.work.name}
-	type="article"
-	description={data.work.summary ??
-		(data.overall && data.overall.nMention > 0
-			? `${data.work.name}のレビュー ${data.total}件。観点ごとの向き（肯定・否定・混在）を、AIが読み取って見せます。`
-			: `${data.work.name}のレビューを集めています。`)}
-/>
+<Meta title={data.work.name} type="article" url={data.share.url} description={data.work.summary ?? data.share.description} />
 
 <div class="page wide">
 	<Header />
