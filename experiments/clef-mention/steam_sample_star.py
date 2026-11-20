@@ -4,7 +4,8 @@
 
 仕様（experiments/clef-mention/README.md の第7弾「データ」）:
 - 30〜600字、日本語が半数以上、URLなし。さらに、80字以上（言及のある項目を増やすため）。
-- 作品は、第3・4弾と同じ13作品。各作品から、最大40ページ（100件/ページ）、または、条件に合う候補が60件になるまで。
+- 作品は、第3・4弾と同じ13作品。各作品から、filter=recent（新しい順）と filter=all（期間365日。役に立った順に偏る）を、それぞれ最大10ページ、または、条件に合う候補が60件になるまで。
+  （最初の実行は、recent だけで 52 件しか取れなかったので、all を足した。）
 - 除外: 第3・4弾で使ったレビュー（除外のJSON）。
 - 件数の半分（既定 35）は「混在の候補」: 逆接の言葉（が、けど、しかし、ただ、一方、反面、とはいえ）を含む、100字以上の文。
   **この正規表現は、抽出にだけ使う。ラベルにも、読み取りにも使わない。**
@@ -22,14 +23,15 @@ URL = "https://api.steampowered.com/IUserReviewsService/GetAppReviews/v1/"
 JP = re.compile(r"[぀-ヿ㐀-鿿]")
 CONTRAST = re.compile(r"(が、|けど|けれど|しかし|ただ|一方|反面|とはいえ|ものの)")
 
-def fetch(appid, pages=40, enough=60):
-    """Steam は、1ページ（100件）を取ってから、言語で絞る。日本語が少ないページは、空になることがある。
-    そこで、空のページで止めず、次のページを指す cursor が変わらなくなるまで、または、条件に合う候補が enough 件に届くまで、続ける。"""
+def fetch_one(appid, flt, pages=10, enough=60):
+    """Steam は、1ページ（100件）を取ってから、言語で絞る。cursor が変わらなくなるまで、または、
+    条件に合う候補が enough 件に届くまで続ける。filter=all は、期間（day_range）の指定が要る。"""
     cursor, out, seen = "*", [], set()
     for _ in range(pages):
-        q = urllib.parse.urlencode({"appid": appid, "filter": "recent", "num_per_page": 100,
-                                    "cursor": cursor, "languages[0]": "japanese"})
-        with urllib.request.urlopen(f"{URL}?{q}", timeout=60) as r:
+        params = {"appid": appid, "filter": flt, "num_per_page": 100, "cursor": cursor, "languages[0]": "japanese"}
+        if flt == "all":
+            params["day_range"] = 365
+        with urllib.request.urlopen(f"{URL}?{urllib.parse.urlencode(params)}", timeout=60) as r:
             d = json.load(r)["response"]
         out += d.get("reviews", [])
         nxt = d.get("cursor")
@@ -41,6 +43,10 @@ def fetch(appid, pages=40, enough=60):
             break
         time.sleep(1)
     return out
+
+def fetch(appid):
+    """recent（新しい順）と、all（期間365日。役に立った順に偏る）の両方を取って、重複を除く。"""
+    return fetch_one(appid, "recent") + fetch_one(appid, "all")
 
 def ok(text):
     t = text.strip()
