@@ -2,7 +2,7 @@
    灰色（stone）のモノトーンに、オレンジを1色。ライトとダークは、端末の設定に合わせる。値を直接書かず、この変数を使う。 */
 :root {
 	color-scheme: light dark;
-	--font-heading: 'Zen Old Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+	--font-heading: var(--font-body); /* 見出しも、本文と同じ書体の太字（明朝体は、やめた。2026-11-20、ユーザーの指示） */
 	--font-body: 'IBM Plex Sans', 'Zen Kaku Gothic Antique', 'Hiragino Sans', 'Yu Gothic UI', 'Meiryo', sans-serif;
 
 	--bg: #e5e5e5;
