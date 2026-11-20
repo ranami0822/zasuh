@@ -1,17 +1,19 @@
 /**
  * 星（観点ごとの強さ。Clef の score 型）の実験（experiments/clef-mention/README.md の第7弾）。
- * **仕様は案の段階**（ユーザーが rubric-stars.md の「要決定」を決めるまで、ラベル付けも本実行もしない）。このファイルは、その準備。
+ * **仕様は案の段階**（規約は、ユーザーが確認した。ラベル付けと本実行は、まだ。ラベルが揃い、ユーザーが確認してから始める）。このファイルは、その準備。
  *
  * 使い方:
  *   組み立ての確認（通信しない）:
- *     npx tsx scripts/eval-star.ts show <B0|S1|S1-order|S3>
+ *     npx tsx scripts/eval-star.ts show <B0|S1|S1-order|S3|B0-V2|S1-V2>
  *   読み取り（Cloudflare を呼ぶ。CLOUDFLARE_ACCOUNT_ID と CLOUDFLARE_API_TOKEN が必要。root では実行しない）:
  *     npx tsx scripts/eval-star.ts run <条件> <reviews.jsonl> <out.json> [--repeat 3] [--model clef|clef-flash]
  *       reviews.jsonl は、1行1件の {"id", "recommendationid", "voted_up"?, "text"}。本文は out.json に書かない。
  *   採点（通信しない）:
  *     npx tsx scripts/eval-star.ts score <out.json> <labels.json> [--baseline <B0 の out.json>]
  *   安定性（通信しない。言い換え・順序・繰り返しで、星がどれだけ変わるか）:
- *     npx tsx scripts/eval-star.ts stability <a.json> <b.json>
+ *     npx tsx scripts/eval-star.ts stability <a.json> <b.json> [--run-a 0] [--run-b 0]
+ *       例: S1 と S1-V2（言い換え）、S1 と S1-order（順序）、B0 と B0-V2（向きの、言い換えでの変わる割合。星の基準になる）。
+ *       S1 の繰り返しは、同じファイルを2つ渡して、--run-b 1 のように回を変える。
  *
  * 星のラベルのファイル（案。ラベル付けの前に、必要なら直す）:
  *   {"labels": [{"id": 1, "gameplay": {"star": 4, "direction": "肯定", "votes": [4, 4, 5]}, "music": {"star": null, "direction": "言及なし"}, ...}]}
@@ -36,28 +38,11 @@ import {
 	withinRate,
 	type Pair
 } from './star-metrics';
+import { byItem, compareRuns, type Item, type Results, type RunRecord } from './star-results';
 import { ASPECT_SPECS, buildCondition, CONDITION_NAMES, type ConditionName } from './star-questions';
 
 const ASPECTS = ASPECT_SPECS.map((a) => a.key);
 const DIRECTION_OF: Record<string, Direction> = { 肯定: 'positive', 否定: 'negative', 混在: 'mixed', 言及なし: 'none' };
-
-interface Record_ {
-	sample: number;
-	run: number;
-	recommendationid?: string;
-	votedUp?: boolean;
-	status: 'ok' | 'error';
-	error?: string;
-	latencyMs?: number;
-	inputTokens?: number | null;
-	answers?: ReadingAnswer[];
-}
-interface Results {
-	condition: ConditionName;
-	model: string;
-	questionSetHash: string;
-	records: Record_[];
-}
 
 function conditionOf(name: string): ConditionName {
 	if (!(CONDITION_NAMES as readonly string[]).includes(name)) throw new Error(`条件は ${CONDITION_NAMES.join('、')} のどれかです`);
@@ -83,7 +68,7 @@ async function run(name: string, reviewsPath: string, outPath: string, repeat: n
 		.filter(Boolean)
 		.map((line) => JSON.parse(line) as { id: number; recommendationid?: string; voted_up?: boolean; text: string });
 
-	const records: Record_[] = [];
+	const records: RunRecord[] = [];
 	for (let r = 0; r < repeat; r++) {
 		for (const review of reviews) {
 			const base = { sample: review.id, run: r, recommendationid: review.recommendationid, votedUp: review.voted_up };
@@ -122,26 +107,6 @@ function loadLabels(path: string): Map<string, AspectLabel> {
 		for (const aspect of ASPECTS) {
 			const l = row[aspect] as AspectLabel | undefined;
 			if (l && typeof l === 'object') out.set(`${row.id}:${aspect}`, l);
-		}
-	}
-	return out;
-}
-
-/** 回ごとの、観点ごとの答え。 */
-interface Item {
-	direction?: ReadingAnswer;
-	mention?: ReadingAnswer;
-	star?: ReadingAnswer;
-	votedUp?: boolean;
-}
-
-function byItem(results: Results, run: number) {
-	const out = new Map<string, Item>();
-	for (const r of results.records.filter((x) => x.status === 'ok' && x.run === run)) {
-		for (const a of r.answers!) {
-			const item = out.get(`${r.sample}:${a.aspect}`) ?? { votedUp: r.votedUp };
-			item[a.kind] = a;
-			out.set(`${r.sample}:${a.aspect}`, item);
 		}
 	}
 	return out;
@@ -237,23 +202,18 @@ function score(resultsPath: string, labelsPath: string, baselinePath?: string) {
 	}
 }
 
-function stabilityCommand(aPath: string, bPath: string) {
+function stabilityCommand(aPath: string, bPath: string, runA: number, runB: number) {
 	const a = JSON.parse(readFileSync(aPath, 'utf8')) as Results;
 	const b = JSON.parse(readFileSync(bPath, 'utf8')) as Results;
-	const ia = byItem(a, 0);
-	const ib = byItem(b, 0);
-	const keys = [...ia.keys()].filter((k) => ib.has(k));
-	// 言及のある項目だけ（どちらかの読み取りで、言及ありと答えたもの）。言及のない項目の星は、使わない。
-	const mentioned = (k: string) => ia.get(k)!.mention?.value === 'true' || ib.get(k)!.mention?.value === 'true';
-	const starKeys = keys.filter((k) => ia.get(k)!.star && ib.get(k)!.star && mentioned(k));
-	const s = stability(starKeys.map((k) => ia.get(k)!.star!.star!.score), starKeys.map((k) => ib.get(k)!.star!.star!.score));
-	console.log(`== ${a.condition} と ${b.condition}`);
-	if (s.n > 0) console.log(`星: 言及のある共通の ${s.n} 項目で、四捨五入した星が変わった割合 ${pct(s.changed)}、score の差の平均 ${num(s.meanAbsDiff)}`);
-	const dirKeys = keys.filter((k) => ia.get(k)!.direction && ib.get(k)!.direction);
-	if (dirKeys.length > 0) {
-		const changed = dirKeys.filter((k) => ia.get(k)!.direction!.value !== ib.get(k)!.direction!.value).length;
-		console.log(`向き（choice）: 共通の ${dirKeys.length} 項目で、答えが変わった割合 ${pct(changed / dirKeys.length)}（星の安定性の比較対象）`);
+	const r = compareRuns(a, b, runA, runB);
+	console.log(`== ${a.condition}（${runA} 回目）と ${b.condition}（${runB} 回目）`);
+	if (r.star) {
+		console.log(`星: 言及のある共通の ${r.star.n} 項目で、四捨五入した星が変わった割合 ${pct(r.star.changed)}、score の差の平均 ${num(r.star.meanAbsDiff)}`);
 	}
+	if (r.direction) {
+		console.log(`向き（choice）: 共通の ${r.direction.n} 項目で、答えが変わった割合 ${pct(r.direction.changed)}（星の安定性の比較対象。B0 と B0-V2 なら、言い換えでの基準になる）`);
+	}
+	if (!r.star && !r.direction) console.log('比べられる答えがありません（共通の項目がない、または、星も向きもない）');
 }
 
 const [command, ...args] = process.argv.slice(2);
@@ -268,7 +228,7 @@ if (command === 'show') {
 } else if (command === 'score') {
 	score(args[0], args[1], flag('--baseline'));
 } else if (command === 'stability') {
-	stabilityCommand(args[0], args[1]);
+	stabilityCommand(args[0], args[1], Number(flag('--run-a') ?? 0), Number(flag('--run-b') ?? 0));
 } else {
 	console.error('使い方は、このファイルの冒頭を参照');
 	process.exit(1);
