@@ -30,16 +30,27 @@ export function backoffMs(attempts: number): number {
 export const CHECK_TOP_PROB = 0.8;
 export const CHECK_MENTION_RANGE: readonly [number, number] = [0.3, 0.7];
 
+/** 星（score）の答え。段階は、1（いちばん低い）から levels の数（いちばん高い）まで。 */
+export interface StarAnswer {
+	/** 確率で重み付けした段階。段階の間の値も取る（1〜段階の数）。 */
+	score: number;
+	/** 段階ごとの確率（低い順）。Clef が返す形を読めなかったときは null。 */
+	levels: number[] | null;
+	confidence: number | null;
+}
+
 export interface ReadingAnswer {
 	questionKey: string;
 	aspect: string;
-	kind: 'direction' | 'mention';
-	/** direction: positive / negative / mixed / none。mention: true / false。 */
+	kind: 'direction' | 'mention' | 'star';
+	/** direction: positive / negative / mixed / none。mention: true / false。star: 四捨五入した段階（'1'〜）。 */
 	value: string;
-	/** direction: 選ばれた向きの確率。mention: 具体的な記述がある確率。 */
+	/** direction: 選ばれた向きの確率。mention: 具体的な記述がある確率。star: 四捨五入した段階の確率（読めなければ 0）。 */
 	prob: number;
 	/** direction のみ: 向きごとの確率。 */
 	probs: Record<Direction, number> | null;
+	/** star のみ。 */
+	star?: StarAnswer;
 	needsCheck: boolean;
 }
 
@@ -49,6 +60,23 @@ function isRecord(v: unknown): v is Record<string, unknown> {
 
 function isProb(v: unknown): v is number {
 	return typeof v === 'number' && v >= 0 && v <= 1;
+}
+
+/**
+ * score の `probabilities` を、段階ごとの確率の配列（低い順）に直す。
+ * 未確認: 公式のスキーマは「段階ごと」としか書いていない（experiments/clef-mention/README.md の第7弾）。
+ * 実際の応答で確かめるまでは、配列、または、段階の番号（0〜）か説明文をキーにした辞書を、受け付ける。読めなければ null。
+ */
+function levelProbabilities(raw: unknown, levels: string[]): number[] | null {
+	const n = levels.length;
+	let values: unknown[] | null = null;
+	if (Array.isArray(raw)) values = raw;
+	else if (isRecord(raw)) {
+		const byIndex = levels.map((_, i) => raw[String(i)]);
+		const byText = levels.map((text) => raw[text]);
+		values = byIndex.every(isProb) ? byIndex : byText.every(isProb) ? byText : null;
+	}
+	return values && values.length === n && values.every(isProb) ? (values as number[]) : null;
 }
 
 /**
@@ -68,6 +96,27 @@ export function interpretAnswers(
 		const a = answers[q.key];
 		if (!isRecord(a)) bad(q.key);
 		const answer = a as Record<string, unknown>;
+
+		if (q.kind === 'star') {
+			const raw = answer.score;
+			const top = q.levels.length - 1;
+			// 範囲は、公式の説明（0〜段階の数 - 1）。少しの誤差は許す。
+			if (typeof raw !== 'number' || !Number.isFinite(raw) || raw < -1e-6 || raw > top + 1e-6) bad(q.key);
+			const score = Math.min(top, Math.max(0, raw as number)) + 1;
+			const rounded = Math.round(score);
+			const levels = levelProbabilities(answer.probabilities, q.levels);
+			out.push({
+				questionKey: q.key,
+				aspect: q.aspect,
+				kind: 'star',
+				value: String(rounded),
+				prob: levels ? levels[rounded - 1] : 0,
+				probs: null,
+				star: { score, levels, confidence: isProb(answer.confidence) ? answer.confidence : null },
+				needsCheck: false
+			});
+			continue;
+		}
 
 		if (q.kind === 'mention') {
 			const p = answer.noul;
@@ -225,7 +274,7 @@ export async function readRevision(deps: ReadingDeps, revisionId: string): Promi
 					a.kind,
 					a.value,
 					a.prob,
-					a.probs ? JSON.stringify(a.probs) : null,
+					a.probs ? JSON.stringify(a.probs) : a.star ? JSON.stringify(a.star) : null,
 					a.needsCheck ? 1 : 0
 				)
 			),

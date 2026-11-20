@@ -21,7 +21,20 @@ export interface MentionQuestion {
 	criteria: { true: string; false: string };
 }
 
-export type Question = DirectionQuestion | MentionQuestion;
+/**
+ * 観点についての強さを、段階で聞く質問（Clef の score）。
+ * levels は、段階の説明を、低い順（否定が強い → 肯定が強い）に並べたもの。2〜10段階（Clef の制限）。
+ * 試験段階（docs/mvp-design.md の19章、experiments/clef-mention/README.md の第7弾）。本番のタグは、まだ使っていない。
+ */
+export interface StarQuestion {
+	key: string;
+	aspect: string;
+	kind: 'star';
+	instructions: string;
+	levels: string[];
+}
+
+export type Question = DirectionQuestion | MentionQuestion | StarQuestion;
 
 /**
  * 質問セット。1レビューにつき、questions のすべてを、この順序で、1リクエストにまとめて送る。

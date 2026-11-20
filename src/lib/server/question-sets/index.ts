@@ -21,22 +21,26 @@ export function latestDefinition(
 
 /** Clef に渡す質問の形。キーの順序が、質問の順序になる。 */
 export interface ClefQuestion {
-	type: 'choice' | 'noul';
+	type: 'choice' | 'noul' | 'score';
 	instructions: string;
-	criteria: Record<string, string>;
+	/** choice・noul: 選択肢の名前 → 説明。score: 段階の説明（低い順の配列）。 */
+	criteria: Record<string, string> | string[];
 }
 
 export function toClefQuestions(def: { questions: Question[] }): Record<string, ClefQuestion> {
 	const out: Record<string, ClefQuestion> = {};
 	for (const q of def.questions) {
-		out[q.key] =
-			q.kind === 'direction'
-				? {
-						type: 'choice',
-						instructions: q.instructions,
-						criteria: Object.fromEntries(q.options.map((o) => [o.id, o.description]))
-					}
-				: { type: 'noul', instructions: q.instructions, criteria: { ...q.criteria } };
+		if (q.kind === 'star') {
+			out[q.key] = { type: 'score', instructions: q.instructions, criteria: [...q.levels] };
+		} else if (q.kind === 'direction') {
+			out[q.key] = {
+				type: 'choice',
+				instructions: q.instructions,
+				criteria: Object.fromEntries(q.options.map((o) => [o.id, o.description]))
+			};
+		} else {
+			out[q.key] = { type: 'noul', instructions: q.instructions, criteria: { ...q.criteria } };
+		}
 	}
 	return out;
 }
