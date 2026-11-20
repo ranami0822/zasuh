@@ -74,16 +74,16 @@
 |---|---|---|---|---|---|---|---|---|
 | 4Gamer.net | ゲーム | 全許可（空の `Disallow`） | RSS 1.0、レビュー専用あり | 規約に記述なし | 無断転載禁止。自動取得・AI の記述なし | 入る（種別つき） | あり（種別で区別） | なし（1 本） |
 | ファミ通.com | ゲーム | `/article/` 許可、`/review/` などは禁止 | 未確認（ニュースのサイトマップは 200） | 規約に記述なし | 転載・蓄積・引用を禁止。自動取得・AI の記述なし | 入る（『』） | あり | なし（1 本） |
-| GAME Watch | ゲーム | Googlebot 向けの 3 行だけ | RSS 1.0（25 件） | 規約に記述なし | 無断転載不可。自動取得・AI の記述なし | 入る（「」） | あり（トップに 5/10） | なし（2 本） |
+| GAME Watch | ゲーム | Googlebot 向けの 3 行だけ | RSS 1.0（25〜29 件。取得時で変わる） | 規約に記述なし | 無断転載不可。自動取得・AI の記述なし | 入る（「」） | あり（トップに 5/10） | なし（2 本） |
 | 窓の杜 | ソフト | 記事・フィードは許可 | RSS 1.0（約 60 件） | 規約に記述なし | 無断転載不可。自動取得・AI の記述なし | 入る（ニュースはバージョンも） | レビューの欄あり（総数は未確認） | なし（1 本） |
-| ITmedia（PC USER など） | ソフト・IT | `Sitemap` のみ。禁止なし | RSS 2.0（中身は未確認） | 規約に記述なし | 転載は許諾制。サーバへの妨害を禁止。AI の記述なし | 入る（「」） | ソフトのレビューは見つからず | なし（1 本） |
+| ITmedia（PC USER など） | ソフト・IT | `Sitemap` のみ。禁止なし | RSS 2.0（`pcuser.xml` はリードのみ） | 規約に記述なし | 転載は許諾制。サーバへの妨害を禁止。AI の記述なし | 入る（「」） | ソフトのレビューは見つからず | なし（1 本） |
 
 ### 3.2 媒体ごとの詳細
 
 **4Gamer.net**（ゲーム。フッターに Aetas へのリンクがある）
 - `robots.txt`: 「`User-Agent: *`」と「`Disallow:`（空）」の 2 行だけ。`Crawl-delay`、`Sitemap`、AI クローラ個別の記述はない。 https://www.4gamer.net/robots.txt `[確認済み]`
 - フィード: 案内ページ https://www.4gamer.net/rss/rss.shtml 。総合 `/rss/index.xml`、ニュース `/rss/news_topics.xml`、**レビュー `/rss/all_review.xml`**、インタビュー、動画、機種別など。`all_review.xml` は RSS 1.0。項目は `title`、`link`、`dc:date`、`description` の 4 つだけで、`description` は本文の冒頭（約 60〜150 字、推測）。約 100 件。API は未確認。 `[確認済み]`／`[推測]`（字数）／`[未確認]`（API）
-- 利用条件（RSS の案内ページ）: 個人利用や Web サイトでの紹介は可。転載と再配信は禁止。商用・二次利用は問い合わせフォーム。 `[確認済み]`
+- 利用条件（RSS の案内ページ）: 個人利用や Web サイトでの紹介は可。転載と再配信は禁止。商用・二次利用は問い合わせフォーム。**「紹介は可」に、非営利などの条件が付くかは、取得した本文が文字化けしていて、読み切れなかった**（推測: 取得ツールの文字コードの扱いが原因かもしれない）。 `[確認済み]`／`[未確認]`（条件）
 - 規約: 「利用規約」というページは、フッターに見つからなかった。記事ページのフッターの文に「無断転載を禁止」とあり、商用以外のリンクは可。プライバシー・ポリシー https://www.4gamer.net/about/policy.shtml には、転載・自動取得・AI・引用の条項がない。引用の条件と AI 利用は、未確認。 `[確認済み]`／`[未確認]`
 - 記事の構造: 題名は「（特徴の説明）＋「製品名」＋レビュー。＋要旨」の形で、作品名（製品名）が入る。種別がある（レビュー、テストレポート、プレイレポート、インタビュー。PR は題名の末尾に【PR】）。点数はない（読んだ 1 本）。本文は約 3,000〜4,000 字（推測）。構造化データ（JSON-LD など）は未確認。**読んだ 1 本は、ゲーム周辺機器のレビューで、ゲーム作品のレビューではなかった。** ゲーム作品のレビューの割合は、未確認。 https://www.4gamer.net/games/023/G002336/20261119017/ `[確認済み]`／`[推測]`／`[未確認]`
 
@@ -96,7 +96,7 @@
 
 **GAME Watch**（インプレス。ゲーム）
 - `robots.txt`: `User-agent: Googlebot` の行だけ（`/img/*/html/*.html`、`/docs/*/img/html/*.html`、`/video/` を禁止）。ほかの User-agent への記述はない。`Crawl-delay`、`Sitemap`、AI クローラの記述もない。 https://game.watch.impress.co.jp/robots.txt `[確認済み]`
-- フィード: https://game.watch.impress.co.jp/data/rss/1.0/gmw/feed.rdf （RSS 1.0。25 件）。項目は `title`、`link`、`dc:date`、`dc:creator`、`description`。`description` は冒頭の 1 段落（約 40〜130 字、推測）。ニュース、特別企画、プレビュー、レビューが混ざる。API は未確認。 `[確認済み]`／`[推測]`／`[未確認]`
+- フィード: https://game.watch.impress.co.jp/data/rss/1.0/gmw/feed.rdf （RSS 1.0。25〜29 件。取得の時刻で変わる）。項目は `title`、`link`、`dc:date`、`dc:creator`、`description`。`description` は冒頭の 1 段落（約 40〜130 字、推測）。ニュース、特別企画、プレビュー、レビューが混ざる。API は未確認。 `[確認済み]`／`[推測]`／`[未確認]`
 - 規約: インプレス共通の https://www.watch.impress.co.jp/guide/index.htm （改定 2026-03-13）。条番号はなく、見出しで区切られる。著作権はインプレスが保有し、許可のない複製・転用・販売などの二次利用と、改変を禁止。二次利用は原則有償で、事前に連絡。無断転載は、営利・非営利を問わず認めない。引用は著作権法の範囲で、とある。リンクは、トップと記事ページへは連絡なしで可（画像へのリンクとフレーム内の表示は不可）。**自動取得・AI・RSS の利用条件の記述は、このページにない**（プライバシー・ポリシーは未取得）。 `[確認済み]`／`[未確認]`
 - 記事の構造: 題名は「［プラットフォーム］「作品名」＋説明＋レビュー」の形。レビューは `/docs/review/rev1/` の下。点数は、読んだ 2 本にない。トップの「レビュー・インタビュー」欄 10 件のうち、レビューは 5 件。ニュース記事が多い。本文は約 4,000〜5,000 字（推測）。構造化データは未確認。 https://game.watch.impress.co.jp/docs/review/rev1/2151882.html `[確認済み]`／`[推測]`／`[未確認]`
 
@@ -108,8 +108,8 @@
 
 **ITmedia**（アイティメディア。IT・ソフトウェア。PC USER、ITmedia NEWS など）
 - `robots.txt`: `AmazonAdBot` に `Allow: /` だけ。`*` には `Disallow`、`Crawl-delay` がなく、`Sitemap` の行だけ。AI クローラ個別の記述はない。 https://www.itmedia.co.jp/robots.txt `[確認済み]`
-- フィード: 案内 https://www.itmedia.co.jp/info/rss/ は、301 で https://corp.itmedia.co.jp/media/rss_list/ へ。RSS 2.0。`https://rss.itmedia.co.jp/rss/2.0/` の下に、`pcuser.xml`、`news_domestic.xml`、`mobile.xml`、`aiplus.xml` など。**フィードの中身（要約か全文か）は、取得していない。** API は未確認。 `[確認済み]`（一覧）／`[未確認]`（中身・API）
-- RSS の利用条件 https://corp.itmedia.co.jp/media/rss_condition/ （制定 2012-09-28、改定 2020-04-01）: 第 2 条の禁止事項に、発信元を表示しないこと、**配信記事の文章だけを抜粋しての転載などの改変・翻案**が入る。改変などは、個別に相談。AI・自動取得の言及はない。 `[確認済み]`
+- フィード: 案内 https://www.itmedia.co.jp/info/rss/ は、301 で https://corp.itmedia.co.jp/media/rss_list/ へ。RSS 2.0。`https://rss.itmedia.co.jp/rss/2.0/` の下に、`pcuser.xml`、`news_domestic.xml`、`mobile.xml`、`aiplus.xml` など。`pcuser.xml` の中身は、ファクトチェックの取得で確かめた: RSS 2.0。項目は `title`、`link`、`description`、`pubDate` の 4 つ。`description` は短い要約（約 50〜140 字。概算）で、全文ではない。ほかのフィードの中身は、未確認。API は未確認。 `[確認済み]`（`pcuser.xml`）／`[推測]`（字数）／`[未確認]`（ほか・API）
+- RSS の利用条件 https://corp.itmedia.co.jp/media/rss_condition/ （制定 2012-09-28、改定 2020-04-01）: 「2.禁止事項」（条番号ではなく、番号つきの見出し）に、発信元を表示しないこと、**配信記事の文章だけを抜粋しての転載などの改変・翻案**が入る。改変などは、個別に相談。AI・自動取得の言及はない。 `[確認済み]`
 - 利用規約 https://www.itmedia.co.jp/info/rule/ （改定 2020-04-01。**本文に文字化けがあり、読みは文脈からの判読**）: 第 2 条（禁止事項）にサーバや運営への妨害の禁止。クローラへの直接の言及は、読めた範囲にない（推測: サーバへの妨害の禁止が関係しうる）。第 3 条で著作権は同社または権利者に帰属。第 8 条（引用。見出しは判読）は、著作権法で認められる範囲での利用。第 9 条で、転載は許諾が必要。 `[確認済み]`／`[推測]`
 - 記事の構造: 読んだ 1 本（PC USER）は、**ソフトウェアのレビューではなく、ハードウェアの試用記事**。題名は、製品名を「」で囲んで先頭に置く形。トップの見出しは、ほとんどがニュース。**ソフトウェア・アプリのレビューは、トップでは見つからなかった。** 点数は、読んだ範囲にない。構造化データは未確認。 https://www.itmedia.co.jp/pcuser/articles/2611/19/news065.html `[確認済み]`／`[未確認]`
 
@@ -131,7 +131,7 @@
 - 本文は `review_revisions.body`（NOT NULL）。`reading.ts` は、この本文を DB から読んで、Clef（読み取りの AI）に渡す（`src/lib/server/reading.ts` の 197〜256 行あたり）。**今の仕組みのまま批評を読み取ると、記事の全文を本番の DB に保存することになる。**
 - 受信箱 `messages`: `kind` は `work_request` / `contact` / `dispute` の 3 種の CHECK。**批評の候補を入れるなら、新しい種類が要り、新しいマイグレーション（0006 から）が要る。** `migrations/0002_inbox.sql`、`src/lib/server/inbox.ts`
 - 文面の比較（`text.ts`、`DUPLICATE_SCAN_LIMIT = 500`）は、無料の Workers の CPU 上限（10 ms/回）に近づくおそれがある（`CLAUDE.md`）。長い記事を入れる場合は、要確認。
-- 一般のレビューの集計（`stats.ts`）が、`source` で批評を分けて数えているかは、**未確認**（「区切って見せる」ために要る）。 `[未確認]`
+- 一般のレビューの集計（`src/lib/server/stats.ts` の 59 行あたり）は、`source` で分けて**いない**。条件は `hidden = 0`、`disclosure = 'none'`、`duplicate_of IS NULL` だけ。**このため、批評を `reviews` に入れると、一般の集計に混ざる**（「区切って見せる」には、集計の条件か、別の表が要る）。 `[確認済み]`
 
 ### 4.1 作品名を取り出す
 
@@ -234,7 +234,7 @@
 - GAME Watch: `robots.txt`（Googlebot の 3 行）。RSS 1.0。インプレス共通の規定（著作権、二次利用、転載、リンク）。レビューの題名の形。
 - 窓の杜: `robots.txt`。RSS 1.0 とその項目。規定（上と同じ）。レビューの題名の形と「ソフトウェア情報」欄。
 - ITmedia: `robots.txt`。RSS 2.0 の一覧。RSS 利用条件。利用規約（文字化けあり、文脈から判読）。読んだ記事がハードウェアの記事であること。
-- 既存コード: `works` の列、`reviews.source`、`reviewer_id` と `review_revisions.body` が NOT NULL、`messages.kind` の CHECK、`reading.ts` が本文を DB から読むこと、`DUPLICATE_SCAN_LIMIT`。
+- 既存コード: `works` の列、`reviews.source`、`reviewer_id` と `review_revisions.body` が NOT NULL、`messages.kind` の CHECK、`reading.ts` が本文を DB から読むこと、`DUPLICATE_SCAN_LIMIT`、`stats.ts` が `source` で分けていないこと。
 
 ### 仮定・推測（確かめていない）
 - 抜粋・リード・記事の字数（概算）。Metacritic の抜粋の長さ。
@@ -247,8 +247,7 @@
 - AOTY の専門家の欄のすべて（取得を拒否された）。公式の説明、利用規約、ゲーム・ソフトウェアの扱い。
 - Metacritic: 利用規約（402）、ヘルプ（403）、媒体の選び方の基準、重みの付け方、最小件数、色の境界、更新の頻度、残りの件数の読み込み、RSS/API。
 - OpenCritic: API と規約。
-- フィード: ファミ通の RSS/Atom。ITmedia の RSS の中身。
+- フィード: ファミ通の RSS/Atom。ITmedia の `pcuser.xml` 以外のフィードの中身。4Gamer の RSS 利用条件に非営利などの条件が付くか（文字化け）。
 - 全媒体: API の有無、記事の構造化データ（JSON-LD、og:）。
 - 4Gamer: 独立した利用規約のページ、引用の条件、AI 利用、ゲーム作品のレビューの割合。GAME Watch: プライバシー・ポリシーの AI の記述。窓の杜: レビューの総数。ITmedia: ソフトウェアのレビューの有無、規約の別ページ（コンテンツの利用について）。
 - 全媒体: 規約が、AI 利用と自動取得を、どう扱うのかの法的な意味（5 章）。
-- `stats.ts` が `source` で批評を分けて数えているか。
