@@ -20,7 +20,7 @@ SvelteKit 3（Svelte 5）+ `@sveltejs/adapter-cloudflare` 8、Cloudflare Workers
 
 - `src/lib/server/` … 業務の中心（`reading.ts` 読み取り、`stats.ts` 集計、`reviews.ts` 投稿・編集・通報、`auth.ts` passkey と復旧、`tags.ts` タグ、`pages.ts` 画面の問い合わせ、`inbox.ts` 受信箱）。D1 を使う単体テストが、ここにある。
 - `src/routes/` … 画面とフォームの処理。`src/hooks.server.ts` が、`/admin` を守る（フォームの処理は、レイアウトの `load` を通らないため、ここで確かめる）。
-- `migrations/` … 0001〜0005（0005 は、本番に未適用）。**本番に適用済みのファイルは、書き換えない**（変えるときは、新しい番号を足す）。
+- `migrations/` … 0001〜0005。**本番に適用済みのファイルは、書き換えない**（変えるときは、新しい番号を足す）。
 - `src/lib/styles/tokens.css`、`app.css` … 見た目。**デザインの正は、`tokens.css`**。
 - インポートは、`#server/...`、`#components/...`、`#styles/...`、`#messages`、`#passkey`（`package.json` の `imports`）。`$lib` は、使えない（拡張子なしの `.ts` を、`#lib/*` が解決しないため）。
 
@@ -47,7 +47,7 @@ Playwright は、グローバルに入っている（依存に入れていない
 
 ## 本番の状態（2026-11-19）
 
-- Worker `zasuh`、D1 `zasuh`（ID は `wrangler.jsonc`）、`review.anami.party`（カスタムドメイン）。`workers.dev` は、無効。マイグレーションは、0001〜0004 を適用済み。
+- Worker `zasuh`、D1 `zasuh`（ID は `wrangler.jsonc`）、`review.anami.party`（カスタムドメイン）。`workers.dev` は、無効。マイグレーションは、0001〜0005 を適用済み。
 - シークレット: `ADMIN_TOKEN` のみ（管理画面の合言葉。**リポジトリにも、この文書にもない。ユーザーが持っている**。変えるときは、`scripts/cf.sh secret put ADMIN_TOKEN`）。
 - **メール送信は、ない**（Workers の有料プランが要るため、ユーザーは、有料にしない）。復旧は、**復旧コード**。メール復旧の実装は、残してあり、送り口（`EMAIL`、`MAIL_FROM`）がないので、画面に出ない。
 - 本番に、ユーザーが作ったデータ（作品 OMORI など）が、ある。**テストでデータを消すときは、自分が作ったものだけを消す**（全消しの SQL は、使わない）。
