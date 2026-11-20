@@ -3,6 +3,8 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { ClefError } from './clef';
 import { toClefQuestions } from './question-sets';
 import { gameV1 } from './question-sets/game-v1';
+import type { StarQuestion } from './question-sets/types';
+import type { TagRegistry } from './tags';
 import { backoffMs, interpretAnswers, LEASE_MS, MAX_ATTEMPTS, readRevision } from './reading';
 import realResponse from './testing/clef-response.json';
 import { addReview, addWork, clefAnswers, createClock, createTestDb, fakeClef, registryWithoutSoftwareDomain } from './testing/db';
@@ -269,6 +271,114 @@ describe('readRevision', () => {
 		expect(await readRevision({ db, clef: fakeClef(), now: clock.now }, 'missing')).toEqual({
 			status: 'skipped',
 			reason: 'not_found'
+		});
+	});
+});
+
+describe('星（score）', () => {
+	const levels = ['大きく否定', '否定', '同程度', '肯定', '大きく肯定'];
+	const starQuestion: StarQuestion = { key: 'gameplay_star', aspect: 'gameplay', kind: 'star', instructions: '強さ', levels };
+	const def = { questions: [starQuestion] };
+	const answer = (over: Record<string, unknown> = {}) => ({ gameplay_star: { type: 'score', score: 3.4, probabilities: [0.01, 0.03, 0.06, 0.8, 0.1], confidence: 0.8, legend: '肯定', ...over } });
+
+	it('Clef に、段階の説明を、低い順の配列として渡す（type は score）', () => {
+		expect(toClefQuestions(def)).toEqual({ gameplay_star: { type: 'score', instructions: '強さ', criteria: levels } });
+		// 渡した配列を、あとから書き換えても、質問の定義は変わらない
+		(toClefQuestions(def).gameplay_star.criteria as string[]).push('x');
+		expect(starQuestion.levels).toHaveLength(5);
+	});
+
+	it('score（0〜段階の数 - 1）を、1〜5 の星に直す。四捨五入した星を value にし、確率は、その星のもの', () => {
+		const [a] = interpretAnswers(def, answer());
+		expect(a).toMatchObject({
+			questionKey: 'gameplay_star',
+			aspect: 'gameplay',
+			kind: 'star',
+			value: '4',
+			prob: 0.8,
+			probs: null,
+			needsCheck: false,
+			star: { levels: [0.01, 0.03, 0.06, 0.8, 0.1], confidence: 0.8 }
+		});
+		expect(a.star!.score).toBeCloseTo(4.4, 9); // 3.4 + 1。段階の間の値は、そのまま残す
+	});
+
+	it('端の値、段階の境の四捨五入', () => {
+		const value = (score: number) => interpretAnswers(def, answer({ score }))[0].value;
+		expect(value(0)).toBe('1');
+		expect(value(4)).toBe('5');
+		expect(value(0.4)).toBe('1');
+		expect(value(0.6)).toBe('2');
+		expect(value(2.49)).toBe('3');
+		expect(value(4 + 1e-9)).toBe('5'); // 少しの誤差は許して、範囲に収める
+	});
+
+	it('範囲の外、数でない、ない score は、エラーにする（一部だけ保存しない）', () => {
+		for (const score of [-0.5, 4.5, 5, NaN, Infinity, '3', null, undefined]) {
+			expect(() => interpretAnswers(def, answer({ score })), String(score)).toThrow(ClefError);
+		}
+		expect(() => interpretAnswers(def, {})).toThrow(ClefError);
+		expect(() => interpretAnswers(def, { gameplay_star: 'x' })).toThrow(ClefError);
+	});
+
+	it('段階ごとの確率は、配列、または、番号か説明文をキーにした辞書を読める。読めなければ、星だけを使う（未確認の形に備える）', () => {
+		const p = [0.1, 0.2, 0.3, 0.2, 0.2];
+		expect(interpretAnswers(def, answer({ probabilities: p }))[0].star!.levels).toEqual(p);
+		expect(interpretAnswers(def, answer({ probabilities: { '0': 0.1, '1': 0.2, '2': 0.3, '3': 0.2, '4': 0.2 } }))[0].star!.levels).toEqual(p);
+		const byText = Object.fromEntries(levels.map((l, i) => [l, p[i]]));
+		expect(interpretAnswers(def, answer({ probabilities: byText }))[0].star!.levels).toEqual(p);
+
+		for (const probabilities of [undefined, [0.5, 0.5], [0.1, 0.2, 0.3, 0.2, 2], { x: 1 }, 'a']) {
+			const [a] = interpretAnswers(def, answer({ probabilities, confidence: 'high' }));
+			expect(a.star!.levels).toBeNull();
+			expect(a.star!.confidence).toBeNull();
+			expect(a.prob).toBe(0);
+			expect(a.value).toBe('4');
+		}
+	});
+
+	it('向き・言及の質問と一緒でも、それぞれに、解釈される。星は、要確認の判定に使わない', () => {
+		const both = { questions: [...gameV1.questions, starQuestion] };
+		const answers = { ...clefAnswers({ gameplay: 'positive' }), ...answer() };
+		const out = interpretAnswers(both, answers);
+		expect(out.map((a) => a.kind)).toEqual(['direction', 'mention', 'direction', 'mention', 'direction', 'mention', 'direction', 'mention', 'star']);
+		expect(out.filter((a) => a.kind !== 'star').every((a) => a.star === undefined)).toBe(true);
+		expect(out.find((a) => a.kind === 'star')!.needsCheck).toBe(false);
+	});
+
+	describe('保存', () => {
+		let db: D1Database;
+		let dispose: () => Promise<void>;
+		beforeEach(async () => {
+			({ db, dispose } = await createTestDb());
+		});
+		afterEach(() => dispose());
+
+		const starRegistry: TagRegistry = {
+			tags: [{ id: 'test/star', key: 'gameplay', version: 1, label: 'ゲーム性', questions: [starQuestion] }],
+			domainTags: { game: ['test/star'], software: [] },
+			extraTags: { game: [], software: [] }
+		};
+
+		it('星の質問を含むタグを読むと、reading_answers に、星と確率が入る（質問は score で送られる）', async () => {
+			const { revisionId } = await addReview(db, await addWork(db), { body: 'x' });
+			const clef = fakeClef(() => ({ answers: answer(), inputTokens: 100 }));
+			const clock = createClock();
+			expect(await readRevision({ db, clef, now: clock.now, registry: starRegistry }, revisionId)).toMatchObject({ status: 'ok' });
+
+			const row = await db
+				.prepare('SELECT question_key, tag_id, kind, value, prob, probs_json, needs_check FROM reading_answers')
+				.first<{ question_key: string; tag_id: string; kind: string; value: string; prob: number; probs_json: string; needs_check: number }>();
+			expect(row).toMatchObject({ question_key: 'gameplay_star', tag_id: 'test/star', kind: 'star', value: '4', prob: 0.8, needs_check: 0 });
+			expect(JSON.parse(row!.probs_json)).toMatchObject({ levels: [0.01, 0.03, 0.06, 0.8, 0.1], confidence: 0.8 });
+		});
+
+		it('答えが範囲の外なら、失敗として記録する（保存しない）', async () => {
+			const { revisionId } = await addReview(db, await addWork(db), { body: 'x' });
+			const clef = fakeClef(() => ({ answers: answer({ score: 9 }), inputTokens: 100 }));
+			const outcome = await readRevision({ db, clef, now: createClock().now, registry: starRegistry }, revisionId);
+			expect(outcome).toMatchObject({ status: 'error' });
+			expect(await db.prepare('SELECT COUNT(*) AS n FROM reading_answers').first()).toEqual({ n: 0 });
 		});
 	});
 });

@@ -17,7 +17,7 @@ export default defineConfig({
 		})
 	],
 	test: {
-		include: ['src/**/*.test.ts'],
+		include: ['src/**/*.test.ts', 'scripts/**/*.test.ts'],
 		environment: 'node',
 		// `cloudflare:workers` は Workers の中でしか動かない。テストでは、差し替えられる代わりのものを読む。
 		alias: { 'cloudflare:workers': fileURLToPath(new URL('./src/lib/server/testing/cloudflare-workers.ts', import.meta.url)) }
