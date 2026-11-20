@@ -805,12 +805,14 @@ button.tag:hover {
 	flex-wrap: wrap;
 	gap: var(--space-2) var(--space-5);
 	font-size: 12px;
-	padding-top: var(--space-4);
-	/* ページの終わりを、細いオレンジの線で区切る（ユーザーの指示）。線は飾りで、意味は持たない。 */
+	padding: var(--space-4);
+	/* 灰色の帯。上を、細いオレンジの線で区切る（ユーザーの指示）。線は飾りで、意味は持たない。 */
+	background: var(--tag-bg);
+	color: var(--tag-fg);
 	border-top: 1px solid var(--accent);
 }
 .footer a {
-	color: var(--text);
+	color: var(--tag-fg);
 }
 .prose {
 	gap: var(--space-6);
