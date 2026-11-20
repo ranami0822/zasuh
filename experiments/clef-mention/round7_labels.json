@@ -1,0 +1,4415 @@
+{
+ "note": "第7弾の採点用ラベル（AI 3人の多数決）。本文は含まない。規約は rubric.md v2 と rubric-stars.md。",
+ "labels": [
+  {
+   "id": 101,
+   "recommendationid": "230893231",
+   "appid": 1623730,
+   "voted_up": true,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 5,
+    "direction": "肯定",
+    "votes": [
+     5,
+     5,
+     5
+    ],
+    "dir_votes": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 102,
+   "recommendationid": "218701580",
+   "appid": 413150,
+   "voted_up": false,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 1,
+    "direction": "否定",
+    "votes": [
+     1,
+     1,
+     1
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 103,
+   "recommendationid": "225767001",
+   "appid": 367520,
+   "voted_up": false,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 1,
+    "direction": "否定",
+    "votes": [
+     1,
+     1,
+     1
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": 2,
+    "direction": "否定",
+    "votes": [
+     2,
+     2,
+     2
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "price": {
+    "star": 4,
+    "direction": "肯定",
+    "votes": [
+     4,
+     4,
+     4
+    ],
+    "dir_votes": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ]
+   }
+  },
+  {
+   "id": 104,
+   "recommendationid": "215416277",
+   "appid": 1716740,
+   "voted_up": true,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 4,
+    "direction": "混在",
+    "votes": [
+     3,
+     4,
+     4
+    ],
+    "dir_votes": [
+     "混在",
+     "混在",
+     "混在"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 105,
+   "recommendationid": "215754020",
+   "appid": 2054970,
+   "voted_up": true,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 4,
+    "direction": "混在",
+    "votes": [
+     4,
+     4,
+     4
+    ],
+    "dir_votes": [
+     "混在",
+     "混在",
+     "混在"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": 2,
+    "direction": "否定",
+    "votes": [
+     2,
+     2,
+     2
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 106,
+   "recommendationid": "216699642",
+   "appid": 1716740,
+   "voted_up": false,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 2,
+    "direction": "否定",
+    "votes": [
+     2,
+     2,
+     2
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 107,
+   "recommendationid": "229059162",
+   "appid": 367520,
+   "voted_up": false,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 1,
+    "direction": "否定",
+    "votes": [
+     1,
+     1,
+     1
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": 2,
+    "direction": "否定",
+    "votes": [
+     2,
+     2,
+     2
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 108,
+   "recommendationid": "218747591",
+   "appid": 2246340,
+   "voted_up": true,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 4,
+    "direction": "混在",
+    "votes": [
+     4,
+     4,
+     4
+    ],
+    "dir_votes": [
+     "混在",
+     "混在",
+     "混在"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": 4,
+    "direction": "混在",
+    "votes": [
+     4,
+     4,
+     4
+    ],
+    "dir_votes": [
+     "混在",
+     "混在",
+     "肯定"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 109,
+   "recommendationid": "216005856",
+   "appid": 275850,
+   "voted_up": false,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": 1,
+    "direction": "否定",
+    "votes": [
+     1,
+     1,
+     1
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 110,
+   "recommendationid": "237170535",
+   "appid": 2358720,
+   "voted_up": true,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 3,
+    "direction": "混在",
+    "votes": [
+     3,
+     3,
+     3
+    ],
+    "dir_votes": [
+     "混在",
+     "混在",
+     "混在"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 111,
+   "recommendationid": "231893193",
+   "appid": 2246340,
+   "voted_up": false,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": 1,
+    "direction": "否定",
+    "votes": [
+     1,
+     1,
+     1
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 112,
+   "recommendationid": "226802291",
+   "appid": 1966720,
+   "voted_up": true,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 4,
+    "direction": "混在",
+    "votes": [
+     4,
+     4,
+     4
+    ],
+    "dir_votes": [
+     "混在",
+     "混在",
+     "混在"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 113,
+   "recommendationid": "230981296",
+   "appid": 413150,
+   "voted_up": true,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 5,
+    "direction": "肯定",
+    "votes": [
+     5,
+     5,
+     5
+    ],
+    "dir_votes": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ]
+   },
+   "music": {
+    "star": 4,
+    "direction": "肯定",
+    "votes": [
+     4,
+     4,
+     4
+    ],
+    "dir_votes": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 114,
+   "recommendationid": "214083519",
+   "appid": 1086940,
+   "voted_up": false,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 2,
+    "direction": "否定",
+    "votes": [
+     2,
+     2,
+     2
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": 2,
+    "direction": "否定",
+    "votes": [
+     2,
+     2,
+     2
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 115,
+   "recommendationid": "239156458",
+   "appid": 275850,
+   "voted_up": true,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 4,
+    "direction": "混在",
+    "votes": [
+     4,
+     4,
+     4
+    ],
+    "dir_votes": [
+     "混在",
+     "肯定",
+     "混在"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 116,
+   "recommendationid": "224512387",
+   "appid": 413150,
+   "voted_up": false,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 1,
+    "direction": "否定",
+    "votes": [
+     1,
+     1,
+     1
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     2
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "否定"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 117,
+   "recommendationid": "232285312",
+   "appid": 367520,
+   "voted_up": true,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 5,
+    "direction": "肯定",
+    "votes": [
+     5,
+     5,
+     5
+    ],
+    "dir_votes": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ]
+   },
+   "music": {
+    "star": 4,
+    "direction": "肯定",
+    "votes": [
+     4,
+     4,
+     4
+    ],
+    "dir_votes": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": 4,
+    "direction": "肯定",
+    "votes": [
+     4,
+     4,
+     4
+    ],
+    "dir_votes": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ]
+   }
+  },
+  {
+   "id": 118,
+   "recommendationid": "227402533",
+   "appid": 413150,
+   "voted_up": true,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 4,
+    "direction": "肯定",
+    "votes": [
+     4,
+     4,
+     5
+    ],
+    "dir_votes": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 119,
+   "recommendationid": "220404432",
+   "appid": 1245620,
+   "voted_up": false,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 1,
+    "direction": "否定",
+    "votes": [
+     1,
+     1,
+     1
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 120,
+   "recommendationid": "239251760",
+   "appid": 1245620,
+   "voted_up": true,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 4,
+    "direction": "混在",
+    "votes": [
+     4,
+     4,
+     4
+    ],
+    "dir_votes": [
+     "混在",
+     "混在",
+     "混在"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": 2,
+    "direction": "否定",
+    "votes": [
+     2,
+     2,
+     2
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "price": {
+    "star": 4,
+    "direction": "肯定",
+    "votes": [
+     4,
+     4,
+     4
+    ],
+    "dir_votes": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ]
+   }
+  },
+  {
+   "id": 121,
+   "recommendationid": "230900048",
+   "appid": 1145360,
+   "voted_up": false,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 3,
+    "direction": "混在",
+    "votes": [
+     3,
+     3,
+     3
+    ],
+    "dir_votes": [
+     "混在",
+     "混在",
+     "混在"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 122,
+   "recommendationid": "231866353",
+   "appid": 1145360,
+   "voted_up": true,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 2,
+    "direction": "混在",
+    "votes": [
+     2,
+     2,
+     2
+    ],
+    "dir_votes": [
+     "混在",
+     "混在",
+     "混在"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": 3,
+    "direction": "混在",
+    "votes": [
+     3,
+     3,
+     4
+    ],
+    "dir_votes": [
+     "混在",
+     "混在",
+     "肯定"
+    ]
+   },
+   "price": {
+    "star": 4,
+    "direction": "肯定",
+    "votes": [
+     4,
+     4,
+     4
+    ],
+    "dir_votes": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ]
+   }
+  },
+  {
+   "id": 123,
+   "recommendationid": "235119762",
+   "appid": 275850,
+   "voted_up": false,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 2,
+    "direction": "否定",
+    "votes": [
+     2,
+     2,
+     2
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 124,
+   "recommendationid": "213693155",
+   "appid": 1245620,
+   "voted_up": true,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 4,
+    "direction": "混在",
+    "votes": [
+     4,
+     4,
+     4
+    ],
+    "dir_votes": [
+     "混在",
+     "混在",
+     "混在"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 125,
+   "recommendationid": "220705586",
+   "appid": 275850,
+   "voted_up": true,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 4,
+    "direction": "混在",
+    "votes": [
+     4,
+     4,
+     4
+    ],
+    "dir_votes": [
+     "混在",
+     "混在",
+     "混在"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 126,
+   "recommendationid": "240517564",
+   "appid": 2054970,
+   "voted_up": false,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 1,
+    "direction": "否定",
+    "votes": [
+     1,
+     1,
+     1
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 127,
+   "recommendationid": "231342239",
+   "appid": 1086940,
+   "voted_up": false,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": null,
+    "direction": null,
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "判断不能",
+     "判断不能",
+     "判断不能"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 128,
+   "recommendationid": "237608141",
+   "appid": 1245620,
+   "voted_up": true,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 5,
+    "direction": "肯定",
+    "votes": [
+     5,
+     5,
+     5
+    ],
+    "dir_votes": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 129,
+   "recommendationid": "232822129",
+   "appid": 2358720,
+   "voted_up": false,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": 1,
+    "direction": "否定",
+    "votes": [
+     1,
+     1,
+     1
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 130,
+   "recommendationid": "224889725",
+   "appid": 1145360,
+   "voted_up": false,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 2,
+    "direction": "否定",
+    "votes": [
+     2,
+     2,
+     2
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 131,
+   "recommendationid": "219049743",
+   "appid": 1145360,
+   "voted_up": false,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 1,
+    "direction": "否定",
+    "votes": [
+     1,
+     1,
+     1
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 132,
+   "recommendationid": "220463525",
+   "appid": 1245620,
+   "voted_up": false,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 2,
+    "direction": "混在",
+    "votes": [
+     2,
+     2,
+     2
+    ],
+    "dir_votes": [
+     "混在",
+     "混在",
+     "混在"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 133,
+   "recommendationid": "226237217",
+   "appid": 413150,
+   "voted_up": false,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 2,
+    "direction": "混在",
+    "votes": [
+     2,
+     2,
+     2
+    ],
+    "dir_votes": [
+     "混在",
+     "混在",
+     "混在"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 134,
+   "recommendationid": "213051412",
+   "appid": 1086940,
+   "voted_up": false,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 1,
+    "direction": "否定",
+    "votes": [
+     1,
+     1,
+     1
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 135,
+   "recommendationid": "217612821",
+   "appid": 2246340,
+   "voted_up": false,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 2,
+    "direction": "否定",
+    "votes": [
+     2,
+     2,
+     2
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": 2,
+    "direction": "否定",
+    "votes": [
+     2,
+     2,
+     2
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 136,
+   "recommendationid": "239686941",
+   "appid": 2054970,
+   "voted_up": false,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 1,
+    "direction": "否定",
+    "votes": [
+     1,
+     1,
+     1
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 137,
+   "recommendationid": "213975786",
+   "appid": 1086940,
+   "voted_up": false,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 2,
+    "direction": "否定",
+    "votes": [
+     2,
+     1,
+     2
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": 1,
+    "direction": "否定",
+    "votes": [
+     1,
+     1,
+     1
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 138,
+   "recommendationid": "222669699",
+   "appid": 2246340,
+   "voted_up": true,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 4,
+    "direction": "肯定",
+    "votes": [
+     4,
+     4,
+     4
+    ],
+    "dir_votes": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 139,
+   "recommendationid": "209922861",
+   "appid": 367520,
+   "voted_up": true,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 4,
+    "direction": "混在",
+    "votes": [
+     4,
+     5,
+     4
+    ],
+    "dir_votes": [
+     "混在",
+     "肯定",
+     "混在"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 140,
+   "recommendationid": "227773690",
+   "appid": 1145360,
+   "voted_up": false,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 1,
+    "direction": "否定",
+    "votes": [
+     1,
+     1,
+     2
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": 3,
+    "direction": "肯定",
+    "votes": [
+     3,
+     3,
+     3
+    ],
+    "dir_votes": [
+     "肯定",
+     "肯定",
+     "混在"
+    ]
+   }
+  },
+  {
+   "id": 141,
+   "recommendationid": "229587782",
+   "appid": 1623730,
+   "voted_up": true,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 4,
+    "direction": "混在",
+    "votes": [
+     4,
+     4,
+     4
+    ],
+    "dir_votes": [
+     "混在",
+     "混在",
+     "混在"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     4,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "肯定",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 142,
+   "recommendationid": "229757801",
+   "appid": 1145360,
+   "voted_up": true,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 4,
+    "direction": "肯定",
+    "votes": [
+     4,
+     4,
+     4
+    ],
+    "dir_votes": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 143,
+   "recommendationid": "234149192",
+   "appid": 413150,
+   "voted_up": true,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 5,
+    "direction": "肯定",
+    "votes": [
+     5,
+     5,
+     5
+    ],
+    "dir_votes": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 144,
+   "recommendationid": "238025357",
+   "appid": 1091500,
+   "voted_up": true,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 5,
+    "direction": "肯定",
+    "votes": [
+     5,
+     5,
+     5
+    ],
+    "dir_votes": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 145,
+   "recommendationid": "231972862",
+   "appid": 2246340,
+   "voted_up": false,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": 1,
+    "direction": "否定",
+    "votes": [
+     1,
+     1,
+     1
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 146,
+   "recommendationid": "221361243",
+   "appid": 1716740,
+   "voted_up": false,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 4,
+    "direction": "混在",
+    "votes": [
+     4,
+     4,
+     4
+    ],
+    "dir_votes": [
+     "混在",
+     "肯定",
+     "混在"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": 1,
+    "direction": "否定",
+    "votes": [
+     1,
+     1,
+     1
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 147,
+   "recommendationid": "233281064",
+   "appid": 2358720,
+   "voted_up": false,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 1,
+    "direction": "否定",
+    "votes": [
+     1,
+     1,
+     1
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": 2,
+    "direction": "否定",
+    "votes": [
+     2,
+     2,
+     2
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   }
+  },
+  {
+   "id": 148,
+   "recommendationid": "233813828",
+   "appid": 1245620,
+   "voted_up": true,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 5,
+    "direction": "肯定",
+    "votes": [
+     5,
+     5,
+     5
+    ],
+    "dir_votes": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": 5,
+    "direction": "肯定",
+    "votes": [
+     5,
+     4,
+     5
+    ],
+    "dir_votes": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ]
+   }
+  },
+  {
+   "id": 149,
+   "recommendationid": "221746693",
+   "appid": 1966720,
+   "voted_up": true,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 4,
+    "direction": "混在",
+    "votes": [
+     4,
+     4,
+     4
+    ],
+    "dir_votes": [
+     "混在",
+     "混在",
+     "混在"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": 2,
+    "direction": "否定",
+    "votes": [
+     2,
+     2,
+     2
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 150,
+   "recommendationid": "210366318",
+   "appid": 1145360,
+   "voted_up": true,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 5,
+    "direction": "肯定",
+    "votes": [
+     5,
+     5,
+     5
+    ],
+    "dir_votes": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 151,
+   "recommendationid": "228758201",
+   "appid": 1716740,
+   "voted_up": true,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 5,
+    "direction": "肯定",
+    "votes": [
+     5,
+     5,
+     5
+    ],
+    "dir_votes": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ]
+   },
+   "music": {
+    "star": 4,
+    "direction": "肯定",
+    "votes": [
+     4,
+     4,
+     4
+    ],
+    "dir_votes": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ]
+   },
+   "comfort": {
+    "star": 4,
+    "direction": "肯定",
+    "votes": [
+     4,
+     4,
+     4
+    ],
+    "dir_votes": [
+     "混在",
+     "肯定",
+     "肯定"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 152,
+   "recommendationid": "218656005",
+   "appid": 367520,
+   "voted_up": true,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 4,
+    "direction": "肯定",
+    "votes": [
+     4,
+     4,
+     5
+    ],
+    "dir_votes": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 153,
+   "recommendationid": "214167247",
+   "appid": 367520,
+   "voted_up": false,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 1,
+    "direction": "否定",
+    "votes": [
+     1,
+     1,
+     1
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 154,
+   "recommendationid": "234973066",
+   "appid": 275850,
+   "voted_up": false,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 1,
+    "direction": "否定",
+    "votes": [
+     1,
+     1,
+     1
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": 2,
+    "direction": "否定",
+    "votes": [
+     2,
+     2,
+     2
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 155,
+   "recommendationid": "235670213",
+   "appid": 413150,
+   "voted_up": true,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 5,
+    "direction": "肯定",
+    "votes": [
+     5,
+     5,
+     5
+    ],
+    "dir_votes": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 156,
+   "recommendationid": "229130193",
+   "appid": 367520,
+   "voted_up": true,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 3,
+    "direction": "混在",
+    "votes": [
+     3,
+     3,
+     3
+    ],
+    "dir_votes": [
+     "混在",
+     "混在",
+     "混在"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "混在",
+    "votes": [
+     2,
+     null,
+     3
+    ],
+    "dir_votes": [
+     "混在",
+     "言及なし",
+     "混在"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 157,
+   "recommendationid": "234354066",
+   "appid": 1086940,
+   "voted_up": true,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 4,
+    "direction": "肯定",
+    "votes": [
+     4,
+     4,
+     4
+    ],
+    "dir_votes": [
+     "肯定",
+     "混在",
+     "肯定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 158,
+   "recommendationid": "231023522",
+   "appid": 367520,
+   "voted_up": false,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 2,
+    "direction": "混在",
+    "votes": [
+     2,
+     2,
+     2
+    ],
+    "dir_votes": [
+     "否定",
+     "混在",
+     "混在"
+    ]
+   },
+   "music": {
+    "star": 4,
+    "direction": "肯定",
+    "votes": [
+     4,
+     4,
+     4
+    ],
+    "dir_votes": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ]
+   },
+   "comfort": {
+    "star": 2,
+    "direction": "否定",
+    "votes": [
+     2,
+     2,
+     2
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 159,
+   "recommendationid": "215717811",
+   "appid": 1086940,
+   "voted_up": true,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 2,
+    "direction": "否定",
+    "votes": [
+     2,
+     2,
+     2
+    ],
+    "dir_votes": [
+     "混在",
+     "否定",
+     "否定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 160,
+   "recommendationid": "220819666",
+   "appid": 1091500,
+   "voted_up": true,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": 2,
+    "direction": "否定",
+    "votes": [
+     2,
+     2,
+     2
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 161,
+   "recommendationid": "230343766",
+   "appid": 1623730,
+   "voted_up": false,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": 1,
+    "direction": "否定",
+    "votes": [
+     1,
+     2,
+     1
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 162,
+   "recommendationid": "228890898",
+   "appid": 2054970,
+   "voted_up": false,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": 1,
+    "direction": "否定",
+    "votes": [
+     1,
+     1,
+     1
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   }
+  },
+  {
+   "id": 163,
+   "recommendationid": "228227908",
+   "appid": 413150,
+   "voted_up": false,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 2,
+    "direction": "否定",
+    "votes": [
+     2,
+     2,
+     2
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": 2,
+    "direction": "否定",
+    "votes": [
+     2,
+     null,
+     2
+    ],
+    "dir_votes": [
+     "否定",
+     "言及なし",
+     "否定"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 164,
+   "recommendationid": "213205579",
+   "appid": 275850,
+   "voted_up": false,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": 1,
+    "direction": "否定",
+    "votes": [
+     1,
+     1,
+     1
+    ],
+    "dir_votes": [
+     "否定",
+     "否定",
+     "否定"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 165,
+   "recommendationid": "214976074",
+   "appid": 2358720,
+   "voted_up": true,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 5,
+    "direction": "肯定",
+    "votes": [
+     5,
+     5,
+     5
+    ],
+    "dir_votes": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 166,
+   "recommendationid": "225879879",
+   "appid": 1086940,
+   "voted_up": true,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 4,
+    "direction": "混在",
+    "votes": [
+     4,
+     4,
+     4
+    ],
+    "dir_votes": [
+     "混在",
+     "混在",
+     "混在"
+    ]
+   },
+   "music": {
+    "star": 4,
+    "direction": "肯定",
+    "votes": [
+     4,
+     4,
+     4
+    ],
+    "dir_votes": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 167,
+   "recommendationid": "220271203",
+   "appid": 1245620,
+   "voted_up": false,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 3,
+    "direction": "混在",
+    "votes": [
+     3,
+     3,
+     3
+    ],
+    "dir_votes": [
+     "混在",
+     "混在",
+     "混在"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 168,
+   "recommendationid": "211034723",
+   "appid": 1145360,
+   "voted_up": true,
+   "mixed_candidate": false,
+   "gameplay": {
+    "star": 5,
+    "direction": "肯定",
+    "votes": [
+     5,
+     5,
+     5
+    ],
+    "dir_votes": [
+     "肯定",
+     "肯定",
+     "肯定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 169,
+   "recommendationid": "234263715",
+   "appid": 2054970,
+   "voted_up": true,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 4,
+    "direction": "肯定",
+    "votes": [
+     4,
+     4,
+     4
+    ],
+    "dir_votes": [
+     "混在",
+     "肯定",
+     "肯定"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  },
+  {
+   "id": 170,
+   "recommendationid": "226999275",
+   "appid": 1086940,
+   "voted_up": true,
+   "mixed_candidate": true,
+   "gameplay": {
+    "star": 4,
+    "direction": "混在",
+    "votes": [
+     4,
+     4,
+     4
+    ],
+    "dir_votes": [
+     "混在",
+     "混在",
+     "混在"
+    ]
+   },
+   "music": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "comfort": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   },
+   "price": {
+    "star": null,
+    "direction": "言及なし",
+    "votes": [
+     null,
+     null,
+     null
+    ],
+    "dir_votes": [
+     "言及なし",
+     "言及なし",
+     "言及なし"
+    ]
+   }
+  }
+ ]
+}
