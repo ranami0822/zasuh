@@ -266,4 +266,4 @@ Tag
 
 ### 実験
 
-- Clef の「言及なし」の実験は `experiments/clef-mention/` にある（実施済み）。root では実行しない。
+- Clef の「言及なし」の実験は `experiments/clef-mention/` にある（実施済み）。
