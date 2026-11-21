@@ -352,7 +352,7 @@ describe('syncCritics（専門家の評価欄の取得）', () => {
 		expect(await syncedAt(workId)).toBe(clock.now().toISOString());
 	});
 
-	it(`読み取りが続けて ${MAX_CONSECUTIVE_READ_FAILURES} 回失敗したら（ClefError でなくても）、clef_failed で全体を止め、markSynced しない`, async () => {
+	it(`読み取りが続けて ${MAX_CONSECUTIVE_READ_FAILURES} 回失敗したら（ClefError でなくても）、clef_failed で全体を止める。失敗した作品だけ、順番のために markSynced する`, async () => {
 		const first = await linkedWork(101);
 		const second = await linkedWork(102);
 		const thrown = [new ClefError('Clef の呼び出しに失敗しました (400)', false), new Error('作り物の失敗'), new TypeError('作り物の失敗')];
@@ -367,8 +367,27 @@ describe('syncCritics（専門家の評価欄の取得）', () => {
 		expect(result).toEqual({ works: 0, calls: 1, searches: 0, read: 0, failed: 3, stopped: 'clef_failed' });
 		expect(oc.calls).toHaveLength(1);
 		expect(clef.calls).toHaveLength(3);
-		expect(await syncedAt(first)).toBeNull();
-		expect(await syncedAt(second)).toBeNull();
+		const marked = [await syncedAt(first), await syncedAt(second)].filter(Boolean);
+		expect(marked).toEqual([clock.now().toISOString()]);
+	});
+
+	it('読めない抜粋がある作品が、毎日先頭に居続けて、ほかの作品を止めない', async () => {
+		const poisoned = await linkedWork(101);
+		const healthy = await linkedWork(102);
+		const clef = fakeClef((state, _call, questions) => {
+			if (state.includes('w101')) throw new ClefError('Clef の答えの形が想定と違います', false);
+			return fakeClef().run('clef-flash', state, questions);
+		});
+		const oc = fakeOc({ reviews: (ocId) => okPage(page(`w${ocId}`, 5)) });
+
+		const day1 = await run(oc, clef);
+		expect(day1.stopped).toBe('clef_failed');
+		expect(await syncedAt(poisoned)).not.toBeNull();
+
+		clock.advance(24 * 3_600_000);
+		await run(oc, clef);
+		expect(await savedIds(healthy)).toHaveLength(5);
+		expect(await savedIds(poisoned)).toEqual([]);
 	});
 
 	it('2 回続けて失敗しても、そのあと成功すれば数え直して続ける', async () => {

@@ -125,7 +125,11 @@ export async function syncCritics(deps: {
 						// 次の日に、同じ抜粋が、また新しいものとして出る。
 						result.failed++;
 						// 続けて失敗するなら、Clef の側の問題（利用枠の超過を含む）とみなして止める。
-						if (++consecutiveFailures >= MAX_CONSECUTIVE_READ_FAILURES) return 'clef_failed';
+						if (++consecutiveFailures >= MAX_CONSECUTIVE_READ_FAILURES) {
+							// 読めない抜粋のある作品が、毎日先頭に居続けて、ほかの作品が回らなくならないよう、取得済みにする（順番を決めるだけ。毎回、0 ページ目から取り直す）。
+							await markSynced(db, work.id, now());
+							return 'clef_failed';
+						}
 						continue;
 					}
 					consecutiveFailures = 0;
