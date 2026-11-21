@@ -2,15 +2,20 @@ import type { D1Database } from '@cloudflare/workers-types';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import {
 	addCandidate,
+	claimCriticSlot,
 	claimDailyRun,
+	criticDayTotals,
 	criticSection,
 	decideCandidate,
 	ensureCriticQuestionSet,
+	finishCriticSlot,
 	getOpenCriticId,
 	knownCriticIds,
 	linkOpenCritic,
+	markSearched,
 	markSynced,
 	openCandidates,
+	saveCriticCursor,
 	saveCriticRead,
 	worksNeedingCandidate,
 	worksToSync
@@ -187,28 +192,90 @@ describe('専門家の評価の保存と問い合わせ', () => {
 		expect(await countReviews(other)).toEqual({ reviews: 1, answers: 1 });
 	});
 
-	it('取得する作品は、古い順。20 時間以内に取得したもの、ID のないもの、非公開の作品は除く', async () => {
-		const recent = await addWork(db);
+	async function progress(workId: string) {
+		return db
+			.prepare('SELECT critic_cursor AS cursor, critic_done_on AS doneOn, critic_synced_at AS syncedAt FROM works WHERE id = ?')
+			.bind(workId)
+			.first<{ cursor: number | null; doneOn: string | null; syncedAt: string | null }>();
+	}
+
+	async function setProgress(workId: string, cursor: number | null, doneOn: string | null) {
+		await db.prepare('UPDATE works SET critic_cursor = ?, critic_done_on = ? WHERE id = ?').bind(cursor, doneOn, workId).run();
+	}
+
+	it('取得する作品は、今日まだ読み切っていないもの。途中のものが先、そのあと古い順（取得したことのないものが先）。ID のないもの、非公開の作品は除く', async () => {
+		const doneToday = await addWork(db);
 		const old = await addWork(db);
 		const never = await addWork(db);
-		const edge = await addWork(db);
+		const yesterday = await addWork(db);
+		const midway = await addWork(db);
 		const hidden = await addWork(db, { status: 'hidden' });
 		await addWork(db); // ID なし
-		await setOcId(recent, 1, '2026-11-20T00:00:00.000Z'); // 12 時間前
+		await setOcId(doneToday, 1, '2026-11-20T01:00:00.000Z');
+		await setProgress(doneToday, null, '2026-11-20');
 		await setOcId(old, 2, '2026-11-18T00:00:00.000Z');
+		await setProgress(old, null, '2026-11-18');
 		await setOcId(never, 3);
-		await setOcId(edge, 4, '2026-11-19T16:00:00.000Z'); // ちょうど 20 時間前
-		await setOcId(hidden, 5);
+		await setOcId(yesterday, 4, '2026-11-19T18:00:00.000Z');
+		await setProgress(yesterday, null, '2026-11-19');
+		await setOcId(midway, 5, '2026-11-19T20:00:00.000Z');
+		await setProgress(midway, 2, '2026-11-19');
+		await setOcId(hidden, 6);
 
 		expect(await worksToSync(db, 10, clock.now())).toEqual([
-			{ id: never, ocId: 3 },
-			{ id: old, ocId: 2 },
-			{ id: edge, ocId: 4 }
+			{ id: midway, ocId: 5, cursor: 2 },
+			{ id: never, ocId: 3, cursor: 0 },
+			{ id: old, ocId: 2, cursor: 0 },
+			{ id: yesterday, ocId: 4, cursor: 0 }
 		]);
-		expect(await worksToSync(db, 1, clock.now())).toEqual([{ id: never, ocId: 3 }]);
+		expect(await worksToSync(db, 1, clock.now())).toEqual([{ id: midway, ocId: 5, cursor: 2 }]);
+	});
 
-		await markSynced(db, never, clock.now());
-		expect((await worksToSync(db, 10, clock.now())).map((w) => w.id)).toEqual([old, edge]);
+	it('読み切った作品（markSynced）は、その日のうちは選ばれず、次の日に、また選ばれる', async () => {
+		const a = await addWork(db);
+		const b = await addWork(db);
+		await setOcId(a, 1);
+		await setOcId(b, 2, '2026-11-19T00:00:00.000Z');
+
+		await markSynced(db, a, clock.now());
+		expect((await worksToSync(db, 10, clock.now())).map((w) => w.id)).toEqual([b]);
+		expect((await worksToSync(db, 10, new Date('2026-11-20T23:59:59.999Z'))).map((w) => w.id)).toEqual([b]);
+		// 次の日（UTC）。a は 12:00 に取得したので、b（前の日）より後
+		expect((await worksToSync(db, 10, new Date('2026-11-21T00:00:00.000Z'))).map((w) => w.id)).toEqual([b, a]);
+	});
+
+	it('markSynced は、cursor を消し、読み切った日（UTC）と取得の日時を入れる', async () => {
+		const workId = await addWork(db);
+		await setOcId(workId, 1, '2026-11-19T00:00:00.000Z');
+		await setProgress(workId, 2, '2026-11-19');
+		await markSynced(db, workId, new Date('2026-11-20T23:30:00.000Z'));
+		expect(await progress(workId)).toEqual({ cursor: null, doneOn: '2026-11-20', syncedAt: '2026-11-20T23:30:00.000Z' });
+	});
+
+	it('saveCriticCursor は、cursor だけを変え、取得の日時と読み切った日は変えない', async () => {
+		const workId = await addWork(db);
+		await setOcId(workId, 1, '2026-11-19T00:00:00.000Z');
+		await setProgress(workId, null, '2026-11-19');
+		await saveCriticCursor(db, workId, 1);
+		expect(await progress(workId)).toEqual({ cursor: 1, doneOn: '2026-11-19', syncedAt: '2026-11-19T00:00:00.000Z' });
+		expect(await worksToSync(db, 10, clock.now())).toEqual([{ id: workId, ocId: 1, cursor: 1 }]);
+	});
+
+	it('ID が変わる・外れるときは、cursor と読み切った日も null に戻る。同じ ID なら変えない', async () => {
+		const workId = await addWork(db);
+		expect(await linkOpenCritic(db, workId, '10', clock.now())).toEqual({ ok: true });
+		await saveCriticCursor(db, workId, 2);
+		await setProgress(workId, 2, '2026-11-20');
+
+		expect(await linkOpenCritic(db, workId, '10', clock.now())).toEqual({ ok: true });
+		expect(await progress(workId)).toEqual({ cursor: 2, doneOn: '2026-11-20', syncedAt: null });
+
+		expect(await linkOpenCritic(db, workId, '11', clock.now())).toEqual({ ok: true });
+		expect(await progress(workId)).toEqual({ cursor: null, doneOn: null, syncedAt: null });
+
+		await setProgress(workId, 1, '2026-11-20');
+		expect(await linkOpenCritic(db, workId, '', clock.now())).toEqual({ ok: true });
+		expect(await progress(workId)).toEqual({ cursor: null, doneOn: null, syncedAt: null });
 	});
 
 	it('取得する作品は、ゲームだけ（ソフトウェアに ID があっても除く）', async () => {
@@ -217,7 +284,7 @@ describe('専門家の評価の保存と問い合わせ', () => {
 		await setOcId(game, 1);
 		await setOcId(software, 2);
 
-		expect(await worksToSync(db, 10, clock.now())).toEqual([{ id: game, ocId: 1 }]);
+		expect(await worksToSync(db, 10, clock.now())).toEqual([{ id: game, ocId: 1, cursor: 0 }]);
 	});
 
 	it('ゲームでない作品には、OpenCritic の ID を付けられない（外すのは、分野を問わず通す）', async () => {
@@ -254,14 +321,14 @@ describe('専門家の評価の保存と問い合わせ', () => {
 		await addWork(db, { status: 'hidden' });
 		const rejected = await addWork(db, { name: '却下するゲーム' });
 
-		expect(await worksNeedingCandidate(db, 10)).toEqual([
+		expect(await worksNeedingCandidate(db, 10, clock.now())).toEqual([
 			{ id: game, name: '作り物のゲーム' },
 			{ id: rejected, name: '却下するゲーム' }
 		].sort((a, b) => (a.id < b.id ? -1 : 1)));
 
 		await addCandidate(db, game, { id: 7, name: 'Fake Game', dist: 0 }, clock.now());
 		await addCandidate(db, rejected, { id: 8, name: 'Other Fake', dist: 1 }, clock.now());
-		expect(await worksNeedingCandidate(db, 10)).toEqual([]);
+		expect(await worksNeedingCandidate(db, 10, clock.now())).toEqual([]);
 		expect(await openCandidates(db)).toEqual(
 			expect.arrayContaining([
 				{ workId: game, workName: '作り物のゲーム', ocId: 7, ocName: 'Fake Game' },
@@ -281,6 +348,18 @@ describe('専門家の評価の保存と問い合わせ', () => {
 		expect(await openCandidates(db)).toEqual([]);
 		const statuses = await db.prepare('SELECT work_id, status FROM critic_candidates').all<{ work_id: string; status: string }>();
 		expect(Object.fromEntries(statuses.results.map((r) => [r.work_id, r.status]))).toEqual({ [game]: 'approved', [rejected]: 'rejected' });
+	});
+
+	it('候補を検索した作品（markSearched）は、その日のうちは返さず、次の日に、また返す', async () => {
+		const a = await addWork(db, { name: '作り物 A' });
+		const b = await addWork(db, { name: '作り物 B' });
+		const ids = (rows: { id: string }[]) => rows.map((r) => r.id).sort();
+
+		await markSearched(db, a, clock.now());
+		expect(await db.prepare('SELECT critic_searched_on AS d FROM works WHERE id = ?').bind(a).first()).toEqual({ d: '2026-11-20' });
+		expect(ids(await worksNeedingCandidate(db, 10, clock.now()))).toEqual([b]);
+		expect(ids(await worksNeedingCandidate(db, 10, new Date('2026-11-20T23:59:59.999Z')))).toEqual([b]);
+		expect(ids(await worksNeedingCandidate(db, 10, new Date('2026-11-21T00:00:00.000Z')))).toEqual([a, b].sort());
 	});
 
 	it('作品ページの欄: 0 件なら null。言及のある観点だけを、段階ごとの確率の合計と平均にまとめる', async () => {
@@ -350,5 +429,108 @@ describe('専門家の評価の保存と問い合わせ', () => {
 		expect(s.aspects).toEqual([]);
 		expect(s.items).toHaveLength(30);
 		expect(s.items[0].url).toBe('https://example.com/r30');
+	});
+});
+
+describe('取得の枠（1 日の合計の上限）', () => {
+	let db: D1Database;
+	let dispose: () => Promise<void>;
+	const now = new Date('2026-11-20T17:00:30.000Z');
+	const perRun = { calls: 8, searches: 2, reads: 6 };
+	const daily = { calls: 150, searches: 15, reads: 150 };
+
+	beforeEach(async () => {
+		({ db, dispose } = await createTestDb());
+	});
+	afterEach(() => dispose());
+
+	async function slotRows() {
+		const { results } = await db.prepare('SELECT * FROM critic_slots ORDER BY slot').all();
+		return results;
+	}
+
+	it('枠を取ると、1 回の上限の割り当てを返し、枠の行を入れる（日は slot の先頭 10 文字）', async () => {
+		expect(await claimCriticSlot(db, '2026-11-21T00:00', new Date('2026-11-20T23:59:59.000Z'), perRun, daily)).toEqual({
+			ok: true,
+			allowance: perRun
+		});
+		expect(await slotRows()).toEqual([
+			{ slot: '2026-11-21T00:00', day: '2026-11-21', started_at: '2026-11-20T23:59:59.000Z', calls: 8, searches: 2, reads: 6, stopped: null }
+		]);
+	});
+
+	it('同じ枠の 2 回目は already_ran（同時でも 1 つだけ取れる）。別の枠は、また取れる', async () => {
+		const results = await Promise.all([1, 2, 3].map(() => claimCriticSlot(db, '2026-11-20T17:00', now, perRun, daily)));
+		expect(results.filter((r) => r.ok)).toHaveLength(1);
+		expect(results.filter((r) => !r.ok)).toEqual([
+			{ ok: false, error: 'already_ran' },
+			{ ok: false, error: 'already_ran' }
+		]);
+		expect(await claimCriticSlot(db, '2026-11-20T17:00', now, perRun, daily)).toEqual({ ok: false, error: 'already_ran' });
+		expect(await claimCriticSlot(db, '2026-11-20T17:05', now, perRun, daily)).toEqual({ ok: true, allowance: perRun });
+		expect(await slotRows()).toHaveLength(2);
+	});
+
+	it('割り当ては、1 回の上限と、その日の残り（ほかの枠の割り当てと実績を引いたもの）の小さいほう', async () => {
+		const small = { calls: 10, searches: 3, reads: 10 };
+		await claimCriticSlot(db, '2026-11-20T17:00', now, perRun, small);
+		await finishCriticSlot(db, '2026-11-20T17:00', { calls: 3, searches: 0, reads: 6 }, 'budget');
+		// 残り: calls 7、searches 3、reads 4
+		expect(await claimCriticSlot(db, '2026-11-20T17:05', now, perRun, small)).toEqual({ ok: true, allowance: { calls: 7, searches: 2, reads: 4 } });
+		// 終わっていない枠の割り当ても引く。残り: calls 0
+		expect(await claimCriticSlot(db, '2026-11-20T17:10', now, perRun, small)).toEqual({ ok: false, error: 'daily_limit' });
+	});
+
+	it('その日の合計が上限に達したら daily_limit（calls か reads が 0。searches だけ残っていても取れない）。行は入らない', async () => {
+		await claimCriticSlot(db, '2026-11-20T17:00', now, perRun, daily);
+		await finishCriticSlot(db, '2026-11-20T17:00', { calls: 5, searches: 2, reads: 4 }, 'done');
+
+		expect(await claimCriticSlot(db, '2026-11-20T17:05', now, perRun, { calls: 5, searches: 15, reads: 150 })).toEqual({ ok: false, error: 'daily_limit' });
+		expect(await claimCriticSlot(db, '2026-11-20T17:05', now, perRun, { calls: 150, searches: 15, reads: 4 })).toEqual({ ok: false, error: 'daily_limit' });
+		expect(await slotRows()).toHaveLength(1);
+		// 検索だけを使い切っても、取れる（検索の割り当ては 0）
+		expect(await claimCriticSlot(db, '2026-11-20T17:05', now, perRun, { calls: 150, searches: 2, reads: 150 })).toEqual({
+			ok: true,
+			allowance: { calls: 8, searches: 0, reads: 6 }
+		});
+		// 次の日は、また取れる
+		expect(await claimCriticSlot(db, '2026-11-21T17:00', now, perRun, { calls: 5, searches: 2, reads: 4 })).toEqual({
+			ok: true,
+			allowance: { calls: 5, searches: 2, reads: 4 }
+		});
+	});
+
+	it.each(['unauthorized', 'rate_limited', 'reserve'] as const)('%s で終わった枠があると、その日のほかの枠は stopped_today。次の日は取れる', async (stop) => {
+		await claimCriticSlot(db, '2026-11-20T17:00', now, perRun, daily);
+		await finishCriticSlot(db, '2026-11-20T17:00', { calls: 1, searches: 0, reads: 0 }, stop);
+
+		expect(await claimCriticSlot(db, '2026-11-20T17:05', now, perRun, daily)).toEqual({ ok: false, error: 'stopped_today' });
+		// 理由の順: already_ran が先、daily_limit より stopped_today が先
+		expect(await claimCriticSlot(db, '2026-11-20T17:00', now, perRun, daily)).toEqual({ ok: false, error: 'already_ran' });
+		expect(await claimCriticSlot(db, '2026-11-20T17:10', now, perRun, { calls: 1, searches: 15, reads: 150 })).toEqual({ ok: false, error: 'stopped_today' });
+		expect(await slotRows()).toHaveLength(1);
+		expect(await claimCriticSlot(db, '2026-11-21T17:00', now, perRun, daily)).toEqual({ ok: true, allowance: perRun });
+	});
+
+	it.each(['done', 'budget', 'clef_failed'] as const)('%s で終わった枠のあとは、同じ日のほかの枠が取れる', async (stop) => {
+		await claimCriticSlot(db, '2026-11-20T17:00', now, perRun, daily);
+		await finishCriticSlot(db, '2026-11-20T17:00', { calls: 1, searches: 0, reads: 3 }, stop);
+		expect(await claimCriticSlot(db, '2026-11-20T17:05', now, perRun, daily)).toEqual({ ok: true, allowance: perRun });
+	});
+
+	it('finishCriticSlot は、割り当てを実績に直し、終わった理由を入れる。criticDayTotals は、その日の合計（割り当ての残りを含む）', async () => {
+		expect(await criticDayTotals(db, '2026-11-20')).toEqual({ calls: 0, searches: 0, reads: 0 });
+
+		await claimCriticSlot(db, '2026-11-20T17:00', now, perRun, daily);
+		await finishCriticSlot(db, '2026-11-20T17:00', { calls: 3, searches: 1, reads: 2 }, 'done');
+		expect(await slotRows()).toEqual([
+			{ slot: '2026-11-20T17:00', day: '2026-11-20', started_at: now.toISOString(), calls: 3, searches: 1, reads: 2, stopped: 'done' }
+		]);
+
+		await claimCriticSlot(db, '2026-11-20T17:05', now, perRun, daily);
+		await claimCriticSlot(db, '2026-11-21T17:00', now, perRun, daily);
+		expect(await criticDayTotals(db, '2026-11-20')).toEqual({ calls: 11, searches: 3, reads: 8 });
+		expect(await criticDayTotals(db, '2026-11-21')).toEqual(perRun);
+		expect(await criticDayTotals(db, '2026-11-22')).toEqual({ calls: 0, searches: 0, reads: 0 });
 	});
 });

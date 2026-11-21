@@ -151,7 +151,7 @@ export async function syncCritics(deps: {
 	};
 
 	const searchCandidates = async (): Promise<Stop | null> => {
-		for (const work of await worksNeedingCandidate(db, limits.maxSearches)) {
+		for (const work of await worksNeedingCandidate(db, limits.maxSearches, now())) {
 			if (result.searches >= limits.maxSearches) return 'budget';
 			if (lastLimit && (!hasBudget(lastLimit, 'request', limits.requestReserve) || !hasBudget(lastLimit, 'search', limits.searchReserve))) {
 				return 'budget';

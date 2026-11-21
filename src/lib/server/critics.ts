@@ -12,10 +12,31 @@ import type { ReadingAnswer } from '#server/reading';
 export type CriticError = 'bad_oc_id' | 'oc_id_taken' | 'not_found' | 'not_game';
 
 export const CRITIC_ITEMS_MAX = 30;
+
+export interface CriticAllowance {
+	calls: number;
+	searches: number;
+	reads: number;
+}
+/** reserve: OpenCritic の応答ヘッダーの残り（呼び出し）が requestReserve 以下で止まった（結果の stopped は 'budget' のまま。枠の記録だけ分ける）。 */
+export type CriticSlotStop = 'done' | 'budget' | 'reserve' | 'unauthorized' | 'rate_limited' | 'clef_failed';
+export type ClaimError = 'already_ran' | 'stopped_today' | 'daily_limit';
+
+export interface WorkToSync {
+	id: string;
+	ocId: number;
+	/** 次に取るページ（0 始まり）。途中でなければ 0。 */
+	cursor: number;
+}
 /** 星の段階の数。 */
 const STAR_LEVELS = 5;
-/** この時間内に取得した作品は、取得し直さない。 */
-const SYNC_INTERVAL_MS = 20 * 60 * 60 * 1000;
+/** この理由で終わった枠があると、その日のほかの枠は動かない。 */
+const HALTING_STOPS: CriticSlotStop[] = ['unauthorized', 'rate_limited', 'reserve'];
+
+/** UTC の日付 'YYYY-MM-DD'。 */
+function utcDay(now: Date): string {
+	return now.toISOString().slice(0, 10);
+}
 
 /** question_sets の id を、取得か追加する（tags.ts の resolveWorkQuestionSet と同じ流れ）。 */
 export async function ensureCriticQuestionSet(db: D1Database, def: QuestionSetDefinition, now: Date): Promise<number> {
@@ -97,7 +118,7 @@ function parseOcId(raw: string): number | null {
 
 /**
  * 作品に OpenCritic の作品 ID を付ける（'' なら外す）。付けられるのは、ゲームの作品だけ（外すのは、分野を問わない）。
- * ID が変わる・外すときは、その作品の結果を消し、取得の日時を null にする（別の作品の結果が残らないように）。同じ ID なら何もしない。
+ * ID が変わる・外すときは、その作品の結果を消し、取得の日時と進み具合を null にする（別の作品の結果が残らないように）。同じ ID なら何もしない。
  */
 export async function linkOpenCritic(db: D1Database, workId: string, ocId: string, _now: Date): Promise<{ ok: true } | { ok: false; error: CriticError }> {
 	const raw = ocId.trim();
@@ -122,7 +143,9 @@ export async function linkOpenCritic(db: D1Database, workId: string, ocId: strin
 			// critic_answers は ON DELETE CASCADE だが、外部キーの強制に頼らず、先に消す。
 			db.prepare('DELETE FROM critic_answers WHERE critic_review_id IN (SELECT id FROM critic_reviews WHERE work_id = ?)').bind(workId),
 			db.prepare('DELETE FROM critic_reviews WHERE work_id = ?').bind(workId),
-			db.prepare('UPDATE works SET opencritic_id = ?, critic_synced_at = NULL WHERE id = ?').bind(next, workId)
+			db
+				.prepare('UPDATE works SET opencritic_id = ?, critic_synced_at = NULL, critic_cursor = NULL, critic_done_on = NULL WHERE id = ?')
+				.bind(next, workId)
 		]);
 	} catch (e) {
 		// 確かめたあとに、別の作品に同じ ID が付いたとき（works_opencritic）。
@@ -132,36 +155,130 @@ export async function linkOpenCritic(db: D1Database, workId: string, ocId: strin
 	return { ok: true };
 }
 
-/** 取得する作品。古い順（取得したことのないものが先）。ゲームで、公開中で、ID があり、20 時間以内に取得していないもの。 */
-export async function worksToSync(db: D1Database, limit: number, now: Date): Promise<{ id: string; ocId: number }[]> {
-	const before = new Date(now.getTime() - SYNC_INTERVAL_MS).toISOString();
+/**
+ * 取得する作品。ゲームで、公開中で、ID があり、now の UTC の日に、まだ読み切っていないもの
+ * （critic_done_on が null か、その日より前）。途中のもの（critic_cursor が null でない）が先、
+ * そのあと古い順（取得したことのないものが先）、id。
+ */
+export async function worksToSync(db: D1Database, limit: number, now: Date): Promise<WorkToSync[]> {
 	const { results } = await db
 		.prepare(
-			`SELECT id, opencritic_id AS ocId FROM works
+			`SELECT id, opencritic_id AS ocId, coalesce(critic_cursor, 0) AS cursor FROM works
 			  WHERE category = 'game' AND status = 'active' AND opencritic_id IS NOT NULL
-			    AND (critic_synced_at IS NULL OR critic_synced_at <= ?)
-			  ORDER BY critic_synced_at IS NOT NULL, critic_synced_at, id
+			    AND (critic_done_on IS NULL OR critic_done_on < ?)
+			  ORDER BY critic_cursor IS NULL, critic_synced_at IS NOT NULL, critic_synced_at, id
 			  LIMIT ?`
 		)
-		.bind(before, limit)
-		.all<{ id: string; ocId: number }>();
+		.bind(utcDay(now), limit)
+		.all<WorkToSync>();
 	return results;
+}
+
+/** 止まった作品の、続きのページを覚える。critic_synced_at と critic_done_on は、変えない。 */
+export async function saveCriticCursor(db: D1Database, workId: string, cursor: number): Promise<void> {
+	await db.prepare('UPDATE works SET critic_cursor = ? WHERE id = ?').bind(cursor, workId).run();
 }
 
 /**
  * 1 日 1 回の取得の、実行の権利を取る（day は UTC の日付）。その日の最初の 1 回だけ true。
  * 毎分の定期実行が重なっても、取得が 2 回動かないように。
+ * B2 で消す（critic-sync.ts が claimCriticSlot に移るまで残す）。
  */
 export async function claimDailyRun(db: D1Database, now: Date): Promise<boolean> {
 	const result = await db
 		.prepare('INSERT OR IGNORE INTO critic_runs (day, started_at) VALUES (?, ?)')
-		.bind(now.toISOString().slice(0, 10), now.toISOString())
+		.bind(utcDay(now), now.toISOString())
 		.run();
 	return result.meta.changes === 1;
 }
 
+/** その日は、もう選ばない（読み切った、または、失敗して諦めた）。cursor を消し、読み切った日と取得の日時を入れる。 */
 export async function markSynced(db: D1Database, workId: string, now: Date): Promise<void> {
-	await db.prepare('UPDATE works SET critic_synced_at = ? WHERE id = ?').bind(now.toISOString(), workId).run();
+	await db
+		.prepare('UPDATE works SET critic_cursor = NULL, critic_done_on = ?, critic_synced_at = ? WHERE id = ?')
+		.bind(utcDay(now), now.toISOString(), workId)
+		.run();
+}
+
+/**
+ * 枠を取る。取れたら、その枠の割り当てを返す（枠の行を入れる）。
+ * 割り当て = 各項目で min(perRun, daily - その日にほかの枠が使った分)。日は slot の先頭 10 文字。
+ * 取れない場合（行は入れない）:
+ *  - already_ran: その枠の行が、もうある。
+ *  - stopped_today: その日の、ほかの枠が、unauthorized か rate_limited か reserve で終わっている。
+ *  - daily_limit: 割り当ての calls か reads が 0（検索だけ残っていても、取らない）。
+ * 残りの計算と挿入を 1 文にして、同時に取った枠の合計が daily を超えないようにする。
+ */
+export async function claimCriticSlot(
+	db: D1Database,
+	slot: string,
+	now: Date,
+	perRun: CriticAllowance,
+	daily: CriticAllowance
+): Promise<{ ok: true; allowance: CriticAllowance } | { ok: false; error: ClaimError }> {
+	const day = slot.slice(0, 10);
+	const halting = HALTING_STOPS.map(() => '?').join(', ');
+	const claimed = await db
+		.prepare(
+			`INSERT OR IGNORE INTO critic_slots (slot, day, started_at, calls, searches, reads)
+			 SELECT ?, ?, ?, min(?, ? - t.c), min(?, ? - t.s), min(?, ? - t.r)
+			   FROM (SELECT coalesce(sum(calls), 0) AS c, coalesce(sum(searches), 0) AS s, coalesce(sum(reads), 0) AS r,
+			                coalesce(sum(stopped IN (${halting})), 0) AS halted
+			           FROM critic_slots WHERE day = ?) t
+			  WHERE t.halted = 0 AND min(?, ? - t.c) > 0 AND min(?, ? - t.r) > 0
+			 RETURNING calls, searches, reads`
+		)
+		.bind(
+			slot,
+			day,
+			now.toISOString(),
+			perRun.calls,
+			daily.calls,
+			perRun.searches,
+			daily.searches,
+			perRun.reads,
+			daily.reads,
+			...HALTING_STOPS,
+			day,
+			perRun.calls,
+			daily.calls,
+			perRun.reads,
+			daily.reads
+		)
+		.first<CriticAllowance>();
+	if (claimed) return { ok: true, allowance: { calls: claimed.calls, searches: claimed.searches, reads: claimed.reads } };
+
+	// 取れなかったときだけ、理由を決める（already_ran → stopped_today → daily_limit の順）。
+	const why = await db
+		.prepare(
+			`SELECT EXISTS (SELECT 1 FROM critic_slots WHERE slot = ?) AS taken,
+			        EXISTS (SELECT 1 FROM critic_slots WHERE day = ? AND stopped IN (${halting})) AS halted`
+		)
+		.bind(slot, day, ...HALTING_STOPS)
+		.first<{ taken: number; halted: number }>();
+	if (why?.taken) return { ok: false, error: 'already_ran' };
+	if (why?.halted) return { ok: false, error: 'stopped_today' };
+	return { ok: false, error: 'daily_limit' };
+}
+
+/** 割り当てを、実際に使った数に直し、終わった理由を入れる。 */
+export async function finishCriticSlot(db: D1Database, slot: string, used: CriticAllowance, stopped: CriticSlotStop): Promise<void> {
+	await db
+		.prepare('UPDATE critic_slots SET calls = ?, searches = ?, reads = ?, stopped = ? WHERE slot = ?')
+		.bind(used.calls, used.searches, used.reads, stopped, slot)
+		.run();
+}
+
+/** その日（UTC）に、枠の記録に入っている合計（割り当ての残りを含む）。 */
+export async function criticDayTotals(db: D1Database, day: string): Promise<CriticAllowance> {
+	const row = await db
+		.prepare(
+			`SELECT coalesce(sum(calls), 0) AS calls, coalesce(sum(searches), 0) AS searches, coalesce(sum(reads), 0) AS reads
+			   FROM critic_slots WHERE day = ?`
+		)
+		.bind(day)
+		.first<CriticAllowance>();
+	return { calls: row?.calls ?? 0, searches: row?.searches ?? 0, reads: row?.reads ?? 0 };
 }
 
 export interface Candidate {
@@ -171,19 +288,25 @@ export interface Candidate {
 	ocName: string;
 }
 
-/** 候補を探す作品。ゲームで、公開中で、ID がなく、候補の行がないもの。 */
-export async function worksNeedingCandidate(db: D1Database, limit: number): Promise<{ id: string; name: string }[]> {
+/** 候補を探す作品。ゲームで、公開中で、ID がなく、候補の行がなく、now の UTC の日に、まだ検索していないもの。 */
+export async function worksNeedingCandidate(db: D1Database, limit: number, now: Date): Promise<{ id: string; name: string }[]> {
 	const { results } = await db
 		.prepare(
 			`SELECT w.id, w.name FROM works w
 			  WHERE w.category = 'game' AND w.status = 'active' AND w.opencritic_id IS NULL
 			    AND NOT EXISTS (SELECT 1 FROM critic_candidates c WHERE c.work_id = w.id)
+			    AND (w.critic_searched_on IS NULL OR w.critic_searched_on < ?)
 			  ORDER BY w.created_at, w.id
 			  LIMIT ?`
 		)
-		.bind(limit)
+		.bind(utcDay(now), limit)
 		.all<{ id: string; name: string }>();
 	return results;
+}
+
+/** 候補を検索した日（UTC）を入れる（見つからなくても）。その日は、もう検索しない。 */
+export async function markSearched(db: D1Database, workId: string, now: Date): Promise<void> {
+	await db.prepare('UPDATE works SET critic_searched_on = ? WHERE id = ?').bind(utcDay(now), workId).run();
 }
 
 /** 候補を足す。その作品の候補の行が、もうあれば、何もしない。 */
