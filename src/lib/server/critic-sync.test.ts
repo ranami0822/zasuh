@@ -581,16 +581,26 @@ describe('syncCritics（専門家の評価欄の取得）', () => {
 			expect(oc.calls.length).toBeLessThanOrEqual(50);
 		});
 
-		it('(c) 質問セットがまだない DB で、8 作品が 1 ページずつ（6 作品に新しい抜粋 1 件）、そのあと 2 作品の候補の検索', async () => {
+		it('(c) 質問セットがまだない DB で、8 作品が 1 ページずつ（6 作品に新しい抜粋 1 件、2 作品は既知の 1 件）、そのあと 2 作品の候補の検索', async () => {
 			const sets = async () => (await db.prepare('SELECT COUNT(*) AS n FROM question_sets').first<{ n: number }>())!.n;
+			// critic-v1 の質問セットは、まだ作らない（取得が作る。その問い合わせも数える）。既知の抜粋は、別の（作り物の）質問セットに結びつける。
+			const other = await db
+				.prepare("INSERT INTO question_sets (hash, model, definition_json, created_at) VALUES ('other-set', 'other-model', '{}', ?)")
+				.bind(clock.now().toISOString())
+				.run();
+			const setId = other.meta.last_row_id;
 			const before = await sets();
-			for (let ocId = 101; ocId <= 108; ocId++) await linkedWork(ocId);
-			// 作品の順番（id はランダム）に結果が左右されないよう、抜粋のない 107、108 を先にする（取得したことのない作品が先）。
-			// 読み取りの上限に達したあとの作品は、抜粋がなくても、ページを取る前に止まる（今までの動き）。
+			for (let ocId = 101; ocId <= 108; ocId++) {
+				const workId = await linkedWork(ocId);
+				// 107、108 は、既知の抜粋が 1 件ある（既知の確認の問い合わせが、ページごとに要る。いちばん多い構成にするため）。
+				if (ocId >= 107) await saveCriticRead(db, { workId, snippet: snippet(`w${ocId}`), questionSetId: setId, answers: [] }, clock.now());
+			}
+			// 作品の順番（id はランダム）に結果が左右されないよう、新しい抜粋のない 107、108 を先にする（取得したことのない作品が先）。
+			// 読み取りの上限に達したあとの作品は、新しい抜粋がなくても、ページを取る前に止まる（今までの動き）。
 			await db.prepare('UPDATE works SET critic_synced_at = ? WHERE opencritic_id <= 106').bind('2026-11-01T00:00:00.000Z').run();
 			for (const name of ['作り物 1', '作り物 2']) await addWork(db, { name });
 			const oc = fakeOc({
-				reviews: (ocId) => okPage(ocId <= 106 ? [snippet(`w${ocId}`)] : []),
+				reviews: (ocId) => okPage([snippet(`w${ocId}`)]),
 				search: (name) => ok([{ id: name === '作り物 1' ? 501 : 502, name: 'Fictional Game', dist: 0 }])
 			});
 
