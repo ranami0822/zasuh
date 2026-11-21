@@ -585,6 +585,9 @@ describe('syncCritics（専門家の評価欄の取得）', () => {
 			const sets = async () => (await db.prepare('SELECT COUNT(*) AS n FROM question_sets').first<{ n: number }>())!.n;
 			const before = await sets();
 			for (let ocId = 101; ocId <= 108; ocId++) await linkedWork(ocId);
+			// 作品の順番（id はランダム）に結果が左右されないよう、抜粋のない 107、108 を先にする（取得したことのない作品が先）。
+			// 読み取りの上限に達したあとの作品は、抜粋がなくても、ページを取る前に止まる（今までの動き）。
+			await db.prepare('UPDATE works SET critic_synced_at = ? WHERE opencritic_id <= 106').bind('2026-11-01T00:00:00.000Z').run();
 			for (const name of ['作り物 1', '作り物 2']) await addWork(db, { name });
 			const oc = fakeOc({
 				reviews: (ocId) => okPage(ocId <= 106 ? [snippet(`w${ocId}`)] : []),
