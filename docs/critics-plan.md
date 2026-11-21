@@ -219,7 +219,6 @@ export async function syncCritics(deps: { db: D1Database; clef: ClefClient; oc: 
 | B | `critic-sync.ts` と `critic-sync.test.ts`、`scheduled.ts` と `scheduled.test.ts`、`worker.ts`、`env.ts`（`wrangler.jsonc` は変えない。1.7） | `delegate:builder` | 1.6、1.7。A1〜A3 の後 |
 | C1 | 管理画面（作品の ID、候補の承認）と `messages.ts` | `coder-haiku` | 型だけのコード（`CRITIC_MESSAGES` の型、action の名前と戻り値）と 1.8。B の後（`critics.ts` ができてから） |
 | C2 | `critic-view.ts`（純粋な関数）と、`CriticSection.svelte`、`StarDist.svelte`、`load` の接続 | `coder-haiku` | 型だけのコード（props の型、`CriticSection` の型、`critic-view.ts` の関数の型）、失敗するテスト `critic-view.test.ts`、1.8 |
-
 | D | 最後のレビュー | `delegate:reviewer` | この文書（仕様）と差分だけ |
 
 **C1、C2 の「失敗する検査」（ユーザーの確認が要る）:** 画面（routes と `.svelte`）の単体テストは、今ない。C2 は、表示の計算（段階ごとの確率の合計 → 棒の幅、「言及なし」の扱い、件数の表記）を、`src/lib/critic-view.ts` の純粋な関数に出し、**失敗するテストを私が先に書いて**渡す。部品は、その関数を呼ぶだけにする。C1 は、`critics.ts` を呼ぶ薄い action だけ（検査の中身は、A2 のテスト）。C1、C2 の先に、型だけのコードで、`npm run check` が失敗する状態（存在しない部品や action を、画面が参照）にして渡し、G1、G4b、G5 で確かめる。これで足りなければ、C1 を `delegate:builder-lite` に替える。
