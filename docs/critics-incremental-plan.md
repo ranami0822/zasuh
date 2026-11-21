@@ -20,7 +20,7 @@
 
 この計画は、1 回の実行を、D1 の問い合わせ 45 回前後までに収める。上の読みが外れて、1 日で 50 を共有していた場合は、2 回目以降の実行が、D1 のエラーで落ちる（例外は、`scheduled.ts` が捕まえて、記録する。1 日 1 回に戻せば、今までと同じ）。
 
-## 1. 決めること（★ ユーザーの確認が要る）
+## 1. 決めたこと（ユーザーの確認済み、2026-11-21。次の表は、提案のとおりに決まった。ほかに、検索日の記録（3.3）と、sweep が拾ったときの見送り（2 章）も、提案のとおり）
 
 | 項目 | 提案 | 理由 |
 |---|---|---|
@@ -148,7 +148,7 @@ export async function markSynced(db: D1Database, workId: string, now: Date): Pro
 
 `claimDailyRun` は、消す。`linkOpenCritic` で ID が変わる・外れるときは、`critic_cursor` と `critic_done_on` も null にする（別の作品の進み具合が残らないように）。
 
-`worksNeedingCandidate(db, limit, now)` に `now` を足し、`critic_searched_on` が null か、その日より前の作品だけを返す。検索のあと（見つからなくても、`bad_response` でも）、`markSearched(db, workId, now)` で `critic_searched_on` に、その日を入れる（`unauthorized`・`rate_limited` で止まったときは、入れない）。<!-- REVIEW: critic_searched_on は、レビューで足した列（1 章の表の決定ではない）。検索の 1 日の上限 15 を、同じ作品の検索で使い切らないための案。代わりに、1 日の検索の上限を 1 回の上限と同じ 2 にする案もある（その場合は 1 章の表の変更で、ユーザーの確認が要る）。 -->理由: 今は、見つからない作品は、候補の行がないので、毎回の実行で、また検索される。1 日 1 回なら 1 日 2 件で済んだが、1 日 48 枠では、同じ作品の検索だけで、その日の検索の上限（15）を使い切る。
+`worksNeedingCandidate(db, limit, now)` に `now` を足し、`critic_searched_on` が null か、その日より前の作品だけを返す。検索のあと（見つからなくても、`bad_response` でも）、`markSearched(db, workId, now)` で `critic_searched_on` に、その日を入れる（`unauthorized`・`rate_limited` で止まったときは、入れない）。（ユーザーの確認済み。代わりに、1 日の検索の上限を 2 にする案は、採らない。）理由: 今は、見つからない作品は、候補の行がないので、毎回の実行で、また検索される。1 日 1 回なら 1 日 2 件で済んだが、1 日 48 枠では、同じ作品の検索だけで、その日の検索の上限（15）を使い切る。
 
 ### 3.4 `src/lib/server/critic-sync.ts`（変更）→ `delegate:builder`
 
