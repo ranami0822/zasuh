@@ -1,4 +1,5 @@
 import type { AuthError } from './server/auth';
+import type { CriticError } from './server/critics';
 import type { InboxError } from './server/inbox';
 import type { Failure } from './server/reviews';
 
@@ -45,6 +46,12 @@ export const INBOX_MESSAGES: Record<InboxError, string> = {
 	bad_url: 'リンクは、http か https で始まる URL にしてください。',
 	device_limit: '今日の上限に達しました。明日、もう一度お試しください。',
 	ip_limit: 'この回線からの今日の上限に達しました。明日、もう一度お試しください。',
+	not_found: '対象が見つかりません。'
+};
+
+export const CRITIC_MESSAGES: Record<CriticError, string> = {
+	bad_oc_id: 'OpenCritic の作品 ID は、正の整数で入力してください。',
+	oc_id_taken: 'その OpenCritic の作品 ID は、別の作品に結びついています。',
 	not_found: '対象が見つかりません。'
 };
 

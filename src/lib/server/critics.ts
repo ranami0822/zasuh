@@ -190,6 +190,12 @@ export async function openCandidates(db: D1Database): Promise<Candidate[]> {
 	return results;
 }
 
+/** 作品に結びついている OpenCritic の作品 ID。なければ null（作品がなくても null）。 */
+export async function getOpenCriticId(db: D1Database, workId: string): Promise<number | null> {
+	const row = await db.prepare('SELECT opencritic_id AS ocId FROM works WHERE id = ?').bind(workId).first<{ ocId: number | null }>();
+	return row?.ocId ?? null;
+}
+
 /** 候補を承認・却下する。承認は linkOpenCritic と同じ検査。 */
 export async function decideCandidate(db: D1Database, workId: string, approve: boolean, now: Date): Promise<{ ok: true } | { ok: false; error: CriticError }> {
 	const candidate = await db.prepare('SELECT oc_id FROM critic_candidates WHERE work_id = ?').bind(workId).first<{ oc_id: number }>();

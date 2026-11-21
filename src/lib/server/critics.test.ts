@@ -5,6 +5,7 @@ import {
 	criticSection,
 	decideCandidate,
 	ensureCriticQuestionSet,
+	getOpenCriticId,
 	knownCriticIds,
 	linkOpenCritic,
 	markSynced,
@@ -139,6 +140,14 @@ describe('専門家の評価の保存と問い合わせ', () => {
 			.first<{ value: string; probs_json: string }>();
 		expect(star!.value).toBe('4');
 		expect(JSON.parse(star!.probs_json)).toEqual({ score: 4.2, levels: [0, 0, 0.1, 0.6, 0.3], confidence: 0.8 });
+	});
+
+	it('作品の OpenCritic の ID を返す。結びついていない作品、ない作品は null', async () => {
+		const workId = await addWork(db);
+		expect(await getOpenCriticId(db, workId)).toBeNull();
+		await linkOpenCritic(db, workId, '77', clock.now());
+		expect(await getOpenCriticId(db, workId)).toBe(77);
+		expect(await getOpenCriticId(db, 'missing')).toBeNull();
 	});
 
 	it('OpenCritic の ID を付ける。正の整数だけ。別の作品の ID は断る。変えると前の結果が消える。空で外せる', async () => {
