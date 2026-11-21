@@ -16,11 +16,11 @@
 
 ## 構成
 
-SvelteKit 3（Svelte 5）+ `@sveltejs/adapter-cloudflare` 8、Cloudflare Workers、D1（SQLite）、Workers AI（Clef-flash）、Cron（毎分）。UI の部品は ui-sdk（`@ui-sdk/svelte`）。passkey は SimpleWebAuthn。
+SvelteKit 3（Svelte 5）+ `@sveltejs/adapter-cloudflare` 8、Cloudflare Workers、D1（SQLite）、Workers AI（Clef-flash）、Cron（毎分。専門家の評価の取得も、この中で、UTC 18:17〜18:19 に呼ぶ）。UI の部品は ui-sdk（`@ui-sdk/svelte`）。passkey は SimpleWebAuthn。
 
-- `src/lib/server/` … 業務の中心（`reading.ts` 読み取り、`stats.ts` 集計、`reviews.ts` 投稿・編集・通報、`auth.ts` passkey と復旧、`tags.ts` タグ、`pages.ts` 画面の問い合わせ、`inbox.ts` 受信箱）。D1 を使う単体テストが、ここにある。
+- `src/lib/server/` … 業務の中心（`opencritic.ts`・`critics.ts`・`critic-sync.ts` 専門家の評価の取得と保存、`reading.ts` 読み取り、`stats.ts` 集計、`reviews.ts` 投稿・編集・通報、`auth.ts` passkey と復旧、`tags.ts` タグ、`pages.ts` 画面の問い合わせ、`inbox.ts` 受信箱）。D1 を使う単体テストが、ここにある。
 - `src/routes/` … 画面とフォームの処理。`src/hooks.server.ts` が、`/admin` を守る（フォームの処理は、レイアウトの `load` を通らないため、ここで確かめる）。
-- `migrations/` … 0001〜0005。**本番に適用済みのファイルは、書き換えない**（変えるときは、新しい番号を足す）。
+- `migrations/` … 0001〜0006（本番に適用済みは 0005 まで。0006 は専門家の欄で、未適用）。**本番に適用済みのファイルは、書き換えない**（変えるときは、新しい番号を足す）。
 - `src/lib/styles/tokens.css`、`app.css` … 見た目。**デザインの正は、`tokens.css`**。
 - インポートは、`#server/...`、`#components/...`、`#styles/...`、`#messages`、`#passkey`（`package.json` の `imports`）。`$lib` は、使えない（拡張子なしの `.ts` を、`#lib/*` が解決しないため）。
 
