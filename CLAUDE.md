@@ -62,7 +62,7 @@ Playwright は、グローバルに入っている（依存に入れていない
 ## 本番の状態（2026-11-21 に更新）
 
 - Worker `zasuh`、D1 `zasuh`（ID は `wrangler.jsonc`）、`review.anami.party`（カスタムドメイン）。`workers.dev` は、無効。マイグレーションは、0001〜0006 を適用済み。**2026-11-21 に、`claude/opencritic-expert-reviews-biegyr`（2e63e2b）をデプロイした**（バージョン 0565e095。トップ、`/admin` の転送、ログインなしの POST の 403、ヘッダ、作品ページと共有表示を確認）。
-- シークレット: `ADMIN_TOKEN` のみ。**`OPENCRITIC_API_KEY` は、まだ入れていない**（入れるまで、専門家の取得は動かない。値は、前後に引用符を付けずに入れる）（管理画面の合言葉。**リポジトリにも、この文書にもない。ユーザーが持っている**。変えるときは、`scripts/cf.sh secret put ADMIN_TOKEN`）。
+- シークレット: `ADMIN_TOKEN` と `OPENCRITIC_API_KEY`（RapidAPI のキー。2026-11-21 に入れた。専門家の取得は、毎日 UTC 18:17〜18:19 に動く。値は、前後に引用符を付けずに入れる）。`ADMIN_TOKEN` は（管理画面の合言葉。**リポジトリにも、この文書にもない。ユーザーが持っている**。変えるときは、`scripts/cf.sh secret put ADMIN_TOKEN`）。
 - **メール送信は、ない**（Workers の有料プランが要るため、ユーザーは、有料にしない）。復旧は、**復旧コード**。メール復旧の実装は、残してあり、送り口（`EMAIL`、`MAIL_FROM`）がないので、画面に出ない。
 - 本番に、ユーザーが作ったデータ（作品 OMORI など）が、ある。**テストでデータを消すときは、自分が作ったものだけを消す**（全消しの SQL は、使わない）。
 
