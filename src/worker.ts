@@ -10,7 +10,7 @@ interface Ctx {
 
 export default {
 	fetch: (request: Request, env: Env, ctx: Ctx) => sveltekit.fetch(request, env, ctx),
-	async scheduled(_controller: unknown, env: Env, ctx: Ctx): Promise<void> {
-		ctx.waitUntil(runScheduled(env));
+	async scheduled(controller: { scheduledTime: number }, env: Env, ctx: Ctx): Promise<void> {
+		ctx.waitUntil(runScheduled(env, new Date(controller.scheduledTime)));
 	}
 };
