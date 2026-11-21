@@ -16,6 +16,30 @@
 
 {#if form?.error}<p class="banner error" role="alert">{form.error}</p>{/if}
 
+<h2>専門家の欄の候補</h2>
+{#if form?.candidateError}<p class="banner error" role="alert">{form.candidateError}</p>{/if}
+{#if form?.candidateDecided}<p class="banner success" role="status">処理しました。</p>{/if}
+<div class="stack">
+	{#each data.candidates as c (c.workId)}
+		<article class="panel">
+			<h3>{c.workName}</h3>
+			<p class="caption">{c.ocName} <span class="num">（ID {c.ocId}）</span></p>
+			<div class="row">
+				<form method="post" action="?/approveCandidate" use:enhance>
+					<input type="hidden" name="workId" value={c.workId} />
+					<Button type="submit" class="btn">承認</Button>
+				</form>
+				<form method="post" action="?/rejectCandidate" use:enhance>
+					<input type="hidden" name="workId" value={c.workId} />
+					<Button type="submit" class="btn quiet">却下</Button>
+				</form>
+			</div>
+		</article>
+	{:else}
+		<p class="muted">候補はありません。</p>
+	{/each}
+</div>
+
 <div class="stack">
 	{#each data.items as m (m.id)}
 		<article class="panel" class:faded={m.status === 'closed'}>

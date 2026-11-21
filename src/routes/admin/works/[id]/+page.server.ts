@@ -1,4 +1,6 @@
 import { error, fail } from '@sveltejs/kit';
+import { CRITIC_MESSAGES } from '#messages';
+import { getOpenCriticId, linkOpenCritic } from '#server/critics';
 import { database } from '#server/request';
 import { latest, REGISTRY } from '#server/tags';
 import { getWork, selectedTagIds, updateWork } from '#server/works';
@@ -10,6 +12,7 @@ export const load: PageServerLoad = async ({ params }) => {
 	if (!work) error(404, '作品が見つかりません');
 	return {
 		work,
+		openCriticId: await getOpenCriticId(db, work.id),
 		selected: await selectedTagIds(db, work.id),
 		domain: REGISTRY.domainTags[work.category].map((id) => latest(REGISTRY, id).label),
 		extras: REGISTRY.extraTags[work.category].map((id) => ({ id, label: latest(REGISTRY, id).label }))
@@ -40,5 +43,13 @@ export const actions: Actions = {
 		const result = await updateWork(database(), params.id, input, tags, new Date());
 		if (!result.ok) return fail(400, { error: ERRORS[result.error] ?? '保存できませんでした。' });
 		return { saved: true };
+	},
+	linkCritic: async ({ request, params }) => {
+		const form = await request.formData();
+		const ocId = String(form.get('ocId') ?? '');
+		const result = await linkOpenCritic(database(), params.id, ocId, new Date());
+		if (!result.ok) return fail(400, { criticError: CRITIC_MESSAGES[result.error], ocId });
+		console.log(JSON.stringify({ event: 'critic_linked', workId: params.id }));
+		return { criticLinked: true, ocId };
 	}
 };

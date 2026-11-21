@@ -50,3 +50,14 @@
 	</Field>
 	<div class="row"><Button type="submit" class="btn">保存する</Button></div>
 </form>
+
+{#if data.work.category === 'game'}
+	<form method="post" action="?/linkCritic" class="card stack" use:enhance={() => async ({ update }) => update({ reset: false })}>
+		<h2>OpenCritic の作品 ID</h2>
+		<p class="caption muted">空にして保存すると、結びつきを外します。ID を変えると、これまでの専門家の結果は消えます。</p>
+		{#if form?.criticError}<p class="banner error" role="alert">{form.criticError}</p>{/if}
+		{#if form?.criticLinked}<p class="banner success" role="status">保存しました。</p>{/if}
+		<Field name="ocId"><FieldLabel>OpenCritic の作品 ID</FieldLabel><Input class="input" type="number" defaultValue={form?.ocId ?? String(data.openCriticId ?? '')} /></Field>
+		<div class="row"><Button type="submit" class="btn">保存する</Button></div>
+	</form>
+{/if}
