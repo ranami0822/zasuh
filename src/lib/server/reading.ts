@@ -1,7 +1,7 @@
 import type { D1Database } from '@cloudflare/workers-types';
 import { ClefError, type ClefClient } from './clef';
 import { toClefQuestions } from './question-sets';
-import type { Category, Direction, Question } from './question-sets/types';
+import type { Category, ClefModel, Direction, Question } from './question-sets/types';
 import { resolveWorkQuestionSet, type TagRegistry } from './tags';
 import { recomputeWorkStats } from './stats';
 
@@ -167,6 +167,30 @@ export function interpretAnswers(
 	return out;
 }
 
+/**
+ * 本文（メモリ上）を、質問セットで Clef に読ませて、検証した答えを返す。
+ * すぐに直りうる失敗（5xx、通信の失敗）は、その場で1回だけやり直す。失敗は、ClefError を投げる。
+ * latencyMs は、Clef の呼び出し（やり直しを含む）にかかった時間。
+ */
+export async function readText(
+	deps: { clef: ClefClient; quickRetryDelayMs?: number },
+	def: { model: ClefModel; questions: Question[] },
+	text: string
+): Promise<{ answers: ReadingAnswer[]; latencyMs: number; inputTokens: number | null }> {
+	const started = Date.now();
+	const questions = toClefQuestions(def);
+	let result;
+	try {
+		result = await deps.clef.run(def.model, text, questions);
+	} catch (e) {
+		if (!(e instanceof ClefError) || !e.retryable) throw e;
+		await new Promise((r) => setTimeout(r, deps.quickRetryDelayMs ?? 500));
+		result = await deps.clef.run(def.model, text, questions);
+	}
+	const latencyMs = Date.now() - started;
+	return { answers: interpretAnswers(def, result.answers), latencyMs, inputTokens: result.inputTokens };
+}
+
 export interface ReadingDeps {
 	db: D1Database;
 	clef: ClefClient;
@@ -244,19 +268,12 @@ export async function readRevision(deps: ReadingDeps, revisionId: string): Promi
 	if (!claim) return { status: 'skipped', reason: 'busy_or_done' };
 
 	try {
-		const started = Date.now();
-		const questions = toClefQuestions(questionSet);
-		let result;
-		try {
-			result = await clef.run(questionSet.model, target.body, questions);
-		} catch (e) {
-			// すぐに直りうる失敗（5xx、通信の失敗）は、その場で1回だけやり直す。それでも失敗したら、定期実行に任せる。
-			if (!(e instanceof ClefError) || !e.retryable) throw e;
-			await new Promise((r) => setTimeout(r, deps.quickRetryDelayMs ?? 500));
-			result = await clef.run(questionSet.model, target.body, questions);
-		}
-		const latencyMs = Date.now() - started;
-		const answers = interpretAnswers(questionSet, result.answers);
+		// すぐに直りうる失敗は、readText が1回だけやり直す。それでも失敗したら、定期実行に任せる。
+		const { answers, latencyMs, inputTokens } = await readText(
+			{ clef, quickRetryDelayMs: deps.quickRetryDelayMs },
+			questionSet,
+			target.body
+		);
 
 		const insert = db.prepare(
 			`INSERT INTO reading_answers
@@ -285,7 +302,7 @@ export async function readRevision(deps: ReadingDeps, revisionId: string): Promi
 					        latency_ms = ?, input_tokens = ?, updated_at = ?
 					  WHERE id = ?`
 				)
-				.bind(latencyMs, result.inputTokens, now().toISOString(), claim.id)
+				.bind(latencyMs, inputTokens, now().toISOString(), claim.id)
 		]);
 	} catch (e) {
 		const message = (e instanceof Error ? e.message : String(e)).slice(0, 500);

@@ -91,6 +91,20 @@ export async function editReview(db: D1Database, reviewId: string, body: string,
 	return revisionId;
 }
 
+/** 向きのときの星の位置（0 が最低、1 が最高）。言及なしは、真ん中。 */
+const STAR_POSITION: Record<Direction, number> = { positive: 0.9, negative: 0.1, mixed: 0.5, none: 0.5 };
+
+/**
+ * 星（score）の質問への、Clef の応答と同じ形の答え。score は 0〜段階の数 - 1（5段階なら、肯定 3.6、否定 0.4、混在・言及なし 2）。
+ * 段階ごとの確率は、score に近い段階ほど重い、合計 1 の配列。
+ */
+function scoreAnswer(dir: Direction, levelCount: number): Record<string, unknown> {
+	const score = STAR_POSITION[dir] * (levelCount - 1);
+	const weights = Array.from({ length: levelCount }, (_, i) => Math.exp(-2 * Math.abs(i - score)));
+	const total = weights.reduce((s, w) => s + w, 0);
+	return { type: 'score', score, probabilities: weights.map((w) => w / total), confidence: 0.9 };
+}
+
 /** 観点ごとの向きから、Clef の応答と同じ形の答えを作る（指定のない観点は「言及なし」）。 */
 export function clefAnswers(
 	directions: Partial<Record<string, Direction>>,
@@ -99,7 +113,9 @@ export function clefAnswers(
 	const answers: Record<string, unknown> = {};
 	for (const q of def.questions) {
 		const dir = directions[q.aspect] ?? 'none';
-		if (q.kind === 'direction') {
+		if (q.kind === 'star') {
+			answers[q.key] = scoreAnswer(dir, q.levels.length);
+		} else if (q.kind === 'direction') {
 			answers[q.key] = {
 				type: 'choice',
 				choice: q.options.find((o) => o.value === dir)!.id,
@@ -122,15 +138,17 @@ export function answersFor(
 ): Record<string, unknown> {
 	const answers: Record<string, unknown> = {};
 	for (const [key, q] of Object.entries(questions)) {
-		const dir = directions[key.replace(/_(choice|noul)$/, '')] ?? 'none';
+		const dir = directions[key.replace(/_(choice|noul|star)$/, '')] ?? 'none';
 		answers[key] =
-			q.type === 'choice'
-				? {
-						type: 'choice',
-						choice: CHOICE_ID[dir],
-						probabilities: Object.fromEntries(Object.keys(q.criteria).map((id) => [id, id === CHOICE_ID[dir] ? 0.94 : 0.02]))
-					}
-				: { type: 'noul', noul: dir === 'none' ? 0.03 : 0.97 };
+			q.type === 'score'
+				? scoreAnswer(dir, (q.criteria as string[]).length)
+				: q.type === 'choice'
+					? {
+							type: 'choice',
+							choice: CHOICE_ID[dir],
+							probabilities: Object.fromEntries(Object.keys(q.criteria).map((id) => [id, id === CHOICE_ID[dir] ? 0.94 : 0.02]))
+						}
+					: { type: 'noul', noul: dir === 'none' ? 0.03 : 0.97 };
 	}
 	return answers;
 }

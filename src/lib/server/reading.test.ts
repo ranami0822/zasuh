@@ -5,7 +5,7 @@ import { toClefQuestions } from './question-sets';
 import { gameV1 } from './question-sets/game-v1';
 import type { StarQuestion } from './question-sets/types';
 import type { TagRegistry } from './tags';
-import { backoffMs, interpretAnswers, LEASE_MS, MAX_ATTEMPTS, readRevision } from './reading';
+import { backoffMs, interpretAnswers, LEASE_MS, MAX_ATTEMPTS, readRevision, readText } from './reading';
 import realResponse from './testing/clef-response.json';
 import { addReview, addWork, clefAnswers, createClock, createTestDb, fakeClef, registryWithoutSoftwareDomain } from './testing/db';
 
@@ -380,5 +380,53 @@ describe('星（score）', () => {
 			expect(outcome).toMatchObject({ status: 'error' });
 			expect(await db.prepare('SELECT COUNT(*) AS n FROM reading_answers').first()).toEqual({ n: 0 });
 		});
+	});
+});
+
+describe('readText', () => {
+	const def = { model: 'clef-flash' as const, questions: gameV1.questions };
+
+	it('本文を、質問セットのモデルと質問で読ませて、検証した答えと、入力のトークン数を返す', async () => {
+		const clef = fakeClef();
+		const out = await readText({ clef }, def, '{"gameplay":"positive"}');
+		expect(clef.calls).toEqual([
+			{ model: 'clef-flash', state: '{"gameplay":"positive"}', questionKeys: Object.keys(toClefQuestions(gameV1)) }
+		]);
+		expect(out.answers).toHaveLength(8);
+		expect(out.answers[0]).toMatchObject({ questionKey: 'gameplay_choice', value: 'positive' });
+		expect(out.inputTokens).toBe(1700);
+		expect(out.latencyMs).toBeGreaterThanOrEqual(0);
+	});
+
+	it('5xx・通信の失敗は、1回だけやり直す。やり直しても失敗なら、ClefError を投げる', async () => {
+		const flaky = fakeClef((_state, call) => {
+			if (call === 1) throw new ClefError('Clef が 503 を返しました', true);
+			return { answers: clefAnswers({}), inputTokens: null };
+		});
+		expect((await readText({ clef: flaky, quickRetryDelayMs: 0 }, def, '{}')).inputTokens).toBeNull();
+		expect(flaky.calls).toHaveLength(2);
+
+		const down = fakeClef(() => {
+			throw new ClefError('Clef が 503 を返しました', true);
+		});
+		await expect(readText({ clef: down, quickRetryDelayMs: 0 }, def, '{}')).rejects.toThrow(ClefError);
+		expect(down.calls).toHaveLength(2);
+	});
+
+	it('すぐには直らない失敗（429 など）は、やり直さない', async () => {
+		const limited = fakeClef(() => {
+			throw new ClefError('Clef が 429 を返しました', false);
+		});
+		await expect(readText({ clef: limited, quickRetryDelayMs: 0 }, def, '{}')).rejects.toThrow(ClefError);
+		expect(limited.calls).toHaveLength(1);
+	});
+
+	it('答えの形が想定と違えば、ClefError を投げる', async () => {
+		const broken = fakeClef(() => {
+			const answers = clefAnswers({});
+			delete answers.price_noul;
+			return { answers, inputTokens: 10 };
+		});
+		await expect(readText({ clef: broken }, def, '{}')).rejects.toThrow(ClefError);
 	});
 });
