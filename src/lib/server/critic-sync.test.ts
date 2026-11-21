@@ -1,7 +1,7 @@
 import type { D1Database } from '@cloudflare/workers-types';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { ClefError } from '#server/clef';
-import { MAX_CONSECUTIVE_READ_FAILURES, syncCritics, type CriticLimits } from '#server/critic-sync';
+import { DEFAULT_CRITIC_LIMITS, MAX_CONSECUTIVE_READ_FAILURES, syncCritics, type CriticLimits } from '#server/critic-sync';
 import { ensureCriticQuestionSet, linkOpenCritic, saveCriticRead, worksToSync } from '#server/critics';
 import type { CriticSnippet, OcGame, OcRateLimit, OcResult, OpenCriticClient } from '#server/opencritic';
 import { criticV1 } from '#server/question-sets/critic-v1';
@@ -95,9 +95,18 @@ describe('syncCritics（専門家の評価欄の取得）', () => {
 		return results.map((r) => r.id);
 	}
 
+	/** 計画の上限（既定値は、無料の D1 に合わせて、もっと小さい）。個別のテストは、必要な値だけ上書きする。 */
+	const PLAN_LIMITS: Partial<CriticLimits> = { maxCalls: 40, maxSearches: 5, maxReads: 60 };
+
 	function run(oc: OpenCriticClient, clef = fakeClef(), limits: Partial<CriticLimits> = {}) {
-		return syncCritics({ db, clef, oc, now: clock.now, limits, sleep: noSleep });
+		return syncCritics({ db, clef, oc, now: clock.now, limits: { ...PLAN_LIMITS, ...limits }, sleep: noSleep });
 	}
+
+	it('既定の上限は、無料の D1（1 回の呼び出しで 50 問い合わせ）に収まる大きさ', () => {
+		const l = DEFAULT_CRITIC_LIMITS;
+		// 作品ごとに 2 回（ページの既知の確認と取得済み）、読み取り 1 件ごとに 2 回、検索の記録に 2 回、ほかに 10 回ほど。
+		expect(10 + l.maxCalls * 2 + l.maxReads * 2 + l.maxSearches * 2).toBeLessThanOrEqual(50);
+	});
 
 	it('新しい抜粋だけを読んで保存する。媒体名と URL は入り、本文の列はない', async () => {
 		const workId = await linkedWork(101);
@@ -194,7 +203,7 @@ describe('syncCritics（専門家の評価欄の取得）', () => {
 			clef: fakeClef(),
 			oc,
 			now: clock.now,
-			limits: { maxPagesPerWork: 2 },
+			limits: { ...PLAN_LIMITS, maxPagesPerWork: 2 },
 			sleep: async (ms) => {
 				sleeps.push(ms);
 			}

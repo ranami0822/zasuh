@@ -26,10 +26,16 @@ export interface CriticLimits {
 	pauseMs: number;
 }
 
+/**
+ * 無料の Workers / D1 の上限に合わせた既定値（2026-11-21）。D1 の無料プランは、1 回の呼び出しで 50 問い合わせまで
+ * （公式の文書。https://developers.cloudflare.com/d1/platform/limits/）。1 回の取得は、問い合わせを、
+ * 作品ごとに 2 回前後、読み取り 1 件ごとに 2 回、ほかに 10 回ほど使う。この値で、最大でも 45 回前後に収まる見込み（未確認）。
+ * 有料プラン（1,000 回）にしたら、上げてよい（計画の値: maxCalls 40、maxSearches 5、maxReads 60）。
+ */
 export const DEFAULT_CRITIC_LIMITS: CriticLimits = {
-	maxCalls: 40,
-	maxSearches: 5,
-	maxReads: 60,
+	maxCalls: 8,
+	maxSearches: 2,
+	maxReads: 6,
 	maxPagesPerWork: 3,
 	requestReserve: 40,
 	searchReserve: 5,
