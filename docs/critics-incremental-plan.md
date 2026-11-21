@@ -148,7 +148,7 @@ export async function markSynced(db: D1Database, workId: string, now: Date): Pro
 
 `claimDailyRun` は、消す。`linkOpenCritic` で ID が変わる・外れるときは、`critic_cursor` と `critic_done_on` も null にする（別の作品の進み具合が残らないように）。
 
-`worksNeedingCandidate(db, limit, now)` に `now` を足し、`critic_searched_on` が null か、その日より前の作品だけを返す。検索のあと（見つからなくても、`bad_response` でも）、`markSearched(db, workId, now)` で `critic_searched_on` に、その日を入れる。理由: 今は、見つからない作品は、候補の行がないので、毎回の実行で、また検索される。1 日 1 回なら 1 日 2 件で済んだが、1 日 48 枠では、同じ作品の検索だけで、その日の検索の上限（15）を使い切る。
+`worksNeedingCandidate(db, limit, now)` に `now` を足し、`critic_searched_on` が null か、その日より前の作品だけを返す。検索のあと（見つからなくても、`bad_response` でも）、`markSearched(db, workId, now)` で `critic_searched_on` に、その日を入れる（`unauthorized`・`rate_limited` で止まったときは、入れない）。<!-- REVIEW: critic_searched_on は、レビューで足した列（1 章の表の決定ではない）。検索の 1 日の上限 15 を、同じ作品の検索で使い切らないための案。代わりに、1 日の検索の上限を 1 回の上限と同じ 2 にする案もある（その場合は 1 章の表の変更で、ユーザーの確認が要る）。 -->理由: 今は、見つからない作品は、候補の行がないので、毎回の実行で、また検索される。1 日 1 回なら 1 日 2 件で済んだが、1 日 48 枠では、同じ作品の検索だけで、その日の検索の上限（15）を使い切る。
 
 ### 3.4 `src/lib/server/critic-sync.ts`（変更）→ `delegate:builder`
 
@@ -176,9 +176,9 @@ export async function syncCritics(deps: {
    - 作品を最後まで読む（件数が 20 未満のページ、または `maxPagesPerWork` に達する）: `markSynced`。
    - 作品の応答が `bad_response` などで、その作品だけ諦める: `markSynced`（その日は、もう選ばない。次の日に、0 ページ目から）。
    - 読み取りが、続けて 3 回失敗（`clef_failed`）: その作品を `markSynced`、全体は、この枠で止める。ほかの枠は、続ける。
-   - `unauthorized`、`rate_limited`（OpenCritic の 429、Clef の 429）: 作品は、取得済みにしない。この枠は止まり、**その日の、ほかの枠も、`stopped_today` で動かない**。
-4. 終わりに、必ず 1 回、`finishCriticSlot`（使った数は、呼び出し・検索・読み取り（失敗を含む）。例外が出たときは呼ばない）。`console.log` の `critic_sync` に、枠の名前と、その日の合計（`criticDayTotals`）を足す（本文・URL・キーは出さない）。
-5. 作品の取得が `done`（今日読める作品が、もうない）のとき、残りの割り当てで、候補の検索をする（今のまま）。
+   - `unauthorized`、`rate_limited`（OpenCritic の 429、Clef の 429）: 作品は、取得済みにしない（cursor は、`budget` と同じ決まりで入れる）。この枠は止まり、**その日の、ほかの枠も、`stopped_today` で動かない**。
+4. 終わりに、必ず 1 回、`finishCriticSlot`（使った数は、呼び出し・検索・読み取り（失敗を含む）。例外が出たときは呼ばない）。`console.log` の `critic_sync` に、`slot` と、その日の合計（`criticDayTotals`。`day: { calls, searches, reads }`）を足す（本文・URL・キーは出さない）。`CriticSyncResult` の形は変えない（記録の行だけに足す）。
+5. 作品の取得が `done`（今日読める作品が、もうない）のとき、残りの割り当てで、候補の検索をする（今のまま。ただし、その日に検索した作品は除く。3.3 の `critic_searched_on`）。
 
 ### 3.5 `src/lib/server/scheduled.ts`（変更）→ 私（変更が 30 行未満）
 
@@ -199,9 +199,9 @@ export function countQueries(db: D1Database): { db: D1Database; count: () => num
 
 - G1 型と Svelte: `npm run check` → 0 エラー。
 - G2 新しい動き: 各段で、先に書いた失敗するテストが、実装で通る。
-- G3 **1 回の実行の D1 の問い合わせ ≤ 45（数えて確かめる）**: `critic-sync.test.ts` に、`countQueries` で、次の 2 つを足す。(a) 既定の上限で、8 作品が、それぞれ 1 ページ（既知のものだけ）で、呼び出し 8 まで使う。(b) 1 作品の 1 ページに新しい抜粋 20 件、読み取り 6 まで使う。どちらも、枠を取るところから、終わりまでで、`count() <= 45`。外部への呼び出し（OpenCritic の呼び出し＋検索）も、`<= 50`。
-- G4 枠: 同じ枠に 2 回同時に呼んでも、1 回分だけ動く。別の枠では、また動く。1 日の合計の上限で止まる（`daily_limit`）。`unauthorized` か `rate_limited` で、その日の残りの枠が動かない。
-- G5 進み具合: 止まった作品が、次の枠で、続きのページから読まれる（OpenCritic への呼び出しの `skip` で見る）。読み切った作品は、その日のうちに選ばれず、次の日に、また選ばれる。失敗が続く作品が、先頭に居続けて、ほかの作品を止めない。
+- G3 **1 回の実行の D1 の問い合わせ ≤ 45（数えて確かめる）**: `critic-sync.test.ts` に、`countQueries` で、次の 3 つを足す（`limits` は渡さず、既定の上限で）。(a) 8 作品が、それぞれ 1 ページ（既知のものだけ）で、呼び出し 8 まで使う。(b) 1 作品の 1 ページに新しい抜粋 20 件、読み取り 6 まで使う。(c) いちばん多い場合: 質問セットがまだない DB で、8 作品が、それぞれ 1 ページ（件数 20 未満）、そのうち 6 作品に新しい抜粋 1 件。そのあと、ID のない作品 2 つの候補の検索。どれも、枠を取るところから、終わりまで（`finishCriticSlot` と `criticDayTotals` を含む）で、`count() <= 44`（定期実行の `sweepReadings` が、拾うものがないとき 1 回使うので、呼び出し全体で 45）。外部への呼び出し（OpenCritic の呼び出し＋検索）も、`<= 50`。見積もり（c）: 枠 1、作品の一覧 1、質問セット 3、既知の確認 8、読み取りの保存 6 × 2、取得済み 8、検索の一覧 1、検索ごとに候補と検索日 2 × 2、終わり 1、合計 1 ＝ 40。
+- G4 枠: 同じ枠に 2 回同時に呼んでも、1 回分だけ動く。別の枠では、また動く。1 日の合計の上限で止まる（`daily_limit`）。割り当ては、その日の残りで小さくなる（例: 残り読み取り 4 なら、`reads` 4）。`unauthorized`、`rate_limited`、`reserve` で、その日の残りの枠が動かず、次の日は動く。
+- G5 進み具合: 止まった作品が、次の枠で、続きのページから読まれる（OpenCritic への呼び出しの `skip` で見る）。続きから読んでも、ページの番号は `maxPagesPerWork` 未満まで。まだ始めていない作品に、cursor が入らない。読み切った作品は、その日のうちに選ばれず、次の日に、また選ばれる。失敗が続く作品が、先頭に居続けて、ほかの作品を止めない。候補が見つからない作品は、その日のうちに、もう検索されない。
 - G6 否定の確認（修正に対して）: (i) `claimCriticSlot` の「枠が取れていたら 2 回目は ok: false」、(ii) `worksToSync` の「読み切った作品を除く」、(iii) `saveCriticCursor` の呼び出し、の 3 つを、いったん外して、対応するテストが失敗することを、1 回ずつ確かめる。
 - G7 全件: `npm test`（最後に 1 回）。G8 ビルド: `scripts/deploy.sh --build-only`（本番には触らない）。
 - G9 漏れの確認: `git grep` で、抜粋の本文・キーが、リポジトリにないこと。`critic_slots` に、本文の列がないこと。
@@ -221,7 +221,7 @@ export function countQueries(db: D1Database): { db: D1Database; count: () => num
 
 順序: H1 → H2（同じ作業ツリー。1 つずつ。ブランチ・worktree は増やさない）→ B1 → B2 → S → R。各段の終わりに、私が、ゲートを再実行して、コミットする（プッシュは、最後にまとめて）。
 
-**既存のテストの更新（仕様が変わるため。通すための書き換えではない）:** `critic-sync.test.ts` の `run()` が、`slot` を渡す（枠は、`criticSyncSlot(clock.now())`。同じ日に 2 回走らせるテストは、時計を 5 分進める）。`already_ran` の 2 つのテスト、「20 時間以内は除く」の `worksToSync` のテスト、`isCriticSyncTime` と、`scheduled.test.ts` の「18:17〜18:19」のテストは、新しい仕様（枠・1 日の合計・読み切りの日）のテストに置き換える。**置き換え以外の既存のテストは、そのまま通る**ことを、G2 で確かめる（結果の形 `toEqual` が、そのまま通ること）。
+**既存のテストの更新（仕様が変わるため。通すための書き換えではない）:** `critic-sync.test.ts` の `run()` が、`slot` を渡す（枠は、`criticSyncSlot(clock.now())`。同じ日に 2 回走らせるテストは、時計を 5 分進める）。`already_ran` の 2 つのテスト、「20 時間以内は除く」の `worksToSync` のテスト、`isCriticSyncTime` と、`scheduled.test.ts` の「18:17〜18:19」のテスト（「18:16、18:20、19:17 では取得しない」は、新しい時間帯の中なので、外の時刻 16:59、21:00、06:17 に変える）は、新しい仕様（枠・1 日の合計・読み切りの日）のテストに置き換える。**仕様が変わるので、期待を直す既存のテスト（ほかにはない）:** (1)「maxReads で 2 ページ目の途中で止まった翌日、読み残しを読む」は、翌日、cursor のページ 1 から読むので、`skip` は `[20, 40]`、結果は `calls: 2`（`read: 18`、合計 43 件は同じ）。(2)「最後に 1 回だけ記録し…」は、記録の行に `slot` と `day` が増えるので、`{ event: 'critic_sync', ...result, slot, day: … }` と比べる。(3) `critics.test.ts` の `worksToSync` の `toEqual`（`{ id, ocId }`）は、戻り値に `cursor` が増えるので、`cursor: 0` を足す。`worksNeedingCandidate(db, 10)` の呼び出しは、`now` を渡す。**それ以外の既存のテストは、そのまま通る**ことを、G2 で確かめる（結果の形 `toEqual` が、そのまま通ること。上の `toEqual` は、`limits` の `maxReads`・`maxCalls` が割り当てに入るので、変わらない）。
 
 毎回の指示に入れる: `$lib` は使わない、`#server/...` を使う、本番・Cloudflare・OpenCritic・デプロイ・マイグレーションの適用には触らない、作り物のデータだけ（実在の抜粋は、置かない）、テストでデータを消すときは自分が作ったものだけ、`docs/standards.md`（失敗は `{ ok: false; error }`、関数は `db` と `now` を引数で受ける、テストは隣の `.test.ts`、日本語）、ほかのファイルは触らない、コミットまでで、プッシュはしない。
 
