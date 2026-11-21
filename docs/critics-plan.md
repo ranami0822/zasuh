@@ -6,7 +6,7 @@
 
 - **保存するのは、結果だけ**: 向き、星（段階ごとの確率を含む）、媒体名、元記事の URL、読んだ日時、作品との対応。**抜粋、記事の題名、著者、媒体の点数は、保存も表示もしない。** 抜粋は、取得してから Clef に渡すまで、メモリ上だけに置く。
 - **質問セット `critic-v1`（新規）**: 22.7 の試験と同じ 14 問。`game-v1` の 8 問（4 観点の向きと言及）→ 4 観点の星 → 総合の向き → 総合の星。この順序と文面は、版の一部（変えるときは `critic-v2` を足す）。**星の質問の文面は、`scripts/star-questions.ts` の複写**（`src/` から `scripts/` を読まないため）。**総合の質問は、試験用に作った文面**で、20 章の規約ではない。
-- **星の採用（20 章）は、ユーザーの確認がまだ**。この計画は、星を保存し、専門家の欄だけに出す。**デプロイ（ユーザーの作業）の前に、20 章の確認が要る**（`CLAUDE.md`: 採用までは、本番の画面は点数なし）。
+- **星（20 章）は、アプリ全体で、まだ実装していない**（ユーザーの指摘、2026-11-21）。この計画は、専門家の欄の**データ（星と、段階ごとの確率の保存）と取得**までを作る。**画面の部品（星の分布の棒など。共通のコンポーネント）は、あとでユーザーと決める。この計画では、作らない**（段 C2 は、保留）。作品ページの `load` にも、つながない。
 - **受信箱との違い（ユーザーの確認が要る）**: 22.1 は「自動の候補は、受信箱に入れる」。`messages` の `kind` は CHECK 制約（`work_request`、`contact`、`dispute`）で、SQLite は CHECK を直接変えられない（表の作り直しが要る。本番の表に触る）。**候補は、別の表 `critic_candidates` に入れ、管理画面の「受信箱」のページに、同じ画面で並べて出す。** `messages` は、変えない。
 - **キーの名前**: Worker のシークレット `OPENCRITIC_API_KEY`（RapidAPI のキー）。ユーザーが、`scripts/cf.sh secret put OPENCRITIC_API_KEY` で入れる。なければ、機能は、止まったままになる（エラーにしない）。キーは、前後の空白と引用符を外して使う（試験で、末尾に `'` が入っていて、403 になった）。
 - **未確認のまま進める**: OpenCritic の API の規約（22.3。ユーザーの判断）。止める条件は、22.4。
@@ -206,8 +206,8 @@ export async function syncCritics(deps: { db: D1Database; clef: ClefClient; oc: 
 
 - `src/routes/admin/works/[id]/+page.server.ts` と `+page.svelte`: 「OpenCritic の作品 ID」の入力と保存（action `linkCritic`。`linkOpenCritic`）。失敗は `fail(400, { error: CRITIC_MESSAGES[...], values })`、成功は `values` を返し、`console.log(JSON.stringify({ event: 'critic_linked', ... }))` で記録する（標準 4）。`database()` と `new Date()` は、ここで渡す（標準 3）。ゲームの作品だけ。
 - `src/routes/admin/inbox/+page.server.ts` と `+page.svelte`: 「専門家の欄の候補」の一覧（`openCandidates`）と、承認・却下（action `approveCandidate`、`rejectCandidate`）。失敗は `fail(400, { error: CRITIC_MESSAGES[...], values })`、記録は `console.log(JSON.stringify({ event: 'critic_candidate_decided', ... }))`（標準 4）。
-- `src/routes/works/[slug]/+page.server.ts` の `load`: `critics: await criticSection(db, work.id)` を足す。
-- `src/lib/components/CriticSection.svelte`（新規。props: `section: CriticSection`）と `StarDist.svelte`（5 段階の棒と、小さな平均。**観点を、まとめて平均しない**）。作品ページの、一般のレビューの前に、区切って置く。`section` が null なら、何も出さない。出すもの: 見出し、総合の分布、観点ごとの分布（言及のあるもの）、各レビュー（媒体名の文字、元記事へのリンク、総合の向きと星、言及された観点の向き）、出典（OpenCritic の名前と `https://opencritic.com` へのリンク、「AI が読み取った結果」の注記）。**媒体のロゴ、媒体の点数、抜粋は、出さない。** リンクは `rel="noopener noreferrer nofollow"`、`target="_blank"`。
+- **保留（共通コンポーネントを決めてから）:** 作品ページの `load` への `criticSection` の接続、`CriticSection.svelte`、`StarDist.svelte`、`critic-view.ts`。`criticSection`（1.5。データを返す関数）は、作って、テストする。
+- 保留した部品の内容（あとで使う）: `src/lib/components/CriticSection.svelte`（新規。props: `section: CriticSection`）と `StarDist.svelte`（5 段階の棒と、小さな平均。**観点を、まとめて平均しない**）。作品ページの、一般のレビューの前に、区切って置く。`section` が null なら、何も出さない。出すもの: 見出し、総合の分布、観点ごとの分布（言及のあるもの）、各レビュー（媒体名の文字、元記事へのリンク、総合の向きと星、言及された観点の向き）、出典（OpenCritic の名前と `https://opencritic.com` へのリンク、「AI が読み取った結果」の注記）。**媒体のロゴ、媒体の点数、抜粋は、出さない。** リンクは `rel="noopener noreferrer nofollow"`、`target="_blank"`。
 
 ## 2. 分担と順序（1 つの agent に、1 つの仕事）
 
@@ -218,10 +218,10 @@ export async function syncCritics(deps: { db: D1Database; clef: ClefClient; oc: 
 | A3 | `readText`（`reading.ts`）、`critic-v1.ts`、テスト用の偽 Clef を score に対応 | `delegate:builder` | 1.3、1.4。`reading.ts` は Haiku に任せない（`CLAUDE.md`）。今の `answersFor`（`testing/db.ts`）は、`score` の質問にも noul の形で答え、キーの `_star` を外さない。`_star` を外し、score には `{ type: 'score', score: 0〜4, probabilities: [5 個], confidence }` で答える形に直す（`clefAnswers` も同じく star を扱わない）。既存のテストが通ること |
 | B | `critic-sync.ts` と `critic-sync.test.ts`、`scheduled.ts` と `scheduled.test.ts`、`worker.ts`、`env.ts`（`wrangler.jsonc` は変えない。1.7） | `delegate:builder` | 1.6、1.7。A1〜A3 の後 |
 | C1 | 管理画面（作品の ID、候補の承認）と `messages.ts` | `coder-haiku` | 型だけのコード（`CRITIC_MESSAGES` の型、action の名前と戻り値）と 1.8。B の後（`critics.ts` ができてから） |
-| C2 | `critic-view.ts`（純粋な関数）と、`CriticSection.svelte`、`StarDist.svelte`、`load` の接続 | `coder-haiku` | 型だけのコード（props の型、`CriticSection` の型、`critic-view.ts` の関数の型）、失敗するテスト `critic-view.test.ts`、1.8 |
+| C2（保留） | `critic-view.ts`、`CriticSection.svelte`、`StarDist.svelte`、`load` の接続 | （共通コンポーネントを決めたあと） | この計画では、作らない |
 | D | 最後のレビュー | `delegate:reviewer` | この文書（仕様）と差分だけ |
 
-**C1、C2 の「失敗する検査」（ユーザーの確認が要る）:** 画面（routes と `.svelte`）の単体テストは、今ない。C2 は、表示の計算（段階ごとの確率の合計 → 棒の幅、「言及なし」の扱い、件数の表記）を、`src/lib/critic-view.ts` の純粋な関数に出し、**失敗するテストを私が先に書いて**渡す。部品は、その関数を呼ぶだけにする。C1 は、`critics.ts` を呼ぶ薄い action だけ（検査の中身は、A2 のテスト）。C1、C2 の先に、型だけのコードで、`npm run check` が失敗する状態（存在しない部品や action を、画面が参照）にして渡し、G1、G4b、G5 で確かめる。これで足りなければ、C1 を `delegate:builder-lite` に替える。
+**C1 の「失敗する検査」（ユーザーの確認が要る）:** 画面（routes と `.svelte`）の単体テストは、今ない。C1 は、`critics.ts` を呼ぶ薄い action だけ（検査の中身は、A2 のテスト）。先に、型だけのコードで、`npm run check` が失敗する状態（存在しない action を、画面が参照）にして渡し、G1、G4b で確かめる。これで足りなければ、C1 を `delegate:builder-lite` に替える。
 
 A1〜A3 は、ファイルが重ならないので、worktree で並べる（最大 3）。段 B 以降は、前の段のあとに。各 agent は、自分のブランチで作業し、コミットして返す。私が、各ゲートを自分で実行してから、統合ブランチ `claude/opencritic-expert-reviews-biegyr` に取り込む。
 
@@ -235,8 +235,8 @@ A1〜A3 は、ファイルが重ならないので、worktree で並べる（最
 - G2 単体テスト: 各段の新しいテスト（`npx vitest run <file>`）。失敗するテストが先にあり、実装で通る（段 A1 は、私が渡す時点で失敗していることを確認する）。
 - G3 全件: 最後に、`npm test` を 1 回（約 40 秒）。
 - G4 ビルド: `scripts/deploy.sh --build-only`（本番に触らない）。
-- G4b ブラウザの通し: C1、C2 の後に、`npm run e2e`（画面を変えたため。`CLAUDE.md`）。
-- G5 画面（任意、C2 の後）: ビルドして `wrangler dev`（`wrangler.local.jsonc`、AI なし）で、作り物の `critic_reviews` を、ローカルの D1 に入れて、作品ページの欄をスクリーンショットで確かめる。
+- G4b ブラウザの通し: C1 の後に、`npm run e2e`（画面を変えたため。`CLAUDE.md`）。
+- G5 （保留。C2 のあと）作品ページの欄の、スクリーンショットでの確認。
 - G6 漏れの確認: `git grep` で、`snippet` の値、`RAPID_API_KEY` の値、`rapidapi` のキーらしい文字列が、リポジトリにないこと。`critic_reviews` と `critic_answers` に、本文の列がないこと（テストで、列名を確かめる）。
 - G7 否定の確認（修正に対して）: `opencritic.ts` の `unauthorized` と `rate_limited` の振り分けと、`syncCritics` の「ページの全件が既知なら止まる」「`hasBudget` が false なら止まる」は、その部分をいったん外して、対応するテストが失敗することを、1 回ずつ確かめる。
 
@@ -250,3 +250,7 @@ A1〜A3 は、ファイルが重ならないので、worktree で並べる（最
 - **cron は足さない（決め）:** 無料プランの cron の数の上限（アカウント全体で 5 個、という記憶。未確認）を避けるため。毎分の cron の取りこぼし（その分に呼ばれなかった）があっても、18:17〜18:19 の 3 回のどれかで足りる。3 回とも取りこぼしたら、その日は取得しない（次の日に続く）。
 - 総合の質問は、試験用の文面。言い換えでの安定性は、測っていない。
 - 日本語の作品名は、OpenCritic の検索で見つからない見込み（運営者が、ID を入れる）。
+
+## 5. cron について（ユーザーの発言、2026-11-21）
+
+ユーザー: 「cron があったほうがいいと思うなら、何も問題なく、ほかのプロジェクトを消せます」。**ほかの Worker は、消さない**（`CLAUDE.md`: 削除は、ユーザーが名指しで許可したものだけ。今回は、名指しがない）。専用の cron のほうが、取得の呼び出しが、毎分の読み取りと分かれ、時刻を見る処理が要らない、という利点はある。ただし、上限（記憶では 5 個。未確認）に当たるかどうかが、まだ分からない。この計画は、毎分の cron の時刻判断で作る。専用の cron に替えるのは、`wrangler.jsonc` に 1 行足し、`scheduled.ts` の分岐を替えるだけで、デプロイの前に、いつでもできる。
