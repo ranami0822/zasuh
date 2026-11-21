@@ -3,7 +3,6 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import {
 	addCandidate,
 	claimCriticSlot,
-	claimDailyRun,
 	criticDayTotals,
 	criticSection,
 	decideCandidate,
@@ -304,13 +303,6 @@ describe('専門家の評価の保存と問い合わせ', () => {
 		expect(await decideCandidate(db, software, true, clock.now())).toEqual({ ok: false, error: 'not_game' });
 		expect(await getOpenCriticId(db, software)).toBeNull();
 		expect(await db.prepare('SELECT status FROM critic_candidates WHERE work_id = ?').bind(software).first()).toEqual({ status: 'open' });
-	});
-
-	it('1 日 1 回の実行の権利: 同じ日の 2 回目は false、別の日は true', async () => {
-		expect(await claimDailyRun(db, clock.now())).toBe(true);
-		expect(await claimDailyRun(db, new Date('2026-11-20T23:59:59.000Z'))).toBe(false);
-		expect(await claimDailyRun(db, new Date('2026-11-21T00:00:00.000Z'))).toBe(true);
-		expect(await claimDailyRun(db, new Date('2026-11-21T18:19:00.000Z'))).toBe(false);
 	});
 
 	it('候補が要る作品は、ゲーム・公開中・ID なし・候補の行なしだけ。候補を承認・却下する', async () => {

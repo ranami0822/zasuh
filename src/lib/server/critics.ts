@@ -179,19 +179,6 @@ export async function saveCriticCursor(db: D1Database, workId: string, cursor: n
 	await db.prepare('UPDATE works SET critic_cursor = ? WHERE id = ?').bind(cursor, workId).run();
 }
 
-/**
- * 1 日 1 回の取得の、実行の権利を取る（day は UTC の日付）。その日の最初の 1 回だけ true。
- * 毎分の定期実行が重なっても、取得が 2 回動かないように。
- * B2 で消す（critic-sync.ts が claimCriticSlot に移るまで残す）。
- */
-export async function claimDailyRun(db: D1Database, now: Date): Promise<boolean> {
-	const result = await db
-		.prepare('INSERT OR IGNORE INTO critic_runs (day, started_at) VALUES (?, ?)')
-		.bind(utcDay(now), now.toISOString())
-		.run();
-	return result.meta.changes === 1;
-}
-
 /** その日は、もう選ばない（読み切った、または、失敗して諦めた）。cursor を消し、読み切った日と取得の日時を入れる。 */
 export async function markSynced(db: D1Database, workId: string, now: Date): Promise<void> {
 	await db

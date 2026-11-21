@@ -1,10 +1,12 @@
 import type { D1Database } from '@cloudflare/workers-types';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { ClefError } from '#server/clef';
-import { DEFAULT_CRITIC_LIMITS, MAX_CONSECUTIVE_READ_FAILURES, syncCritics, type CriticLimits } from '#server/critic-sync';
+import { criticSyncSlot } from '#server/critic-slot';
+import { DEFAULT_CRITIC_LIMITS, MAX_CONSECUTIVE_READ_FAILURES, syncCritics, type CriticDailyLimits, type CriticLimits } from '#server/critic-sync';
 import { ensureCriticQuestionSet, linkOpenCritic, saveCriticRead, worksToSync } from '#server/critics';
 import type { CriticSnippet, OcGame, OcRateLimit, OcResult, OpenCriticClient } from '#server/opencritic';
 import { criticV1 } from '#server/question-sets/critic-v1';
+import { countQueries } from '#server/testing/count-queries';
 import { addWork, createClock, createTestDb, fakeClef } from '#server/testing/db';
 
 /** OpenCritic の 1 ページの件数。 */
@@ -98,8 +100,32 @@ describe('syncCritics（専門家の評価欄の取得）', () => {
 	/** 計画の上限（既定値は、無料の D1 に合わせて、もっと小さい）。個別のテストは、必要な値だけ上書きする。 */
 	const PLAN_LIMITS: Partial<CriticLimits> = { maxCalls: 40, maxSearches: 5, maxReads: 60 };
 
-	function run(oc: OpenCriticClient, clef = fakeClef(), limits: Partial<CriticLimits> = {}) {
-		return syncCritics({ db, clef, oc, now: clock.now, limits: { ...PLAN_LIMITS, ...limits }, sleep: noSleep });
+	/** 今の時刻の枠の名前。 */
+	function slot(): string {
+		return criticSyncSlot(clock.now())!;
+	}
+
+	function run(oc: OpenCriticClient, clef = fakeClef(), limits: Partial<CriticLimits> = {}, dailyLimits: Partial<CriticDailyLimits> = {}) {
+		return syncCritics({ db, clef, oc, slot: slot(), now: clock.now, limits: { ...PLAN_LIMITS, ...limits }, dailyLimits, sleep: noSleep });
+	}
+
+	/** 次の枠（5 分後。同じ日）。 */
+	const NEXT_SLOT = 5 * 60 * 1000;
+	const NEXT_DAY = 24 * 60 * 60 * 1000;
+
+	async function workState(workId: string): Promise<{ cursor: number | null; doneOn: string | null; searchedOn: string | null }> {
+		const row = await db
+			.prepare('SELECT critic_cursor AS cursor, critic_done_on AS doneOn, critic_searched_on AS searchedOn FROM works WHERE id = ?')
+			.bind(workId)
+			.first<{ cursor: number | null; doneOn: string | null; searchedOn: string | null }>();
+		return row!;
+	}
+
+	async function slotRow(name: string): Promise<{ calls: number; searches: number; reads: number; stopped: string | null } | null> {
+		return db
+			.prepare('SELECT calls, searches, reads, stopped FROM critic_slots WHERE slot = ?')
+			.bind(name)
+			.first<{ calls: number; searches: number; reads: number; stopped: string | null }>();
 	}
 
 	it('既定の上限は、無料の D1（1 回の呼び出しで 50 問い合わせ）に収まる大きさ', () => {
@@ -186,8 +212,8 @@ describe('syncCritics（専門家の評価欄の取得）', () => {
 		oc.calls.length = 0;
 		const second = await run(oc, clef);
 
-		expect(oc.calls.map((c) => c.skip)).toEqual([0, 20, 40]);
-		expect(second).toEqual({ works: 1, calls: 3, searches: 0, read: 18, failed: 0, stopped: 'done' });
+		expect(oc.calls.map((c) => c.skip)).toEqual([20, 40]);
+		expect(second).toEqual({ works: 1, calls: 2, searches: 0, read: 18, failed: 0, stopped: 'done' });
 		expect(clef.calls).toHaveLength(43);
 		expect(await savedIds(workId)).toHaveLength(43);
 		expect(await syncedAt(workId)).toBe(clock.now().toISOString());
@@ -202,6 +228,7 @@ describe('syncCritics（専門家の評価欄の取得）', () => {
 			db,
 			clef: fakeClef(),
 			oc,
+			slot: slot(),
 			now: clock.now,
 			limits: { ...PLAN_LIMITS, maxPagesPerWork: 2 },
 			sleep: async (ms) => {
@@ -237,7 +264,7 @@ describe('syncCritics（専門家の評価欄の取得）', () => {
 		expect(await savedIds(workId)).toContain('p20-1');
 	});
 
-	describe('1 日 1 回のロック', () => {
+	describe('枠（5 分）と 1 日の合計', () => {
 		/** 少し待ってから答える偽の Clef（2 つの実行が重なるように）。 */
 		const slowClef = () =>
 			fakeClef(async (state, _call, questions) => {
@@ -245,7 +272,7 @@ describe('syncCritics（専門家の評価欄の取得）', () => {
 				return fakeClef().run('clef-flash', state, questions);
 			});
 
-		it('同じ日に 2 つ同時に走らせても、取得と読み取りは 1 回分だけ。片方は already_ran', async () => {
+		it('同じ枠に 2 つ同時に走らせても、取得と読み取りは 1 回分だけ。片方は already_ran で、何も呼ばない', async () => {
 			const workId = await linkedWork(101);
 			const clef = slowClef();
 			const oc = fakeOc({ reviews: () => okPage(page('a', 3)) });
@@ -261,21 +288,316 @@ describe('syncCritics（専門家の評価欄の取得）', () => {
 				])
 			);
 			expect(await savedIds(workId)).toEqual(['a-0', 'a-1', 'a-2']);
-		});
-
-		it('別の日なら、また動く', async () => {
-			await linkedWork(101);
-			const clef = slowClef();
-			const oc = fakeOc({ reviews: () => okPage(page('a', 3)) });
-			await run(oc, clef);
 			expect(await run(oc, clef)).toMatchObject({ stopped: 'already_ran' });
 			expect(oc.calls).toHaveLength(1);
+		});
 
-			clock.advance(24 * 60 * 60 * 1000);
+		it('別の枠なら、同じ日でも、また動く。枠ごとに、使った数を記録する', async () => {
+			await linkedWork(101);
+			const oc = fakeOc({ reviews: (ocId) => okPage(page(`w${ocId}`, 2)) });
+			const first = slot();
+			await run(oc);
+
+			clock.advance(NEXT_SLOT);
+			await linkedWork(102);
+			const result = await run(oc);
+
+			expect(result).toEqual({ works: 1, calls: 1, searches: 0, read: 2, failed: 0, stopped: 'done' });
+			expect(oc.calls.map((c) => c.ocId)).toEqual([101, 102]);
+			expect(await slotRow(first)).toEqual({ calls: 1, searches: 0, reads: 2, stopped: 'done' });
+			expect(await slotRow(slot())).toEqual({ calls: 1, searches: 0, reads: 2, stopped: 'done' });
+		});
+
+		it('1 日の合計の上限（dailyLimits）に達したら、その日の次の枠は daily_limit で、何も呼ばない。次の日は動く', async () => {
+			await linkedWork(101);
+			const oc = fakeOc({ reviews: (ocId) => okPage(page(`w${ocId}`, 2)) });
+			expect(await run(oc, fakeClef(), {}, { maxCalls: 1 })).toMatchObject({ calls: 1, stopped: 'done' });
+
+			clock.advance(NEXT_SLOT);
+			await linkedWork(102);
+			expect(await run(oc, fakeClef(), {}, { maxCalls: 1 })).toEqual({ works: 0, calls: 0, searches: 0, read: 0, failed: 0, stopped: 'daily_limit' });
+			expect(oc.calls).toHaveLength(1);
+
+			clock.advance(NEXT_DAY);
+			expect(await run(oc, fakeClef(), {}, { maxCalls: 1 })).toMatchObject({ works: 1, calls: 1 });
+		});
+
+		it('割り当ては、その日の残りで小さくなる（読み取りの残りが 4 なら、その枠で読むのは 4 件まで）', async () => {
+			const workId = await linkedWork(101);
+			const clef = fakeClef();
+			const oc = fakeOc({ reviews: () => okPage(page('a', PAGE)) });
+			expect(await run(oc, clef, { maxReads: 6 }, { maxReads: 10 })).toMatchObject({ read: 6, stopped: 'budget' });
+
+			clock.advance(NEXT_SLOT);
+			const result = await run(oc, clef, { maxReads: 6 }, { maxReads: 10 });
+
+			expect(result).toEqual({ works: 0, calls: 1, searches: 0, read: 4, failed: 0, stopped: 'budget' });
+			expect(clef.calls).toHaveLength(10);
+			expect(await savedIds(workId)).toHaveLength(10);
+			expect(await slotRow(slot())).toEqual({ calls: 1, searches: 0, reads: 4, stopped: 'budget' });
+		});
+
+		it.each(['unauthorized', 'rate_limited'] as const)('%s で止まったら、枠に記録し、その日の別の枠は stopped_today で何も呼ばない。次の日は動く', async (error) => {
+			const workId = await linkedWork(101);
+			const oc = fakeOc({ reviews: () => ({ ok: false, error }) });
+			const first = slot();
+			expect(await run(oc)).toMatchObject({ stopped: error });
+			expect(await slotRow(first)).toEqual({ calls: 1, searches: 0, reads: 0, stopped: error });
+			// 1 ページも取っていないので、cursor は入らない。
+			expect(await workState(workId)).toEqual({ cursor: null, doneOn: null, searchedOn: null });
+
+			clock.advance(NEXT_SLOT);
+			expect(await run(oc)).toEqual({ works: 0, calls: 0, searches: 0, read: 0, failed: 0, stopped: 'stopped_today' });
+			expect(oc.calls).toHaveLength(1);
+
+			clock.advance(NEXT_DAY);
+			expect(await run(oc)).toMatchObject({ calls: 1, stopped: error });
+			expect(oc.calls).toHaveLength(2);
+		});
+
+		it('Clef の 429 で止まったときも、その日の別の枠は stopped_today。読み途中のページを cursor に入れる', async () => {
+			const workId = await linkedWork(101);
+			const clef = fakeClef(() => {
+				throw new ClefError('Clef の呼び出しに失敗しました (429)', false);
+			});
+			const oc = fakeOc({ reviews: (_id, skip) => okPage(page(`p${skip}`, PAGE)) });
+			const first = slot();
+			expect(await run(oc, clef)).toMatchObject({ stopped: 'rate_limited' });
+			expect(await slotRow(first)).toEqual({ calls: 1, searches: 0, reads: 1, stopped: 'rate_limited' });
+			expect(await workState(workId)).toEqual({ cursor: 0, doneOn: null, searchedOn: null });
+
+			clock.advance(NEXT_SLOT);
+			expect(await run(oc, clef)).toMatchObject({ stopped: 'stopped_today' });
+			expect(oc.calls).toHaveLength(1);
+		});
+
+		it('応答の残りが requestReserve 以下で止まったら、結果は budget、枠の記録は reserve。その日の別の枠は stopped_today、次の日は動く', async () => {
+			await linkedWork(101);
+			await linkedWork(102);
+			const oc = fakeOc({ reviews: (ocId) => okPage(page(`w${ocId}`, 2), { requestsRemaining: 40 }) });
+			const first = slot();
+			expect(await run(oc)).toMatchObject({ calls: 1, stopped: 'budget' });
+			expect(await slotRow(first)).toMatchObject({ calls: 1, stopped: 'reserve' });
+
+			clock.advance(NEXT_SLOT);
+			expect(await run(oc)).toMatchObject({ calls: 0, stopped: 'stopped_today' });
+			expect(oc.calls).toHaveLength(1);
+
+			clock.advance(NEXT_DAY);
+			expect(await run(oc)).toMatchObject({ calls: 1, stopped: 'budget' });
+		});
+
+		it('検索の残りが searchReserve 以下で止まったときは、枠の記録も budget で、その日の別の枠は動く', async () => {
+			for (const name of ['作り物 1', '作り物 2']) await addWork(db, { name });
+			const oc = fakeOc({ search: () => ok([], { searchesRemaining: 5 }) });
+			const first = slot();
+			expect(await run(oc)).toMatchObject({ searches: 1, stopped: 'budget' });
+			expect(await slotRow(first)).toMatchObject({ searches: 1, stopped: 'budget' });
+
+			// 残りの 1 作品を検索する（stopped_today にならない）。
+			clock.advance(NEXT_SLOT);
+			expect(await run(oc)).toMatchObject({ searches: 1, stopped: 'done' });
+			expect(oc.calls.filter((c) => c.kind === 'search')).toHaveLength(2);
+		});
+
+		it('途中で例外が出たときは、枠の割り当てを残す（記録を直さない）', async () => {
+			await linkedWork(101);
+			const oc = fakeOc({
+				reviews: () => {
+					throw new Error('作り物の例外');
+				}
+			});
+
+			await expect(run(oc, fakeClef(), { maxCalls: 8, maxSearches: 2, maxReads: 6 })).rejects.toThrow('作り物の例外');
+
+			expect(await slotRow(slot())).toEqual({ calls: 8, searches: 2, reads: 6, stopped: null });
+		});
+	});
+
+	describe('進み具合（cursor と、読み切りの日）', () => {
+		it('読み取りの上限でページの途中で止まった作品は、次の枠で、そのページから読む', async () => {
+			const workId = await linkedWork(101);
+			const clef = fakeClef();
+			const pages: Record<number, CriticSnippet[]> = { 0: page('p0', PAGE), 20: page('p20', PAGE), 40: page('p40', 3) };
+			const oc = fakeOc({ reviews: (_id, skip) => okPage(pages[skip] ?? []) });
+
+			expect(await run(oc, clef, { maxReads: 25 })).toMatchObject({ calls: 2, read: 25, stopped: 'budget' });
+			expect(await workState(workId)).toEqual({ cursor: 1, doneOn: null, searchedOn: null });
+
+			clock.advance(NEXT_SLOT);
+			oc.calls.length = 0;
 			const result = await run(oc, clef);
 
-			expect(result).toMatchObject({ works: 1, calls: 1, stopped: 'done' });
-			expect(oc.calls).toHaveLength(2);
+			expect(oc.calls.map((c) => c.skip)).toEqual([20, 40]);
+			expect(result).toEqual({ works: 1, calls: 2, searches: 0, read: 18, failed: 0, stopped: 'done' });
+			expect(await savedIds(workId)).toHaveLength(43);
+			expect(await workState(workId)).toEqual({ cursor: null, doneOn: '2026-11-20', searchedOn: null });
+		});
+
+		it('ページを終えて次の呼び出しの前に止まったら、次の枠は次のページから。ページは 0 から数えて maxPagesPerWork 未満まで', async () => {
+			const workId = await linkedWork(101);
+			const oc = fakeOc({ reviews: (_id, skip) => okPage(page(`p${skip}`, PAGE)) });
+
+			expect(await run(oc, fakeClef(), { maxCalls: 1 })).toMatchObject({ works: 0, calls: 1, stopped: 'budget' });
+			expect(await workState(workId)).toMatchObject({ cursor: 1, doneOn: null });
+			clock.advance(NEXT_SLOT);
+			expect(await run(oc, fakeClef(), { maxCalls: 1 })).toMatchObject({ works: 0, calls: 1, stopped: 'budget' });
+			expect(await workState(workId)).toMatchObject({ cursor: 2, doneOn: null });
+			clock.advance(NEXT_SLOT);
+			expect(await run(oc, fakeClef(), { maxCalls: 1 })).toMatchObject({ works: 1, calls: 1, stopped: 'done' });
+			clock.advance(NEXT_SLOT);
+			expect(await run(oc, fakeClef(), { maxCalls: 1 })).toMatchObject({ works: 0, calls: 0, stopped: 'done' });
+
+			expect(oc.calls.map((c) => c.skip)).toEqual([0, 20, 40]);
+			expect(await savedIds(workId)).toHaveLength(3 * PAGE);
+			expect(await workState(workId)).toEqual({ cursor: null, doneOn: '2026-11-20', searchedOn: null });
+		});
+
+		it('作品の最初の呼び出しの前に、上限で止まった作品には、cursor を入れない', async () => {
+			const first = await linkedWork(101);
+			const second = await linkedWork(102);
+			const oc = fakeOc({ reviews: (ocId) => okPage(page(`w${ocId}`, 2)) });
+
+			// 1 つ目の作品で読み取りの上限に達し、2 つ目の作品は、最初の呼び出しの前に止まる。
+			expect(await run(oc, fakeClef(), { maxReads: 2 })).toMatchObject({ works: 1, calls: 1, read: 2, stopped: 'budget' });
+
+			const [done, rest] = oc.calls[0].ocId === 101 ? [first, second] : [second, first];
+			expect(await workState(done)).toMatchObject({ cursor: null, doneOn: '2026-11-20' });
+			expect(await workState(rest)).toEqual({ cursor: null, doneOn: null, searchedOn: null });
+		});
+
+		it('読み切った作品は、その日の次の枠で選ばれず、次の日に、0 ページ目から選ばれる', async () => {
+			const workId = await linkedWork(101);
+			const oc = fakeOc({ reviews: () => okPage(page('a', 2)) });
+			expect(await run(oc)).toMatchObject({ works: 1, calls: 1 });
+
+			clock.advance(NEXT_SLOT);
+			expect(await run(oc)).toEqual({ works: 0, calls: 0, searches: 0, read: 0, failed: 0, stopped: 'done' });
+			expect(oc.calls).toHaveLength(1);
+
+			clock.advance(NEXT_DAY);
+			expect(await run(oc)).toMatchObject({ works: 1, calls: 1 });
+			expect(oc.calls.map((c) => c.skip)).toEqual([0, 0]);
+			expect(await workState(workId)).toMatchObject({ doneOn: '2026-11-21' });
+		});
+
+		it('bad_response の作品は、その日のうちは、もう選ばれず、ほかの作品を止めない', async () => {
+			const bad = await linkedWork(101);
+			await linkedWork(102);
+			const oc = fakeOc({ reviews: (ocId) => (ocId === 101 ? { ok: false, error: 'bad_response' } : okPage(page('g', 2))) });
+
+			for (let i = 0; i < 3; i++) {
+				await run(oc, fakeClef(), { maxCalls: 1 });
+				clock.advance(NEXT_SLOT);
+			}
+
+			expect(oc.calls.map((c) => c.ocId).sort()).toEqual([101, 102]);
+			expect(await workState(bad)).toEqual({ cursor: null, doneOn: '2026-11-20', searchedOn: null });
+		});
+
+		it('読み取りが続けて失敗した（clef_failed）作品は、その日のうちは、もう選ばれず、ほかの作品は次の枠で読まれる', async () => {
+			const poisoned = await linkedWork(101);
+			const healthy = await linkedWork(102);
+			const clef = fakeClef((state, _call, questions) => {
+				if (state.includes('w101')) throw new ClefError('Clef の答えの形が想定と違います', false);
+				return fakeClef().run('clef-flash', state, questions);
+			});
+			const oc = fakeOc({ reviews: (ocId) => okPage(page(`w${ocId}`, 5)) });
+
+			for (let i = 0; i < 3; i++) {
+				await run(oc, clef);
+				clock.advance(NEXT_SLOT);
+			}
+
+			expect(oc.calls.filter((c) => c.ocId === 101)).toHaveLength(1);
+			expect(await savedIds(healthy)).toHaveLength(5);
+			expect(await workState(poisoned)).toEqual({ cursor: null, doneOn: '2026-11-20', searchedOn: null });
+		});
+	});
+
+	describe('候補の検索は、その日のうちに 1 作品 1 回', () => {
+		it.each([
+			['見つからない', () => ok<OcGame[]>([])],
+			['bad_response', (): OcResult<OcGame[]> => ({ ok: false, error: 'bad_response' })]
+		])('%s ときも、その日の次の枠では検索しない。次の日は、また検索する', async (_label, respond) => {
+			const a = await addWork(db, { name: '作り物 1' });
+			const b = await addWork(db, { name: '作り物 2' });
+			const oc = fakeOc({ search: respond });
+			expect(await run(oc)).toMatchObject({ searches: 2, stopped: 'done' });
+			expect((await workState(a)).searchedOn).toBe('2026-11-20');
+			expect((await workState(b)).searchedOn).toBe('2026-11-20');
+
+			clock.advance(NEXT_SLOT);
+			expect(await run(oc)).toMatchObject({ searches: 0, stopped: 'done' });
+
+			clock.advance(NEXT_DAY);
+			expect(await run(oc)).toMatchObject({ searches: 2, stopped: 'done' });
+			expect(oc.calls.filter((c) => c.kind === 'search')).toHaveLength(4);
+		});
+
+		it.each(['unauthorized', 'rate_limited'] as const)('検索が %s で止まったときは、検索した日を入れない', async (error) => {
+			const a = await addWork(db, { name: '作り物 1' });
+			const oc = fakeOc({ search: () => ({ ok: false, error }) });
+
+			expect(await run(oc)).toMatchObject({ searches: 1, stopped: error });
+
+			expect((await workState(a)).searchedOn).toBeNull();
+		});
+	});
+
+	describe('1 回の実行の D1 の問い合わせ（既定の上限。無料の D1 は 1 回の呼び出しで 50。定期実行の sweep の 1 回を除いて 44 まで）', () => {
+		/** 既定の上限で、数える db を渡して、1 回走らせる。 */
+		async function countedRun(oc: ReturnType<typeof fakeOc>, clef = fakeClef()) {
+			const counted = countQueries(db);
+			const result = await syncCritics({ db: counted.db, clef, oc, slot: slot(), now: clock.now, sleep: noSleep });
+			return { result, queries: counted.count() };
+		}
+
+		it('(a) 8 作品が、それぞれ 1 ページ（既知の抜粋だけ）で、呼び出し 8 まで使う', async () => {
+			const setId = await ensureCriticQuestionSet(db, criticV1, clock.now());
+			for (let ocId = 101; ocId <= 108; ocId++) {
+				const workId = await linkedWork(ocId);
+				for (const s of page(`w${ocId}`, 3)) await saveCriticRead(db, { workId, snippet: s, questionSetId: setId, answers: [] }, clock.now());
+			}
+			const oc = fakeOc({ reviews: (ocId) => okPage(page(`w${ocId}`, 3)) });
+
+			const { result, queries } = await countedRun(oc);
+
+			expect(result).toEqual({ works: 8, calls: 8, searches: 0, read: 0, failed: 0, stopped: 'done' });
+			console.info(`G3 (a) queries=${queries}`);
+			expect(queries).toBeLessThanOrEqual(44);
+			expect(oc.calls.length).toBeLessThanOrEqual(50);
+		});
+
+		it('(b) 1 作品の 1 ページに新しい抜粋 20 件で、読み取り 6 まで使う', async () => {
+			await linkedWork(101);
+			const oc = fakeOc({ reviews: () => okPage(page('a', PAGE)) });
+
+			const { result, queries } = await countedRun(oc);
+
+			expect(result).toEqual({ works: 0, calls: 1, searches: 0, read: 6, failed: 0, stopped: 'budget' });
+			console.info(`G3 (b) queries=${queries}`);
+			expect(queries).toBeLessThanOrEqual(44);
+			expect(oc.calls.length).toBeLessThanOrEqual(50);
+		});
+
+		it('(c) 質問セットがまだない DB で、8 作品が 1 ページずつ（6 作品に新しい抜粋 1 件）、そのあと 2 作品の候補の検索', async () => {
+			const sets = async () => (await db.prepare('SELECT COUNT(*) AS n FROM question_sets').first<{ n: number }>())!.n;
+			const before = await sets();
+			for (let ocId = 101; ocId <= 108; ocId++) await linkedWork(ocId);
+			for (const name of ['作り物 1', '作り物 2']) await addWork(db, { name });
+			const oc = fakeOc({
+				reviews: (ocId) => okPage(ocId <= 106 ? [snippet(`w${ocId}`)] : []),
+				search: (name) => ok([{ id: name === '作り物 1' ? 501 : 502, name: 'Fictional Game', dist: 0 }])
+			});
+
+			const { result, queries } = await countedRun(oc);
+
+			expect(result).toEqual({ works: 8, calls: 8, searches: 2, read: 6, failed: 0, stopped: 'done' });
+			expect(await sets()).toBe(before + 1);
+			console.info(`G3 (c) queries=${queries}`);
+			expect(queries).toBeLessThanOrEqual(44);
+			expect(oc.calls.length).toBeLessThanOrEqual(50);
 		});
 	});
 
@@ -537,7 +859,8 @@ describe('syncCritics（専門家の評価欄の取得）', () => {
 		const result = await run(oc, clef);
 
 		expect(logs).toHaveLength(1);
-		expect(JSON.parse(logs[0])).toEqual({ event: 'critic_sync', ...result });
+		// 読み取りは、失敗を含めて 3。その日の合計は、この枠の実績。
+		expect(JSON.parse(logs[0])).toEqual({ event: 'critic_sync', ...result, slot: '2026-11-20T18:15', day: { calls: 1, searches: 0, reads: 3 } });
 		for (const line of [...logs, ...errors]) {
 			expect(line).not.toContain('作り物の抜粋の本文');
 			expect(line).not.toContain('example.com');
