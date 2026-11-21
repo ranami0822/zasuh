@@ -6,7 +6,7 @@ import { sweepReadings } from './sweep';
 
 /**
  * 専門家（批評家）の取得を呼ぶ時刻。毎分の定期実行のうち、UTC の 18:17〜18:19（日本時間の 03:17〜03:19）。
- * 専用の cron は足さない（docs/critics-plan.md の 1.7）。3 回呼ばれても、同じ作品は、20 時間以内には取得し直さない。
+ * 専用の cron は足さない（docs/critics-plan.md の 1.7）。3 回呼ばれても、取得は、UTC の日ごとに 1 回だけ（critic_runs のロック。critics.ts の claimDailyRun）。
  */
 export function isCriticSyncTime(now: Date): boolean {
 	return now.getUTCHours() === 18 && now.getUTCMinutes() >= 17 && now.getUTCMinutes() <= 19;
