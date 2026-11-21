@@ -20,7 +20,7 @@ SvelteKit 3（Svelte 5）+ `@sveltejs/adapter-cloudflare` 8、Cloudflare Workers
 
 - `src/lib/server/` … 業務の中心（`opencritic.ts`・`critics.ts`・`critic-sync.ts` 専門家の評価の取得と保存、`reading.ts` 読み取り、`stats.ts` 集計、`reviews.ts` 投稿・編集・通報、`auth.ts` passkey と復旧、`tags.ts` タグ、`pages.ts` 画面の問い合わせ、`inbox.ts` 受信箱）。D1 を使う単体テストが、ここにある。
 - `src/routes/` … 画面とフォームの処理。`src/hooks.server.ts` が、`/admin` を守る（フォームの処理は、レイアウトの `load` を通らないため、ここで確かめる）。
-- `migrations/` … 0001〜0006（本番に適用済みは 0005 まで。0006 は専門家の欄で、未適用）。**本番に適用済みのファイルは、書き換えない**（変えるときは、新しい番号を足す）。
+- `migrations/` … 0001〜0006（本番に適用済み。0006 は専門家の欄、2026-11-21）。**本番に適用済みのファイルは、書き換えない**（変えるときは、新しい番号を足す）。
 - `src/lib/styles/tokens.css`、`app.css` … 見た目。**デザインの正は、`tokens.css`**。
 - インポートは、`#server/...`、`#components/...`、`#styles/...`、`#messages`、`#passkey`（`package.json` の `imports`）。`$lib` は、使えない（拡張子なしの `.ts` を、`#lib/*` が解決しないため）。
 
@@ -59,10 +59,10 @@ Playwright は、グローバルに入っている（依存に入れていない
 - `spec-driven-dev` の標準の確認は、この文書にある決まりだけを見る。書いていない決まりは、確認の対象にならない。
 - 費用は、`agent-cost` で、Haiku と Sonnet を同じ設計で比べて確かめる。Haiku が Sonnet の約 20 分の 1（10万トークンまで）という価格は、第三者の記事で、**未確認**。測った結果で、この節を直す。試験 1 回（共有表示。小さい仕事）: Haiku は、費用の約 6%。大半は、まとめ役の会話だった。試験 2 回（専門家の欄。約 2,300 行の本物の仕事、2026-11-21）: Haiku は入力相当の約 5%（311k / 6.0M）、まとめ役の会話は約 57%、Opus（builder、reviewer）は約 38%。Haiku が設計の不足で止まった回数は 0、やり直しも 0。レビューが、実際の不具合を 5 つ見つけた。画面の仕事（Haiku）は、失敗する検査が作りにくく、`npm run check` と e2e に頼った。
 
-## 本番の状態（2026-11-19）
+## 本番の状態（2026-11-21 に更新）
 
-- Worker `zasuh`、D1 `zasuh`（ID は `wrangler.jsonc`）、`review.anami.party`（カスタムドメイン）。`workers.dev` は、無効。マイグレーションは、0001〜0005 を適用済み。
-- シークレット: `ADMIN_TOKEN` のみ（管理画面の合言葉。**リポジトリにも、この文書にもない。ユーザーが持っている**。変えるときは、`scripts/cf.sh secret put ADMIN_TOKEN`）。
+- Worker `zasuh`、D1 `zasuh`（ID は `wrangler.jsonc`）、`review.anami.party`（カスタムドメイン）。`workers.dev` は、無効。マイグレーションは、0001〜0006 を適用済み。**2026-11-21 に、`claude/opencritic-expert-reviews-biegyr`（2e63e2b）をデプロイした**（バージョン 0565e095。トップ、`/admin` の転送、ログインなしの POST の 403、ヘッダ、作品ページと共有表示を確認）。
+- シークレット: `ADMIN_TOKEN` のみ。**`OPENCRITIC_API_KEY` は、まだ入れていない**（入れるまで、専門家の取得は動かない。値は、前後に引用符を付けずに入れる）（管理画面の合言葉。**リポジトリにも、この文書にもない。ユーザーが持っている**。変えるときは、`scripts/cf.sh secret put ADMIN_TOKEN`）。
 - **メール送信は、ない**（Workers の有料プランが要るため、ユーザーは、有料にしない）。復旧は、**復旧コード**。メール復旧の実装は、残してあり、送り口（`EMAIL`、`MAIL_FROM`）がないので、画面に出ない。
 - 本番に、ユーザーが作ったデータ（作品 OMORI など）が、ある。**テストでデータを消すときは、自分が作ったものだけを消す**（全消しの SQL は、使わない）。
 
@@ -72,7 +72,7 @@ Playwright は、グローバルに入っている（依存に入れていない
 - **統合ブランチ: `claude/integration-9ugqua`。新しい作業は、ここから始める。** 本番のコード（`trusting-pascal`）、星の実装（`youthful-faraday`）、星の実験と設計書（`admiring-newton`）、共有表示（`share-preview-trial`）、仕事の任せ方（`tender-cannon`）を、マージ済み。型の検査 0 エラー、単体テスト 215 件、ビルドが通る。
 - **専門家の欄（`claude/opencritic-expert-reviews-biegyr`）を、統合ブランチに取り込み済み**（2026-11-21。データと取得まで。マイグレーション 0006、`opencritic.ts`、`critic-sync.ts`、`critics.ts`、`question-sets/critic-v1.ts`、管理画面。画面の部品は保留。`docs/mvp-design.md` の 22.8、`docs/critics-plan.md`）。単体テスト 283 件。**新しいマイグレーションは 0007 から**（0006 は、本番に未適用）。
 - 統合しなかったもの: `epic-pasteur`（デザインの試し。`trusting-pascal` が同じ場所を作り直した。※推測）、`brave-davinci`（GTA6 のローンチ準備。古い土台で衝突が多い。必要な部分だけ、取り込み直す）、`jolly-einstein`（別のプロジェクト pnn。PR #1）、`clef-experiment-hc0s6m`（中身は既定に含まれている）。
-- 本番にデプロイされているのは、`trusting-pascal` の版（セッションの報告による。統合ブランチは、まだデプロイしていない）。マイグレーションは 0005 まで。**（0006 は、専門家の欄が使った。上のとおり）**
+- 本番にデプロイされているのは、専門家の欄の版（2026-11-21。上の「本番の状態」）。以前は、`trusting-pascal` の版だった。**新しいマイグレーションは 0007 から。**
 - `docs/mvp-design.md` の章番号は、統合のとき、重なった（19が3つ）ので、振り直した。**次は 23 章から。** 章を足すときは、最後の番号を確かめる。
 
 ## 未決・次の候補
