@@ -223,7 +223,7 @@ export function countQueries(db: D1Database): { db: D1Database; count: () => num
 
 **既存のテストの更新（仕様が変わるため。通すための書き換えではない）:** `critic-sync.test.ts` の `run()` が、`slot` を渡す（枠は、`criticSyncSlot(clock.now())`。同じ日に 2 回走らせるテストは、時計を 5 分進める）。`already_ran` の 2 つのテスト、「20 時間以内は除く」の `worksToSync` のテスト、`isCriticSyncTime` と、`scheduled.test.ts` の「18:17〜18:19」のテスト（「18:16、18:20、19:17 では取得しない」は、新しい時間帯の中なので、外の時刻 16:59、21:00、06:17 に変える）は、新しい仕様（枠・1 日の合計・読み切りの日）のテストに置き換える。**仕様が変わるので、期待を直す既存のテスト（ほかにはない）:** (1)「maxReads で 2 ページ目の途中で止まった翌日、読み残しを読む」は、翌日、cursor のページ 1 から読むので、`skip` は `[20, 40]`、結果は `calls: 2`（`read: 18`、合計 43 件は同じ）。(2)「最後に 1 回だけ記録し…」は、記録の行に `slot` と `day` が増えるので、`{ event: 'critic_sync', ...result, slot, day: … }` と比べる。(3) `critics.test.ts` の `worksToSync` の `toEqual`（`{ id, ocId }`）は、戻り値に `cursor` が増えるので、`cursor: 0` を足す。`worksNeedingCandidate(db, 10)` の呼び出しは、`now` を渡す。**それ以外の既存のテストは、そのまま通る**ことを、G2 で確かめる（結果の形 `toEqual` が、そのまま通ること。上の `toEqual` は、`limits` の `maxReads`・`maxCalls` が割り当てに入るので、変わらない）。
 
-毎回の指示に入れる: `$lib` は使わない、`#server/...` を使う、本番・Cloudflare・OpenCritic・デプロイ・マイグレーションの適用には触らない、作り物のデータだけ（実在の抜粋は、置かない）、テストでデータを消すときは自分が作ったものだけ、`docs/standards.md`（失敗は `{ ok: false; error }`、関数は `db` と `now` を引数で受ける、テストは隣の `.test.ts`、日本語）、ほかのファイルは触らない、コミットまでで、プッシュはしない。
+毎回の指示に入れる: `$lib` は使わない、`#server/...` を使う、本番・Cloudflare・OpenCritic・デプロイ・マイグレーションの適用には触らない、作り物のデータだけ（実在の抜粋は、置かない）、テストでデータを消すときは自分が作ったものだけ、`docs/standards.md`（失敗は `{ ok: false; error }`、関数は `db` と `now` を引数で受ける、テストは隣の `.test.ts`、`createTestDb()` を `beforeEach` で作り `dispose` を `afterEach` で呼ぶ、時刻は `createClock`、AI は `fakeClef`、DB のモックは使わない（`countQueries` は本物の DB を包むだけ）、`describe` と `it` は日本語）、ほかのファイルは触らない、コミットまでで、プッシュはしない。
 
 ## 6. リスク
 
