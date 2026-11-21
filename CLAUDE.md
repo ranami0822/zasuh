@@ -70,7 +70,7 @@ Playwright は、グローバルに入っている（依存に入れていない
 
 - GitHub の既定のブランチは `claude/adoring-euler-d7rb8d`（引き継ぎの文書だけ。`main` は、ない）。
 - **統合ブランチ: `claude/integration-9ugqua`。新しい作業は、ここから始める。** 本番のコード（`trusting-pascal`）、星の実装（`youthful-faraday`）、星の実験と設計書（`admiring-newton`）、共有表示（`share-preview-trial`）、仕事の任せ方（`tender-cannon`）を、マージ済み。型の検査 0 エラー、単体テスト 215 件、ビルドが通る。
-- **専門家の欄（`claude/opencritic-expert-reviews-biegyr`）を、統合ブランチに取り込み済み**（2026-11-21。データと取得まで。マイグレーション 0006、`opencritic.ts`、`critic-sync.ts`、`critics.ts`、`question-sets/critic-v1.ts`、管理画面。画面の部品は保留。`docs/mvp-design.md` の 22.8、`docs/critics-plan.md`）。単体テスト 283 件。**新しいマイグレーションは 0007 から**（0006 は、本番に未適用）。
+- **専門家の欄（`claude/opencritic-expert-reviews-biegyr`）を、統合ブランチに取り込み済み**（2026-11-21。データと取得まで。マイグレーション 0006、`opencritic.ts`、`critic-sync.ts`、`critics.ts`、`question-sets/critic-v1.ts`、管理画面。画面の部品は保留。`docs/mvp-design.md` の 22.8、`docs/critics-plan.md`）。単体テスト 284 件。**新しいマイグレーションは 0007 から**（0006 は、本番に適用済み）。
 - 統合しなかったもの: `epic-pasteur`（デザインの試し。`trusting-pascal` が同じ場所を作り直した。※推測）、`brave-davinci`（GTA6 のローンチ準備。古い土台で衝突が多い。必要な部分だけ、取り込み直す）、`jolly-einstein`（別のプロジェクト pnn。PR #1）、`clef-experiment-hc0s6m`（中身は既定に含まれている）。
 - 本番にデプロイされているのは、専門家の欄の版（2026-11-21。上の「本番の状態」）。以前は、`trusting-pascal` の版だった。**新しいマイグレーションは 0007 から。**
 - `docs/mvp-design.md` の章番号は、統合のとき、重なった（19が3つ）ので、振り直した。**次は 23 章から。** 章を足すときは、最後の番号を確かめる。
@@ -82,4 +82,4 @@ Playwright は、グローバルに入っている（依存に入れていない
 - 規約とプライバシーの草案の、法律の確認と、運営者の表記（ユーザー）。
 - 追加のタグとソフトウェアのタグの精度（正解付きのデータがない）。
 - **星の実験の続き**（第7弾）: 2日目の実行（S1-V2、S1-order、B0-V2。無料枠が戻る 00:00 UTC のあと）、画面の試作、順位の付け方（平均の信頼区間の下限）。
-- **専門家の欄:** 決定は 22 章（OpenCritic の API → Clef。結果だけ保存）。**データと取得は、実装済み（22.8）。作品ページの画面は、星の共通コンポーネントを決めてから。** デプロイの前に、Workers の通信数・D1 の問い合わせ数・cron の数の上限を、Cloudflare の文書で確かめる。`OPENCRITIC_API_KEY` は、ユーザーが `scripts/cf.sh secret put` で入れる。専門家の持ち込み、作り手への開放は、未決。
+- **専門家の欄:** 決定は 22 章（OpenCritic の API → Clef。結果だけ保存）。**データと取得は、実装・デプロイ済み（22.8。キーも入れた）。作品ページの画面は、星の共通コンポーネントを決めてから。** 最初の取得（UTC 18:17〜）の結果（ログの `critic_sync`、`critic_reviews` の件数）を確かめる。未確認: OpenCritic の応答の並び順、Workers の通信数（50 と記憶）、cron の数、D1 の問い合わせ数が上限に収まるか（上限は、無料で 50。既定の上限を下げた）。専門家の持ち込み、作り手への開放は、未決。
