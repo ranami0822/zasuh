@@ -16,11 +16,11 @@
 
 ## 構成
 
-SvelteKit 3（Svelte 5）+ `@sveltejs/adapter-cloudflare` 8、Cloudflare Workers、D1（SQLite）、Workers AI（Clef-flash）、Cron（毎分。専門家の評価の取得も、この中で、UTC 18:17〜18:19 に呼ぶ）。UI の部品は ui-sdk（`@ui-sdk/svelte`）。passkey は SimpleWebAuthn。
+SvelteKit 3（Svelte 5）+ `@sveltejs/adapter-cloudflare` 8、Cloudflare Workers、D1（SQLite）、Workers AI（Clef-flash）、Cron（毎分。専門家の評価の取得も、この中で、UTC 17:00〜21:00 の 5 分の枠ごとに呼ぶ。`docs/mvp-design.md` の 22.9。**本番は、まだ旧版（UTC 18:17〜18:19 に 1 日 1 回）**）。UI の部品は ui-sdk（`@ui-sdk/svelte`）。passkey は SimpleWebAuthn。
 
 - `src/lib/server/` … 業務の中心（`opencritic.ts`・`critics.ts`・`critic-sync.ts` 専門家の評価の取得と保存、`reading.ts` 読み取り、`stats.ts` 集計、`reviews.ts` 投稿・編集・通報、`auth.ts` passkey と復旧、`tags.ts` タグ、`pages.ts` 画面の問い合わせ、`inbox.ts` 受信箱）。D1 を使う単体テストが、ここにある。
 - `src/routes/` … 画面とフォームの処理。`src/hooks.server.ts` が、`/admin` を守る（フォームの処理は、レイアウトの `load` を通らないため、ここで確かめる）。
-- `migrations/` … 0001〜0006（本番に適用済み。0006 は専門家の欄、2026-11-21）。**本番に適用済みのファイルは、書き換えない**（変えるときは、新しい番号を足す）。
+- `migrations/` … 0001〜0006（本番に適用済み。0006 は専門家の欄、2026-11-21）と、0007（取得の枠と進み具合。**本番には未適用**。22.9）。**本番に適用済みのファイルは、書き換えない**（変えるときは、新しい番号を足す）。
 - `src/lib/styles/tokens.css`、`app.css` … 見た目。**デザインの正は、`tokens.css`**。
 - インポートは、`#server/...`、`#components/...`、`#styles/...`、`#messages`、`#passkey`（`package.json` の `imports`）。`$lib` は、使えない（拡張子なしの `.ts` を、`#lib/*` が解決しないため）。
 
@@ -70,9 +70,9 @@ Playwright は、グローバルに入っている（依存に入れていない
 
 - GitHub の既定のブランチは `claude/adoring-euler-d7rb8d`（引き継ぎの文書だけ。`main` は、ない）。
 - **統合ブランチ: `claude/integration-9ugqua`。新しい作業は、ここから始める。** 本番のコード（`trusting-pascal`）、星の実装（`youthful-faraday`）、星の実験と設計書（`admiring-newton`）、共有表示（`share-preview-trial`）、仕事の任せ方（`tender-cannon`）を、マージ済み。型の検査 0 エラー、単体テスト 215 件、ビルドが通る。
-- **専門家の欄（`claude/opencritic-expert-reviews-biegyr`）を、統合ブランチに取り込み済み**（2026-11-21。データと取得まで。マイグレーション 0006、`opencritic.ts`、`critic-sync.ts`、`critics.ts`、`question-sets/critic-v1.ts`、管理画面。画面の部品は保留。`docs/mvp-design.md` の 22.8、`docs/critics-plan.md`）。単体テスト 284 件。**新しいマイグレーションは 0007 から**（0006 は、本番に適用済み）。
+- **専門家の欄（`claude/opencritic-expert-reviews-biegyr`）を、統合ブランチに取り込み済み**（2026-11-21。データと取得まで。マイグレーション 0006、`opencritic.ts`、`critic-sync.ts`、`critics.ts`、`question-sets/critic-v1.ts`、管理画面。画面の部品は保留。`docs/mvp-design.md` の 22.8、`docs/critics-plan.md`）。単体テスト 284 件。**新しいマイグレーションは 0008 から**（0006 は、本番に適用済み）。
 - 統合しなかったもの: `epic-pasteur`（デザインの試し。`trusting-pascal` が同じ場所を作り直した。※推測）、`brave-davinci`（GTA6 のローンチ準備。古い土台で衝突が多い。必要な部分だけ、取り込み直す）、`jolly-einstein`（別のプロジェクト pnn。PR #1）、`clef-experiment-hc0s6m`（中身は既定に含まれている）。
-- 本番にデプロイされているのは、専門家の欄の版（2026-11-21。上の「本番の状態」）。以前は、`trusting-pascal` の版だった。**新しいマイグレーションは 0007 から。**
+- 本番にデプロイされているのは、専門家の欄の版（2026-11-21。上の「本番の状態」）。以前は、`trusting-pascal` の版だった。**新しいマイグレーションは 0008 から。**
 - `docs/mvp-design.md` の章番号は、統合のとき、重なった（19が3つ）ので、振り直した。**次は 23 章から。** 章を足すときは、最後の番号を確かめる。
 
 ## 未決・次の候補

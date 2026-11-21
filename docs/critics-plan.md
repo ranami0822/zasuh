@@ -176,6 +176,8 @@ export async function criticSection(db: D1Database, workId: string): Promise<Cri
 
 テストは、隣の `critics.test.ts`（標準 5: `createTestDb()` を `beforeEach`、`dispose` を `afterEach`、時刻は `createClock`、`describe` と `it` は日本語。DB のモックは使わない）。
 
+> **2026-11-21 の追記:** 1.6（1 日 1 回の取得）と 1.7（UTC 18:17〜18:19 だけ呼ぶ）は、`docs/critics-incremental-plan.md` と `docs/mvp-design.md` の 22.9 で、**置き換わった**（UTC 17:00〜21:00 の 5 分の枠ごとの小さな実行。1 日の合計の上限と、作品ごとの進み具合を持つ）。この文書の、そのほかの部分は、そのまま。
+
 ### 1.6 `src/lib/server/critic-sync.ts`（1 日 1 回の取得。順序と上限）
 
 ```ts
