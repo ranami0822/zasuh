@@ -221,7 +221,7 @@ export async function claimCriticSlot(
 	const claimed = await db
 		.prepare(
 			`INSERT OR IGNORE INTO critic_slots (slot, day, started_at, calls, searches, reads)
-			 SELECT ?, ?, ?, min(?, ? - t.c), min(?, ? - t.s), min(?, ? - t.r)
+			 SELECT ?, ?, ?, min(?, ? - t.c), min(?, max(0, ? - t.s)), min(?, ? - t.r)
 			   FROM (SELECT coalesce(sum(calls), 0) AS c, coalesce(sum(searches), 0) AS s, coalesce(sum(reads), 0) AS r,
 			                coalesce(sum(stopped IN (${halting})), 0) AS halted
 			           FROM critic_slots WHERE day = ?) t

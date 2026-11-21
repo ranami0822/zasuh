@@ -500,6 +500,17 @@ describe('取得の枠（1 日の合計の上限）', () => {
 		});
 	});
 
+	it('1 日の上限を、使った分より小さくしても、割り当ては負にならない（0 になる）', async () => {
+		await claimCriticSlot(db, '2026-11-20T17:00', now, perRun, daily);
+		await finishCriticSlot(db, '2026-11-20T17:00', { calls: 5, searches: 2, reads: 4 }, 'done');
+
+		expect(await claimCriticSlot(db, '2026-11-20T17:05', now, perRun, { calls: 150, searches: 1, reads: 150 })).toEqual({
+			ok: true,
+			allowance: { calls: 8, searches: 0, reads: 6 }
+		});
+		expect((await criticDayTotals(db, '2026-11-20')).searches).toBe(2);
+	});
+
 	it.each(['unauthorized', 'rate_limited', 'reserve'] as const)('%s で終わった枠があると、その日のほかの枠は stopped_today。次の日は取れる', async (stop) => {
 		await claimCriticSlot(db, '2026-11-20T17:00', now, perRun, daily);
 		await finishCriticSlot(db, '2026-11-20T17:00', { calls: 1, searches: 0, reads: 0 }, stop);
