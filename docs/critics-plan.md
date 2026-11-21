@@ -120,7 +120,7 @@ levels: [
 
 4 観点の star は、`scripts/star-questions.ts` の `star()`（`STAR_RULE`、`STAR_LEVELS` を含む）の複写。
 
-`question-sets/index.ts` の `QUESTION_SETS` には、**入れない**（`latestDefinition('game')` が、一般のレビューの質問セットを返さなくなるため）。`criticV1` は、別に export する。テスト: 14 問、順序、キーの一意、`toClefQuestions` が通る。
+`question-sets/index.ts` の `QUESTION_SETS` には、**入れない**（`latestDefinition('game')` が、一般のレビューの質問セットを返さなくなるため）。`criticV1` は、別に export する。テスト（隣の `critic-v1.test.ts`。`game-v1.test.ts` と同じ形）: 14 問、順序、キーの一意、`toClefQuestions` が通る。
 
 ### 1.4 `src/lib/server/reading.ts`（変更は、取り出しだけ）
 
@@ -132,6 +132,8 @@ export async function readText(
 	text: string
 ): Promise<{ answers: ReadingAnswer[]; latencyMs: number; inputTokens: number | null }>; // 失敗は、ClefError を投げる（reading.ts の既存の流儀）
 ```
+
+**決め（ユーザーの確認が要る）:** `readText` は、既存の `readRevision` と同じく、失敗を `ClefError` で投げる（`reading.ts` の形は、`standards.md` で未確認。外部サービスの失敗を、呼び出し側の `try` と再試行の仕組みが、すでにそのまま受けているため）。`standards.md` の 1（例外にしない）に合わせるなら、`readText` だけ `{ ok: false; error }` で返す形にする。
 
 `readRevision` の、Clef を呼んで `interpretAnswers` に通す部分を、`readText` に置き換える。**動作は、変えない**（既存の `reading.test.ts` が、そのまま通ること）。
 
@@ -172,6 +174,8 @@ export async function criticSection(db: D1Database, workId: string): Promise<Cri
 
 エラーの文言は `src/lib/messages.ts` に `CRITIC_MESSAGES: Record<CriticError, string>` で置く（標準 2）。
 
+テストは、隣の `critics.test.ts`（標準 5: `createTestDb()` を `beforeEach`、`dispose` を `afterEach`、時刻は `createClock`、`describe` と `it` は日本語。DB のモックは使わない）。
+
 ### 1.6 `src/lib/server/critic-sync.ts`（1 日 1 回の取得。順序と上限）
 
 ```ts
@@ -188,7 +192,7 @@ export interface CriticSyncResult { works: number; calls: number; searches: numb
 export async function syncCritics(deps: { db: D1Database; clef: ClefClient; oc: OpenCriticClient; now?: () => Date; limits?: Partial<CriticLimits>; sleep?: (ms: number) => Promise<void> }): Promise<CriticSyncResult>;
 ```
 
-順序: (1) 結びつけのある作品（`worksToSync`）ごとに、`reviewsOfGame(ocId, 0)`、次は `skip += 20`。**ページの全件が既知か、`maxPagesPerWork` で止める**。新しい抜粋だけ `readText` で読んで、`saveCriticRead`。1 件の失敗（ClefError）は数えて続ける（次の日に、同じ抜粋が、また新しいものとして出る）。作品ごとに、`markSynced`（失敗でも。同じ作品が毎回先頭に来て、ほかが止まるのを防ぐ）。(2) 残りの枠で、`worksNeedingCandidate` の作品名を `searchGame`、上位 1 件を `addCandidate`。(3) `hasBudget` が false、上限に達した、`unauthorized`、`rate_limited` のどれかで、その場で止めて、結果に理由を入れる。ログは `console.log(JSON.stringify({ event: 'critic_sync', ... }))`（抜粋は、出さない）。
+順序: (1) 結びつけのある作品（`worksToSync`）ごとに、`reviewsOfGame(ocId, 0)`、次は `skip += 20`。**ページの全件が既知か、`maxPagesPerWork` で止める**。新しい抜粋だけ `readText` で読んで、`saveCriticRead`。1 件の失敗（ClefError）は数えて続ける（次の日に、同じ抜粋が、また新しいものとして出る）。作品ごとに、`markSynced`（失敗でも。同じ作品が毎回先頭に来て、ほかが止まるのを防ぐ）。(2) 残りの枠で、`worksNeedingCandidate` の作品名を `searchGame`、上位 1 件を `addCandidate`。(3) `hasBudget` が false、上限に達した、`unauthorized`、`rate_limited` のどれかで、その場で止めて、結果に理由を入れる。ログは `console.log(JSON.stringify({ event: 'critic_sync', ... }))`（抜粋は、出さない）。テスト（`critic-sync.test.ts`）は、`createTestDb()`、`createClock`、Clef は `fakeClef`、OpenCritic は偽の `OpenCriticClient`（標準 5）。
 
 ### 1.7 定期実行の接続
 
@@ -200,8 +204,8 @@ export async function syncCritics(deps: { db: D1Database; clef: ClefClient; oc: 
 
 ### 1.8 管理画面と作品ページ
 
-- `src/routes/admin/works/[id]/+page.server.ts` と `+page.svelte`: 「OpenCritic の作品 ID」の入力と保存（action `linkCritic`。`linkOpenCritic`）。失敗は `fail(400, { error: CRITIC_MESSAGES[...] })`（標準 4）。ゲームの作品だけ。
-- `src/routes/admin/inbox/+page.server.ts` と `+page.svelte`: 「専門家の欄の候補」の一覧（`openCandidates`）と、承認・却下（action `approveCandidate`、`rejectCandidate`）。
+- `src/routes/admin/works/[id]/+page.server.ts` と `+page.svelte`: 「OpenCritic の作品 ID」の入力と保存（action `linkCritic`。`linkOpenCritic`）。失敗は `fail(400, { error: CRITIC_MESSAGES[...], values })`、成功は `values` を返し、`console.log(JSON.stringify({ event: 'critic_linked', ... }))` で記録する（標準 4）。`database()` と `new Date()` は、ここで渡す（標準 3）。ゲームの作品だけ。
+- `src/routes/admin/inbox/+page.server.ts` と `+page.svelte`: 「専門家の欄の候補」の一覧（`openCandidates`）と、承認・却下（action `approveCandidate`、`rejectCandidate`）。失敗は `fail(400, { error: CRITIC_MESSAGES[...], values })`、記録は `console.log(JSON.stringify({ event: 'critic_candidate_decided', ... }))`（標準 4）。
 - `src/routes/works/[slug]/+page.server.ts` の `load`: `critics: await criticSection(db, work.id)` を足す。
 - `src/lib/components/CriticSection.svelte`（新規。props: `section: CriticSection`）と `StarDist.svelte`（5 段階の棒と、小さな平均。**観点を、まとめて平均しない**）。作品ページの、一般のレビューの前に、区切って置く。`section` が null なら、何も出さない。出すもの: 見出し、総合の分布、観点ごとの分布（言及のあるもの）、各レビュー（媒体名の文字、元記事へのリンク、総合の向きと星、言及された観点の向き）、出典（OpenCritic の名前と `https://opencritic.com` へのリンク、「AI が読み取った結果」の注記）。**媒体のロゴ、媒体の点数、抜粋は、出さない。** リンクは `rel="noopener noreferrer nofollow"`、`target="_blank"`。
 
@@ -212,14 +216,19 @@ export async function syncCritics(deps: { db: D1Database; clef: ClefClient; oc: 
 | A1 | `opencritic.ts` とそのテスト | `coder-haiku` | 型だけの `opencritic.ts`（本体は未実装）と、失敗するテスト `opencritic.test.ts`（作り物の応答。実在の抜粋は使わない） |
 | A2 | `0006_critics.sql`、`critics.ts`、そのテスト | `delegate:builder` | 1.1 と 1.5。テストを先に書かせる |
 | A3 | `readText`（`reading.ts`）、`critic-v1.ts`、テスト用の偽 Clef を score に対応 | `delegate:builder` | 1.3、1.4。`reading.ts` は Haiku に任せない（`CLAUDE.md`）。今の `answersFor`（`testing/db.ts`）は、`score` の質問にも noul の形で答え、キーの `_star` を外さない。`_star` を外し、score には `{ type: 'score', score: 0〜4, probabilities: [5 個], confidence }` で答える形に直す（`clefAnswers` も同じく star を扱わない）。既存のテストが通ること |
-| B | `critic-sync.ts` と `critic-sync.test.ts`、`scheduled.ts` と `scheduled.test.ts`、`worker.ts`、`env.ts`、`wrangler.jsonc` | `delegate:builder` | 1.6、1.7。A1〜A3 の後 |
-| C1 | 管理画面（作品の ID、候補の承認）と `messages.ts` | `coder-haiku` | 1.5 の型と 1.8。B の後（`critics.ts` ができてから） |
-| C2 | `CriticSection.svelte`、`StarDist.svelte`、`load` の接続 | `coder-haiku` | 1.5 の `CriticSection` の型と 1.8 |
+| B | `critic-sync.ts` と `critic-sync.test.ts`、`scheduled.ts` と `scheduled.test.ts`、`worker.ts`、`env.ts`（`wrangler.jsonc` は変えない。1.7） | `delegate:builder` | 1.6、1.7。A1〜A3 の後 |
+| C1 | 管理画面（作品の ID、候補の承認）と `messages.ts` | `coder-haiku` | 型だけのコード（`CRITIC_MESSAGES` の型、action の名前と戻り値）と 1.8。B の後（`critics.ts` ができてから） |
+| C2 | `critic-view.ts`（純粋な関数）と、`CriticSection.svelte`、`StarDist.svelte`、`load` の接続 | `coder-haiku` | 型だけのコード（props の型、`CriticSection` の型、`critic-view.ts` の関数の型）、失敗するテスト `critic-view.test.ts`、1.8 |
+
 | D | 最後のレビュー | `delegate:reviewer` | この文書（仕様）と差分だけ |
+
+**C1、C2 の「失敗する検査」（ユーザーの確認が要る）:** 画面（routes と `.svelte`）の単体テストは、今ない。C2 は、表示の計算（段階ごとの確率の合計 → 棒の幅、「言及なし」の扱い、件数の表記）を、`src/lib/critic-view.ts` の純粋な関数に出し、**失敗するテストを私が先に書いて**渡す。部品は、その関数を呼ぶだけにする。C1 は、`critics.ts` を呼ぶ薄い action だけ（検査の中身は、A2 のテスト）。C1、C2 の先に、型だけのコードで、`npm run check` が失敗する状態（存在しない部品や action を、画面が参照）にして渡し、G1、G4b、G5 で確かめる。これで足りなければ、C1 を `delegate:builder-lite` に替える。
 
 A1〜A3 は、ファイルが重ならないので、worktree で並べる（最大 3）。段 B 以降は、前の段のあとに。各 agent は、自分のブランチで作業し、コミットして返す。私が、各ゲートを自分で実行してから、統合ブランチ `claude/opencritic-expert-reviews-biegyr` に取り込む。
 
-毎回の指示に入れる: `$lib` は使わない、`#server/...` を使う、本番・Cloudflare・OpenCritic・デプロイ・マイグレーションの適用には触らない（テストは、偽のクライアントと、`createTestDb()` だけを使う）、作り物のデータだけ（実在の抜粋・記事を置かない）、`docs/standards.md` に従う、ほかのファイルは触らない。
+毎回の指示に入れる: `$lib` は使わない、`#server/...` を使う、本番・Cloudflare・OpenCritic・デプロイ・マイグレーションの適用には触らない（テストは、偽のクライアントと、`createTestDb()` だけを使う）、作り物のデータだけ（実在の抜粋・記事を置かない）、テストでデータを消すときは自分が作ったものだけ、`docs/standards.md` に従う（テストは実装の隣の `名前.test.ts`、`describe` と `it` は日本語）、ほかのファイルは触らない。
+
+ユーザーの確認のあと、この計画で決めたこと（候補を別の表にする、cron を足さない、`critic-v1`、`readText` の取り出し）を、`docs/mvp-design.md` の 22 章に足す（決定、理由、未確認、見直す条件。`CLAUDE.md`）。
 
 ## 3. ゲート（完了の検査）
 
@@ -227,6 +236,7 @@ A1〜A3 は、ファイルが重ならないので、worktree で並べる（最
 - G2 単体テスト: 各段の新しいテスト（`npx vitest run <file>`）。失敗するテストが先にあり、実装で通る（段 A1 は、私が渡す時点で失敗していることを確認する）。
 - G3 全件: 最後に、`npm test` を 1 回（約 40 秒）。
 - G4 ビルド: `scripts/deploy.sh --build-only`（本番に触らない）。
+- G4b ブラウザの通し: C1、C2 の後に、`npm run e2e`（画面を変えたため。`CLAUDE.md`）。
 - G5 画面（任意、C2 の後）: ビルドして `wrangler dev`（`wrangler.local.jsonc`、AI なし）で、作り物の `critic_reviews` を、ローカルの D1 に入れて、作品ページの欄をスクリーンショットで確かめる。
 - G6 漏れの確認: `git grep` で、`snippet` の値、`RAPID_API_KEY` の値、`rapidapi` のキーらしい文字列が、リポジトリにないこと。`critic_reviews` と `critic_answers` に、本文の列がないこと（テストで、列名を確かめる）。
 - G7 否定の確認（修正に対して）: `opencritic.ts` の `unauthorized` と `rate_limited` の振り分けと、`syncCritics` の「ページの全件が既知なら止まる」「`hasBudget` が false なら止まる」は、その部分をいったん外して、対応するテストが失敗することを、1 回ずつ確かめる。
