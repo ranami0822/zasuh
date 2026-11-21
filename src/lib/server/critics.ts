@@ -9,7 +9,7 @@ import type { ReadingAnswer } from '#server/reading';
  * 抜粋・題名・著者・点数は、保存しない。
  */
 
-export type CriticError = 'bad_oc_id' | 'oc_id_taken' | 'not_found';
+export type CriticError = 'bad_oc_id' | 'oc_id_taken' | 'not_found' | 'not_game';
 
 export const CRITIC_ITEMS_MAX = 30;
 /** 星の段階の数。 */
@@ -96,7 +96,7 @@ function parseOcId(raw: string): number | null {
 }
 
 /**
- * 作品に OpenCritic の作品 ID を付ける（'' なら外す）。
+ * 作品に OpenCritic の作品 ID を付ける（'' なら外す）。付けられるのは、ゲームの作品だけ（外すのは、分野を問わない）。
  * ID が変わる・外すときは、その作品の結果を消し、取得の日時を null にする（別の作品の結果が残らないように）。同じ ID なら何もしない。
  */
 export async function linkOpenCritic(db: D1Database, workId: string, ocId: string, _now: Date): Promise<{ ok: true } | { ok: false; error: CriticError }> {
@@ -104,8 +104,12 @@ export async function linkOpenCritic(db: D1Database, workId: string, ocId: strin
 	const next = raw === '' ? null : parseOcId(raw);
 	if (raw !== '' && next === null) return { ok: false, error: 'bad_oc_id' };
 
-	const work = await db.prepare('SELECT opencritic_id FROM works WHERE id = ?').bind(workId).first<{ opencritic_id: number | null }>();
+	const work = await db
+		.prepare('SELECT opencritic_id, category FROM works WHERE id = ?')
+		.bind(workId)
+		.first<{ opencritic_id: number | null; category: string }>();
 	if (!work) return { ok: false, error: 'not_found' };
+	if (next !== null && work.category !== 'game') return { ok: false, error: 'not_game' };
 	if (work.opencritic_id === next) return { ok: true };
 
 	if (next !== null) {
@@ -128,13 +132,13 @@ export async function linkOpenCritic(db: D1Database, workId: string, ocId: strin
 	return { ok: true };
 }
 
-/** 取得する作品。古い順（取得したことのないものが先）。公開中で、ID があり、20 時間以内に取得していないもの。 */
+/** 取得する作品。古い順（取得したことのないものが先）。ゲームで、公開中で、ID があり、20 時間以内に取得していないもの。 */
 export async function worksToSync(db: D1Database, limit: number, now: Date): Promise<{ id: string; ocId: number }[]> {
 	const before = new Date(now.getTime() - SYNC_INTERVAL_MS).toISOString();
 	const { results } = await db
 		.prepare(
 			`SELECT id, opencritic_id AS ocId FROM works
-			  WHERE status = 'active' AND opencritic_id IS NOT NULL
+			  WHERE category = 'game' AND status = 'active' AND opencritic_id IS NOT NULL
 			    AND (critic_synced_at IS NULL OR critic_synced_at <= ?)
 			  ORDER BY critic_synced_at IS NOT NULL, critic_synced_at, id
 			  LIMIT ?`
@@ -142,6 +146,18 @@ export async function worksToSync(db: D1Database, limit: number, now: Date): Pro
 		.bind(before, limit)
 		.all<{ id: string; ocId: number }>();
 	return results;
+}
+
+/**
+ * 1 日 1 回の取得の、実行の権利を取る（day は UTC の日付）。その日の最初の 1 回だけ true。
+ * 毎分の定期実行が重なっても、取得が 2 回動かないように。
+ */
+export async function claimDailyRun(db: D1Database, now: Date): Promise<boolean> {
+	const result = await db
+		.prepare('INSERT OR IGNORE INTO critic_runs (day, started_at) VALUES (?, ?)')
+		.bind(now.toISOString().slice(0, 10), now.toISOString())
+		.run();
+	return result.meta.changes === 1;
 }
 
 export async function markSynced(db: D1Database, workId: string, now: Date): Promise<void> {

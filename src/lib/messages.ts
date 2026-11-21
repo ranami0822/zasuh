@@ -52,7 +52,8 @@ export const INBOX_MESSAGES: Record<InboxError, string> = {
 export const CRITIC_MESSAGES: Record<CriticError, string> = {
 	bad_oc_id: 'OpenCritic の作品 ID は、正の整数で入力してください。',
 	oc_id_taken: 'その OpenCritic の作品 ID は、別の作品に結びついています。',
-	not_found: '対象が見つかりません。'
+	not_found: '対象が見つかりません。',
+	not_game: 'OpenCritic の作品 ID は、ゲームの作品にだけ付けられます。'
 };
 
 export const KIND_LABEL: Record<string, string> = {

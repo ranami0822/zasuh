@@ -125,7 +125,8 @@ export function hasBudget(limit: OcRateLimit, kind: 'request' | 'search', reserv
 
 export interface OpenCriticClient {
 	searchGame(name: string): Promise<OcResult<OcGame[]>>;
-	reviewsOfGame(ocId: number, skip: number): Promise<OcResult<CriticSnippet[]>>;
+	/** rawCount は、応答の配列の、解析で捨てる前の件数（最後のページかの判断に使う）。 */
+	reviewsOfGame(ocId: number, skip: number): Promise<OcResult<{ snippets: CriticSnippet[]; rawCount: number }>>;
 }
 
 /**
@@ -181,7 +182,7 @@ export function createOpenCriticClient(opts: { key: string; fetch?: typeof fetch
 			const r = await get(`/review/game/${ocId}?skip=${skip}`);
 			if (!r.ok) return r;
 			if (!Array.isArray(r.value)) return { ok: false, error: 'bad_response' };
-			return { ok: true, value: parseReviews(r.value), limit: r.limit };
+			return { ok: true, value: { snippets: parseReviews(r.value), rawCount: r.value.length }, limit: r.limit };
 		}
 	};
 }

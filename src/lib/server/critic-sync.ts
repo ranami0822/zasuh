@@ -1,6 +1,6 @@
 import type { D1Database } from '@cloudflare/workers-types';
 import { ClefError, type ClefClient } from '#server/clef';
-import { addCandidate, ensureCriticQuestionSet, knownCriticIds, markSynced, saveCriticRead, worksNeedingCandidate, worksToSync } from '#server/critics';
+import { addCandidate, claimDailyRun, ensureCriticQuestionSet, knownCriticIds, markSynced, saveCriticRead, worksNeedingCandidate, worksToSync } from '#server/critics';
 import { hasBudget, type OcError, type OcRateLimit, type OpenCriticClient } from '#server/opencritic';
 import { criticV1 } from '#server/question-sets/critic-v1';
 import { readText } from '#server/reading';
@@ -43,13 +43,17 @@ export interface CriticSyncResult {
 	searches: number;
 	read: number;
 	failed: number;
-	stopped: 'done' | 'budget' | 'unauthorized' | 'rate_limited';
+	/** already_ran: その日の取得は、別の実行が始めていた。clef_failed: 読み取りが続けて失敗した。 */
+	stopped: 'done' | 'budget' | 'unauthorized' | 'rate_limited' | 'clef_failed' | 'already_ran';
 }
 
 type Stop = Exclude<CriticSyncResult['stopped'], 'done'>;
 
-/** OpenCritic の 1 ページの件数。これより少なければ、最後のページ。 */
+/** OpenCritic の 1 ページの件数。応答の件数（解析で捨てる前）がこれより少なければ、最後のページ。 */
 const PAGE_SIZE = 20;
+
+/** 読み取りが、この回数続けて失敗したら、全体を止める（成功が 1 回あれば、数え直す）。 */
+export const MAX_CONSECUTIVE_READ_FAILURES = 3;
 
 /** 全体を止める失敗か。止めないものは null（その作品・検索だけを諦める）。 */
 function stopOn(error: OcError): Stop | null {
@@ -70,9 +74,13 @@ export async function syncCritics(deps: {
 	const sleep = deps.sleep ?? ((ms: number) => new Promise<void>((r) => setTimeout(r, ms)));
 	const result: CriticSyncResult = { works: 0, calls: 0, searches: 0, read: 0, failed: 0, stopped: 'done' };
 
+	// 1 日 1 回。毎分の定期実行が重なっても、2 回目以降は、何も呼ばない。
+	if (!(await claimDailyRun(db, now()))) return { ...result, stopped: 'already_ran' };
+
 	/** 直前の応答の、無料枠の残り。まだ応答がなければ null（通す）。 */
 	let lastLimit: OcRateLimit | null = null;
 	let attempts = 0;
+	let consecutiveFailures = 0;
 	let anyCall = false;
 	const pause = async () => {
 		if (anyCall) await sleep(limits.pauseMs);
@@ -100,9 +108,10 @@ export async function syncCritics(deps: {
 				}
 				lastLimit = page.limit;
 
-				const known = await knownCriticIds(db, work.id, page.value.map((s) => s.ocReviewId));
-				const fresh = page.value.filter((s) => !known.has(s.ocReviewId));
-				if (fresh.length === 0) break;
+				// 応答の並び順は未確認なので、既知のページでも、次のページを取る（読み残しと、読み取りの失敗を拾うため）。
+				const { snippets, rawCount } = page.value;
+				const known = await knownCriticIds(db, work.id, snippets.map((s) => s.ocReviewId));
+				const fresh = snippets.filter((s) => !known.has(s.ocReviewId));
 
 				for (const snippet of fresh) {
 					if (attempts >= limits.maxReads) return 'budget';
@@ -115,12 +124,15 @@ export async function syncCritics(deps: {
 						if (e instanceof ClefError && e.message.includes('429')) return 'rate_limited';
 						// 次の日に、同じ抜粋が、また新しいものとして出る。
 						result.failed++;
+						// 続けて失敗するなら、Clef の側の問題（利用枠の超過を含む）とみなして止める。
+						if (++consecutiveFailures >= MAX_CONSECUTIVE_READ_FAILURES) return 'clef_failed';
 						continue;
 					}
+					consecutiveFailures = 0;
 					const saved = await saveCriticRead(db, { workId: work.id, snippet, questionSetId, answers }, now());
 					if (saved.ok) result.read++;
 				}
-				if (page.value.length < PAGE_SIZE) break;
+				if (rawCount < PAGE_SIZE) break;
 			}
 			await markSynced(db, work.id, now());
 			result.works++;

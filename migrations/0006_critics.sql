@@ -38,3 +38,9 @@ CREATE TABLE critic_candidates (
   status TEXT NOT NULL DEFAULT 'open' CHECK (status IN ('open', 'approved', 'rejected')),
   created_at TEXT NOT NULL
 );
+
+-- 1 日 1 回の取得の、実行の権利（UTC の日付）。毎分の定期実行が 18:17〜18:19 に重なっても、1 回だけ動く。
+CREATE TABLE critic_runs (
+  day TEXT PRIMARY KEY,
+  started_at TEXT NOT NULL
+);

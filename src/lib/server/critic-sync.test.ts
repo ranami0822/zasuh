@@ -1,7 +1,7 @@
 import type { D1Database } from '@cloudflare/workers-types';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { ClefError } from '#server/clef';
-import { syncCritics, type CriticLimits } from '#server/critic-sync';
+import { MAX_CONSECUTIVE_READ_FAILURES, syncCritics, type CriticLimits } from '#server/critic-sync';
 import { ensureCriticQuestionSet, linkOpenCritic, saveCriticRead, worksToSync } from '#server/critics';
 import type { CriticSnippet, OcGame, OcRateLimit, OcResult, OpenCriticClient } from '#server/opencritic';
 import { criticV1 } from '#server/question-sets/critic-v1';
@@ -30,10 +30,17 @@ function page(prefix: string, count: number): CriticSnippet[] {
 	return Array.from({ length: count }, (_, i) => snippet(`${prefix}-${i}`));
 }
 
+type ReviewPage = { snippets: CriticSnippet[]; rawCount: number };
+
+/** レビューの 1 ページの応答。rawCount は、解析で捨てたものを含む件数（既定は、抜粋の数と同じ）。 */
+function okPage(snippets: CriticSnippet[], limit: Partial<OcRateLimit> = {}, rawCount = snippets.length): OcResult<ReviewPage> {
+	return ok({ snippets, rawCount }, limit);
+}
+
 /** 偽の OpenCritic。呼ばれた順に記録する。既定は、レビューも検索も空。 */
 function fakeOc(
 	handlers: {
-		reviews?: (ocId: number, skip: number) => OcResult<CriticSnippet[]>;
+		reviews?: (ocId: number, skip: number) => OcResult<ReviewPage>;
 		search?: (name: string) => OcResult<OcGame[]>;
 	} = {}
 ): OpenCriticClient & { calls: { kind: 'reviews' | 'search'; ocId?: number; skip?: number; name?: string }[] } {
@@ -42,7 +49,7 @@ function fakeOc(
 		calls,
 		async reviewsOfGame(ocId, skip) {
 			calls.push({ kind: 'reviews', ocId, skip });
-			return (handlers.reviews ?? (() => ok([])))(ocId, skip);
+			return (handlers.reviews ?? (() => okPage([])))(ocId, skip);
 		},
 		async searchGame(name) {
 			calls.push({ kind: 'search', name });
@@ -98,7 +105,7 @@ describe('syncCritics（専門家の評価欄の取得）', () => {
 		const known = snippet('a-0');
 		await saveCriticRead(db, { workId, snippet: known, questionSetId: setId, answers: [] }, clock.now());
 		const clef = fakeClef();
-		const oc = fakeOc({ reviews: () => ok(page('a', 3)) });
+		const oc = fakeOc({ reviews: () => okPage(page('a', 3)) });
 
 		const result = await run(oc, clef);
 
@@ -124,7 +131,7 @@ describe('syncCritics（専門家の評価欄の取得）', () => {
 	it('2 回目は、既知の抜粋を読まず、Clef を呼ばない', async () => {
 		const workId = await linkedWork(101);
 		const clef = fakeClef();
-		const oc = fakeOc({ reviews: () => ok(page('a', 3)) });
+		const oc = fakeOc({ reviews: () => okPage(page('a', 3)) });
 		await run(oc, clef);
 		expect(clef.calls).toHaveLength(3);
 
@@ -137,10 +144,10 @@ describe('syncCritics（専門家の評価欄の取得）', () => {
 		expect(await syncedAt(workId)).toBe(clock.now().toISOString());
 	});
 
-	it('ページの全件が既知なら、次のページを取らない', async () => {
+	it('ページの全件が既知でも、次のページを取り、新しい抜粋を読んで保存する', async () => {
 		const workId = await linkedWork(101);
 		const clef = fakeClef();
-		const oc = fakeOc({ reviews: (_id, skip) => ok(page(`p${skip}`, PAGE)) });
+		const oc = fakeOc({ reviews: (_id, skip) => okPage(skip === 0 ? page('p0', PAGE) : page('p20', 5)) });
 		await run(oc, clef, { maxPagesPerWork: 1 });
 		expect(clef.calls).toHaveLength(PAGE);
 
@@ -148,15 +155,38 @@ describe('syncCritics（専門家の評価欄の取得）', () => {
 		oc.calls.length = 0;
 		const result = await run(oc, clef);
 
-		expect(oc.calls).toEqual([{ kind: 'reviews', ocId: 101, skip: 0 }]);
-		expect(result).toMatchObject({ works: 1, calls: 1, read: 0, stopped: 'done' });
-		expect(clef.calls).toHaveLength(PAGE);
+		expect(oc.calls.map((c) => c.skip)).toEqual([0, 20]);
+		expect(result).toEqual({ works: 1, calls: 2, searches: 0, read: 5, failed: 0, stopped: 'done' });
+		expect(clef.calls).toHaveLength(PAGE + 5);
+		expect(await savedIds(workId)).toHaveLength(PAGE + 5);
+		expect(await savedIds(workId)).toContain('p20-4');
+		expect(await syncedAt(workId)).toBe(clock.now().toISOString());
+	});
+
+	it('maxReads で 2 ページ目の途中で止まった翌日、読み残しを読む', async () => {
+		const workId = await linkedWork(101);
+		const clef = fakeClef();
+		const pages: Record<number, CriticSnippet[]> = { 0: page('p0', PAGE), 20: page('p20', PAGE), 40: page('p40', 3) };
+		const oc = fakeOc({ reviews: (_id, skip) => okPage(pages[skip] ?? []) });
+
+		const first = await run(oc, clef, { maxReads: 25 });
+		expect(first).toEqual({ works: 0, calls: 2, searches: 0, read: 25, failed: 0, stopped: 'budget' });
+		expect(await syncedAt(workId)).toBeNull();
+
+		clock.advance(24 * 60 * 60 * 1000);
+		oc.calls.length = 0;
+		const second = await run(oc, clef);
+
+		expect(oc.calls.map((c) => c.skip)).toEqual([0, 20, 40]);
+		expect(second).toEqual({ works: 1, calls: 3, searches: 0, read: 18, failed: 0, stopped: 'done' });
+		expect(clef.calls).toHaveLength(43);
+		expect(await savedIds(workId)).toHaveLength(43);
 		expect(await syncedAt(workId)).toBe(clock.now().toISOString());
 	});
 
 	it('1 作品で取るページは maxPagesPerWork まで。呼び出しの間に待つ', async () => {
 		const workId = await linkedWork(101);
-		const oc = fakeOc({ reviews: (_id, skip) => ok(page(`p${skip}`, PAGE)) });
+		const oc = fakeOc({ reviews: (_id, skip) => okPage(page(`p${skip}`, PAGE)) });
 		const sleeps: number[] = [];
 
 		const result = await syncCritics({
@@ -178,13 +208,66 @@ describe('syncCritics（専門家の評価欄の取得）', () => {
 
 	it('件数が 20 未満のページを、最後のページとして終える', async () => {
 		const workId = await linkedWork(101);
-		const oc = fakeOc({ reviews: (_id, skip) => ok(skip === 0 ? page('p0', PAGE) : page('p20', 2)) });
+		const oc = fakeOc({ reviews: (_id, skip) => okPage(skip === 0 ? page('p0', PAGE) : page('p20', 2)) });
 
 		const result = await run(oc);
 
 		expect(oc.calls.map((c) => c.skip)).toEqual([0, 20]);
 		expect(result).toEqual({ works: 1, calls: 2, searches: 0, read: 22, failed: 0, stopped: 'done' });
 		expect(await syncedAt(workId)).toBe(clock.now().toISOString());
+	});
+
+	it('最後のページかは、解析で捨てる前の件数で決める（生の 20 件のうち 2 件を捨てても、次のページを取る）', async () => {
+		const workId = await linkedWork(101);
+		const oc = fakeOc({ reviews: (_id, skip) => (skip === 0 ? okPage(page('p0', PAGE - 2), {}, PAGE) : okPage(page('p20', 2))) });
+
+		const result = await run(oc);
+
+		expect(oc.calls.map((c) => c.skip)).toEqual([0, 20]);
+		expect(result).toEqual({ works: 1, calls: 2, searches: 0, read: PAGE, failed: 0, stopped: 'done' });
+		expect(await savedIds(workId)).toContain('p20-1');
+	});
+
+	describe('1 日 1 回のロック', () => {
+		/** 少し待ってから答える偽の Clef（2 つの実行が重なるように）。 */
+		const slowClef = () =>
+			fakeClef(async (state, _call, questions) => {
+				await new Promise((r) => setTimeout(r, 5));
+				return fakeClef().run('clef-flash', state, questions);
+			});
+
+		it('同じ日に 2 つ同時に走らせても、取得と読み取りは 1 回分だけ。片方は already_ran', async () => {
+			const workId = await linkedWork(101);
+			const clef = slowClef();
+			const oc = fakeOc({ reviews: () => okPage(page('a', 3)) });
+
+			const results = await Promise.all([run(oc, clef), run(oc, clef)]);
+
+			expect(oc.calls).toHaveLength(1);
+			expect(clef.calls).toHaveLength(3);
+			expect(results).toEqual(
+				expect.arrayContaining([
+					{ works: 1, calls: 1, searches: 0, read: 3, failed: 0, stopped: 'done' },
+					{ works: 0, calls: 0, searches: 0, read: 0, failed: 0, stopped: 'already_ran' }
+				])
+			);
+			expect(await savedIds(workId)).toEqual(['a-0', 'a-1', 'a-2']);
+		});
+
+		it('別の日なら、また動く', async () => {
+			await linkedWork(101);
+			const clef = slowClef();
+			const oc = fakeOc({ reviews: () => okPage(page('a', 3)) });
+			await run(oc, clef);
+			expect(await run(oc, clef)).toMatchObject({ stopped: 'already_ran' });
+			expect(oc.calls).toHaveLength(1);
+
+			clock.advance(24 * 60 * 60 * 1000);
+			const result = await run(oc, clef);
+
+			expect(result).toMatchObject({ works: 1, calls: 1, stopped: 'done' });
+			expect(oc.calls).toHaveLength(2);
+		});
 	});
 
 	it.each(['unauthorized', 'rate_limited'] as const)('%s で全体を止め、その作品に markSynced しない', async (error) => {
@@ -206,7 +289,7 @@ describe('syncCritics（専門家の評価欄の取得）', () => {
 	it('bad_response の作品は、失敗として数えて markSynced し、次の作品へ進む', async () => {
 		const bad = await linkedWork(101);
 		const good = await linkedWork(102);
-		const oc = fakeOc({ reviews: (ocId) => (ocId === 101 ? { ok: false, error: 'bad_response' } : ok(page('g', 2))) });
+		const oc = fakeOc({ reviews: (ocId) => (ocId === 101 ? { ok: false, error: 'bad_response' } : okPage(page('g', 2))) });
 
 		const result = await run(oc);
 
@@ -218,7 +301,7 @@ describe('syncCritics（専門家の評価欄の取得）', () => {
 	it('無料枠の残りが requestReserve 以下になったら、次の呼び出しの前に止める', async () => {
 		const first = await linkedWork(101);
 		const second = await linkedWork(102);
-		const oc = fakeOc({ reviews: (ocId) => ok(page(`w${ocId}`, 2), { requestsRemaining: 40 }) });
+		const oc = fakeOc({ reviews: (ocId) => okPage(page(`w${ocId}`, 2), { requestsRemaining: 40 }) });
 
 		const result = await run(oc);
 
@@ -232,7 +315,7 @@ describe('syncCritics（専門家の評価欄の取得）', () => {
 
 	it('呼び出しの数が maxCalls に達したら、次のページの前に止める', async () => {
 		const workId = await linkedWork(101);
-		const oc = fakeOc({ reviews: (_id, skip) => ok(page(`p${skip}`, PAGE)) });
+		const oc = fakeOc({ reviews: (_id, skip) => okPage(page(`p${skip}`, PAGE)) });
 
 		const result = await run(oc, fakeClef(), { maxCalls: 1 });
 
@@ -244,7 +327,7 @@ describe('syncCritics（専門家の評価欄の取得）', () => {
 	it('読んだ数が maxReads に達したら止め、その作品に markSynced しない', async () => {
 		const workId = await linkedWork(101);
 		const clef = fakeClef();
-		const oc = fakeOc({ reviews: () => ok(page('a', 5)) });
+		const oc = fakeOc({ reviews: () => okPage(page('a', 5)) });
 
 		const result = await run(oc, clef, { maxReads: 3 });
 
@@ -260,7 +343,7 @@ describe('syncCritics（専門家の評価欄の取得）', () => {
 			if (state.includes('a-1')) throw new ClefError('Clef の呼び出しに失敗しました (400)', false);
 			return fakeClef().run('clef-flash', state, questions);
 		});
-		const oc = fakeOc({ reviews: () => ok(page('a', 3)) });
+		const oc = fakeOc({ reviews: () => okPage(page('a', 3)) });
 
 		const result = await run(oc, clef);
 
@@ -269,12 +352,48 @@ describe('syncCritics（専門家の評価欄の取得）', () => {
 		expect(await syncedAt(workId)).toBe(clock.now().toISOString());
 	});
 
+	it(`読み取りが続けて ${MAX_CONSECUTIVE_READ_FAILURES} 回失敗したら（ClefError でなくても）、clef_failed で全体を止め、markSynced しない`, async () => {
+		const first = await linkedWork(101);
+		const second = await linkedWork(102);
+		const thrown = [new ClefError('Clef の呼び出しに失敗しました (400)', false), new Error('作り物の失敗'), new TypeError('作り物の失敗')];
+		const clef = fakeClef((_state, call) => {
+			throw thrown[(call - 1) % thrown.length];
+		});
+		const oc = fakeOc({ reviews: (ocId) => okPage(page(`w${ocId}`, 5)) });
+
+		const result = await run(oc, clef);
+
+		expect(MAX_CONSECUTIVE_READ_FAILURES).toBe(3);
+		expect(result).toEqual({ works: 0, calls: 1, searches: 0, read: 0, failed: 3, stopped: 'clef_failed' });
+		expect(oc.calls).toHaveLength(1);
+		expect(clef.calls).toHaveLength(3);
+		expect(await syncedAt(first)).toBeNull();
+		expect(await syncedAt(second)).toBeNull();
+	});
+
+	it('2 回続けて失敗しても、そのあと成功すれば数え直して続ける', async () => {
+		const workId = await linkedWork(101);
+		const clef = fakeClef((state, _call, questions) => {
+			if (['a-0', 'a-1', 'a-3', 'a-4'].some((id) => state.includes(`本文 ${id}"`))) {
+				throw new ClefError('Clef の呼び出しに失敗しました (400)', false);
+			}
+			return fakeClef().run('clef-flash', state, questions);
+		});
+		const oc = fakeOc({ reviews: () => okPage(page('a', 6)) });
+
+		const result = await run(oc, clef);
+
+		expect(result).toEqual({ works: 1, calls: 1, searches: 0, read: 2, failed: 4, stopped: 'done' });
+		expect(await savedIds(workId)).toEqual(['a-2', 'a-5']);
+		expect(await syncedAt(workId)).toBe(clock.now().toISOString());
+	});
+
 	it('Clef の 429 で全体を止め、その作品に markSynced しない', async () => {
 		const workId = await linkedWork(101);
 		const clef = fakeClef(() => {
 			throw new ClefError('Clef の呼び出しに失敗しました (429)', false);
 		});
-		const oc = fakeOc({ reviews: () => ok(page('a', 3)) });
+		const oc = fakeOc({ reviews: () => okPage(page('a', 3)) });
 
 		const result = await run(oc, clef);
 
@@ -374,7 +493,7 @@ describe('syncCritics（専門家の評価欄の取得）', () => {
 			if (state.includes('a-1')) throw new ClefError(`Clef の呼び出しに失敗しました (400)`, false);
 			return fakeClef().run('clef-flash', state, questions);
 		});
-		const oc = fakeOc({ reviews: () => ok(page('a', 3)) });
+		const oc = fakeOc({ reviews: () => okPage(page('a', 3)) });
 		const logs: string[] = [];
 		vi.spyOn(console, 'log').mockImplementation((...args: unknown[]) => {
 			logs.push(args.map(String).join(' '));

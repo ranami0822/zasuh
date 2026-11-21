@@ -149,8 +149,19 @@ describe('createOpenCriticClient', () => {
 		expect(calls[0].url).toBe('https://opencritic-api.p.rapidapi.com/review/game/10181?skip=20');
 		expect(result.ok).toBe(true);
 		if (result.ok) {
-			expect(result.value.map((r) => r.ocReviewId)).toEqual(['r1']);
+			expect(result.value.snippets.map((r) => r.ocReviewId)).toEqual(['r1']);
+			expect(result.value.rawCount).toBe(1);
 			expect(result.limit).toEqual({ requestsRemaining: null, searchesRemaining: null });
+		}
+	});
+
+	it('レビュー: rawCount は、解析で捨てたものを含む、応答の配列の件数', async () => {
+		const { impl } = fakeFetch(() => json([review({ _id: 'r1' }), review({ _id: 'r2', language: 'ja-jp' }), review({ _id: '' }), 'not an object']));
+		const result = await createOpenCriticClient({ key: 'k', fetch: impl }).reviewsOfGame(1, 0);
+		expect(result.ok).toBe(true);
+		if (result.ok) {
+			expect(result.value.snippets.map((r) => r.ocReviewId)).toEqual(['r1']);
+			expect(result.value.rawCount).toBe(4);
 		}
 	});
 
