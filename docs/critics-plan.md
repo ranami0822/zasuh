@@ -77,7 +77,7 @@ export type OcError = 'unauthorized' | 'rate_limited' | 'bad_response' | 'networ
 export type OcResult<T> = { ok: true; value: T; limit: OcRateLimit } | { ok: false; error: OcError };
 
 export function normalizeKey(raw: string | undefined): string | null;
-export function parseReviews(json: unknown): CriticSnippet[];  // 純粋。形の悪い要素は、捨てる。language が 'en' で始まらないものは捨てる。
+export function parseReviews(json: unknown): CriticSnippet[];  // 純粋。形の悪い要素は、捨てる。language があって 'en' で始まらないものは捨てる（試験では、language がないものは英語として扱った。実際の値は `en-us`）。
 export function parseSearch(json: unknown): OcGame[];          // 純粋。
 export function hasBudget(limit: OcRateLimit, kind: 'request' | 'search', reserve: number): boolean; // 残りが null なら true（不明のときは、呼び出し側の回数の上限で止める）
 
@@ -94,9 +94,31 @@ export function createOpenCriticClient(opts: { key: string; fetch?: typeof fetch
 
 ```ts
 export const criticV1: QuestionSetDefinition; // category 'game'、version 1、model 'clef-flash'
-// aspects: gameplay、music、comfort、price、overall
+// aspects: [...gameV1.aspects, { key: 'overall', label: '総合' }]
 // questions: [...gameV1.questions, ...4観点の star, overall_choice, overall_star]（22.7 の試験と同じ 14 問、同じ順序）
 ```
+
+**総合の 2 問の文面は、リポジトリにない**（試験のスクリプト `oc-trial2.mts` は、セッションの一時ディレクトリにだけある。再起動で消える）。下を、そのまま写す（試験と同じ。変えない）。
+
+```ts
+const OVERALL = '作品全体への評価（個別の観点ではなく、作品をどう評価しているか）';
+// overall_choice（kind 'direction'、aspect 'overall'）
+instructions: `次のゲームレビューの抜粋は、${OVERALL}について、どのような見方を示していますか。作品全体を評価する言葉（「傑作」「失望」「おすすめ」など）も、評価として数えてください。事実の説明だけで、評価が読み取れないときは「言及なし」にしてください。書かれていないことは推測しないでください。`
+options: 肯定 positive「作品全体を、好意的に評価している」、否定 negative「作品全体を、否定的に評価している」、
+         混在 mixed「作品全体について、良い評価と悪い評価の両方が、同じ程度書かれている」、
+         言及なし none「作品全体への評価が読み取れない（書かれていないことを推測で補わない）」（この順）
+// overall_star（kind 'star'、aspect 'overall'）
+instructions: `次のゲームレビューの抜粋は、${OVERALL}について、どのくらい強く肯定または否定していますか。作品全体を評価する言葉も、評価として数えてください。書かれていないことは推測しないでください。`
+levels: [
+  '作品全体を、強い言葉で否定している（失敗作、おすすめしない、など）',
+  '作品全体を、否定的に評価している、または欠点が目立つと述べている',
+  '作品全体を、良くも悪くもない、または、良い点と悪い点が釣り合っていると述べている',
+  '作品全体を、好意的に評価している（良作、楽しめる、など）',
+  '作品全体を、強い言葉で絶賛している（傑作、必携、など）'
+]
+```
+
+4 観点の star は、`scripts/star-questions.ts` の `star()`（`STAR_RULE`、`STAR_LEVELS` を含む）の複写。
 
 `question-sets/index.ts` の `QUESTION_SETS` には、**入れない**（`latestDefinition('game')` が、一般のレビューの質問セットを返さなくなるため）。`criticV1` は、別に export する。テスト: 14 問、順序、キーの一意、`toClefQuestions` が通る。
 
@@ -106,7 +128,7 @@ export const criticV1: QuestionSetDefinition; // category 'game'、version 1、m
 /** 本文（メモリ上）を、質問セットで Clef に読ませて、検証した答えを返す。すぐ直る失敗（5xx、通信）は、1 回だけやり直す。 */
 export async function readText(
 	deps: { clef: ClefClient; quickRetryDelayMs?: number },
-	def: QuestionSetDefinition,
+	def: { model: ClefModel; questions: Question[] }, // readRevision が渡すのは ResolvedQuestionSet（category・version・aspects がない）なので、QuestionSetDefinition にしない
 	text: string
 ): Promise<{ answers: ReadingAnswer[]; latencyMs: number; inputTokens: number | null }>; // 失敗は、ClefError を投げる（reading.ts の既存の流儀）
 ```
@@ -118,15 +140,15 @@ export async function readText(
 ```ts
 export type CriticError = 'bad_oc_id' | 'oc_id_taken' | 'not_found';
 
-export async function ensureCriticQuestionSet(db: D1Database, def: QuestionSetDefinition, now: Date): Promise<number>; // question_sets の id。tags.ts の resolveWorkQuestionSet と同じ、ハッシュで取得か追加
+export async function ensureCriticQuestionSet(db: D1Database, def: QuestionSetDefinition, now: Date): Promise<number>; // question_sets の id。ハッシュは `definitionHash(def)`（question-sets/index.ts）、definition_json は `JSON.stringify(def)`。取得か `INSERT OR IGNORE`（tags.ts の resolveWorkQuestionSet と同じ流れ）
 export async function knownCriticIds(db: D1Database, workId: string, ocReviewIds: string[]): Promise<Set<string>>;
 export async function saveCriticRead(db: D1Database, input: {
 	workId: string; snippet: Pick<CriticSnippet, 'ocReviewId' | 'outlet' | 'url' | 'publishedOn'>;
 	questionSetId: number; answers: ReadingAnswer[];
 }, now: Date): Promise<{ ok: true } | { ok: false; error: 'duplicate' }>;   // db.batch で、critic_reviews と critic_answers を一緒に入れる
 
-export async function linkOpenCritic(db: D1Database, workId: string, ocId: string, now: Date): Promise<{ ok: true } | { ok: false; error: CriticError }>; // ocId が '' なら外す。正の整数のみ
-export async function worksToSync(db: D1Database, limit: number): Promise<{ id: string; ocId: number }[]>; // 古い順（critic_synced_at が null が先）。active のみ
+export async function linkOpenCritic(db: D1Database, workId: string, ocId: string, now: Date): Promise<{ ok: true } | { ok: false; error: CriticError }>; // ocId が '' なら外す。正の整数のみ。ID が変わる・外すときは、その作品の critic_reviews を消し（critic_answers は CASCADE）、critic_synced_at を null にする（別の作品の結果が残らないように）。同じ ID なら何もしない
+export async function worksToSync(db: D1Database, limit: number, now: Date): Promise<{ id: string; ocId: number }[]>; // 古い順（critic_synced_at が null が先）。active のみ。critic_synced_at が now の 20 時間以内のものは、除く
 export async function markSynced(db: D1Database, workId: string, now: Date): Promise<void>;
 
 export interface Candidate { workId: string; workName: string; ocId: number; ocName: string }
@@ -154,7 +176,7 @@ export async function criticSection(db: D1Database, workId: string): Promise<Cri
 
 ```ts
 export interface CriticLimits {
-	maxCalls: number;       // 1 回の実行での、OpenCritic の呼び出し（検索を除く）。既定 120
+	maxCalls: number;       // 1 回の実行での、OpenCritic の呼び出し（検索を除く）。既定 40（無料の Workers の外部への subrequest は 1 回 50 まで。検索と合わせて 45 以下。4. を参照）
 	maxSearches: number;    // 候補の検索。既定 5
 	maxReads: number;       // Clef で読む抜粋の数。既定 60（約 900 neurons）
 	maxPagesPerWork: number; // 既定 3（60 件）
@@ -170,9 +192,10 @@ export async function syncCritics(deps: { db: D1Database; clef: ClefClient; oc: 
 
 ### 1.7 定期実行の接続
 
-- `wrangler.jsonc`: `triggers.crons` に、`"17 18 * * *"`（毎日 18:17 UTC = 03:17 JST）を足す（既存の `* * * * *` は、残す）。**設定の変更だけ。デプロイはしない。**
-- `src/worker.ts`: `scheduled(controller, env, ctx)` で、`controller.cron` を `runScheduled(env, controller.cron)` に渡す。
-- `src/lib/server/scheduled.ts`: `export const CRITIC_CRON = '17 18 * * *'`。`cron === CRITIC_CRON` なら、`env.OPENCRITIC_API_KEY` があるときだけ `syncCritics`。ほかは、今までどおり `sweepReadings`。
+- **cron は、足さない**（`wrangler.jsonc` は変えない）。無料プランの cron の数の上限（アカウント全体で 5 個、という記憶。未確認）に、このアカウントの、ほかの Worker と合わせて当たるおそれがあり、当たるとデプロイが失敗するため。毎分の cron の中で、UTC の 18:17〜18:19 のときだけ、取得を呼ぶ。
+- `src/worker.ts`: `scheduled(controller, env, ctx)` で、`controller.scheduledTime` を `runScheduled(env, new Date(controller.scheduledTime))` に渡す（今は `_controller: unknown`。型を `{ scheduledTime: number }`、または workers-types の `ScheduledController` にする）。
+- `src/lib/server/scheduled.ts`: `export function isCriticSyncTime(now: Date): boolean`（UTC の時が 18、分が 17〜19）。`runScheduled(env: Env, now: Date = new Date())`（省略できる形にして、既存の `scheduled.test.ts` を、そのまま通す）。毎回、今までどおり `sweepReadings`。そのあと、`isCriticSyncTime(now)` で、`normalizeKey(env.OPENCRITIC_API_KEY)` が null でないときだけ `syncCritics`（例外は捕まえて記録し、投げない。既存の sweep と同じ）。**同じ日に 3 回呼ばれても、重ならない**ように、`worksToSync` は、`critic_synced_at` が 20 時間以内の作品を除く（候補の検索は、候補の行がある作品を除くので、重ならない）。
+- テスト: `scheduled.test.ts` に、「18:17 でキーがあれば取得する」「キーがなければ何もしない」「18:17 以外では取得しない」「18:17〜18:19 に 3 回呼んでも、同じ作品を 2 回取得しない」を足す（OpenCritic は `fetch` の偽物）。
 - `src/lib/server/env.ts`: `OPENCRITIC_API_KEY?: string`。
 
 ### 1.8 管理画面と作品ページ
@@ -188,8 +211,8 @@ export async function syncCritics(deps: { db: D1Database; clef: ClefClient; oc: 
 |---|---|---|---|
 | A1 | `opencritic.ts` とそのテスト | `coder-haiku` | 型だけの `opencritic.ts`（本体は未実装）と、失敗するテスト `opencritic.test.ts`（作り物の応答。実在の抜粋は使わない） |
 | A2 | `0006_critics.sql`、`critics.ts`、そのテスト | `delegate:builder` | 1.1 と 1.5。テストを先に書かせる |
-| A3 | `readText`（`reading.ts`）、`critic-v1.ts`、テスト用の偽 Clef を score に対応 | `delegate:builder` | 1.3、1.4。`reading.ts` は Haiku に任せない（`CLAUDE.md`） |
-| B | `critic-sync.ts`、`scheduled.ts`、`worker.ts`、`env.ts`、`wrangler.jsonc` | `delegate:builder` | 1.6、1.7。A1〜A3 の後 |
+| A3 | `readText`（`reading.ts`）、`critic-v1.ts`、テスト用の偽 Clef を score に対応 | `delegate:builder` | 1.3、1.4。`reading.ts` は Haiku に任せない（`CLAUDE.md`）。今の `answersFor`（`testing/db.ts`）は、`score` の質問にも noul の形で答え、キーの `_star` を外さない。`_star` を外し、score には `{ type: 'score', score: 0〜4, probabilities: [5 個], confidence }` で答える形に直す（`clefAnswers` も同じく star を扱わない）。既存のテストが通ること |
+| B | `critic-sync.ts` と `critic-sync.test.ts`、`scheduled.ts` と `scheduled.test.ts`、`worker.ts`、`env.ts`、`wrangler.jsonc` | `delegate:builder` | 1.6、1.7。A1〜A3 の後 |
 | C1 | 管理画面（作品の ID、候補の承認）と `messages.ts` | `coder-haiku` | 1.5 の型と 1.8。B の後（`critics.ts` ができてから） |
 | C2 | `CriticSection.svelte`、`StarDist.svelte`、`load` の接続 | `coder-haiku` | 1.5 の `CriticSection` の型と 1.8 |
 | D | 最後のレビュー | `delegate:reviewer` | この文書（仕様）と差分だけ |
@@ -213,6 +236,8 @@ A1〜A3 は、ファイルが重ならないので、worktree で並べる（最
 - OpenCritic の API の規約（未確認。ユーザーの判断で進める）。
 - 無料プランの上限（検索 25、そのほか 200 / 日）は、実測。有料プランへの変更は、しない。ほかの用途（私の試験）と、同じキーの枠を共有する。
 - Clef の利用枠（1 日 10,000 neurons）は、毎分の読み取り（一般のレビュー）と共有。1 回の取得は、最大 60 件（約 900 neurons の見込み。試験では、記録していない）。
-- Workers の無料プランの CPU 時間は 10 ms/回。cron の呼び出しは、**別の枠**か、確かめていない。1 回の取得は、待ち時間を含めて長いので、超えるおそれがある（未確認。`syncCritics` を、小さく分けて実行できる形にしてある: 上限で止まり、次の日に続きから）。
+- Workers の無料プランの CPU 時間は 10 ms/回（通信の待ち時間は含まない）。cron の呼び出しは、**別の枠**か、確かめていない。JSON の解析と D1 の処理が、超えるおそれがある（未確認。`syncCritics` は、上限で止まり、次の日に続きから）。
+- **subrequest の上限（未確認。記憶による）:** 無料の Workers は、1 回の呼び出しで、外部への fetch が 50 まで（D1 や AI などの Cloudflare のサービスは、別に 1000 まで）。超えると、それ以降の fetch が失敗する。このため `maxCalls` の既定を 120 から 40 に下げた（検索 5 と合わせて 45）。デプロイの前に、Cloudflare の文書で確かめる。1 日 40 回だと、1 回あたり 2 ページ × 約 20 作品が目安。
+- **cron は足さない（決め）:** 無料プランの cron の数の上限（アカウント全体で 5 個、という記憶。未確認）を避けるため。毎分の cron の取りこぼし（その分に呼ばれなかった）があっても、18:17〜18:19 の 3 回のどれかで足りる。3 回とも取りこぼしたら、その日は取得しない（次の日に続く）。
 - 総合の質問は、試験用の文面。言い換えでの安定性は、測っていない。
 - 日本語の作品名は、OpenCritic の検索で見つからない見込み（運営者が、ID を入れる）。
