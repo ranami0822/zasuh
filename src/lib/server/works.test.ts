@@ -74,11 +74,11 @@ describe('作品の登録と、一覧・作品ページの問い合わせ', () =
 		const clef = fakeClef();
 		await readRevision({ db, clef, now: clock.now }, p.revisionId);
 		expect(clef.calls[0].questionKeys).toEqual([
-			'function_choice', 'function_noul', 'usability_choice', 'usability_noul',
-			'stability_choice', 'stability_noul', 'pricing_choice', 'pricing_noul'
+			'function_noul', 'function_star', 'usability_noul', 'usability_star',
+			'stability_noul', 'stability_star', 'pricing_noul', 'pricing_star'
 		]);
 		const page = await workPage(db, (await getWork(db, { id }))!, {});
-		expect(page.tags.map((t) => [t.tagId, t.nMention])).toEqual([
+		expect(page.tags.map((t) => [t.tagId, t.stat.n])).toEqual([
 			['software/function', 1], ['software/usability', 0], ['software/stability', 1], ['software/pricing', 0]
 		]);
 	});
@@ -93,7 +93,7 @@ describe('作品の登録と、一覧・作品ページの問い合わせ', () =
 			return p;
 		};
 
-		it('並び: 下限の高い順に番号を付け、言及のない作品は、番号なしで後ろに並べる', async () => {
+		it('並び: 控えめな値の高い順に番号を付け、言及のない作品は、番号なしで後ろに並べる', async () => {
 			const a = await addWork(db, { name: 'A' });
 			const b = await addWork(db, { name: 'B' });
 			await addWork(db, { name: 'C' });
@@ -102,7 +102,7 @@ describe('作品の登録と、一覧・作品ページの問い合わせ', () =
 			for (let i = 0; i < 5; i++) await review(a, `a${i}`, '{"gameplay":"positive"}');
 			await review(b, 'b0', '{"gameplay":"positive"}');
 			const rows = await rankedWorks(db, 'game');
-			expect(rows.map((r) => [r.name, r.rank, r.nMention])).toEqual([['A', 1, 5], ['B', 2, 1], ['C', null, 0]]);
+			expect(rows.map((r) => [r.name, r.rank, r.stat.n])).toEqual([['A', 1, 5], ['B', 2, 1], ['C', null, 0]]);
 			expect((await rankedWorks(db, 'game', 'game/music')).map((r) => r.rank)).toEqual([null, null, null]);
 			expect((await rankedWorks(db, 'software')).map((r) => r.name)).toEqual(['S']);
 		});
@@ -115,21 +115,26 @@ describe('作品の登録と、一覧・作品ページの問い合わせ', () =
 			const work = (await getWork(db, { id }))!;
 
 			const page = await workPage(db, work, {});
-			expect(page.tags.map((t) => [t.tagId, t.nMention, t.nPos, t.nNeg])).toEqual([
-				['game/gameplay', 2, 1, 1], ['game/music', 1, 0, 1], ['game/comfort', 0, 0, 0], ['game/price', 0, 0, 0]
+			expect(page.tags.map((t) => [t.tagId, t.stat.n])).toEqual([
+				['game/gameplay', 2], ['game/music', 1], ['game/comfort', 0], ['game/price', 0]
 			]);
-			expect(page.overall).toMatchObject({ nMention: 3, nPos: 1, nNeg: 2 });
+			// ゲーム性は、肯定と否定が1件ずつ。平均は、その間に入る（丸めない）。
+			const gameplay = page.tags[0].stat;
+			expect(gameplay.mean!).toBeGreaterThan(2.5);
+			expect(gameplay.mean!).toBeLessThan(3.5);
+			expect(gameplay.soft.reduce((t, v) => t + v, 0)).toBeCloseTo(2, 9);
+			expect(page.tags[2].stat.mean).toBeNull();
+			expect(page.overall.n).toBe(3);
 			expect(page.total).toBe(2);
 			expect(page.reviews.map((r) => r.writtenOn)).toEqual(['2026-11-10', '2026-10-05']);
-			expect(page.reviews[1].reads).toEqual([
-				{ tagId: 'game/gameplay', label: 'ゲーム性・内容', value: 'positive' },
-				{ tagId: 'game/music', label: '音楽・音', value: 'negative' }
-			]);
+			const reads = page.reviews[1].reads;
+			expect(reads.map((r) => [r.tagId, r.label])).toEqual([['game/gameplay', 'ゲーム性・内容'], ['game/music', '音楽・音']]);
+			expect(reads[0].star).toBeGreaterThan(4); // 肯定
+			expect(reads[1].star).toBeLessThan(2); // 否定
+
 			expect(page.disclosed).toHaveLength(1);
-			expect(page.months).toEqual([
-				{ month: '2026-10', nPos: 1, nNeg: 1, nMix: 0 },
-				{ month: '2026-11', nPos: 0, nNeg: 1, nMix: 0 }
-			]);
+			expect(page.months.map((m) => [m.month, m.n])).toEqual([['2026-10', 2], ['2026-11', 1]]);
+			for (const m of page.months) expect(m.soft.reduce((t, v) => t + v, 0)).toBeCloseTo(m.n, 9);
 
 			const music = await workPage(db, work, { tag: 'game/music' });
 			expect(music.total).toBe(1);
@@ -151,22 +156,18 @@ describe('作品の登録と、一覧・作品ページの問い合わせ', () =
 			expect(await searchWorks(db, '%')).toEqual([]); // LIKE の記号として扱わない
 		});
 
-		it('読み取りの状況: 読む前は pending、読んだあとは向きつきで ok。関係者と重複の印も返す', async () => {
+		it('読み取りの状況: 読む前は pending、読んだあとは星つきで ok。関係者と重複の印も返す', async () => {
 			const id = await addWork(db);
 			const dev = await deviceTokenHash('s');
 			const p = await postReview(db, { workId: id, deviceHash: dev, ipHash: null, body: '{"gameplay":"positive","price":"negative"}', disclosure: 'developer', disclosureNote: '', }, clock.now());
 			if (!p.ok) throw new Error(p.error);
 			expect(await readingStatus(db, p.reviewId)).toEqual({ status: 'pending', reads: [], duplicate: false, disclosed: true });
 			await readRevision({ db, clef: fakeClef(), now: clock.now }, p.revisionId);
-			expect(await readingStatus(db, p.reviewId)).toEqual({
-				status: 'ok',
-				reads: [
-					{ tagId: 'game/gameplay', label: 'ゲーム性・内容', value: 'positive' },
-					{ tagId: 'game/price', label: '価格', value: 'negative' }
-				],
-				duplicate: false,
-				disclosed: true
-			});
+			const done = await readingStatus(db, p.reviewId);
+			expect(done).toMatchObject({ status: 'ok', duplicate: false, disclosed: true });
+			expect(done!.reads.map((r) => [r.tagId, r.label])).toEqual([['game/gameplay', 'ゲーム性・内容'], ['game/price', '価格']]);
+			expect(done!.reads[0].star).toBeGreaterThan(4);
+			expect(done!.reads[1].star).toBeLessThan(2);
 			const failing = await postReview(db, { workId: id, deviceHash: await deviceTokenHash('t'), ipHash: null, body: '{"x":1}  ', disclosure: 'none', disclosureNote: '' }, clock.now());
 			if (!failing.ok) throw new Error(failing.error);
 			const broken = fakeClef(() => { throw new Error('boom'); });

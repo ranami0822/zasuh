@@ -6,7 +6,7 @@ import type { DirectionQuestion, MentionQuestion, QuestionSetDefinition } from '
  * 規約 v2（rubric.md）を反映したもの。変えるときは、この定義を直さず、v2 を追加する。
  */
 
-const ASPECTS = [
+export const ASPECTS = [
 	{
 		key: 'gameplay',
 		label: 'ゲーム性・内容',

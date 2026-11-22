@@ -1,45 +1,59 @@
 import type { D1Database } from '@cloudflare/workers-types';
 import type { Category } from './question-sets/types';
+import { starSummary, type StarItem, type StarSummary } from './star-stats';
 import { REGISTRY, type TagRegistry } from './tags';
 
 /** 全タグの言及をまとめた行の tag_id。 */
 export const OVERALL = '_overall';
 
-/** 信頼水準 95% の z 値（初期値。docs/design.md の7章）。 */
-const Z95 = 1.959964;
+/** 画面に出す星の集計。 */
+export type StarStat = Pick<StarSummary, 'n' | 'soft' | 'mean' | 'se'>;
 
-/**
- * Wilson 信頼区間の下限。少数のレビューで順位が暴れないよう、肯定率そのものではなく、これで並べる。
- * successes は小数でもよい（混在を 0.5 として数えるため）。n が 0 なら null。
- */
-export function wilsonLower(successes: number, n: number, z = Z95): number | null {
-	if (n <= 0) return null;
-	const p = successes / n;
-	const z2 = z * z;
-	const centre = p + z2 / (2 * n);
-	const margin = z * Math.sqrt((p * (1 - p)) / n + z2 / (4 * n * n));
-	return Math.max(0, (centre - margin) / (1 + z2 / n));
+export const EMPTY_STAR_STAT: StarStat = { n: 0, soft: [0, 0, 0, 0, 0], mean: null, se: null };
+
+/** aspect_star_stats の行（列の別名つきで読むときの形）。 */
+export interface StarStatRow {
+	n: number;
+	soft1: number;
+	soft2: number;
+	soft3: number;
+	soft4: number;
+	soft5: number;
+	mean: number | null;
+	se: number | null;
 }
 
-export interface AspectCounts {
-	nPos: number;
-	nNeg: number;
-	nMix: number;
+/** SQL で、aspect_star_stats（別名 s）の列を、StarStatRow の形で読むための列の並び。LEFT JOIN のときも、n は 0 になる。 */
+export const STAR_STAT_COLUMNS = `COALESCE(s.n_mention, 0) AS n,
+	COALESCE(s.soft_1, 0) AS soft1, COALESCE(s.soft_2, 0) AS soft2, COALESCE(s.soft_3, 0) AS soft3,
+	COALESCE(s.soft_4, 0) AS soft4, COALESCE(s.soft_5, 0) AS soft5, s.mean AS mean, s.se AS se`;
+
+export function toStarStat(r: StarStatRow): StarStat {
+	return { n: r.n, soft: [r.soft1, r.soft2, r.soft3, r.soft4, r.soft5], mean: r.mean, se: r.se };
 }
 
-/** 言及数（肯定 + 否定 + 混在）と、肯定を 1、混在を 0.5、否定を 0 とした下限。 */
-export function scoreCounts(c: AspectCounts): { nMention: number; scoreLower: number | null } {
-	const nMention = c.nPos + c.nNeg + c.nMix;
-	return { nMention, scoreLower: wilsonLower(c.nPos + 0.5 * c.nMix, nMention) };
+/** 保存した星の答え（reading_answers の probs_json）から、段階ごとの確率を取り出す。読めなければ null。 */
+function parseLevels(json: string | null): number[] | null {
+	if (!json) return null;
+	try {
+		const levels = (JSON.parse(json) as { levels?: unknown }).levels;
+		return Array.isArray(levels) && levels.length === 5 && levels.every((p) => typeof p === 'number' && p >= 0) &&
+			levels.reduce((t: number, p: number) => t + p, 0) > 0
+			? (levels as number[])
+			: null;
+	} catch {
+		return null;
+	}
 }
 
 /**
  * 1つの作品の集計を作り直す。
- * 数えるのは、各レビューの最新の版の、成功した読み取りだけ。
+ * 数えるのは、各レビューの最新の版の、成功した読み取りのうち、言及あり（noul が 0.5 以上）の観点の星だけ。
  * 利害関係のあるレビューと、非表示のレビューは数えない。
  * 数えないレビュー: 利害関係のあるもの、非表示のもの、ほかのレビューと文面がほぼ同じもの。
  * タグの版や、一緒に聞いた質問の組が違う読み取りも、同じタグなら合算する。
- * 総合（_overall）は、分野のタグだけで数える（追加のタグは作品ごとに違い、作品どうしを比べられなくなるため）。
+ * 総合（_overall）は、分野のタグの答えだけで数える（追加のタグは作品ごとに違い、作品どうしを比べられなくなるため）。
+ * 向き（direction）の答え（v1）は、数えない。星の答えがない読み取りは、集計に入らない。
  */
 export async function recomputeWorkStats(
 	db: D1Database,
@@ -52,54 +66,51 @@ export async function recomputeWorkStats(
 	const domain = new Set(registry.domainTags[work.category]);
 	const { results } = await db
 		.prepare(
-			`SELECT a.tag_id AS tagId, a.value AS value, COUNT(*) AS n
+			`SELECT s.tag_id AS tagId, s.probs_json AS probsJson
 			   FROM reviews r
 			   JOIN readings rd ON rd.revision_id = r.current_revision_id AND rd.status = 'ok'
-			   JOIN reading_answers a ON a.reading_id = rd.id AND a.kind = 'direction'
-			  WHERE r.work_id = ? AND r.hidden = 0 AND r.disclosure = 'none' AND r.duplicate_of IS NULL
-			  GROUP BY a.tag_id, a.value`
+			   JOIN reading_answers s ON s.reading_id = rd.id AND s.kind = 'star'
+			   JOIN reading_answers m ON m.reading_id = rd.id AND m.kind = 'mention' AND m.tag_id = s.tag_id AND m.value = 'true'
+			  WHERE r.work_id = ? AND r.hidden = 0 AND r.disclosure = 'none' AND r.duplicate_of IS NULL`
 		)
 		.bind(workId)
-		.all<{ tagId: string; value: string; n: number }>();
+		.all<{ tagId: string; probsJson: string | null }>();
 
-	const counts = new Map<string, AspectCounts>();
-	const overall: AspectCounts = { nPos: 0, nNeg: 0, nMix: 0 };
+	const items = new Map<string, StarItem[]>();
+	const overall: StarItem[] = [];
 	for (const row of results) {
-		let c = counts.get(row.tagId);
-		if (!c) counts.set(row.tagId, (c = { nPos: 0, nNeg: 0, nMix: 0 }));
-		const field = row.value === 'positive' ? 'nPos' : row.value === 'negative' ? 'nNeg' : row.value === 'mixed' ? 'nMix' : null;
-		if (!field) continue;
-		c[field] += row.n;
-		if (domain.has(row.tagId)) overall[field] += row.n;
+		const levels = parseLevels(row.probsJson);
+		if (!levels) continue;
+		const list = items.get(row.tagId) ?? [];
+		list.push({ levels });
+		items.set(row.tagId, list);
+		if (domain.has(row.tagId)) overall.push({ levels });
 	}
-	counts.set(OVERALL, overall);
+	items.set(OVERALL, overall);
 
 	const updatedAt = now.toISOString();
 	const insert = db.prepare(
-		`INSERT INTO aspect_stats (work_id, tag_id, n_mention, n_pos, n_neg, n_mix, score_lower, updated_at)
-		 VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+		`INSERT INTO aspect_star_stats
+		   (work_id, tag_id, n_mention, soft_1, soft_2, soft_3, soft_4, soft_5, mean, se, score_lower, updated_at)
+		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
 	);
 	await db.batch([
-		db.prepare('DELETE FROM aspect_stats WHERE work_id = ?').bind(workId),
-		...[...counts].map(([tagId, c]) => {
-			const { nMention, scoreLower } = scoreCounts(c);
-			return insert.bind(workId, tagId, nMention, c.nPos, c.nNeg, c.nMix, scoreLower, updatedAt);
+		db.prepare('DELETE FROM aspect_star_stats WHERE work_id = ?').bind(workId),
+		...[...items].map(([tagId, list]) => {
+			const t = starSummary(list);
+			return insert.bind(workId, tagId, t.n, ...t.soft, t.mean, t.se, t.lower, updatedAt);
 		})
 	]);
 }
 
-export interface RankingRow {
+export interface RankingRow extends StarStat {
 	workId: string;
 	slug: string;
 	name: string;
-	nMention: number;
-	nPos: number;
-	nNeg: number;
-	nMix: number;
 	scoreLower: number;
 }
 
-/** 分野の中の順位。tagId を省くと総合順位（全タグの言及をまとめたもの）。言及のない作品は載らない。 */
+/** 分野の中の順位。tagId を省くと総合順位（分野のタグの答えをまとめたもの）。言及のない作品は載らない。控えめな値の高い順。 */
 export async function ranking(
 	db: D1Database,
 	category: Category,
@@ -107,10 +118,8 @@ export async function ranking(
 ): Promise<RankingRow[]> {
 	const { results } = await db
 		.prepare(
-			`SELECT w.id AS workId, w.slug AS slug, w.name AS name,
-			        s.n_mention AS nMention, s.n_pos AS nPos, s.n_neg AS nNeg, s.n_mix AS nMix,
-			        s.score_lower AS scoreLower
-			   FROM aspect_stats s
+			`SELECT w.id AS workId, w.slug AS slug, w.name AS name, s.score_lower AS scoreLower, ${STAR_STAT_COLUMNS}
+			   FROM aspect_star_stats s
 			   JOIN works w ON w.id = s.work_id
 			  WHERE w.category = ? AND s.tag_id = ?
 			    AND w.status = 'active' AND s.score_lower IS NOT NULL
@@ -118,6 +127,6 @@ export async function ranking(
 			  LIMIT ?`
 		)
 		.bind(category, opts.tagId ?? OVERALL, opts.limit ?? 50)
-		.all<RankingRow>();
-	return results;
+		.all<StarStatRow & { workId: string; slug: string; name: string; scoreLower: number }>();
+	return results.map((r) => ({ workId: r.workId, slug: r.slug, name: r.name, scoreLower: r.scoreLower, ...toStarStat(r) }));
 }

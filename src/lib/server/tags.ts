@@ -1,6 +1,7 @@
 import type { D1Database } from '@cloudflare/workers-types';
-import { direction, gameV1, mention, type AspectSpec } from './question-sets/game-v1';
-import { softwareDirection, softwareMention } from './question-sets/software';
+import { ASPECTS, direction, gameV1, mention, type AspectSpec } from './question-sets/game-v1';
+import { star } from './question-sets/game-v2';
+import { softwareDirection, softwareMention, softwareStar } from './question-sets/software';
 import type { Category, ClefModel, Question } from './question-sets/types';
 
 /**
@@ -14,7 +15,7 @@ export interface TagDefinition {
 	key: string;
 	version: number;
 	label: string;
-	/** 向きの質問と、言及の質問。質問の aspect は、このタグの key。 */
+	/** 質問。v1 は向き（choice）と言及（noul）、v2 は言及（noul）と星（score）。質問の aspect は、このタグの key。 */
 	questions: Question[];
 }
 
@@ -28,11 +29,12 @@ export interface TagRegistry {
 
 /** 読み取りに使うモデル。 */
 export const MODEL: ClefModel = 'clef-flash';
-/** 1回の問い合わせに入れられる質問の数（Clef の上限）。1タグ2問なので、1作品のタグは32個まで。 */
+/** 1回の問い合わせに入れられる質問の数（Clef の上限）。1タグ2問（v1 も v2 も）なので、1作品のタグは32個まで。 */
 export const MAX_QUESTIONS = 64;
 
-// ゲームの分野のタグは、実験で確かめた質問セット（gameV1）を、観点ごとに分けたもの。文面は同じ。
-const gameTags: TagDefinition[] = gameV1.aspects.map((a) => ({
+// v1: 向きと言及。ゲームの分野のタグは、実験で確かめた質問セット（gameV1）を、観点ごとに分けたもの。文面は同じ。
+// すでに保存した読み取りが、この版を指しているので、定義は書き換えない。
+const gameTagsV1: TagDefinition[] = gameV1.aspects.map((a) => ({
 	id: `game/${a.key}`,
 	key: a.key,
 	version: 1,
@@ -40,42 +42,67 @@ const gameTags: TagDefinition[] = gameV1.aspects.map((a) => ({
 	questions: gameV1.questions.filter((q) => q.aspect === a.key)
 }));
 
-function build(id: string, spec: AspectSpec, make: { direction: typeof direction; mention: typeof mention }): TagDefinition {
-	return { id, key: spec.key, version: 1, label: spec.label, questions: [make.direction(spec), make.mention(spec)] };
+type Make = { mention: typeof mention; star: typeof star; direction: typeof direction };
+const forGame: Make = { direction, mention, star };
+const forSoftware: Make = { direction: softwareDirection, mention: softwareMention, star: softwareStar };
+
+/** 版を指定してタグを作る。v1 は向きと言及、v2 は言及と星（docs/mvp-design.md の 20.6）。 */
+function build(id: string, spec: AspectSpec, make: Make, version: 1 | 2): TagDefinition {
+	return {
+		id,
+		key: spec.key,
+		version,
+		label: spec.label,
+		questions: version === 1 ? [make.direction(spec), make.mention(spec)] : [make.mention(spec), make.star(spec)]
+	};
 }
-const forGame = { direction, mention };
-const forSoftware = { direction: softwareDirection, mention: softwareMention };
+
+// v2: 言及と星。ゲームの分野のタグ（ASPECTS）は、実験の S3 条件と同じ文面（question-sets/game-v2.ts）。
+const gameTagsV2: TagDefinition[] = ASPECTS.map((a) => build(`game/${a.key}`, a, forGame, 2));
 
 // 追加のタグと、ソフトウェアのタグ。docs/mvp-design.md の 12.7。
 // 正解付きのデータでは、まだ確かめていない（確かめたのは、ゲームの分野の4つだけ）。
-const gameExtraTags: TagDefinition[] = [
+const gameExtraSpecs: AspectSpec[] = [
 	{ key: 'story', label: '物語', scope: 'ストーリー、キャラクター、世界観、演出、シナリオの出来など' },
 	{ key: 'graphics', label: '見た目', scope: 'グラフィック、アート、アニメーション、画面や雰囲気の作りなど' },
 	{ key: 'multiplayer', label: 'マルチプレイ', scope: '協力・対戦の面白さ、マッチング、人の多さ、コミュニティなど' },
 	{ key: 'localization', label: '日本語対応', scope: '日本語の有無、翻訳の質、字幕や音声の日本語対応など' },
 	{ key: 'updates', label: '更新・運営', scope: 'アップデートの頻度と内容、運営の対応、追加コンテンツや課金の仕組みなど' }
-].map((spec) => build(`game/${spec.key}`, spec, forGame));
-
-const softwareDomainTags: TagDefinition[] = [
+];
+const softwareDomainSpecs: AspectSpec[] = [
 	{ key: 'function', label: '機能・品質', scope: 'できること、機能の充実、結果や出力の質・正確さなど' },
 	{ key: 'usability', label: '使いやすさ', scope: '操作や画面の分かりやすさ、導入・設定の手間、説明やヘルプなど' },
 	{ key: 'stability', label: '安定性・速さ', scope: '不具合、クラッシュ、障害、動作の重さ、応答の速さなど' },
 	{ key: 'pricing', label: '料金', scope: '値段、プラン、無料で使える範囲、コストパフォーマンスなど' }
-].map((spec) => build(`software/${spec.key}`, spec, forSoftware));
-
-const softwareExtraTags: TagDefinition[] = [
+];
+const softwareExtraSpecs: AspectSpec[] = [
 	{ key: 'support', label: 'サポート・運営', scope: '問い合わせへの対応、更新の頻度、運営の姿勢など' },
 	{ key: 'privacy', label: '安全性・プライバシー', scope: 'データの扱い、権限、セキュリティ、広告や追跡など' },
 	{ key: 'integration', label: '連携・拡張', scope: '他のサービスやツールとの連携、API、プラグイン、対応する環境など' },
 	{ key: 'limits', label: '制限', scope: '利用回数や容量の上限、できないこと、地域や年齢の制限など' },
 	{ key: 'japanese', label: '日本語対応', scope: '日本語の有無、翻訳の質、日本語での入出力の質など' }
-].map((spec) => build(`software/${spec.key}`, spec, forSoftware));
+];
 
-/** すべてのタグ。新しいタグと、新しい版は、ここに追加する。 */
+const tagsFor = (prefix: string, specs: AspectSpec[], make: Make): TagDefinition[] =>
+	([1, 2] as const).flatMap((version) => specs.map((spec) => build(`${prefix}/${spec.key}`, spec, make, version)));
+
+/** すべてのタグ。新しいタグと、新しい版は、ここに追加する。最新の版が使われる（latest）。 */
 export const REGISTRY: TagRegistry = {
-	tags: [...gameTags, ...gameExtraTags, ...softwareDomainTags, ...softwareExtraTags],
-	domainTags: { game: gameTags.map((t) => t.id), software: softwareDomainTags.map((t) => t.id) },
-	extraTags: { game: gameExtraTags.map((t) => t.id), software: softwareExtraTags.map((t) => t.id) }
+	tags: [
+		...gameTagsV1,
+		...gameTagsV2,
+		...tagsFor('game', gameExtraSpecs, forGame),
+		...tagsFor('software', softwareDomainSpecs, forSoftware),
+		...tagsFor('software', softwareExtraSpecs, forSoftware)
+	],
+	domainTags: {
+		game: gameTagsV1.map((t) => t.id),
+		software: softwareDomainSpecs.map((s) => `software/${s.key}`)
+	},
+	extraTags: {
+		game: gameExtraSpecs.map((s) => `game/${s.key}`),
+		software: softwareExtraSpecs.map((s) => `software/${s.key}`)
+	}
 };
 
 export function latest(registry: TagRegistry, id: string): TagDefinition {

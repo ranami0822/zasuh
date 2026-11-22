@@ -1,19 +1,22 @@
 import { describe, expect, it } from 'vitest';
 import { shareMeta } from './share';
+import { EMPTY_STAR_STAT } from './stats';
 
 const origin = 'https://review.anami.party';
 
 describe('共有のメタ情報（shareMeta）', () => {
-	it('URL と、向きの件数の説明を作る。点数の言葉は入れない', () => {
-		const m = shareMeta({ slug: 'omori', overall: { nMention: 10, nPos: 6, nNeg: 3, nMix: 1 } }, origin);
+	it('URL と、星の平均と件数の説明を作る。平均は丸めず、小数1桁で書く', () => {
+		const m = shareMeta({ slug: 'omori', overall: { n: 10, soft: [1, 1, 2, 3, 3], mean: 3.84, se: null } }, origin);
 		expect(m.url).toBe('https://review.anami.party/works/omori');
-		expect(m.description).toBe('肯定 6・否定 3・混在 1（10 件の言及）');
-		expect(m.description).not.toMatch(/点|スコア|評価/);
+		expect(m.description).toBe('星の平均 3.8（5段階。10 件の言及）');
 	});
 
-	it('読み取りがない作品は、その旨を書く（overall が null でも、nMention が 0 でも）', () => {
-		const empty = 'まだ、読み取れたレビューがありません。';
-		expect(shareMeta({ slug: 'a', overall: null }, origin).description).toBe(empty);
-		expect(shareMeta({ slug: 'a', overall: { nMention: 0, nPos: 0, nNeg: 0, nMix: 0 } }, origin).description).toBe(empty);
+	it('幅があるときは、± を添える（幅は 1.96 × 標準誤差）', () => {
+		const m = shareMeta({ slug: 'a', overall: { n: 20, soft: [0, 0, 0, 0, 0], mean: 4.0, se: 0.1 } }, origin);
+		expect(m.description).toBe('星の平均 4.0 ± 0.2（5段階。20 件の言及）');
+	});
+
+	it('読み取りがない作品は、その旨を書く', () => {
+		expect(shareMeta({ slug: 'a', overall: EMPTY_STAR_STAT }, origin).description).toBe('まだ、読み取れたレビューがありません。');
 	});
 });

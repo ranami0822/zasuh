@@ -1,7 +1,7 @@
 import type { D1Database } from '@cloudflare/workers-types';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { toClefQuestions } from './question-sets';
-import { gameV1 } from './question-sets/game-v1';
+import { gameV2 } from './question-sets/game-v2';
 import { readRevision } from './reading';
 import { sweepReadings } from './sweep';
 import {
@@ -35,6 +35,7 @@ describe('タグ', () => {
 	afterEach(() => dispose());
 
 	const game = async () => ({ id: await addWork(db), category: 'game' as const });
+	/** 星の答え（四捨五入した段階）。偽の Clef は、肯定を星5、否定を星1、言及なしを星3 にする。 */
 	const directions = async () => {
 		const { results } = await db
 			.prepare(
@@ -42,7 +43,7 @@ describe('タグ', () => {
 				   FROM reading_answers a
 				   JOIN readings rd ON rd.id = a.reading_id
 				   JOIN review_revisions v ON v.id = rd.revision_id
-				  WHERE a.kind = 'direction' ORDER BY v.created_at, a.tag_id`
+				  WHERE a.kind = 'star' ORDER BY v.created_at, a.tag_id`
 			)
 			.all<{ body: string; tag: string; version: number; value: string }>();
 		return results;
@@ -58,8 +59,8 @@ describe('タグ', () => {
 		]);
 		const set = (await resolveWorkQuestionSet(db, work, clock.now()))!;
 		expect(set.model).toBe('clef-flash');
-		expect(toClefQuestions(set)).toEqual(toClefQuestions(gameV1));
-		expect(Object.keys(toClefQuestions(set))).toEqual(Object.keys(toClefQuestions(gameV1)));
+		expect(toClefQuestions(set)).toEqual(toClefQuestions(gameV2));
+		expect(Object.keys(toClefQuestions(set))).toEqual(Object.keys(toClefQuestions(gameV2)));
 	});
 
 	it('タグを選んでいないソフトウェアには、質問がない。タグを選ぶと、読まれる', async () => {
@@ -70,8 +71,8 @@ describe('タグ', () => {
 		await addReview(db, work.id, { body: '{"story":"positive"}' });
 		const clef = fakeClef();
 		expect(await sweepReadings({ db, clef, now: clock.now, registry: withStory })).toMatchObject({ picked: 1, ok: 1 });
-		expect(clef.calls[0].questionKeys).toEqual(['story_choice', 'story_noul']);
-		expect(await directions()).toEqual([{ body: '{"story":"positive"}', tag: 'test/story', version: 1, value: 'positive' }]);
+		expect(clef.calls[0].questionKeys).toEqual(['story_noul', 'story_star']);
+		expect(await directions()).toEqual([{ body: '{"story":"positive"}', tag: 'test/story', version: 1, value: '5' }]);
 	});
 
 	it('作品が選んだタグの質問は、分野のタグのあとに入る。同じ組は、同じ質問セットになる', async () => {
@@ -83,13 +84,13 @@ describe('タグ', () => {
 
 		const setA = (await resolveWorkQuestionSet(db, a, clock.now(), withStory))!;
 		expect(setA.tags).toEqual([
-			{ id: 'game/gameplay', version: 1 },
-			{ id: 'game/music', version: 1 },
-			{ id: 'game/comfort', version: 1 },
-			{ id: 'game/price', version: 1 },
+			{ id: 'game/gameplay', version: 2 },
+			{ id: 'game/music', version: 2 },
+			{ id: 'game/comfort', version: 2 },
+			{ id: 'game/price', version: 2 },
 			{ id: 'test/story', version: 1 }
 		]);
-		expect(Object.keys(toClefQuestions(setA)).slice(-2)).toEqual(['story_choice', 'story_noul']);
+		expect(Object.keys(toClefQuestions(setA)).slice(-2)).toEqual(['story_noul', 'story_star']);
 		expect((await resolveWorkQuestionSet(db, b, clock.now(), withStory))!.id).toBe(setA.id);
 		expect((await resolveWorkQuestionSet(db, plain, clock.now(), withStory))!.id).not.toBe(setA.id);
 	});
@@ -110,11 +111,11 @@ describe('タグ', () => {
 
 		// 集計は、タグごとに、読んだレビューの分だけ数える。
 		const { results } = await db
-			.prepare("SELECT tag_id, n_mention, n_pos, n_neg FROM aspect_stats WHERE tag_id IN ('game/gameplay', 'test/story') ORDER BY tag_id")
+			.prepare("SELECT tag_id, n_mention FROM aspect_star_stats WHERE tag_id IN ('game/gameplay', 'test/story') ORDER BY tag_id")
 			.all();
 		expect(results).toEqual([
-			{ tag_id: 'game/gameplay', n_mention: 2, n_pos: 1, n_neg: 1 },
-			{ tag_id: 'test/story', n_mention: 1, n_pos: 1, n_neg: 0 }
+			{ tag_id: 'game/gameplay', n_mention: 2 },
+			{ tag_id: 'test/story', n_mention: 1 }
 		]);
 	});
 
@@ -131,8 +132,8 @@ describe('タグ', () => {
 		await readRevision({ db, clef, now: clock.now, registry: v2 }, second.revisionId);
 
 		expect((await directions()).filter((d) => d.tag === 'test/story')).toEqual([
-			{ body: '{"story":"positive"}', tag: 'test/story', version: 1, value: 'positive' },
-			{ body: '{"story":"negative"}', tag: 'test/story', version: 2, value: 'negative' }
+			{ body: '{"story":"positive"}', tag: 'test/story', version: 1, value: '5' },
+			{ body: '{"story":"negative"}', tag: 'test/story', version: 2, value: '1' }
 		]);
 	});
 

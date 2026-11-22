@@ -51,7 +51,7 @@ describe('レビューの投稿・編集・通報・管理', () => {
 	};
 	const read = async (revisionId: string) => readRevision({ db, clef: fakeClef(), now: clock.now }, revisionId);
 	const stats = async (tag = 'game/gameplay') =>
-		(await db.prepare('SELECT n_mention, n_pos FROM aspect_stats WHERE work_id = ? AND tag_id = ?').bind(workId, tag).first()) ?? { n_mention: 0, n_pos: 0 };
+		(await db.prepare('SELECT n_mention FROM aspect_star_stats WHERE work_id = ? AND tag_id = ?').bind(workId, tag).first()) ?? { n_mention: 0 };
 
 	describe('投稿者の行', () => {
 		it('端末のハッシュごとに、投稿者を1人だけ作る。同じ端末なら、いつも同じ投稿者', async () => {
@@ -151,12 +151,12 @@ describe('レビューの投稿・編集・通報・管理', () => {
 			const b = must(await post('b', { body: '{"gameplay":"negative"}' }));
 			await read(a.revisionId);
 			await read(b.revisionId);
-			expect(await stats()).toEqual({ n_mention: 2, n_pos: 1 });
+			expect(await stats()).toEqual({ n_mention: 2 });
 			await db.prepare('UPDATE reviews SET duplicate_of = ? WHERE id = ?').bind(a.reviewId, b.reviewId).run();
 			await setHidden(db, 'none', false, clock.now());
 			const { recomputeWorkStats } = await import('./stats');
 			await recomputeWorkStats(db, workId, clock.now());
-			expect(await stats()).toEqual({ n_mention: 1, n_pos: 1 });
+			expect(await stats()).toEqual({ n_mention: 1 });
 		});
 	});
 
@@ -185,7 +185,7 @@ describe('レビューの投稿・編集・通報・管理', () => {
 			expect(r.revisionId).toBeNull();
 			expect(await findOwnReview(db, workId, dev, clock.now())).toMatchObject({ editsUsed: 0, writtenOn: '2026-11-17', disclosure: 'developer', disclosureNote: '開発元の者です' });
 			// 利害関係ありになったので、集計から外れる。
-			expect(await stats()).toEqual({ n_mention: 0, n_pos: 0 });
+			expect(await stats()).toEqual({ n_mention: 0 });
 		});
 
 		it('7日を過ぎると編集できない。ほかの端末や、レビューのない端末は編集できない', async () => {
@@ -237,12 +237,12 @@ describe('レビューの投稿・編集・通報・管理', () => {
 			const r = must(await post('a'));
 			await read(r.revisionId);
 			await report('b', r.reviewId);
-			expect(await stats()).toEqual({ n_mention: 1, n_pos: 1 });
+			expect(await stats()).toEqual({ n_mention: 1 });
 			expect(await setHidden(db, r.reviewId, true, clock.now())).toBe(true);
-			expect(await stats()).toEqual({ n_mention: 0, n_pos: 0 });
+			expect(await stats()).toEqual({ n_mention: 0 });
 			expect(await report('c', r.reviewId)).toEqual({ ok: false, error: 'not_found' });
 			await setHidden(db, r.reviewId, false, clock.now());
-			expect(await stats()).toEqual({ n_mention: 1, n_pos: 1 });
+			expect(await stats()).toEqual({ n_mention: 1 });
 			await closeReports(db, r.reviewId);
 			expect(await db.prepare("SELECT COUNT(*) AS n FROM reports WHERE status = 'open'").first()).toEqual({ n: 0 });
 		});
@@ -260,7 +260,7 @@ describe('レビューの投稿・編集・通報・管理', () => {
 				expect(row.n, t).toBe(t === 'reports' ? 0 : 1);
 			}
 			expect(await db.prepare('SELECT COUNT(*) AS n FROM reading_answers').first()).toEqual({ n: 8 });
-			expect(await stats()).toEqual({ n_mention: 1, n_pos: 0 });
+			expect(await stats()).toEqual({ n_mention: 1 });
 		});
 
 		it('存在しないレビューへの、非表示・削除は、何もせずに false を返す', async () => {

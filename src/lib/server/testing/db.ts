@@ -3,7 +3,8 @@ import { convertV4MiniflareOptions, Miniflare } from 'miniflare';
 import { readdirSync, readFileSync } from 'node:fs';
 import type { ClefClient, ClefResult } from '../clef';
 import type { ClefQuestion } from '../question-sets';
-import { direction, gameV1, mention } from '../question-sets/game-v1';
+import { gameV1, mention } from '../question-sets/game-v1';
+import { star } from '../question-sets/game-v2';
 import { REGISTRY, type TagDefinition, type TagRegistry } from '../tags';
 import type { Category, Direction, QuestionSetDefinition } from '../question-sets/types';
 
@@ -153,10 +154,10 @@ export function answersFor(
 	return answers;
 }
 
-/** テスト用のタグ（質問の書式は、本番のゲームのタグと同じ）。 */
+/** テスト用のタグ（質問の書式は、本番のゲームのタグ v2 と同じ。言及と星）。 */
 export function testTag(id: string, key: string, version = 1): TagDefinition {
 	const spec = { key, label: key, scope: `テスト用 v${version}` };
-	return { id, key, version, label: key, questions: [direction(spec), mention(spec)] };
+	return { id, key, version, label: key, questions: [mention(spec), star(spec)] };
 }
 
 /**

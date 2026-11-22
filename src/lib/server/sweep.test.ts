@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { ClefError } from './clef';
 import { backoffMs, readRevision } from './reading';
 import { sweepReadings } from './sweep';
+import { gameV2 } from './question-sets/game-v2';
 import { addReview, addWork, clefAnswers, createClock, createTestDb, editReview, fakeClef, registryWithoutSoftwareDomain } from './testing/db';
 
 describe('sweepReadings', () => {
@@ -85,7 +86,7 @@ describe('sweepReadings', () => {
 		await addReview(db, work, { body: '{"music":"positive"}', at: new Date('2026-11-02T00:00:00.000Z') });
 		const clef = fakeClef((state) => {
 			if (state === 'bad') throw new ClefError('失敗', false);
-			return { answers: clefAnswers(JSON.parse(state)), inputTokens: null };
+			return { answers: clefAnswers(JSON.parse(state), gameV2), inputTokens: null };
 		});
 
 		expect(await sweepReadings({ db, clef, now: clock.now })).toEqual({ picked: 2, ok: 1, error: 1, skipped: 0 });
@@ -104,9 +105,10 @@ describe('sweepReadings', () => {
 		expect(s[revisionId].status).toBe('ok');
 		expect(s[edited].status).toBe('ok');
 		const stats = await db
-			.prepare("SELECT n_mention, n_pos, n_neg FROM aspect_stats WHERE work_id = ? AND tag_id = 'game/gameplay'")
+			.prepare("SELECT n_mention, mean FROM aspect_star_stats WHERE work_id = ? AND tag_id = 'game/gameplay'")
 			.bind(work)
-			.first();
-		expect(stats).toEqual({ n_mention: 1, n_pos: 1, n_neg: 0 });
+			.first<{ n_mention: number; mean: number }>();
+		expect(stats!.n_mention).toBe(1);
+		expect(stats!.mean).toBeGreaterThan(4); // 最新の版（肯定）だけ。古い版（否定）は混ざらない
 	});
 });

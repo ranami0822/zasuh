@@ -1,5 +1,6 @@
 import type { AspectSpec } from './game-v1';
-import type { DirectionQuestion, MentionQuestion } from './types';
+import { STAR_LEVELS, STAR_RULE_TAIL } from './stars';
+import type { DirectionQuestion, MentionQuestion, StarQuestion } from './types';
 
 /** ソフトウェア用の決まりの文。ゲーム用（game-v1.ts の RULE）と同じ考え方で、言葉だけをソフトウェアに直した。 */
 export const SOFTWARE_RULE =
@@ -37,5 +38,27 @@ export function softwareMention(a: AspectSpec): MentionQuestion {
 			true: 'この観点についての具体的な記述がレビューにある',
 			false: 'この観点についての具体的な記述がレビューにない'
 		}
+	};
+}
+
+/**
+ * 星の質問の規則（ソフトウェア用）。ゲーム用（game-v2.ts の STAR_RULE）の言葉だけをソフトウェアに直した。
+ * 未確認: 実験で確かめたのは、ゲームの4観点だけ（docs/mvp-design.md の 12.7）。
+ */
+export const SOFTWARE_STAR_RULE =
+	'具体的な事実・特徴・体験が書かれていれば、短くても評価として数えてください。' +
+	'内容を伴わない賛辞や非難（「神アプリ」「最高」「微妙」など）は、評価として数えません。' +
+	'不具合・クラッシュ・動作の重さは「安定性・速さ」の評価で、ほかの観点の評価には含めません。' +
+	STAR_RULE_TAIL;
+
+export function softwareStar(a: AspectSpec): StarQuestion {
+	return {
+		key: `${a.key}_star`,
+		aspect: a.key,
+		kind: 'star',
+		instructions:
+			`このソフトウェアのレビューは、観点「${a.key}: ${a.label}（${a.scope}）」について、どのくらい強く肯定または否定していますか。` +
+			`作品の良し悪しではなく、本文がその観点をどう述べているかで答えてください。${SOFTWARE_STAR_RULE}`,
+		levels: STAR_LEVELS.map((text) => `この観点について、${text}`)
 	};
 }

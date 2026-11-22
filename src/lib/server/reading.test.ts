@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { ClefError } from './clef';
 import { toClefQuestions } from './question-sets';
 import { gameV1 } from './question-sets/game-v1';
+import { gameV2 } from './question-sets/game-v2';
 import type { StarQuestion } from './question-sets/types';
 import type { TagRegistry } from './tags';
 import { backoffMs, interpretAnswers, LEASE_MS, MAX_ATTEMPTS, readRevision, readText } from './reading';
@@ -115,22 +116,40 @@ describe('readRevision', () => {
 			model: 'clef-flash',
 			input_tokens: 1700
 		});
+		// 向き（direction）の質問はない。言及（noul）と星（score）が、観点ごとに1つずつ。
 		const { results } = await db
-			.prepare("SELECT tag_id, tag_version, value, needs_check FROM reading_answers WHERE kind = 'direction' ORDER BY tag_id")
+			.prepare("SELECT tag_id, tag_version, kind, value FROM reading_answers ORDER BY tag_id, kind")
 			.all();
 		expect(results).toEqual([
-			{ tag_id: 'game/comfort', tag_version: 1, value: 'negative', needs_check: 0 },
-			{ tag_id: 'game/gameplay', tag_version: 1, value: 'positive', needs_check: 0 },
-			{ tag_id: 'game/music', tag_version: 1, value: 'none', needs_check: 0 },
-			{ tag_id: 'game/price', tag_version: 1, value: 'none', needs_check: 0 }
+			{ tag_id: 'game/comfort', tag_version: 2, kind: 'mention', value: 'true' },
+			{ tag_id: 'game/comfort', tag_version: 2, kind: 'star', value: '1' },
+			{ tag_id: 'game/gameplay', tag_version: 2, kind: 'mention', value: 'true' },
+			{ tag_id: 'game/gameplay', tag_version: 2, kind: 'star', value: '5' },
+			{ tag_id: 'game/music', tag_version: 2, kind: 'mention', value: 'false' },
+			{ tag_id: 'game/music', tag_version: 2, kind: 'star', value: '3' },
+			{ tag_id: 'game/price', tag_version: 2, kind: 'mention', value: 'false' },
+			{ tag_id: 'game/price', tag_version: 2, kind: 'star', value: '3' }
 		]);
 		expect(await answerCount()).toBe(8);
+		// 星は、段階ごとの確率と連続値を、丸めずに保存する。
+		const star = await db
+			.prepare("SELECT probs_json FROM reading_answers WHERE question_key = 'gameplay_star'")
+			.first<{ probs_json: string }>();
+		const saved = JSON.parse(star!.probs_json) as { score: number; levels: number[] };
+		expect(saved.levels).toHaveLength(5);
+		expect(saved.levels.reduce((t, p) => t + p, 0)).toBeCloseTo(1, 9);
+		expect(saved.score).toBeGreaterThan(4);
 
+		// 集計: 言及ありの観点だけ、星を数える。
 		const stats = await db
-			.prepare("SELECT n_mention, n_pos FROM aspect_stats WHERE work_id = ? AND tag_id = 'game/gameplay'")
+			.prepare("SELECT tag_id, n_mention FROM aspect_star_stats WHERE work_id = ? ORDER BY tag_id")
 			.bind(work)
-			.first();
-		expect(stats).toEqual({ n_mention: 1, n_pos: 1 });
+			.all();
+		expect(stats.results).toEqual([
+			{ tag_id: '_overall', n_mention: 2 },
+			{ tag_id: 'game/comfort', n_mention: 1 },
+			{ tag_id: 'game/gameplay', n_mention: 1 }
+		]);
 	});
 
 	it('読み終えた版は、もう一度読まない', async () => {
@@ -203,7 +222,7 @@ describe('readRevision', () => {
 		let quotaExhausted = true;
 		const clef = fakeClef(() => {
 			if (quotaExhausted) throw new ClefError('Clef が 429 を返しました', false);
-			return { answers: clefAnswers({}), inputTokens: null };
+			return { answers: clefAnswers({}, gameV2), inputTokens: null };
 		});
 
 		// 24時間のあいだ、試せるようになるたびに試して、失敗し続ける。
@@ -222,7 +241,7 @@ describe('readRevision', () => {
 		const { revisionId } = await addReview(db, await addWork(db), { body: '{}' });
 		const flaky = fakeClef((_state, call) => {
 			if (call === 1) throw new ClefError('Clef が 503 を返しました', true);
-			return { answers: clefAnswers({}), inputTokens: null };
+			return { answers: clefAnswers({}, gameV2), inputTokens: null };
 		});
 
 		const outcome = await readRevision({ db, clef: flaky, now: clock.now, quickRetryDelayMs: 0 }, revisionId);
@@ -248,8 +267,8 @@ describe('readRevision', () => {
 	it('形が想定と違う答えは、一部だけ保存せず、失敗にする', async () => {
 		const { revisionId } = await addReview(db, await addWork(db), { body: '{}' });
 		const broken = fakeClef(() => {
-			const answers = clefAnswers({});
-			delete answers.price_choice;
+			const answers = clefAnswers({}, gameV2);
+			delete answers.price_star;
 			return { answers, inputTokens: 1 };
 		});
 		expect((await readRevision({ db, clef: broken, now: clock.now }, revisionId)).status).toBe('error');
