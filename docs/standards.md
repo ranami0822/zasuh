@@ -23,6 +23,7 @@
 - 実装の隣に、`名前.test.ts` を置く。
 - `createTestDb()` を `beforeEach` で作り、`dispose` を `afterEach` で呼ぶ。時刻は `createClock`、AI は `fakeClef`（`src/lib/server/testing/`）。DB のモックは使わない。
 - `describe` と `it` の名前は、日本語で書く。同じ振る舞いの、正常と失敗は、1つの `it` にまとめてよい。
+- 作品や行の**並び**を確かめるテストは、ランダムな `id`（`crypto.randomUUID()`）の並びに、期待を依存させない。並びを決める（日時や名前で指定する）か、並びに左右されない比べ方にする（4 回に 1 回ほど失敗した例がある）。
 
 ## 確認の範囲
 
