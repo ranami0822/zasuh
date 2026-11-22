@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Dist from '#components/Dist.svelte';
+	import StarDist from '#components/StarDist.svelte';
 	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
 	import { CATEGORY_LABEL } from '#messages';
@@ -9,7 +9,7 @@
 	const href = (c: string, t?: string | null) => `/?c=${c}${t ? `&t=${encodeURIComponent(t)}` : ''}`;
 </script>
 
-<Meta description="人が書いた理由つきのレビューを、AIが観点ごとに読み取って、向きと件数で見せる。点数はありません。" />
+<Meta description="人が書いた理由つきのレビューを、AIが観点ごとに読み取って、星の分布と件数で見せる。" />
 
 <div class="page">
 	<Header />
@@ -29,7 +29,7 @@
 						<span class="rank__no"></span>
 						<div class="rank__body">
 							<h3>{w.name} <span class="tag">{CATEGORY_LABEL[w.category]}</span></h3>
-							<Dist nNeg={w.nNeg} nMix={w.nMix} nPos={w.nPos} />
+							<StarDist {...w.stat} />
 						</div>
 					</a>
 				{/each}
@@ -60,7 +60,7 @@
 					<span class="rank__no">{w.rank ?? ''}</span>
 					<div class="rank__body">
 						<h3>{w.name}</h3>
-						<Dist nNeg={w.nNeg} nMix={w.nMix} nPos={w.nPos} />
+						<StarDist {...w.stat} />
 					</div>
 				</a>
 			{/each}

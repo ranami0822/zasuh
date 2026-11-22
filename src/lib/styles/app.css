@@ -364,7 +364,7 @@ button.tag:hover {
 	gap: var(--space-3);
 }
 
-/* 向きの分布（否定 / 混在 / 肯定）。hero は総合（大きい）、row は観点ごと（小さい） */
+/* 星の分布（星1〜5）。hero は総合（大きい）、row は観点ごと（小さい） */
 .dist {
 	display: flex;
 	flex-direction: column;
@@ -383,30 +383,34 @@ button.tag:hover {
 	font-size: var(--fs-caption);
 	color: var(--text-muted);
 }
+.dist__mean b {
+	font-size: var(--fs-body);
+	font-weight: 500;
+	color: var(--text);
+}
+.dist__spread {
+	margin-left: var(--space-1);
+}
 .dist__legend {
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	font-size: var(--fs-ui);
+	grid-template-columns: repeat(5, 1fr);
+	font-size: var(--fs-caption);
 	font-variant-numeric: tabular-nums;
+	color: var(--text-muted);
 }
-.dist__legend > span:nth-child(2) {
-	text-align: center;
+.dist__legend > span {
+	display: flex;
+	flex-direction: column;
 }
-.dist__legend > span:nth-child(3) {
-	text-align: right;
+.dist__legend > span:nth-child(n + 2):nth-child(-n + 4) {
+	align-items: center;
+}
+.dist__legend > span:nth-child(5) {
+	align-items: flex-end;
 }
 .dist__legend b {
 	font-weight: 500;
-	margin-left: var(--space-1);
-}
-.dist__legend .neg {
-	color: var(--sentiment-1-text);
-}
-.dist__legend .mix {
-	color: var(--sentiment-3-text);
-}
-.dist__legend .pos {
-	color: var(--sentiment-5-text);
+	color: var(--text);
 }
 .dist__bar {
 	flex: 1;
@@ -427,26 +431,50 @@ button.tag:hover {
 	display: block;
 	min-width: 2px;
 }
-.dist__bar .neg {
-	background: var(--sentiment-1-fill);
-}
-.dist__bar .mix {
-	background: var(--sentiment-3-fill);
-}
-.dist__bar .pos {
-	background: var(--sentiment-5-fill);
-}
 .dist__bar.empty {
 	background: var(--sentiment-track);
 	border-radius: 0;
 	opacity: 1;
 }
-.dist__count {
-	width: 28px;
+.dist__count,
+.dist.row .dist__mean {
 	flex: none;
 	text-align: right;
 	font-size: var(--fs-caption);
 	color: var(--text-muted);
+}
+.dist__count {
+	width: 28px;
+}
+.dist.row .dist__mean {
+	width: 24px;
+}
+/* 星ごとの色（棒、月ごとの変化、タグの点で共通）。 */
+.s1 {
+	--star: var(--sentiment-1-fill);
+}
+.s2 {
+	--star: var(--sentiment-2-fill);
+}
+.s3 {
+	--star: var(--sentiment-3-fill);
+}
+.s4 {
+	--star: var(--sentiment-4-fill);
+}
+.s5 {
+	--star: var(--sentiment-5-fill);
+}
+.dist__bar > i,
+.months__col > i,
+.star-tag__dot {
+	background: var(--star);
+}
+.star-tag__dot {
+	display: inline-block;
+	width: 8px;
+	height: 8px;
+	flex: none;
 }
 
 /* 観点ごとの行: 名前、小さな棒、件数 */
@@ -536,16 +564,6 @@ button.tag:hover {
 	display: block;
 	min-height: 2px;
 }
-.months__col .neg {
-	background: var(--sentiment-1-fill);
-}
-.months__col .mix {
-	background: var(--sentiment-3-fill);
-}
-.months__col .pos {
-	background: var(--sentiment-5-fill);
-}
-
 /* ダイアログ（ui-sdk の Dialog） */
 [data-slot='dialog-backdrop'] {
 	position: fixed;

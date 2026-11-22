@@ -11,8 +11,8 @@
 	import { Input } from '@ui-sdk/svelte/input';
 	import { Radio, RadioGroup } from '@ui-sdk/svelte/radio';
 	import { Textarea } from '@ui-sdk/svelte/textarea';
-	import Dist from '#components/Dist.svelte';
-	import Direction from '#components/Direction.svelte';
+	import StarDist from '#components/StarDist.svelte';
+	import StarTag from '#components/StarTag.svelte';
 	import Glacier from '#components/Glacier.svelte';
 	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
@@ -27,8 +27,6 @@
 	let reportOpen = $state<string | null>(null);
 	let reported = $state<Record<string, boolean>>({});
 	let reportError = $state('');
-
-	const WORD = { positive: '肯定', negative: '否定', mixed: '混在' } as const;
 
 	/** 投稿・編集の直後に、AIの読み取りの結果を、toast で知らせる。読み取りは、応答のあとに始まるので、数秒おきに確かめる。 */
 	/** 投稿のあとに、パスキーの登録を、小さく案内する（強制しない）。 */
@@ -45,7 +43,7 @@
 		const id = toast.loading(kind === 'posted' ? '投稿しました。読み取っています' : '直しました。読み取っています', { id: 'reading' });
 		for (let i = 0; i < 24; i++) {
 			await new Promise((r) => setTimeout(r, 1500));
-			let status: { status: string; reads: { label: string; value: keyof typeof WORD }[]; duplicate: boolean; disclosed: boolean } | null = null;
+			let status: { status: string; reads: { label: string; star: number }[]; duplicate: boolean; disclosed: boolean } | null = null;
 			try {
 				const res = await fetch(`/works/${data.work.slug}/reading`);
 				if (res.ok) status = await res.json();
@@ -59,7 +57,7 @@
 				return;
 			}
 			if (status.status === 'ok') {
-				const lines = status.reads.map((r) => `${r.label}　${WORD[r.value]}`);
+				const lines = status.reads.map((r) => `${r.label}　星 ${r.star.toFixed(1)}`);
 				const notes = [
 					status.duplicate ? 'ほかのレビューと文面がほぼ同じなので、集計には数えません。' : '',
 					status.disclosed ? '関係者のレビューとして、別枠に表示します。集計には数えません。' : ''
@@ -97,7 +95,7 @@
 	});
 
 	const link = (t: string | null, p = 1) => `/works/${data.work.slug}${t || p > 1 ? '?' : ''}${[t ? `t=${encodeURIComponent(t)}` : '', p > 1 ? `p=${p}` : ''].filter(Boolean).join('&')}`;
-	const maxMonth = $derived(Math.max(1, ...data.months.map((m: { nNeg: number; nMix: number; nPos: number }) => m.nNeg + m.nMix + m.nPos)));
+	const maxMonth = $derived(Math.max(1, ...data.months.map((m: { n: number }) => m.n)));
 </script>
 
 <Meta title={data.work.name} type="article" url={data.share.url} description={data.work.summary ?? data.share.description} />
@@ -122,13 +120,13 @@
 
 	<div class="layout">
 		<aside class="side">
-			<section class="panel" aria-label="観点ごとの向き">
-				<Dist size="hero" nNeg={data.overall?.nNeg ?? 0} nMix={data.overall?.nMix ?? 0} nPos={data.overall?.nPos ?? 0} />
+			<section class="panel" aria-label="観点ごとの星">
+				<StarDist size="hero" {...data.overall} />
 				<div class="tagrows">
 					{#each data.tags as t (t.tagId)}
-						<a class="tagrow" class:empty={t.nMention === 0} href={link(data.tag === t.tagId ? null : t.tagId)} aria-current={data.tag === t.tagId}>
+						<a class="tagrow" class:empty={t.stat.n === 0} href={link(data.tag === t.tagId ? null : t.tagId)} aria-current={data.tag === t.tagId}>
 							<span>{t.label}</span>
-							<Dist nNeg={t.nNeg} nMix={t.nMix} nPos={t.nPos} />
+							<StarDist {...t.stat} />
 						</a>
 					{/each}
 				</div>
@@ -136,11 +134,16 @@
 					<div aria-label="月ごとの変化">
 						<div class="months" style="height: 56px">
 							{#each data.months as m (m.month)}
-								{@const total = m.nNeg + m.nMix + m.nPos}
-								<div class="months__col" style:height="{Math.max(12, (total / maxMonth) * 100)}%" title={m.month} role="img" aria-label="{m.month}: 否定{m.nNeg}、混在{m.nMix}、肯定{m.nPos}">
-									<i class="pos" style:flex={m.nPos}></i>
-									<i class="mix" style:flex={m.nMix}></i>
-									<i class="neg" style:flex={m.nNeg}></i>
+								<div
+									class="months__col"
+									style:height="{Math.max(12, (m.n / maxMonth) * 100)}%"
+									title={m.month}
+									role="img"
+									aria-label="{m.month}: {m.n}件。星の平均 {(m.soft.reduce((t: number, v: number, i: number) => t + v * (i + 1), 0) / m.n).toFixed(1)}"
+								>
+									{#each [4, 3, 2, 1, 0] as i (i)}
+										<i class="s{i + 1}" style:flex={m.soft[i]}></i>
+									{/each}
 								</div>
 							{/each}
 						</div>
@@ -239,7 +242,7 @@
 		{#if r.reads.length > 0}
 			<div class="row">
 				{#each r.reads as x (x.tagId)}
-					<Direction label={x.label} value={x.value} />
+					<StarTag label={x.label} star={x.star} />
 				{/each}
 			</div>
 		{/if}

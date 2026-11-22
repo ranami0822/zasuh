@@ -37,9 +37,12 @@
 	--sentiment-1-fill: #e60012;
 	--sentiment-1-tint: #fde7e5;
 	--sentiment-1-text: #b3000f;
+	/* 星2・星4は、星1と星3、星3と星5の中間色（2026-11-22、ユーザーの決定）。 */
+	--sentiment-2-fill: #ad3a43;
 	--sentiment-3-fill: #737373;
 	--sentiment-3-tint: #a3a3a3;
 	--sentiment-3-text: #171717;
+	--sentiment-4-fill: #3a8d59;
 	--sentiment-5-fill: #00a63e;
 	--sentiment-5-tint: #dff5e6;
 	--sentiment-5-text: #0f5c2a;
@@ -120,10 +123,12 @@
 		--focus-ring-color: #f5f5f5;
 
 		--sentiment-1-fill: #dc2626;
+		--sentiment-2-fill: #a84d4d;
 		--sentiment-1-tint: #4a1512;
 		--sentiment-1-text: #ff7a85;
 		--sentiment-3-tint: #404040;
 		--sentiment-3-text: #f5f5f5;
+		--sentiment-4-fill: #52a266;
 		--sentiment-5-fill: #30d158;
 		--sentiment-5-tint: #0f3a1d;
 		--sentiment-5-text: #9ee8b4;

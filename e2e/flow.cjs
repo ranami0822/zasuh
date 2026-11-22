@@ -145,14 +145,48 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) process
   await a.goto(BASE + '/me');
   ok(await a.isVisible('a:has-text("星屑の鉄道")') && await a.isVisible('a:has-text("編集")'), '/me lists my review with an edit link');
 
-  // 評価の棒: 両端の角は、棒全体で切り抜く（区間ごとの角丸だと、先頭の区間が非表示のとき、左端が四角くなる）
-  const bars = await a.$$eval('.dist__bar:not(.empty)', (els) => els.map((e) => ({ clip: getComputedStyle(e).overflow, radius: getComputedStyle(e).borderTopLeftRadius, kids: [...e.children].every((c) => getComputedStyle(c).borderTopLeftRadius === '0px') })));
-  ok(bars.every((b) => b.clip === 'hidden' && b.radius !== '0px' && b.kids), 'rating bars clip both ends on the container (' + bars.length + ' non-empty bars checked)');
+  // 星の分布の棒（本番の読み取りは AI が要るので、集計の行を、ローカルの D1 に直接入れて確かめる）。
+  // 前提: 環境変数 E2E_D1_DIR（wrangler dev の --persist-to と同じディレクトリ）。なければ、この確認は飛ばす。
+  if (process.env.E2E_D1_DIR) {
+    const sql = (tag, n, soft, mean, se, lower) =>
+      "INSERT OR REPLACE INTO aspect_star_stats (work_id, tag_id, n_mention, soft_1, soft_2, soft_3, soft_4, soft_5, mean, se, score_lower, updated_at) " +
+      "SELECT id, '" + tag + "', " + n + ', ' + soft.join(', ') + ', ' + mean + ', ' + se + ', ' + lower + ", '2026-11-22T00:00:00.000Z' FROM works WHERE slug = 'star-line';";
+    const statements = [
+      sql('_overall', 12, [1.2, 2.1, 3.4, 3.0, 2.3], 3.2, 0.31, 2.6),
+      sql('game/gameplay', 9, [0.5, 1.0, 2.5, 3.0, 2.0], 3.6, 0.35, 2.9),
+      sql('game/music', 3, [0, 0.2, 0.8, 1.5, 0.5], 3.8, 'NULL', 1.9)
+    ].join(' ');
+    require('child_process').execFileSync('npx', ['wrangler', 'd1', 'execute', 'DB', '--local', '--persist-to', process.env.E2E_D1_DIR, '--config', 'wrangler.local.jsonc', '--command', statements], { stdio: 'pipe' });
+    await a.goto(BASE + '/works/star-line', { waitUntil: 'networkidle' });
+    const hero = await a.$$eval('.dist.hero .dist__bar > i', (els) => els.map((e) => getComputedStyle(e).backgroundColor));
+    ok(hero.length === 5 && new Set(hero).size === 5, 'hero bar has 5 distinct star colours: ' + hero.join(' '));
+    ok(hero[0] === 'rgb(230, 0, 18)' && hero[4] === 'rgb(0, 166, 62)', 'star 1 is red and star 5 is green');
+    const caption = await a.textContent('.dist.hero .dist__caption');
+    ok(/平均\s*3\.2/.test(caption) && /±\s*0\.6/.test(caption), 'hero shows the mean and the spread: ' + caption.replace(/\s+/g, ' ').trim());
+    const legend = await a.textContent('.dist__legend');
+    ok(/星1.*星2.*星3.*星4.*星5/.test(legend), 'legend lists stars 1 to 5');
+    const rows = await a.$$eval('.tagrow', (els) => els.map((e) => ({ text: e.textContent.replace(/\s+/g, ' ').trim(), height: e.querySelector('.dist__bar') && getComputedStyle(e.querySelector('.dist__bar')).height, opacity: e.querySelector('.dist__bar') && getComputedStyle(e.querySelector('.dist__bar')).opacity })));
+    const music = rows.find((r) => r.text.startsWith('音楽'));
+    const gameplay = rows.find((r) => r.text.startsWith('ゲーム性'));
+    ok(music && music.opacity !== '1' && music.height === '3px', 'few mentions (3): the bar is thin and faint: ' + JSON.stringify(music));
+    ok(gameplay && gameplay.opacity === '1' && gameplay.height === '5px', 'more mentions (9): the bar is normal: ' + JSON.stringify(gameplay));
+    ok(!/±/.test(music.text) && /3\.8/.test(music.text) && /3\.6/.test(gameplay.text), 'rows show the mean');
+    const bars = await a.$$eval('.dist__bar:not(.empty)', (els) => els.map((e) => ({ clip: getComputedStyle(e).overflow, radius: getComputedStyle(e).borderTopLeftRadius })));
+    ok(bars.length >= 3 && bars.every((b) => b.clip === 'hidden' && b.radius === '0px'), 'bars are square and clip their segments (' + bars.length + ' bars)');
+    await a.screenshot({ path: OUT + '/work-stars.png', fullPage: true });
+  } else {
+    console.log('SKIP star bars (set E2E_D1_DIR to check them)');
+  }
 
   // 一覧
   const h = await browser.newPage({ viewport: { width: 900, height: 900 } });
   await h.goto(BASE + '/');
   ok(await h.isVisible('a.rank:has-text("星屑の鉄道")'), 'work listed on home');
+  if (process.env.E2E_D1_DIR) {
+    await h.goto(BASE + '/', { waitUntil: 'networkidle' });
+    ok((await h.textContent('a.rank:has-text("星屑の鉄道") .rank__no')).trim() === '1', 'home: the work with mentions has rank 1');
+    ok((await h.$$('a.rank:has-text("星屑の鉄道") .dist__bar > i')).length === 5, 'home: the row bar has 5 star segments');
+  }
   await h.screenshot({ path: OUT + '/home.png', fullPage: true });
   await a.screenshot({ path: OUT + '/work.png', fullPage: true });
   await browser.close();
