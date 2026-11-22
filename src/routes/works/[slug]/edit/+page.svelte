@@ -5,7 +5,6 @@
 	import { Input } from '@ui-sdk/svelte/input';
 	import { Radio, RadioGroup } from '@ui-sdk/svelte/radio';
 	import { Textarea } from '@ui-sdk/svelte/textarea';
-	import Header from '#components/Header.svelte';
 	import { DISCLOSURE_LABEL } from '#messages';
 	import type { PageProps } from './$types';
 
@@ -19,7 +18,6 @@
 </script>
 
 <div class="page">
-	<Header />
 	<div class="stack">
 		<h1>{data.work.name}</h1>
 		<p class="muted">

@@ -7,7 +7,6 @@
 	import { Input } from '@ui-sdk/svelte/input';
 	import { toast } from '@ui-sdk/svelte/toast';
 	import { onMount } from 'svelte';
-	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
 	import { handOffRecoveryCode, registerPasskey, stepupWithPasskey, supportsPasskeys, takeRecoveryCode } from '#passkey';
 	import RecoveryCode from '#components/RecoveryCode.svelte';
@@ -81,7 +80,6 @@
 <Meta title="アカウント" description="パスキーとメールアドレスの管理。" />
 
 <div class="page">
-	<Header />
 	<h1>アカウント</h1>
 
 	{#if ready && !supported}<p class="banner warning">このブラウザは、パスキーに対応していません。</p>{/if}

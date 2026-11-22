@@ -1,12 +1,10 @@
 <script lang="ts">
-	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
 </script>
 
 <Meta title="プライバシー" description="Zasuh が保存する情報と、その使い道。" />
 
 <div class="page">
-	<Header />
 	<h1>プライバシー</h1>
 	<p class="muted">最終更新: 2026年11月17日</p>
 

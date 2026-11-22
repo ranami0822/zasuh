@@ -2,7 +2,6 @@
 	import { goto, invalidateAll } from '$app/navigation';
 	import { Button } from '@ui-sdk/svelte/button';
 	import { onMount } from 'svelte';
-	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
 	import { loginWithPasskey, supportsPasskeys } from '#passkey';
 
@@ -32,7 +31,6 @@
 <Meta title="ログイン" description="パスキーでログインすると、端末を変えても、自分のレビューを編集できます。" />
 
 <div class="page">
-	<Header />
 	<h1>ログイン</h1>
 	<div class="panel">
 		{#if ready && !supported}<p class="banner warning">このブラウザは、パスキーに対応していません。</p>{/if}

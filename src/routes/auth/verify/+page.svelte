@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { Button } from '@ui-sdk/svelte/button';
-	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
 	import type { PageProps } from './$types';
 
@@ -10,7 +9,6 @@
 <Meta title="メールアドレスの確認" description="復旧用のメールアドレスを確認します。" />
 
 <div class="page">
-	<Header />
 	<h1>メールアドレスの確認</h1>
 	<div class="panel">
 		{#if form && 'confirmed' in form && form.confirmed}

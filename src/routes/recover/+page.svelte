@@ -2,7 +2,6 @@
 	import { Button } from '@ui-sdk/svelte/button';
 	import { Field, FieldLabel } from '@ui-sdk/svelte/field';
 	import { Input } from '@ui-sdk/svelte/input';
-	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
 	import type { PageProps } from './$types';
 
@@ -12,7 +11,6 @@
 <Meta title="パスキーの復旧" description="登録したメールアドレスに、復旧のリンクを送ります。" />
 
 <div class="page">
-	<Header />
 	<h1>パスキーの復旧</h1>
 
 	<form method="post" action="?/code" class="panel">

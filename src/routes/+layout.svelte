@@ -4,6 +4,7 @@
 	import { Toast, ToastDescription, ToastRegion, ToastTitle } from '@ui-sdk/svelte/toast';
 	import { page } from '$app/state';
 	import Footer from '#components/Footer.svelte';
+	import Header from '#components/Header.svelte';
 	import favicon from '#lib/assets/favicon.svg';
 	import type { LayoutProps } from './$types';
 
@@ -15,6 +16,8 @@
 </svelte:head>
 
 <div class="shell">
+	<!-- ヘッダーは、全幅で、すべての画面の上に置く（管理画面を除く）。 -->
+	{#if !page.url.pathname.startsWith('/admin')}<Header />{/if}
 	{@render children()}
 	<!-- 管理画面には、フッターを出さない。 -->
 	{#if !page.url.pathname.startsWith('/admin')}<Footer />{/if}

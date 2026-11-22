@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
 	import type { PageProps } from './$types';
 
@@ -10,7 +9,6 @@
 <Meta title="自分のレビュー" description="この端末から投稿したレビュー。" />
 
 <div class="page">
-	<Header />
 	<h1>自分のレビュー</h1>
 
 	{#if data.reviews.length === 0}

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import StarDist from '#components/StarDist.svelte';
-	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
 	import { CATEGORY_LABEL } from '#messages';
 	import type { PageProps } from './$types';
@@ -12,7 +11,6 @@
 <Meta description="人が書いた理由つきのレビューを、AIが観点ごとに読み取って、星の分布と件数で見せる。" />
 
 <div class="page">
-	<Header />
 	<h1>言葉で読む、作品の評価</h1>
 
 	<form method="get" action="/" role="search">

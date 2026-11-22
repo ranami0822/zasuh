@@ -1,12 +1,10 @@
 <script lang="ts">
-	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
 </script>
 
 <Meta title="規約" description="Zasuh の利用と、レビューの投稿についての決まり。" />
 
 <div class="page">
-	<Header />
 	<h1>規約</h1>
 	<p class="muted">最終更新: 2026年11月17日</p>
 

@@ -6,7 +6,6 @@
 	import { Input } from '@ui-sdk/svelte/input';
 	import { Radio, RadioGroup } from '@ui-sdk/svelte/radio';
 	import { Textarea } from '@ui-sdk/svelte/textarea';
-	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
 	import { KIND_LABEL } from '#messages';
 	import type { PageProps } from './$types';
@@ -19,7 +18,6 @@
 <Meta title="お問い合わせ" description="作品の追加依頼、お問い合わせ、異議申し立て・削除の依頼を受け付けます。" />
 
 <div class="page">
-	<Header />
 	<h1>{KIND_LABEL[kind]}</h1>
 
 	<form

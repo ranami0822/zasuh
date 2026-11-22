@@ -118,10 +118,17 @@ a.rank:hover {
 	gap: var(--space-8);
 }
 .header {
+	/* 全幅。ロゴを左の端、ログインを右の端に置く（ページの本文は、中央の枠のまま）。 */
 	display: flex;
 	align-items: baseline;
 	justify-content: space-between;
 	gap: var(--space-4);
+	padding: var(--space-6) var(--space-6) var(--space-2);
+}
+@media (max-width: 520px) {
+	.header {
+		padding-inline: var(--space-4);
+	}
 }
 .header a.brand {
 	display: inline-flex;
@@ -583,8 +590,8 @@ button.tag:hover {
 	opacity: 0;
 }
 
-/* 作品ページ: 左に評価、右にレビュー。評価は、島（途中で終わる札）にせず、レビューの終わりまで続く灰色のセクションにする
-   （レビューが増えても、評価の下に、地の色の間が空かないように）。狭い画面では縦に積む。 */
+/* 作品ページ: 昔の HTML の aside のように、左に、灰色の列（評価）を、画面の左の端から、下（フッターの上）まで置く。
+   右に、題名の帯、投稿、レビュー。レビューが増えても、評価の下に、地の色の間が空かない。狭い画面では、帯、評価、投稿、レビューの順に積む。 */
 .page.wide {
 	max-width: 1000px;
 }
@@ -596,16 +603,29 @@ button.tag:hover {
 	flex-direction: column;
 	gap: var(--space-2);
 }
-.layout {
-	margin-top: var(--space-3);
+.shell > .workpage {
+	flex: 1;
+	width: 100%;
+}
+.workpage {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);
-	gap: var(--space-4);
-	align-items: stretch;
+	grid-template-areas: 'band' 'aside' 'main';
+	grid-template-rows: auto auto 1fr;
+	margin-top: var(--space-2);
+}
+.workpage > .band {
+	grid-area: band;
+	padding-inline: var(--space-4);
 }
 .rating {
+	grid-area: aside;
 	background: var(--surface);
-	padding: var(--space-6);
+	padding: var(--space-4);
+}
+.workpage > .main {
+	grid-area: main;
+	padding: var(--space-6) var(--space-4) var(--space-16);
 }
 .rating__inner {
 	display: flex;
@@ -642,25 +662,26 @@ button.tag:hover {
 	margin-bottom: var(--space-3);
 }
 @media (min-width: 820px) {
-	.layout {
-		grid-template-columns: 300px minmax(0, 1fr);
+	.workpage {
+		grid-template-columns: 320px minmax(0, 1fr);
+		grid-template-areas: 'aside band' 'aside main';
+		grid-template-rows: auto 1fr;
 	}
-	/* セクションは下まで伸び、中身は、読み進めても、画面の上に残る。 */
+	.workpage > .band {
+		padding-inline: var(--space-8);
+	}
+	.rating {
+		padding: var(--space-6);
+	}
+	/* 列は下まで伸び、中身は、読み進めても、画面の上に残る。 */
 	.rating__inner {
 		position: sticky;
 		top: var(--space-4);
 	}
-}
-@media (max-width: 520px) {
-	.rating {
-		padding: var(--space-4);
+	.workpage > .main {
+		padding: var(--space-6) var(--space-8) var(--space-16);
+		max-width: 960px;
 	}
-}
-.main {
-	display: flex;
-	flex-direction: column;
-	gap: var(--space-6);
-	min-width: 0;
 }
 
 /* スマホ（幅 639px 以下）だけ: 広い画面の中身と、狭い画面の中身を、出し分ける。 */
@@ -723,7 +744,6 @@ button.tag:hover {
 	overflow: hidden;
 }
 .main {
-	margin-top: var(--space-6);
 	display: flex;
 	flex-direction: column;
 	gap: var(--space-6);
@@ -930,8 +950,9 @@ button.tag:hover {
 	flex-wrap: wrap;
 	gap: var(--space-2) var(--space-5);
 }
-.shell:has(.page.wide) .footer__inner {
-	max-width: 1000px;
+.shell:has(.workpage) .footer__inner {
+	max-width: none;
+	padding-inline: var(--space-6);
 }
 .footer a {
 	color: var(--tag-fg);

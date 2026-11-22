@@ -2,7 +2,6 @@
 	import { goto, invalidateAll } from '$app/navigation';
 	import { Button } from '@ui-sdk/svelte/button';
 	import { onMount } from 'svelte';
-	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
 	import { handOffRecoveryCode, registerPasskey } from '#passkey';
 	import type { PageProps } from './$types';
@@ -34,7 +33,6 @@
 <Meta title="パスキーの復旧" description="新しいパスキーを登録します。" />
 
 <div class="page">
-	<Header />
 	<h1>パスキーの復旧</h1>
 	<div class="panel">
 		{#if !data.valid}

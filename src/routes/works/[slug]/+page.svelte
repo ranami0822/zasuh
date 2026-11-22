@@ -14,7 +14,6 @@
 	import StarDist from '#components/StarDist.svelte';
 	import StarTag from '#components/StarTag.svelte';
 	import Glacier from '#components/Glacier.svelte';
-	import Header from '#components/Header.svelte';
 	import Meta from '#components/Meta.svelte';
 	import { CATEGORY_LABEL, DISCLOSURE_LABEL, REASON_LABEL } from '#messages';
 	import type { ActionData, PageProps } from './$types';
@@ -109,9 +108,7 @@
 
 <Meta title={data.work.name} type="article" url={data.share.url} description={data.work.summary ?? data.share.description} />
 
-<div class="page wide">
-	<Header />
-
+<div class="workpage">
 	<header
 		class="hero band"
 		style:--band-from={data.band?.from}
@@ -134,9 +131,8 @@
 		{#if data.work.url}<p class="caption"><a href={data.work.url} rel="noopener noreferrer nofollow">{data.work.url}</a></p>{/if}
 	</header>
 
-	<div class="layout">
-	<!-- 左: 評価のセクション。島ではなく、レビューの終わりまで続く（広い画面）。 -->
-	<section class="rating" aria-label="観点ごとの星">
+	<!-- 左: 評価の aside。昔の HTML の aside のように、画面の左の端から、下まで続く灰色の列にする（広い画面）。 -->
+	<aside class="rating" aria-label="観点ごとの星">
 		<div class="rating__inner">
 			<StarDist size="hero" {...data.overall} />
 			<!-- 広い画面: そのまま見せる。スマホ: 総合だけ見せて、観点ごとは、たたむ（同じ中身を、画面の幅で出し分ける） -->
@@ -148,7 +144,7 @@
 				{@render details()}
 			</details>
 		</div>
-	</section>
+	</aside>
 
 	<div class="main">
 			<section class="compose" aria-label="レビューを書く">
@@ -237,7 +233,6 @@
 					{/each}
 				</Glacier>
 			{/if}
-	</div>
 	</div>
 </div>
 
