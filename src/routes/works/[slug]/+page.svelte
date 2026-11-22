@@ -134,18 +134,20 @@
 		{#if data.work.url}<p class="caption"><a href={data.work.url} rel="noopener noreferrer nofollow">{data.work.url}</a></p>{/if}
 	</header>
 
+	<div class="layout">
+	<!-- 左: 評価のセクション。島ではなく、レビューの終わりまで続く（広い画面）。 -->
 	<section class="rating" aria-label="観点ごとの星">
-		<div class="rating__overall">
+		<div class="rating__inner">
 			<StarDist size="hero" {...data.overall} />
+			<!-- 広い画面: そのまま見せる。スマホ: 総合だけ見せて、観点ごとは、たたむ（同じ中身を、画面の幅で出し分ける） -->
+			<div class="rating__detail only-wide">
+				{@render details()}
+			</div>
+			<details class="rating__detail rating__fold only-narrow">
+				<summary>観点ごとに見る</summary>
+				{@render details()}
+			</details>
 		</div>
-		<!-- 広い画面: そのまま見せる。スマホ: 総合だけ見せて、観点ごとは、たたむ（同じ中身を、画面の幅で出し分ける） -->
-		<div class="rating__detail only-wide">
-			{@render details()}
-		</div>
-		<details class="rating__detail rating__fold only-narrow">
-			<summary>観点ごとに見る</summary>
-			{@render details()}
-		</details>
 	</section>
 
 	<div class="main">
@@ -235,6 +237,7 @@
 					{/each}
 				</Glacier>
 			{/if}
+	</div>
 	</div>
 </div>
 

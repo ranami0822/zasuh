@@ -229,7 +229,7 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) process
     const wideBox = await wide.$eval('.compose textarea', (e) => e.getBoundingClientRect().height);
     ok(wideBox > 60 && !(await wide.isVisible('.rating__fold')) && (await wide.isVisible('.tagrow:visible')), 'desktop: the post box is full size, and the rows are not folded');
     const geo = await wide.evaluate(() => { const r = (q) => document.querySelector(q).getBoundingClientRect(); return { band: r('.band'), rating: r('.rating'), main: r('.main') }; });
-    ok(Math.abs(geo.band.left - geo.rating.left) < 1 && Math.abs(geo.band.right - geo.rating.right) < 1 && Math.abs(geo.main.right - geo.rating.right) < 1, 'desktop: the rating section is as wide as the title band and the reviews');
+    ok(Math.abs(geo.band.left - geo.rating.left) < 1 && Math.abs(geo.rating.bottom - geo.main.bottom) < 1 && geo.rating.right < geo.main.left, 'desktop: the rating section is on the left and runs down to the end of the reviews');
     await wide.screenshot({ path: OUT + '/desktop-work.png', fullPage: true });
   }
   await browser.close();

@@ -583,7 +583,8 @@ button.tag:hover {
 	opacity: 0;
 }
 
-/* 作品ページ: 題名の帯、評価の面（全幅。暗い色）、レビューを、縦に並べる。評価を脇に置くと、レビューが増えたとき、下に間が空くため。 */
+/* 作品ページ: 左に評価、右にレビュー。評価は、島（途中で終わる札）にせず、レビューの終わりまで続く灰色のセクションにする
+   （レビューが増えても、評価の下に、地の色の間が空かないように）。狭い画面では縦に積む。 */
 .page.wide {
 	max-width: 1000px;
 }
@@ -595,23 +596,21 @@ button.tag:hover {
 	flex-direction: column;
 	gap: var(--space-2);
 }
-.rating {
-	margin-top: var(--space-6);
-	padding: var(--space-6);
+.layout {
+	margin-top: var(--space-3);
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);
-	gap: var(--space-5) var(--space-8);
-	align-items: start;
-	background: var(--surface-deep);
-	/* 暗い面の中だけ、文字と棒の下地の色を替える。 */
-	--text: var(--on-bold);
-	--text-muted: #a3a3a3;
-	--sentiment-track: #404040;
-	color: var(--text);
+	gap: var(--space-4);
+	align-items: stretch;
 }
-.rating .tagrow:hover {
-	color: var(--text);
-	opacity: 0.8;
+.rating {
+	background: var(--surface);
+	padding: var(--space-6);
+}
+.rating__inner {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-5);
 }
 .rating__detail {
 	display: flex;
@@ -628,7 +627,7 @@ button.tag:hover {
 	justify-content: space-between;
 	font-size: var(--fs-ui);
 	list-style: none;
-	border-top: 1px solid #404040;
+	border-top: 1px solid var(--control-line);
 }
 .rating__fold summary::-webkit-details-marker {
 	display: none;
@@ -643,15 +642,25 @@ button.tag:hover {
 	margin-bottom: var(--space-3);
 }
 @media (min-width: 820px) {
-	.rating {
-		grid-template-columns: 320px minmax(0, 1fr);
-		padding: var(--space-8);
+	.layout {
+		grid-template-columns: 300px minmax(0, 1fr);
+	}
+	/* セクションは下まで伸び、中身は、読み進めても、画面の上に残る。 */
+	.rating__inner {
+		position: sticky;
+		top: var(--space-4);
 	}
 }
 @media (max-width: 520px) {
 	.rating {
 		padding: var(--space-4);
 	}
+}
+.main {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-6);
+	min-width: 0;
 }
 
 /* スマホ（幅 639px 以下）だけ: 広い画面の中身と、狭い画面の中身を、出し分ける。 */
