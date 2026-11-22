@@ -156,13 +156,21 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) process
       sql('game/gameplay', 9, [0.5, 1.0, 2.5, 3.0, 2.0], 3.6, 0.35, 2.9),
       sql('game/music', 3, [0, 0.2, 0.8, 1.5, 0.5], 3.8, 'NULL', 1.9)
     ].join(' ');
-    require('child_process').execFileSync('npx', ['wrangler', 'd1', 'execute', 'DB', '--local', '--persist-to', process.env.E2E_D1_DIR, '--config', 'wrangler.local.jsonc', '--command', statements], { stdio: 'pipe' });
+    const reading = [
+      "INSERT OR IGNORE INTO question_sets (hash, model, definition_json, created_at) VALUES ('e2e', 'clef-flash', '{}', '2026-11-22T00:00:00.000Z');",
+      "INSERT OR REPLACE INTO readings (id, revision_id, question_set_id, model, status, attempts, created_at, updated_at) SELECT 'e2e-rd', r.current_revision_id, (SELECT id FROM question_sets WHERE hash = 'e2e'), 'clef-flash', 'ok', 1, '2026-11-22T00:00:00.000Z', '2026-11-22T00:00:00.000Z' FROM reviews r JOIN works w ON w.id = r.work_id WHERE w.slug = 'star-line' LIMIT 1;",
+      "DELETE FROM reading_answers WHERE reading_id = 'e2e-rd';",
+      "INSERT INTO reading_answers (reading_id, question_key, tag_id, tag_version, kind, value, prob, probs_json) VALUES ('e2e-rd', 'gameplay_noul', 'game/gameplay', 2, 'mention', 'true', 0.9, NULL), ('e2e-rd', 'gameplay_star', 'game/gameplay', 2, 'star', '5', 0.6, '{\"score\":4.6,\"levels\":[0,0.02,0.08,0.3,0.6],\"confidence\":0.5}'), ('e2e-rd', 'music_noul', 'game/music', 2, 'mention', 'true', 0.9, NULL), ('e2e-rd', 'music_star', 'game/music', 2, 'star', '2', 0.5, '{\"score\":2.2,\"levels\":[0.2,0.5,0.2,0.1,0]}');"
+    ].join(' ');
+    require('child_process').execFileSync('npx', ['wrangler', 'd1', 'execute', 'DB', '--local', '--persist-to', process.env.E2E_D1_DIR, '--config', 'wrangler.local.jsonc', '--command', statements + ' ' + reading], { stdio: 'pipe' });
     await a.goto(BASE + '/works/star-line', { waitUntil: 'networkidle' });
     const hero = await a.$$eval('.dist.hero .dist__bar > i', (els) => els.map((e) => getComputedStyle(e).backgroundColor));
     ok(hero.length === 5 && new Set(hero).size === 5, 'hero bar has 5 distinct star colours: ' + hero.join(' '));
     ok(hero[0] === 'rgb(230, 0, 18)' && hero[4] === 'rgb(0, 166, 62)', 'star 1 is red and star 5 is green');
     const caption = await a.textContent('.dist.hero .dist__caption');
     ok(/平均\s*3\.2/.test(caption) && /±\s*0\.6/.test(caption), 'hero shows the mean and the spread: ' + caption.replace(/\s+/g, ' ').trim());
+    const chips = await a.$$eval('article .star-tag', (els) => els.map((e) => e.textContent.replace(/\s+/g, ' ').trim()));
+    ok(chips.length === 2 && /ゲーム性・内容 星 4\.6/.test(chips[0]) && /音楽・音 星 2\.2/.test(chips[1]), 'the review shows how it was read (star chips): ' + chips.join(' | '));
     const legend = await a.textContent('.dist__legend');
     ok(/星1.*星2.*星3.*星4.*星5/.test(legend), 'legend lists stars 1 to 5');
     const rows = await a.$$eval('.tagrow', (els) => els.map((e) => ({ text: e.textContent.replace(/\s+/g, ' ').trim(), height: e.querySelector('.dist__bar') && getComputedStyle(e.querySelector('.dist__bar')).height, opacity: e.querySelector('.dist__bar') && getComputedStyle(e.querySelector('.dist__bar')).opacity })));
@@ -189,5 +197,40 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) process
   }
   await h.screenshot({ path: OUT + '/home.png', fullPage: true });
   await a.screenshot({ path: OUT + '/work.png', fullPage: true });
+  // スマホの幅: 総合だけ見せて、観点ごとはたたむ。説明が長ければ、たたむ。投稿の欄は、書き始めるまで小さい。
+  if (process.env.E2E_D1_DIR) {
+    const long = '夜行列車を走らせる運転シミュレーション。' + '路線は、実在の夜行列車をもとにしていて、車両の細かい動きまで再現している。'.repeat(3);
+    require('child_process').execFileSync('npx', ['wrangler', 'd1', 'execute', 'DB', '--local', '--persist-to', process.env.E2E_D1_DIR, '--config', 'wrangler.local.jsonc', '--command', "UPDATE works SET summary = '" + long + "' WHERE slug = 'star-line';"], { stdio: 'pipe' });
+    const mctx = await browser.newContext({ viewport: { width: 390, height: 800 }, deviceScaleFactor: 2 });
+    const m = await mctx.newPage();
+    await m.goto(BASE + '/works/star-line', { waitUntil: 'networkidle' });
+    ok(await m.isVisible('.rating .dist.hero'), 'phone: the overall bar is shown');
+    ok(!(await m.isVisible('.tagrow:visible')), 'phone: the per-aspect rows are folded');
+    await m.click('.rating__fold summary');
+    ok(await m.isVisible('.tagrow:visible'), 'phone: the rows open when asked');
+    const summaryHeight = await m.$eval('.work-summary', (e) => e.getBoundingClientRect().height);
+    ok(await m.isVisible('button:has-text("続きを読む")'), 'phone: a long description has a "read more" button');
+    await m.click('button:has-text("続きを読む")');
+    const openHeight = await m.$eval('.work-summary', (e) => e.getBoundingClientRect().height);
+    ok(openHeight > summaryHeight, 'phone: the description opens (' + Math.round(summaryHeight) + ' -> ' + Math.round(openHeight) + 'px)');
+    await m.screenshot({ path: OUT + '/phone-work.png', fullPage: true });
+    // 投稿の欄（別の端末として開く。投稿済みの端末では、欄がない）
+    const m2 = await (await browser.newContext({ viewport: { width: 390, height: 800 } })).newPage();
+    await m2.goto(BASE + '/works/star-line', { waitUntil: 'networkidle' });
+    const compact = await m2.$eval('.compose textarea', (e) => e.getBoundingClientRect().height);
+    ok(compact < 60 && !(await m2.isVisible('.compose__foot')), 'phone: the post box starts small, without the footer (' + Math.round(compact) + 'px)');
+    await m2.click('.compose textarea');
+    ok(await m2.isVisible('.compose__foot'), 'phone: tapping the box shows the footer');
+    await m2.fill('.compose textarea', 'x');
+    await m2.click('h1');
+    ok(await m2.isVisible('.compose__foot'), 'phone: with text in it, the box stays open');
+    const wide = await (await browser.newContext({ viewport: { width: 1100, height: 900 } })).newPage();
+    await wide.goto(BASE + '/works/star-line', { waitUntil: 'networkidle' });
+    const wideBox = await wide.$eval('.compose textarea', (e) => e.getBoundingClientRect().height);
+    ok(wideBox > 60 && !(await wide.isVisible('.rating__fold')) && (await wide.isVisible('.tagrow:visible')), 'desktop: the post box is full size, and the rows are not folded');
+    const geo = await wide.evaluate(() => { const r = (q) => document.querySelector(q).getBoundingClientRect(); return { band: r('.band'), rating: r('.rating'), main: r('.main') }; });
+    ok(Math.abs(geo.band.left - geo.rating.left) < 1 && Math.abs(geo.band.right - geo.rating.right) < 1 && Math.abs(geo.main.right - geo.rating.right) < 1, 'desktop: the rating section is as wide as the title band and the reviews');
+    await wide.screenshot({ path: OUT + '/desktop-work.png', fullPage: true });
+  }
   await browser.close();
 })().catch((e) => { console.log('ERR', e.message); process.exit(1); });

@@ -453,10 +453,18 @@ button.tag:hover {
 .star-tag__dot {
 	background: var(--star);
 }
+.star-tag {
+	/* レビューが、どう読み取られたか。星の色を薄く敷いて、一目で分かるようにする。 */
+	background: color-mix(in srgb, var(--star) 22%, var(--surface));
+	color: var(--text);
+}
+.star-tag b {
+	font-weight: 700;
+}
 .star-tag__dot {
 	display: inline-block;
-	width: 8px;
-	height: 8px;
+	width: 10px;
+	height: 10px;
 	flex: none;
 }
 
@@ -575,7 +583,7 @@ button.tag:hover {
 	opacity: 0;
 }
 
-/* 作品ページ: 左に概要、右にレビュー。狭い画面では縦に積む */
+/* 作品ページ: 題名の帯、評価の面（全幅。暗い色）、レビューを、縦に並べる。評価を脇に置くと、レビューが増えたとき、下に間が空くため。 */
 .page.wide {
 	max-width: 1000px;
 }
@@ -587,20 +595,104 @@ button.tag:hover {
 	flex-direction: column;
 	gap: var(--space-2);
 }
-.layout {
+.rating {
+	margin-top: var(--space-6);
+	padding: var(--space-6);
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);
-	gap: var(--space-8);
+	gap: var(--space-5) var(--space-8);
 	align-items: start;
+	background: var(--surface-deep);
+	/* 暗い面の中だけ、文字と棒の下地の色を替える。 */
+	--text: var(--on-bold);
+	--text-muted: #a3a3a3;
+	--sentiment-track: #404040;
+	color: var(--text);
+}
+.rating .tagrow:hover {
+	color: var(--text);
+	opacity: 0.8;
+}
+.rating__detail {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-5);
+	min-width: 0;
+}
+.rating__fold summary {
+	cursor: pointer;
+	padding: var(--space-3) 0;
+	min-height: var(--size-control);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	font-size: var(--fs-ui);
+	list-style: none;
+	border-top: 1px solid #404040;
+}
+.rating__fold summary::-webkit-details-marker {
+	display: none;
+}
+.rating__fold summary::after {
+	content: '＋';
+}
+.rating__fold[open] summary::after {
+	content: '－';
+}
+.rating__fold[open] summary {
+	margin-bottom: var(--space-3);
 }
 @media (min-width: 820px) {
-	.layout {
-		grid-template-columns: 300px minmax(0, 1fr);
+	.rating {
+		grid-template-columns: 320px minmax(0, 1fr);
+		padding: var(--space-8);
 	}
-	.side {
-		position: sticky;
-		top: var(--space-4);
+}
+@media (max-width: 520px) {
+	.rating {
+		padding: var(--space-4);
 	}
+}
+
+/* スマホ（幅 639px 以下）だけ: 広い画面の中身と、狭い画面の中身を、出し分ける。 */
+.only-narrow {
+	display: none;
+}
+@media (max-width: 639px) {
+	.only-wide {
+		display: none;
+	}
+	.only-narrow {
+		display: block;
+	}
+	/* 長い説明は、3行で切って、「続きを読む」で開く。 */
+	.work-summary.clamped {
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 3;
+		line-clamp: 3;
+		overflow: hidden;
+	}
+	/* 投稿の欄: 書き始めるまで、1行の高さにする。見るだけの人が多いため。 */
+	.compose.compose--compact textarea {
+		min-height: var(--size-control);
+	}
+	.compose.compose--compact .compose__foot {
+		display: none;
+	}
+}
+.linkbtn {
+	align-self: flex-start;
+	min-height: var(--size-control);
+	padding: 0;
+	border: 0;
+	background: none;
+	color: inherit;
+	font: inherit;
+	font-size: var(--fs-ui);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+	cursor: pointer;
 }
 .panel {
 	background: var(--surface);
@@ -622,6 +714,7 @@ button.tag:hover {
 	overflow: hidden;
 }
 .main {
+	margin-top: var(--space-6);
 	display: flex;
 	flex-direction: column;
 	gap: var(--space-6);

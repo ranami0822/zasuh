@@ -19,6 +19,9 @@
 	import { CATEGORY_LABEL, DISCLOSURE_LABEL, REASON_LABEL } from '#messages';
 	import type { ActionData, PageProps } from './$types';
 
+	/** これより長い説明は、スマホで、たたむ（文字数）。 */
+	const SUMMARY_FOLD_LENGTH = 80;
+
 	let { data, form }: PageProps & { form?: ActionData } = $props();
 
 	const postFailed = $derived(form && 'form' in form && form.form === 'post' ? form : null);
@@ -95,6 +98,12 @@
 	});
 
 	const link = (t: string | null, p = 1) => `/works/${data.work.slug}${t || p > 1 ? '?' : ''}${[t ? `t=${encodeURIComponent(t)}` : '', p > 1 ? `p=${p}` : ''].filter(Boolean).join('&')}`;
+	// 説明が長いとき、スマホでは、たたんで見せる（広い画面では、いつも全部見せる）。
+	const summaryLong = $derived((data.work.summary ?? '').length > SUMMARY_FOLD_LENGTH);
+	let summaryOpen = $state(false);
+	// 投稿の欄: スマホでは、書き始める（フォーカスする）まで、小さく見せる。失敗して戻ったときは、広げたまま。
+	let composeOpen = $state(false);
+	const composeExpanded = $derived(composeOpen || postFailed !== null);
 	const maxMonth = $derived(Math.max(1, ...data.months.map((m: { n: number }) => m.n)));
 </script>
 
@@ -114,49 +123,32 @@
 			<a href="/">一覧</a><span aria-hidden="true">/</span><a href={`/?c=${data.work.category}`}>{CATEGORY_LABEL[data.work.category]}</a>
 		</nav>
 		<h1>{data.work.name}</h1>
-		{#if data.work.summary}<p class="muted">{data.work.summary}</p>{/if}
+		{#if data.work.summary}
+			<p class="muted work-summary" class:clamped={summaryLong && !summaryOpen} id="work-summary">{data.work.summary}</p>
+			{#if summaryLong}
+				<button type="button" class="linkbtn only-narrow" aria-expanded={summaryOpen} aria-controls="work-summary" onclick={() => (summaryOpen = !summaryOpen)}>
+					{summaryOpen ? '閉じる' : '続きを読む'}
+				</button>
+			{/if}
+		{/if}
 		{#if data.work.url}<p class="caption"><a href={data.work.url} rel="noopener noreferrer nofollow">{data.work.url}</a></p>{/if}
 	</header>
 
-	<div class="layout">
-		<aside class="side">
-			<section class="panel" aria-label="観点ごとの星">
-				<StarDist size="hero" {...data.overall} />
-				<div class="tagrows">
-					{#each data.tags as t (t.tagId)}
-						<a class="tagrow" class:empty={t.stat.n === 0} href={link(data.tag === t.tagId ? null : t.tagId)} aria-current={data.tag === t.tagId}>
-							<span>{t.label}</span>
-							<StarDist {...t.stat} />
-						</a>
-					{/each}
-				</div>
-				{#if data.months.length > 0}
-					<div aria-label="月ごとの変化">
-						<div class="months" style="height: 56px">
-							{#each data.months as m (m.month)}
-								<div
-									class="months__col"
-									style:height="{Math.max(12, (m.n / maxMonth) * 100)}%"
-									title={m.month}
-									role="img"
-									aria-label="{m.month}: {m.n}件。星の平均 {(m.soft.reduce((t: number, v: number, i: number) => t + v * (i + 1), 0) / m.n).toFixed(1)}"
-								>
-									{#each [4, 3, 2, 1, 0] as i (i)}
-										<i class="s{i + 1}" style:flex={m.soft[i]}></i>
-									{/each}
-								</div>
-							{/each}
-						</div>
-						<div class="spread caption muted" style="margin-top: var(--space-1)">
-							<span class="num">{data.months[0].month}</span>
-							<span class="num">{data.months[data.months.length - 1].month}</span>
-						</div>
-					</div>
-				{/if}
-			</section>
-		</aside>
+	<section class="rating" aria-label="観点ごとの星">
+		<div class="rating__overall">
+			<StarDist size="hero" {...data.overall} />
+		</div>
+		<!-- 広い画面: そのまま見せる。スマホ: 総合だけ見せて、観点ごとは、たたむ（同じ中身を、画面の幅で出し分ける） -->
+		<div class="rating__detail only-wide">
+			{@render details()}
+		</div>
+		<details class="rating__detail rating__fold only-narrow">
+			<summary>観点ごとに見る</summary>
+			{@render details()}
+		</details>
+	</section>
 
-		<div class="main">
+	<div class="main">
 			<section class="compose" aria-label="レビューを書く">
 				{#if data.own}
 					<div class="spread">
@@ -164,7 +156,17 @@
 						<a class="btn quiet" href={`/works/${data.work.slug}/edit`}>編集する</a>
 					</div>
 				{:else}
-					<form method="post" action="?/post" class="compose" use:enhance={() => async ({ update }) => { await update({ reset: false }); }}>
+					<form
+						method="post"
+						action="?/post"
+						class="compose"
+						class:compose--compact={!composeExpanded}
+						onfocusin={() => (composeOpen = true)}
+						onfocusout={(e) => {
+							const f = e.currentTarget as HTMLFormElement;
+							if (!f.contains(e.relatedTarget as Node | null) && !f.querySelector('textarea')?.value) composeOpen = false;
+						}}
+						use:enhance={() => async ({ update }) => { await update({ reset: false }); }}>
 						{#if postFailed}<p class="banner error" role="alert">{postFailed.error}</p>{/if}
 						<Field name="body">
 							<Textarea
@@ -233,9 +235,42 @@
 					{/each}
 				</Glacier>
 			{/if}
-		</div>
 	</div>
 </div>
+
+{#snippet details()}
+	<div class="tagrows">
+	{#each data.tags as t (t.tagId)}
+		<a class="tagrow" class:empty={t.stat.n === 0} href={link(data.tag === t.tagId ? null : t.tagId)} aria-current={data.tag === t.tagId}>
+			<span>{t.label}</span>
+			<StarDist {...t.stat} />
+		</a>
+	{/each}
+</div>
+{#if data.months.length > 0}
+	<div aria-label="月ごとの変化">
+		<div class="months" style="height: 56px">
+			{#each data.months as m (m.month)}
+				<div
+					class="months__col"
+					style:height="{Math.max(12, (m.n / maxMonth) * 100)}%"
+					title={m.month}
+					role="img"
+					aria-label="{m.month}: {m.n}件。星の平均 {(m.soft.reduce((t: number, v: number, i: number) => t + v * (i + 1), 0) / m.n).toFixed(1)}"
+				>
+					{#each [4, 3, 2, 1, 0] as i (i)}
+						<i class="s{i + 1}" style:flex={m.soft[i]}></i>
+					{/each}
+				</div>
+			{/each}
+		</div>
+		<div class="spread caption muted" style="margin-top: var(--space-1)">
+			<span class="num">{data.months[0].month}</span>
+			<span class="num">{data.months[data.months.length - 1].month}</span>
+		</div>
+	</div>
+{/if}
+{/snippet}
 
 {#snippet review(r: (typeof data.reviews)[number])}
 	<article class:faded={r.duplicate}>
