@@ -214,6 +214,9 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) process
     await m.click('button[aria-controls="work-summary"]');
     const openHeight = await m.$eval('.work-summary', (e) => e.getBoundingClientRect().height);
     ok(openHeight > summaryHeight, 'phone: the description opens (' + Math.round(summaryHeight) + ' -> ' + Math.round(openHeight) + 'px)');
+    const pg = await m.evaluate(() => { const r = (q) => document.querySelector(q).getBoundingClientRect(); return { band: r('.band'), rating: r('.rating'), h1: parseFloat(getComputedStyle(document.querySelector('.band h1')).fontSize), width: window.innerWidth }; });
+    ok(pg.band.left >= 12 && pg.width - pg.band.right >= 12 && pg.rating.left >= 12 && pg.width - pg.rating.right >= 12, 'phone: the title band and the rating keep the page margins, as before (' + Math.round(pg.band.left) + 'px)');
+    ok(pg.h1 <= 32, 'phone: the title keeps its original size (' + pg.h1 + 'px)');
     await m.screenshot({ path: OUT + '/phone-work.png', fullPage: true });
     // 投稿の欄（別の端末として開く。投稿済みの端末では、欄がない）
     const m2 = await (await browser.newContext({ viewport: { width: 390, height: 800 } })).newPage();
@@ -235,7 +238,7 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) process
     ok(geo.rating.top - geo.band.bottom >= 16 && geo.main.left - geo.rating.right >= 20, 'desktop: space between the band and the aside (' + Math.round(geo.rating.top - geo.band.bottom) + 'px), and between the aside and the reviews (' + Math.round(geo.main.left - geo.rating.right) + 'px)');
     ok(Math.abs(geo.rating.bottom - geo.footer.top) < 1.5, 'desktop: the aside runs down to the footer (' + Math.round(geo.rating.bottom) + ' / ' + Math.round(geo.footer.top) + ')');
     ok(geo.width - geo.lastCard.right >= 24, 'desktop: the reviews keep a margin on the right (' + Math.round(geo.width - geo.lastCard.right) + 'px)');
-    ok(geo.h1 >= 40, 'desktop: the title is large (' + geo.h1 + 'px)');
+    ok(geo.h1 <= 40.5, 'desktop: the title keeps its original size (' + geo.h1 + 'px)');
     ok(geo.brand.left < 40 && geo.width - geo.login.right < 40, 'desktop: the header is full width (logo ' + Math.round(geo.brand.left) + 'px from the left, login ' + Math.round(geo.width - geo.login.right) + 'px from the right)');
     ok(!(await wide.isVisible('button[aria-controls="work-summary"]')), 'desktop: no toggle buttons (everything is open)');
     await wide.screenshot({ path: OUT + '/desktop-work.png', fullPage: true });

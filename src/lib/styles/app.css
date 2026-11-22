@@ -123,11 +123,11 @@ a.rank:hover {
 	align-items: baseline;
 	justify-content: space-between;
 	gap: var(--space-4);
-	padding: var(--space-6) var(--space-6) var(--space-2);
+	padding: var(--space-6) var(--space-4) var(--space-2);
 }
-@media (max-width: 520px) {
+@media (min-width: 820px) {
 	.header {
-		padding-inline: var(--space-4);
+		padding-inline: var(--space-6);
 	}
 }
 .header a.brand {
@@ -590,11 +590,9 @@ button.tag:hover {
 	opacity: 0;
 }
 
-/* 作品ページ: 上に、題名の帯（全幅。題名は主役なので、大きく）。その下に、左は、評価の aside（灰色。画面の左の端から、フッターの上まで）、
+/* 作品ページ。820px 未満（スマホ、タブレット）は、元の見た目: 中央の枠（最大 1000px）に、題名の帯、評価の面、投稿とレビューを、縦に積む。
+   820px 以上（PC）だけ: 上に、全幅の題名の帯。その下に、左は、評価の aside（灰色。画面の左の端から、フッターの上まで）、
    右は、投稿とレビュー。間は、前（16px）より少し広く空ける。評価を脇に置いても、灰色が下まで続くので、レビューが増えても、間が空かない。 */
-.page.wide {
-	max-width: 1000px;
-}
 .hero .caption a {
 	letter-spacing: 0; /* URL は、英字だけなので、字間を空けない */
 }
@@ -608,46 +606,38 @@ button.tag:hover {
 	width: 100%;
 }
 .workpage {
+	max-width: 1000px;
+	margin: var(--space-6) auto 0;
+	padding: 0 var(--space-4) var(--space-16);
 	display: flex;
 	flex-direction: column;
-	gap: var(--space-5);
-	margin-top: var(--space-2);
-}
-.workpage > .band {
-	padding: var(--space-10) var(--space-4);
-}
-.workpage > .band h1 {
-	font-size: clamp(34px, 24px + 3vw, 64px);
-	line-height: 1.15;
-}
-.workpage > .band .work-summary {
-	max-width: 52em;
-	font-size: var(--fs-body);
+	gap: var(--space-8);
 }
 .workbody {
 	flex: 1;
-	display: grid;
-	grid-template-columns: minmax(0, 1fr);
-	gap: var(--space-5);
-	align-items: stretch;
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-8);
+	min-width: 0;
 }
 .rating {
 	background: var(--surface);
-	padding: var(--space-6) var(--space-4);
+	padding: var(--space-6);
+}
+@media (max-width: 520px) {
+	.rating {
+		padding: var(--space-4);
+	}
 }
 .rating__inner {
 	display: flex;
 	flex-direction: column;
-	gap: var(--space-5);
+	gap: var(--space-4);
 }
 .rating__detail {
 	display: flex;
 	flex-direction: column;
-	gap: var(--space-5);
-	min-width: 0;
-}
-.workbody > .main {
-	padding: 0 var(--space-4) var(--space-16);
+	gap: var(--space-4);
 	min-width: 0;
 }
 /* 開閉のアイコン（シェブロン）。開くと、上向きになる。 */
@@ -676,18 +666,26 @@ button.tag:hover {
 .rating__fold[open] summary {
 	margin-bottom: var(--space-3);
 }
+.shell:has(.workpage) .footer__inner {
+	max-width: 1000px;
+}
 @media (min-width: 820px) {
+	.shell > .workpage {
+		max-width: none;
+		margin: var(--space-2) 0 0;
+		padding: 0;
+		gap: var(--space-5);
+	}
 	.workpage > .band {
-		padding: var(--space-12) var(--space-8);
+		padding-inline: var(--space-6);
 	}
 	.workbody {
+		display: grid;
 		grid-template-columns: 320px minmax(0, 1fr);
 		gap: var(--space-6);
+		align-items: stretch;
 	}
 	/* 灰色は下まで続き、中身は、読み進めても、画面の上に残る。 */
-	.rating {
-		padding: var(--space-6);
-	}
 	.rating__inner {
 		position: sticky;
 		top: var(--space-4);
@@ -695,6 +693,10 @@ button.tag:hover {
 	.workbody > .main {
 		padding: 0 var(--space-8) var(--space-16) 0;
 		max-width: 960px;
+	}
+	.shell:has(.workpage) .footer__inner {
+		max-width: none;
+		padding-inline: var(--space-6);
 	}
 }
 .main {
@@ -977,10 +979,6 @@ button.tag:hover {
 	display: flex;
 	flex-wrap: wrap;
 	gap: var(--space-2) var(--space-5);
-}
-.shell:has(.workpage) .footer__inner {
-	max-width: none;
-	padding-inline: var(--space-8);
 }
 .footer a {
 	color: var(--tag-fg);
