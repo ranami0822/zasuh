@@ -140,8 +140,9 @@
 		{#if data.work.url}<p class="caption"><a href={data.work.url} rel="noopener noreferrer nofollow">{data.work.url}</a></p>{/if}
 	</header>
 
-	<!-- 題名の下に、評価。全幅の灰色の面。 -->
-	<section class="rating" aria-label="観点ごとの星">
+	<!-- 題名の帯の下: 左に、評価の aside（灰色。画面の左の端から、フッターの上まで）、右に、投稿とレビュー。 -->
+	<div class="workbody">
+	<aside class="rating" aria-label="観点ごとの星">
 		<div class="rating__inner">
 			<StarDist size="hero" {...data.overall} />
 			<!-- 広い画面: そのまま見せる。スマホ: 総合だけ見せて、観点ごとは、たたむ（同じ中身を、画面の幅で出し分ける） -->
@@ -155,7 +156,7 @@
 				{@render details()}
 			</details>
 		</div>
-	</section>
+	</aside>
 
 	<div class="main">
 			<section class="compose" aria-label="レビューを書く">
@@ -244,6 +245,7 @@
 					{/each}
 				</Glacier>
 			{/if}
+	</div>
 	</div>
 </div>
 

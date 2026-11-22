@@ -590,8 +590,8 @@ button.tag:hover {
 	opacity: 0;
 }
 
-/* 作品ページ: 上から、題名（大きく。主役）、評価（全幅の灰色の面）、投稿、レビュー。どれも全幅で、間を空ける。
-   評価を脇に置くと、レビューが増えたとき、下に間が空くため、題名の下に置く。 */
+/* 作品ページ: 上に、題名の帯（全幅。題名は主役なので、大きく）。その下に、左は、評価の aside（灰色。画面の左の端から、フッターの上まで）、
+   右は、投稿とレビュー。間は、前（16px）より少し広く空ける。評価を脇に置いても、灰色が下まで続くので、レビューが増えても、間が空かない。 */
 .page.wide {
 	max-width: 1000px;
 }
@@ -610,11 +610,9 @@ button.tag:hover {
 .workpage {
 	display: flex;
 	flex-direction: column;
-	gap: var(--space-8);
+	gap: var(--space-5);
 	margin-top: var(--space-2);
-	padding-bottom: var(--space-16);
 }
-/* 題名の帯: 全幅。題名が主役なので、大きく出す。 */
 .workpage > .band {
 	padding: var(--space-10) var(--space-4);
 }
@@ -625,6 +623,13 @@ button.tag:hover {
 .workpage > .band .work-summary {
 	max-width: 52em;
 	font-size: var(--fs-body);
+}
+.workbody {
+	flex: 1;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--space-5);
+	align-items: stretch;
 }
 .rating {
 	background: var(--surface);
@@ -641,8 +646,8 @@ button.tag:hover {
 	gap: var(--space-5);
 	min-width: 0;
 }
-.workpage > .main {
-	padding-inline: var(--space-4);
+.workbody > .main {
+	padding: 0 var(--space-4) var(--space-16);
 	min-width: 0;
 }
 /* 開閉のアイコン（シェブロン）。開くと、上向きになる。 */
@@ -675,23 +680,21 @@ button.tag:hover {
 	.workpage > .band {
 		padding: var(--space-12) var(--space-8);
 	}
+	.workbody {
+		grid-template-columns: 320px minmax(0, 1fr);
+		gap: var(--space-6);
+	}
+	/* 灰色は下まで続き、中身は、読み進めても、画面の上に残る。 */
 	.rating {
-		padding: var(--space-8);
+		padding: var(--space-6);
 	}
-	/* 総合を左、観点ごとの行を右。行は、幅があれば、2列に並べる。 */
 	.rating__inner {
-		display: grid;
-		grid-template-columns: minmax(280px, 380px) minmax(0, 1fr);
-		gap: var(--space-8);
-		align-items: start;
+		position: sticky;
+		top: var(--space-4);
 	}
-	.rating .tagrows {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-		gap: var(--space-2) var(--space-8);
-	}
-	.workpage > .main {
-		padding-inline: var(--space-8);
+	.workbody > .main {
+		padding: 0 var(--space-8) var(--space-16) 0;
+		max-width: 960px;
 	}
 }
 .main {
@@ -700,7 +703,7 @@ button.tag:hover {
 	gap: var(--space-6);
 	min-width: 0;
 }
-/* レビューの本文は、全幅の中でも、読める長さで折り返す。 */
+/* レビューの本文は、読める長さで折り返す。 */
 .workpage .reading {
 	max-width: 46em;
 }

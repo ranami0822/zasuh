@@ -229,10 +229,12 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) process
     await wide.goto(BASE + '/works/star-line', { waitUntil: 'networkidle' });
     const wideBox = await wide.$eval('.compose textarea', (e) => e.getBoundingClientRect().height);
     ok(wideBox > 60 && !(await wide.isVisible('.rating__fold')) && (await wide.isVisible('.tagrow:visible')), 'desktop: the post box is full size, and the rows are not folded');
-    const geo = await wide.evaluate(() => { const r = (q) => document.querySelector(q).getBoundingClientRect(); return { band: r('.band'), rating: r('.rating'), main: r('.main'), brand: r('.header .brand'), login: r('.header .tag'), width: window.innerWidth, h1: parseFloat(getComputedStyle(document.querySelector('.band h1')).fontSize) }; });
-    ok(geo.band.left === 0 && Math.round(geo.band.right) === geo.width && geo.rating.left === 0 && Math.round(geo.rating.right) === geo.width, 'desktop: the title band and the rating section are full width');
-    ok(geo.rating.top - geo.band.bottom >= 24 && geo.main.top - geo.rating.bottom >= 24, 'desktop: the sections have space between them (' + Math.round(geo.rating.top - geo.band.bottom) + 'px, ' + Math.round(geo.main.top - geo.rating.bottom) + 'px)');
-    ok(geo.band.bottom <= geo.rating.top && geo.rating.bottom <= geo.main.top, 'desktop: order is title, rating, reviews');
+    const geo = await wide.evaluate(() => { const r = (q) => document.querySelector(q).getBoundingClientRect(); return { band: r('.band'), rating: r('.rating'), main: r('.main'), lastCard: r('.main > section:last-child'), footer: r('.footer'), brand: r('.header .brand'), login: r('.header .tag'), width: window.innerWidth, h1: parseFloat(getComputedStyle(document.querySelector('.band h1')).fontSize) }; });
+    ok(geo.band.left === 0 && Math.round(geo.band.right) === geo.width, 'desktop: the title band is full width');
+    ok(geo.rating.left === 0 && geo.rating.right < geo.main.left && geo.rating.top >= geo.band.bottom, 'desktop: the gray aside is on the left (flush with the screen edge), under the title band');
+    ok(geo.rating.top - geo.band.bottom >= 16 && geo.main.left - geo.rating.right >= 20, 'desktop: space between the band and the aside (' + Math.round(geo.rating.top - geo.band.bottom) + 'px), and between the aside and the reviews (' + Math.round(geo.main.left - geo.rating.right) + 'px)');
+    ok(Math.abs(geo.rating.bottom - geo.footer.top) < 1.5, 'desktop: the aside runs down to the footer (' + Math.round(geo.rating.bottom) + ' / ' + Math.round(geo.footer.top) + ')');
+    ok(geo.width - geo.lastCard.right >= 24, 'desktop: the reviews keep a margin on the right (' + Math.round(geo.width - geo.lastCard.right) + 'px)');
     ok(geo.h1 >= 40, 'desktop: the title is large (' + geo.h1 + 'px)');
     ok(geo.brand.left < 40 && geo.width - geo.login.right < 40, 'desktop: the header is full width (logo ' + Math.round(geo.brand.left) + 'px from the left, login ' + Math.round(geo.width - geo.login.right) + 'px from the right)');
     ok(!(await wide.isVisible('button[aria-controls="work-summary"]')), 'desktop: no toggle buttons (everything is open)');
