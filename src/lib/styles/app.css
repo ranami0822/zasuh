@@ -590,8 +590,8 @@ button.tag:hover {
 	opacity: 0;
 }
 
-/* 作品ページ: 昔の HTML の aside のように、左に、灰色の列（評価）を、画面の左の端から、下（フッターの上）まで置く。
-   右に、題名の帯、投稿、レビュー。レビューが増えても、評価の下に、地の色の間が空かない。狭い画面では、帯、評価、投稿、レビューの順に積む。 */
+/* 作品ページ: 上から、題名（大きく。主役）、評価（全幅の灰色の面）、投稿、レビュー。どれも全幅で、間を空ける。
+   評価を脇に置くと、レビューが増えたとき、下に間が空くため、題名の下に置く。 */
 .page.wide {
 	max-width: 1000px;
 }
@@ -608,24 +608,27 @@ button.tag:hover {
 	width: 100%;
 }
 .workpage {
-	display: grid;
-	grid-template-columns: minmax(0, 1fr);
-	grid-template-areas: 'band' 'aside' 'main';
-	grid-template-rows: auto auto 1fr;
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-8);
 	margin-top: var(--space-2);
+	padding-bottom: var(--space-16);
 }
+/* 題名の帯: 全幅。題名が主役なので、大きく出す。 */
 .workpage > .band {
-	grid-area: band;
-	padding-inline: var(--space-4);
+	padding: var(--space-10) var(--space-4);
+}
+.workpage > .band h1 {
+	font-size: clamp(34px, 24px + 3vw, 64px);
+	line-height: 1.15;
+}
+.workpage > .band .work-summary {
+	max-width: 52em;
+	font-size: var(--fs-body);
 }
 .rating {
-	grid-area: aside;
 	background: var(--surface);
-	padding: var(--space-4);
-}
-.workpage > .main {
-	grid-area: main;
-	padding: var(--space-6) var(--space-4) var(--space-16);
+	padding: var(--space-6) var(--space-4);
 }
 .rating__inner {
 	display: flex;
@@ -638,54 +641,73 @@ button.tag:hover {
 	gap: var(--space-5);
 	min-width: 0;
 }
+.workpage > .main {
+	padding-inline: var(--space-4);
+	min-width: 0;
+}
+/* 開閉のアイコン（シェブロン）。開くと、上向きになる。 */
+.chevron {
+	width: 22px;
+	height: 22px;
+	flex: none;
+	transition: transform var(--dur-press) var(--ease-standard);
+}
+.chevron.open,
+.rating__fold[open] .chevron {
+	transform: rotate(180deg);
+}
 .rating__fold summary {
 	cursor: pointer;
-	padding: var(--space-3) 0;
 	min-height: var(--size-control);
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
-	font-size: var(--fs-ui);
+	justify-content: center;
 	list-style: none;
 	border-top: 1px solid var(--control-line);
 }
 .rating__fold summary::-webkit-details-marker {
 	display: none;
 }
-.rating__fold summary::after {
-	content: '＋';
-}
-.rating__fold[open] summary::after {
-	content: '－';
-}
 .rating__fold[open] summary {
 	margin-bottom: var(--space-3);
 }
 @media (min-width: 820px) {
-	.workpage {
-		grid-template-columns: 320px minmax(0, 1fr);
-		grid-template-areas: 'aside band' 'aside main';
-		grid-template-rows: auto 1fr;
-	}
 	.workpage > .band {
-		padding-inline: var(--space-8);
+		padding: var(--space-12) var(--space-8);
 	}
 	.rating {
-		padding: var(--space-6);
+		padding: var(--space-8);
 	}
-	/* 列は下まで伸び、中身は、読み進めても、画面の上に残る。 */
+	/* 総合を左、観点ごとの行を右。行は、幅があれば、2列に並べる。 */
 	.rating__inner {
-		position: sticky;
-		top: var(--space-4);
+		display: grid;
+		grid-template-columns: minmax(280px, 380px) minmax(0, 1fr);
+		gap: var(--space-8);
+		align-items: start;
+	}
+	.rating .tagrows {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: var(--space-2) var(--space-8);
 	}
 	.workpage > .main {
-		padding: var(--space-6) var(--space-8) var(--space-16);
-		max-width: 960px;
+		padding-inline: var(--space-8);
 	}
+}
+.main {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-6);
+	min-width: 0;
+}
+/* レビューの本文は、全幅の中でも、読める長さで折り返す。 */
+.workpage .reading {
+	max-width: 46em;
 }
 
 /* スマホ（幅 639px 以下）だけ: 広い画面の中身と、狭い画面の中身を、出し分ける。 */
-.only-narrow {
+.only-narrow,
+.iconbtn.only-narrow {
 	display: none;
 }
 @media (max-width: 639px) {
@@ -694,6 +716,9 @@ button.tag:hover {
 	}
 	.only-narrow {
 		display: block;
+	}
+	.iconbtn.only-narrow {
+		display: inline-flex;
 	}
 	/* 長い説明は、3行で切って、「続きを読む」で開く。 */
 	.work-summary.clamped {
@@ -711,17 +736,17 @@ button.tag:hover {
 		display: none;
 	}
 }
-.linkbtn {
+.iconbtn {
 	align-self: flex-start;
-	min-height: var(--size-control);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--size-control);
+	height: var(--size-control);
 	padding: 0;
 	border: 0;
 	background: none;
 	color: inherit;
-	font: inherit;
-	font-size: var(--fs-ui);
-	text-decoration: underline;
-	text-underline-offset: 3px;
 	cursor: pointer;
 }
 .panel {
@@ -952,7 +977,7 @@ button.tag:hover {
 }
 .shell:has(.workpage) .footer__inner {
 	max-width: none;
-	padding-inline: var(--space-6);
+	padding-inline: var(--space-8);
 }
 .footer a {
 	color: var(--tag-fg);

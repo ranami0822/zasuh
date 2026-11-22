@@ -123,16 +123,25 @@
 		{#if data.work.summary}
 			<p class="muted work-summary" class:clamped={summaryLong && !summaryOpen} id="work-summary">{data.work.summary}</p>
 			{#if summaryLong}
-				<button type="button" class="linkbtn only-narrow" aria-expanded={summaryOpen} aria-controls="work-summary" onclick={() => (summaryOpen = !summaryOpen)}>
-					{summaryOpen ? '閉じる' : '続きを読む'}
+				<!-- 開閉は、文字ではなく、アイコンで示す（文字の「続きを読む」は、言語ごとの決まりに頼るため）。読み上げは、aria-label。 -->
+				<button
+					type="button"
+					class="iconbtn only-narrow"
+					aria-label={summaryOpen ? '説明を閉じる' : '説明の続きを開く'}
+					title={summaryOpen ? '説明を閉じる' : '説明の続きを開く'}
+					aria-expanded={summaryOpen}
+					aria-controls="work-summary"
+					onclick={() => (summaryOpen = !summaryOpen)}
+				>
+					<svg class="chevron" class:open={summaryOpen} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6l6 -6" /></svg>
 				</button>
 			{/if}
 		{/if}
 		{#if data.work.url}<p class="caption"><a href={data.work.url} rel="noopener noreferrer nofollow">{data.work.url}</a></p>{/if}
 	</header>
 
-	<!-- 左: 評価の aside。昔の HTML の aside のように、画面の左の端から、下まで続く灰色の列にする（広い画面）。 -->
-	<aside class="rating" aria-label="観点ごとの星">
+	<!-- 題名の下に、評価。全幅の灰色の面。 -->
+	<section class="rating" aria-label="観点ごとの星">
 		<div class="rating__inner">
 			<StarDist size="hero" {...data.overall} />
 			<!-- 広い画面: そのまま見せる。スマホ: 総合だけ見せて、観点ごとは、たたむ（同じ中身を、画面の幅で出し分ける） -->
@@ -140,11 +149,13 @@
 				{@render details()}
 			</div>
 			<details class="rating__detail rating__fold only-narrow">
-				<summary>観点ごとに見る</summary>
+				<summary aria-label="観点ごとに見る" title="観点ごとに見る">
+					<svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6l6 -6" /></svg>
+				</summary>
 				{@render details()}
 			</details>
 		</div>
-	</aside>
+	</section>
 
 	<div class="main">
 			<section class="compose" aria-label="レビューを書く">
