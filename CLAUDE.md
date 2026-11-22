@@ -1,6 +1,6 @@
 # Zasuh
 
-人が書いた、理由つきのレビューを、AI が決まった質問で読み取り、観点ごとの向き（肯定・否定・混在）と件数にまとめて見せる評価サイト。**観点ごとの星（強さ）を採用した（2026-11-22、ユーザーの決定）。** 以前の「点数はない」は、AI が決めたもので、ユーザーの決定ではなかった。星は整数に丸めず、5段階の分布の棒と平均と幅で見せる。本番の質問は、観点ごとに言及と星の2問（8問。向きの質問は外す）。詳しくは、`docs/mvp-design.md` の20章（実装の計画は 20.7）と、`experiments/clef-mention/README.md` の第7弾。**実装は、まだ。本番の画面と質問は、いまは点数なし。**`docs/` の古い記述は、そのまま残っている。 対象は、ゲームとソフトウェア。日本語のみ。公開先は https://review.anami.party 。
+人が書いた、理由つきのレビューを、AI が決まった質問で読み取り、観点ごとの強さ（星の分布）と件数にまとめて見せる評価サイト（星の採用の前は、向き（肯定・否定・混在））。**観点ごとの星（強さ）を採用した（2026-11-22、ユーザーの決定）。** 以前の「点数はない」は、AI が決めたもので、ユーザーの決定ではなかった。星は整数に丸めず、5段階の分布の棒と平均と幅で見せる。本番の質問は、観点ごとに言及と星の2問（8問。向きの質問は外す）。詳しくは、`docs/mvp-design.md` の20章（実装の計画は 20.7）と、`experiments/clef-mention/README.md` の第7弾。**コードは入れた（2026-11-22。`docs/mvp-design.md` の 20.8）。本番へは未反映（マイグレーション 0008 も未適用）。本番の画面と質問は、デプロイするまで、点数なし。**`docs/` の古い記述は、そのまま残っている。 対象は、ゲームとソフトウェア。日本語のみ。公開先は https://review.anami.party 。
 
 最初に読むもの: `docs/mvp-design.md`（設計と、決定の記録。1〜22章）、`docs/standards.md`（コーディングの決まり）、`docs/deploy.md`（デプロイ）、`docs/design.md`（最初の方針と、実験の要約）、`experiments/clef-mention/README.md`（AI の精度の実験）。
 
@@ -20,7 +20,7 @@ SvelteKit 3（Svelte 5）+ `@sveltejs/adapter-cloudflare` 8、Cloudflare Workers
 
 - `src/lib/server/` … 業務の中心（`opencritic.ts`・`critics.ts`・`critic-sync.ts` 専門家の評価の取得と保存、`reading.ts` 読み取り、`stats.ts` 集計、`reviews.ts` 投稿・編集・通報、`auth.ts` passkey と復旧、`tags.ts` タグ、`pages.ts` 画面の問い合わせ、`inbox.ts` 受信箱）。D1 を使う単体テストが、ここにある。
 - `src/routes/` … 画面とフォームの処理。`src/hooks.server.ts` が、`/admin` を守る（フォームの処理は、レイアウトの `load` を通らないため、ここで確かめる）。
-- `migrations/` … 0001〜0006（本番に適用済み。0006 は専門家の欄、2026-11-21）と、0007（取得の枠と進み具合。22.9。2026-11-22 に本番へ適用した）。**本番に適用済みのファイルは、書き換えない**（変えるときは、新しい番号を足す）。
+- `migrations/` … 0001〜0006（本番に適用済み。0006 は専門家の欄、2026-11-21）と、0007（取得の枠と進み具合。22.9。2026-11-22 に本番へ適用した）と、0008（星の集計の表 `aspect_star_stats`。20.8。**未適用**）。**本番に適用済みのファイルは、書き換えない**（変えるときは、新しい番号を足す）。
 - `src/lib/styles/tokens.css`、`app.css` … 見た目。**デザインの正は、`tokens.css`**。
 - インポートは、`#server/...`、`#components/...`、`#styles/...`、`#messages`、`#passkey`（`package.json` の `imports`）。`$lib` は、使えない（拡張子なしの `.ts` を、`#lib/*` が解決しないため）。
 
@@ -39,7 +39,7 @@ SvelteKit 3（Svelte 5）+ `@sveltejs/adapter-cloudflare` 8、Cloudflare Workers
 npm test                     # 単体テスト（約 180 件、30〜40秒）
 npm run check                # 型と Svelte の検査
 npm run dev:worker           # ビルドして、wrangler dev（ローカル）
-npm run e2e                  # ブラウザの通し（AI なし。空の DB と、.dev.vars の ADMIN_TOKEN=local-test-token が要る）
+npm run e2e                  # ブラウザの通し（AI なし。空の DB と、.dev.vars の ADMIN_TOKEN=local-test-token が要る。星の棒も見るときは、環境変数 E2E_D1_DIR に、wrangler dev の --persist-to のディレクトリを渡す）
 npm run e2e:passkey          # パスキーと復旧の通し（仮想認証器。WRANGLER_LOG に、wrangler dev の出力ファイルを渡す）
 scripts/deploy.sh --build-only   # 作業用コピーで、ビルドだけ（本番に触らない）
 ```
@@ -72,9 +72,9 @@ Playwright は、グローバルに入っている（依存に入れていない
 
 - GitHub の既定のブランチは `claude/adoring-euler-d7rb8d`（引き継ぎの文書だけ。`main` は、ない）。
 - **統合ブランチ: `claude/integration-9ugqua`。新しい作業は、ここから始める。** 本番のコード（`trusting-pascal`）、星の実装（`youthful-faraday`）、星の実験と設計書（`admiring-newton`）、共有表示（`share-preview-trial`）、仕事の任せ方（`tender-cannon`）を、マージ済み。型の検査 0 エラー、単体テスト 215 件、ビルドが通る。
-- **専門家の欄（`claude/opencritic-expert-reviews-biegyr`）を、統合ブランチに取り込み済み**（2026-11-21。データと取得まで。マイグレーション 0006、`opencritic.ts`、`critic-sync.ts`、`critics.ts`、`question-sets/critic-v1.ts`、管理画面。画面の部品は保留。`docs/mvp-design.md` の 22.8、`docs/critics-plan.md`）。単体テスト 284 件。**新しいマイグレーションは 0008 から**（0006 は、本番に適用済み）。
+- **専門家の欄（`claude/opencritic-expert-reviews-biegyr`）を、統合ブランチに取り込み済み**（2026-11-21。データと取得まで。マイグレーション 0006、`opencritic.ts`、`critic-sync.ts`、`critics.ts`、`question-sets/critic-v1.ts`、管理画面。画面の部品は保留。`docs/mvp-design.md` の 22.8、`docs/critics-plan.md`）。単体テスト 284 件。**新しいマイグレーションは 0009 から**（0006、0007 は本番に適用済み。0008 は未適用）。
 - 統合しなかったもの: `epic-pasteur`（デザインの試し。`trusting-pascal` が同じ場所を作り直した。※推測）、`brave-davinci`（GTA6 のローンチ準備。古い土台で衝突が多い。必要な部分だけ、取り込み直す）、`jolly-einstein`（別のプロジェクト pnn。PR #1）、`clef-experiment-hc0s6m`（中身は既定に含まれている）。
-- 本番にデプロイされているのは、枠ごとの取得の版（2026-11-22。上の「本番の状態」）。**新しいマイグレーションは 0008 から。**
+- 本番にデプロイされているのは、枠ごとの取得の版（2026-11-22。上の「本番の状態」）。**新しいマイグレーションは 0009 から。**
 - `docs/mvp-design.md` の章番号は、統合のとき、重なった（19が3つ）ので、振り直した。**次は 23 章から。** 章を足すときは、最後の番号を確かめる。
 
 ## 未決・次の候補
@@ -83,5 +83,5 @@ Playwright は、グローバルに入っている（依存に入れていない
 - 「何を魅力として見せるか」（プロダクトとしての見せ方と機能）。
 - 規約とプライバシーの草案の、法律の確認と、運営者の表記（ユーザー）。
 - 追加のタグとソフトウェアのタグの精度（正解付きのデータがない）。
-- **星の実装**（20.7）: 質問セット `game-v2`、既存のレビューの読み直し、集計（マイグレーション 0008）、順位、画面（`Dist.svelte` の置き換え）。星2・星4 の色を決める。
+- **星の実装**（20.7、20.8）: コードは入れた。**残り: レビューのあと、デプロイ（`scripts/deploy.sh --migrate`。ユーザーの依頼があるとき）。** デプロイ後に、本番で星が出るか（Clef の応答の形、言及と星の件数）を確かめる。本番のテスト用レビューは、ユーザーが消してよいと言っている（消すのは、ユーザーの依頼があるとき）。専門家の欄の画面は、`StarDist.svelte` を使う。
 - **専門家の欄:** 決定は 22 章（OpenCritic の API → Clef。結果だけ保存）。**データと取得は、実装・デプロイ済み（22.8。キーも入れた）。作品ページの画面は、星の共通コンポーネントを決めてから。** **最初の時間帯（2026-11-22 UTC 17:00〜）の結果を確かめる**: ログの `critic_sync`（枠ごと。`day` の合計）、`critic_sync_failed` に D1 の上限のエラーがないか（実行ごとの枠の確認。22.9 の未確認）、`critic_slots` と `critic_reviews` の件数、Clef の使用量。未確認: OpenCritic の応答の並び順、Workers の通信数（50 と記憶）、cron の数、D1 の問い合わせ数が上限に収まるか（上限は、無料で 50。既定の上限を下げた）。専門家の持ち込み、作り手への開放は、未決。
