@@ -152,7 +152,8 @@ async function reviewRows(
 		duplicate: r.duplicate === 1,
 		edited: r.revisions > 1,
 		reads: results.flatMap((x) => {
-			const star = x.revisionId === r.revisionId ? parseStarScore(x.probsJson) : null;
+			// 集計と同じく、段階ごとの確率が読めた答えだけを出す（棒と、レビューごとの星が食い違わないように）。
+			const star = x.revisionId === r.revisionId && parseStarLevels(x.probsJson) ? parseStarScore(x.probsJson) : null;
 			return star === null ? [] : [{ tagId: x.tagId, label: label(x.tagId), star }];
 		})
 	}));

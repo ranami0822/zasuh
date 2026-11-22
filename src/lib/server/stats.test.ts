@@ -1,6 +1,7 @@
 import type { D1Database } from '@cloudflare/workers-types';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { readRevision } from './reading';
+import { setWorkTags } from './tags';
 import { starSummary } from './star-stats';
 import { OVERALL, ranking, recomputeWorkStats } from './stats';
 import { addReview, addWork, answersFor, createClock, createTestDb, fakeClef } from './testing/db';
@@ -94,6 +95,37 @@ describe('集計と順位', () => {
 		const g = (await stats(work))['game/gameplay'];
 		expect(g.n_mention).toBe(1);
 		expect(g.mean).toBeCloseTo(starSummary([{ levels: levelsOf('negative') }]).mean!, 9);
+	});
+
+	it('総合には、分野のタグの答えだけを入れる。追加のタグは、そのタグの行にだけ入る', async () => {
+		const work = await addWork(db);
+		await setWorkTags(db, { id: work, category: 'game' }, ['game/story'], clock.now());
+		await post(work, { gameplay: 'positive', story: 'positive' });
+		const s = await stats(work);
+		expect(s['game/story'].n_mention).toBe(1);
+		expect(s['game/gameplay'].n_mention).toBe(1);
+		expect(s[OVERALL].n_mention).toBe(1); // 追加のタグを混ぜると、2 になる
+	});
+
+	it('ほかと文面がほぼ同じレビュー（duplicate_of）は数えない', async () => {
+		const work = await addWork(db);
+		const first = await post(work, { gameplay: 'positive' });
+		const copy = await post(work, { gameplay: 'positive' });
+		await db.prepare('UPDATE reviews SET duplicate_of = ? WHERE id = ?').bind(first.reviewId, copy.reviewId).run();
+		await recomputeWorkStats(db, work, clock.now());
+		expect((await stats(work))['game/gameplay'].n_mention).toBe(1);
+	});
+
+	it('段階ごとの確率を読めない答え（levels が null、JSON が壊れている）は、数えない', async () => {
+		const work = await addWork(db);
+		await post(work, { gameplay: 'positive' });
+		await post(work, { gameplay: 'positive' });
+		await post(work, { gameplay: 'positive' });
+		const { results } = await db.prepare("SELECT reading_id AS id FROM reading_answers WHERE question_key = 'gameplay_star' ORDER BY rowid").all<{ id: string }>();
+		await db.prepare("UPDATE reading_answers SET probs_json = ? WHERE reading_id = ? AND question_key = 'gameplay_star'").bind('{"score":4.5,"levels":null,"confidence":0.5}', results[0].id).run();
+		await db.prepare("UPDATE reading_answers SET probs_json = ? WHERE reading_id = ? AND question_key = 'gameplay_star'").bind('{壊れた', results[1].id).run();
+		await recomputeWorkStats(db, work, clock.now());
+		expect((await stats(work))['game/gameplay'].n_mention).toBe(1);
 	});
 
 	it('件数が 5 以上なら幅（se）を出し、控えめな値は 平均 - 1.96 × 幅', async () => {

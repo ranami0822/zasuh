@@ -250,18 +250,6 @@ button.tag:hover {
 	background: var(--ink);
 	color: var(--on-ink);
 }
-.tag.pos {
-	background: var(--sentiment-5-tint);
-	color: var(--sentiment-5-text);
-}
-.tag.neg {
-	background: var(--sentiment-1-tint);
-	color: var(--sentiment-1-text);
-}
-.tag.mix {
-	background: var(--sentiment-3-tint);
-	color: var(--sentiment-3-text);
-}
 .tag svg {
 	width: 12px;
 	height: 12px;
@@ -436,18 +424,13 @@ button.tag:hover {
 	border-radius: 0;
 	opacity: 1;
 }
-.dist__count,
-.dist.row .dist__mean {
+.dist__tail {
 	flex: none;
+	min-width: 72px;
 	text-align: right;
+	white-space: nowrap;
 	font-size: var(--fs-caption);
 	color: var(--text-muted);
-}
-.dist__count {
-	width: 28px;
-}
-.dist.row .dist__mean {
-	width: 24px;
 }
 /* 星ごとの色（棒、月ごとの変化、タグの点で共通）。 */
 .s1 {

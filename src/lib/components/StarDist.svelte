@@ -51,7 +51,6 @@
 		</p>
 	{/if}
 	{#if size === 'row'}
-		{#if mean !== null}<span class="dist__mean num">{meanText}</span>{/if}
-		<span class="dist__count num">{n}</span>
+		<span class="dist__tail num" title="星の平均と、言及の件数">{#if mean !== null}★{meanText}&ensp;{/if}{n}件</span>
 	{/if}
 </div>
