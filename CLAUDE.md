@@ -16,11 +16,11 @@
 
 ## 構成
 
-SvelteKit 3（Svelte 5）+ `@sveltejs/adapter-cloudflare` 8、Cloudflare Workers、D1（SQLite）、Workers AI（Clef-flash）、Cron（毎分。専門家の評価の取得も、この中で、UTC 17:00〜21:00 の 5 分の枠ごとに呼ぶ。`docs/mvp-design.md` の 22.9。**本番は、まだ旧版（UTC 18:17〜18:19 に 1 日 1 回）**）。UI の部品は ui-sdk（`@ui-sdk/svelte`）。passkey は SimpleWebAuthn。
+SvelteKit 3（Svelte 5）+ `@sveltejs/adapter-cloudflare` 8、Cloudflare Workers、D1（SQLite）、Workers AI（Clef-flash）、Cron（毎分。専門家の評価の取得も、この中で、UTC 17:00〜21:00 の 5 分の枠ごとに呼ぶ。`docs/mvp-design.md` の 22.9。2026-11-22 に本番へ反映した）。UI の部品は ui-sdk（`@ui-sdk/svelte`）。passkey は SimpleWebAuthn。
 
 - `src/lib/server/` … 業務の中心（`opencritic.ts`・`critics.ts`・`critic-sync.ts` 専門家の評価の取得と保存、`reading.ts` 読み取り、`stats.ts` 集計、`reviews.ts` 投稿・編集・通報、`auth.ts` passkey と復旧、`tags.ts` タグ、`pages.ts` 画面の問い合わせ、`inbox.ts` 受信箱）。D1 を使う単体テストが、ここにある。
 - `src/routes/` … 画面とフォームの処理。`src/hooks.server.ts` が、`/admin` を守る（フォームの処理は、レイアウトの `load` を通らないため、ここで確かめる）。
-- `migrations/` … 0001〜0006（本番に適用済み。0006 は専門家の欄、2026-11-21）と、0007（取得の枠と進み具合。**本番には未適用**。22.9）。**本番に適用済みのファイルは、書き換えない**（変えるときは、新しい番号を足す）。
+- `migrations/` … 0001〜0006（本番に適用済み。0006 は専門家の欄、2026-11-21）と、0007（取得の枠と進み具合。22.9。2026-11-22 に本番へ適用した）。**本番に適用済みのファイルは、書き換えない**（変えるときは、新しい番号を足す）。
 - `src/lib/styles/tokens.css`、`app.css` … 見た目。**デザインの正は、`tokens.css`**。
 - インポートは、`#server/...`、`#components/...`、`#styles/...`、`#messages`、`#passkey`（`package.json` の `imports`）。`$lib` は、使えない（拡張子なしの `.ts` を、`#lib/*` が解決しないため）。
 
@@ -61,8 +61,8 @@ Playwright は、グローバルに入っている（依存に入れていない
 
 ## 本番の状態（2026-11-21 に更新）
 
-- Worker `zasuh`、D1 `zasuh`（ID は `wrangler.jsonc`）、`review.anami.party`（カスタムドメイン）。`workers.dev` は、無効。マイグレーションは、0001〜0006 を適用済み。**2026-11-21 に、`claude/opencritic-expert-reviews-biegyr`（2e63e2b）をデプロイした**（バージョン 0565e095。トップ、`/admin` の転送、ログインなしの POST の 403、ヘッダ、作品ページと共有表示を確認）。
-- シークレット: `ADMIN_TOKEN` と `OPENCRITIC_API_KEY`（RapidAPI のキー。2026-11-21 に入れた。専門家の取得は、毎日 UTC 18:17〜18:19 に動く。値は、前後に引用符を付けずに入れる）。`ADMIN_TOKEN` は（管理画面の合言葉。**リポジトリにも、この文書にもない。ユーザーが持っている**。変えるときは、`scripts/cf.sh secret put ADMIN_TOKEN`）。
+- Worker `zasuh`、D1 `zasuh`（ID は `wrangler.jsonc`）、`review.anami.party`（カスタムドメイン）。`workers.dev` は、無効。マイグレーションは、0001〜0007 を適用済み。**2026-11-22 に、`claude/critics-incremental-sync-4zuu0a`（1f9f553）を、`--migrate` でデプロイした**（バージョン b5b8b8e5。トップ 200、`/admin` の転送、ログインなしの POST の 403、ヘッダ、`critic_slots` の表を確認）。前は、2026-11-21 の 2e63e2b（バージョン 0565e095）。
+- シークレット: `ADMIN_TOKEN` と `OPENCRITIC_API_KEY`（RapidAPI のキー。2026-11-21 に入れた。専門家の取得は、毎日 UTC 17:00〜21:00 の 5 分おきに動く（22.9）。値は、前後に引用符を付けずに入れる）。`ADMIN_TOKEN` は（管理画面の合言葉。**リポジトリにも、この文書にもない。ユーザーが持っている**。変えるときは、`scripts/cf.sh secret put ADMIN_TOKEN`）。
 - **メール送信は、ない**（Workers の有料プランが要るため、ユーザーは、有料にしない）。復旧は、**復旧コード**。メール復旧の実装は、残してあり、送り口（`EMAIL`、`MAIL_FROM`）がないので、画面に出ない。
 - 本番に、ユーザーが作ったデータ（作品 OMORI など）が、ある。**テストでデータを消すときは、自分が作ったものだけを消す**（全消しの SQL は、使わない）。
 
@@ -72,7 +72,7 @@ Playwright は、グローバルに入っている（依存に入れていない
 - **統合ブランチ: `claude/integration-9ugqua`。新しい作業は、ここから始める。** 本番のコード（`trusting-pascal`）、星の実装（`youthful-faraday`）、星の実験と設計書（`admiring-newton`）、共有表示（`share-preview-trial`）、仕事の任せ方（`tender-cannon`）を、マージ済み。型の検査 0 エラー、単体テスト 215 件、ビルドが通る。
 - **専門家の欄（`claude/opencritic-expert-reviews-biegyr`）を、統合ブランチに取り込み済み**（2026-11-21。データと取得まで。マイグレーション 0006、`opencritic.ts`、`critic-sync.ts`、`critics.ts`、`question-sets/critic-v1.ts`、管理画面。画面の部品は保留。`docs/mvp-design.md` の 22.8、`docs/critics-plan.md`）。単体テスト 284 件。**新しいマイグレーションは 0008 から**（0006 は、本番に適用済み）。
 - 統合しなかったもの: `epic-pasteur`（デザインの試し。`trusting-pascal` が同じ場所を作り直した。※推測）、`brave-davinci`（GTA6 のローンチ準備。古い土台で衝突が多い。必要な部分だけ、取り込み直す）、`jolly-einstein`（別のプロジェクト pnn。PR #1）、`clef-experiment-hc0s6m`（中身は既定に含まれている）。
-- 本番にデプロイされているのは、専門家の欄の版（2026-11-21。上の「本番の状態」）。以前は、`trusting-pascal` の版だった。**新しいマイグレーションは 0008 から。**
+- 本番にデプロイされているのは、枠ごとの取得の版（2026-11-22。上の「本番の状態」）。**新しいマイグレーションは 0008 から。**
 - `docs/mvp-design.md` の章番号は、統合のとき、重なった（19が3つ）ので、振り直した。**次は 23 章から。** 章を足すときは、最後の番号を確かめる。
 
 ## 未決・次の候補
@@ -82,4 +82,4 @@ Playwright は、グローバルに入っている（依存に入れていない
 - 規約とプライバシーの草案の、法律の確認と、運営者の表記（ユーザー）。
 - 追加のタグとソフトウェアのタグの精度（正解付きのデータがない）。
 - **星の実験の続き**（第7弾）: 2日目の実行（S1-V2、S1-order、B0-V2。無料枠が戻る 00:00 UTC のあと）、画面の試作、順位の付け方（平均の信頼区間の下限）。
-- **専門家の欄:** 決定は 22 章（OpenCritic の API → Clef。結果だけ保存）。**データと取得は、実装・デプロイ済み（22.8。キーも入れた）。作品ページの画面は、星の共通コンポーネントを決めてから。** 最初の取得（UTC 18:17〜）の結果（ログの `critic_sync`、`critic_reviews` の件数）を確かめる。未確認: OpenCritic の応答の並び順、Workers の通信数（50 と記憶）、cron の数、D1 の問い合わせ数が上限に収まるか（上限は、無料で 50。既定の上限を下げた）。専門家の持ち込み、作り手への開放は、未決。
+- **専門家の欄:** 決定は 22 章（OpenCritic の API → Clef。結果だけ保存）。**データと取得は、実装・デプロイ済み（22.8。キーも入れた）。作品ページの画面は、星の共通コンポーネントを決めてから。** **最初の時間帯（2026-11-22 UTC 17:00〜）の結果を確かめる**: ログの `critic_sync`（枠ごと。`day` の合計）、`critic_sync_failed` に D1 の上限のエラーがないか（実行ごとの枠の確認。22.9 の未確認）、`critic_slots` と `critic_reviews` の件数、Clef の使用量。未確認: OpenCritic の応答の並び順、Workers の通信数（50 と記憶）、cron の数、D1 の問い合わせ数が上限に収まるか（上限は、無料で 50。既定の上限を下げた）。専門家の持ち込み、作り手への開放は、未決。
