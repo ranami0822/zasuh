@@ -456,23 +456,43 @@ button.tag:hover {
 	--star: var(--sentiment-5-fill);
 }
 .dist__bar > i,
-.months__col > i,
-.star-tag__dot {
+.months__col > i {
 	background: var(--star);
 }
+/* レビューごとの読み取り: 「星アイコン 数字 観点名」。星と数字だけ濃く、観点名は薄い。箱や色の四角は付けない。 */
 .star-tag {
-	/* レビューが、どう読み取られたか。星の色を薄く敷いて、一目で分かるようにする。 */
-	background: color-mix(in srgb, var(--star) 22%, var(--surface));
-	color: var(--text);
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-2);
+	font-size: var(--fs-ui);
+	line-height: 1.4;
 }
-.star-tag b {
+.star-tag__score {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-1);
+	color: var(--ink);
+}
+.star-tag__score svg {
+	width: 16px;
+	height: 16px;
+	flex: none;
+}
+.star-tag__score b {
 	font-weight: 700;
 }
-.star-tag__dot {
-	display: inline-block;
-	width: 10px;
-	height: 10px;
-	flex: none;
+.star-tag__label {
+	color: var(--text-muted);
+}
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
 }
 
 /* 観点ごとの行: 名前、小さな棒、件数 */
@@ -645,7 +665,6 @@ button.tag:hover {
 	width: 22px;
 	height: 22px;
 	flex: none;
-	transition: transform var(--dur-press) var(--ease-standard);
 }
 .chevron.open,
 .rating__fold[open] .chevron {
@@ -743,6 +762,8 @@ button.tag:hover {
 }
 .iconbtn {
 	align-self: flex-start;
+	/* アイコンの左端を、本文の左端にそろえる（ボタンは、押しやすいように 44px、アイコンは 22px）。 */
+	margin-inline-start: calc((22px - var(--size-control)) / 2);
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;

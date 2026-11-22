@@ -170,7 +170,9 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) process
     const caption = await a.textContent('.dist.hero .dist__caption');
     ok(/平均\s*3\.2/.test(caption) && /±\s*0\.6/.test(caption), 'hero shows the mean and the spread: ' + caption.replace(/\s+/g, ' ').trim());
     const chips = await a.$$eval('article .star-tag', (els) => els.map((e) => e.textContent.replace(/\s+/g, ' ').trim()));
-    ok(chips.length === 2 && /ゲーム性・内容 星 4\.6/.test(chips[0]) && /音楽・音 星 2\.2/.test(chips[1]), 'the review shows how it was read (star chips): ' + chips.join(' | '));
+    ok(chips.length === 2 && /星 ?4\.6 ゲーム性・内容/.test(chips[0]) && /星 ?2\.2 音楽・音/.test(chips[1]), 'the review shows how it was read (star icon, number, aspect): ' + chips.join(' | '));
+    const chipLook = await a.$eval('article .star-tag', (e) => { const sc = e.querySelector('.star-tag__score'), lb = e.querySelector('.star-tag__label'); return { box: getComputedStyle(e).backgroundColor, svg: !!sc.querySelector('svg'), first: sc.getBoundingClientRect().left < lb.getBoundingClientRect().left, scoreColor: getComputedStyle(sc).color, labelColor: getComputedStyle(lb).color }; });
+    ok(chipLook.box === 'rgba(0, 0, 0, 0)' && chipLook.svg && chipLook.first && chipLook.scoreColor !== chipLook.labelColor, 'the chip has no box or colour square; the star icon and number come first, darker than the label: ' + JSON.stringify(chipLook));
     const legend = await a.textContent('.dist__legend');
     ok(/星1.*星2.*星3.*星4.*星5/.test(legend), 'legend lists stars 1 to 5');
     const rows = await a.$$eval('.tagrow', (els) => els.map((e) => ({ text: e.textContent.replace(/\s+/g, ' ').trim(), height: e.querySelector('.dist__bar') && getComputedStyle(e.querySelector('.dist__bar')).height, opacity: e.querySelector('.dist__bar') && getComputedStyle(e.querySelector('.dist__bar')).opacity })));
