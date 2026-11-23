@@ -1,6 +1,6 @@
 /**
  * 日本語版 Wikipedia の要約の取得（docs/mvp-design.md の 25 章）。D1 を知らない。
- * 記事は、検索（MediaWiki Action API の list=search。本文の全文検索）の上位 5 件のうち、記事名が作品名と合い、要約にゲームの語があるもの（titleMatches、isGameArticle）。合うものがなければ、取らない（別の記事を出すより、空のほうがよい）。要約は、REST API の page/summary。
+ * 記事は、①英語版の検索で、作品名に合う記事を見つけ、その日本語版の記事（langlinks）をたどる。なければ、②日本語版の検索（list=search。本文の全文検索）の上位 5 件のうち、記事名が作品名と合い、要約にゲームの語があるもの（titleMatches、isGameArticle）。合うものがなければ、取らない（別の記事を出すより、空のほうがよい）。要約は、REST API の page/summary。
  * 取れた文は、作品の紹介文の案になる。そのまま使うので、出典（記事名と URL）と許諾（CC BY-SA）を、画面に出す。
  * 候補は、運営者が承認する前に、記事名と文を見る（別の記事に当たることがある）。
  */
@@ -18,6 +18,7 @@ export interface WikipediaClient {
 }
 
 const HOST = 'https://ja.wikipedia.org';
+const EN_HOST = 'https://en.wikipedia.org';
 
 /** 要約の応答を読む。標準の記事（type: standard）で、題・文・URL が揃うものだけ。 */
 export function parseSummary(json: unknown): WikiSummary | null {
@@ -42,6 +43,36 @@ export function parseSearchTitles(json: unknown): string[] {
 		if (typeof title === 'string' && title.trim() !== '') out.push(title.trim());
 	}
 	return out;
+}
+
+/** 英語版の検索の 1 件。ja は、日本語版の記事名（なければ null）。 */
+export interface EnPage {
+	title: string;
+	index: number;
+	ja: string | null;
+}
+
+/**
+ * 英語版の検索（generator=search、prop=langlinks、formatversion=2）の応答を読む。順位（index）の順に返す。
+ * langlinks の記事名は、formatversion=2 では title。古い形の '*' も読む。
+ * 形は、公式の資料と記憶によるもので、実際の応答では未確認（docs/mvp-design.md の 25.6）。
+ */
+export function parseEnPages(json: unknown): EnPage[] {
+	const pages = (json as { query?: { pages?: unknown } } | null)?.query?.pages;
+	if (!Array.isArray(pages)) return [];
+	const out: EnPage[] = [];
+	for (const p of pages) {
+		const o = p as { title?: unknown; index?: unknown; langlinks?: unknown } | null;
+		if (typeof o?.title !== 'string' || o.title.trim() === '') continue;
+		let ja: string | null = null;
+		if (Array.isArray(o.langlinks)) {
+			const link = o.langlinks.find((l) => (l as { lang?: unknown } | null)?.lang === 'ja') as { title?: unknown; '*'?: unknown } | undefined;
+			const t = link?.title ?? link?.['*'];
+			if (typeof t === 'string' && t.trim() !== '') ja = t.trim();
+		}
+		out.push({ title: o.title.trim(), index: typeof o.index === 'number' ? o.index : 99, ja });
+	}
+	return out.sort((a, b) => a.index - b.index);
 }
 
 /** 大文字小文字、全角半角、空白、記号を無視した形（文字と数字だけ残す）。 */
@@ -89,7 +120,17 @@ export function createWikipediaClient(opts: { fetch?: typeof fetch; timeoutMs?: 
 		async findSummary(name) {
 			const q = name.trim();
 			if (q === '') return null;
-			const found = await getJson(`${HOST}/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(q)}&srlimit=1&format=json&origin=*`);
+			// 1. 英語版で、作品名に合う記事を探し、その日本語版の記事名をたどる（作品名は英語のことが多く、日本語版の記事名は、カタカナなどで違うため）。
+			const en = await getJson(
+				`${EN_HOST}/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(q)}&gsrlimit=5&prop=langlinks&lllang=ja&lllimit=5&format=json&formatversion=2&origin=*`
+			);
+			const linked = parseEnPages(en).find((p) => p.ja !== null && titleMatches(p.title, q));
+			if (linked?.ja) {
+				const summary = parseSummary(await getJson(`${HOST}/api/rest_v1/page/summary/${encodeURIComponent(linked.ja)}`));
+				if (summary && isGameArticle(summary.extract)) return summary;
+			}
+			// 2. 日本語版を、直接探す（英語版に記事がない、または日本語版への結びつきがないとき）。
+			const found = await getJson(`${HOST}/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(q)}&srlimit=5&format=json&origin=*`);
 			const titles = parseSearchTitles(found).filter((t) => titleMatches(t, q)).slice(0, MAX_SUMMARY_FETCHES);
 			for (const title of titles) {
 				const summary = parseSummary(await getJson(`${HOST}/api/rest_v1/page/summary/${encodeURIComponent(title)}`));

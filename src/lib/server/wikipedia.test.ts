@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createWikipediaClient, isGameArticle, parseSearchTitles, parseSummary, titleMatches } from './wikipedia';
+import { createWikipediaClient, isGameArticle, parseEnPages, parseSearchTitles, parseSummary, titleMatches } from './wikipedia';
 
 const summary = { type: 'standard', title: 'OMORI', extract: 'OMORIは、ゲームです。', content_urls: { desktop: { page: 'https://ja.wikipedia.org/wiki/OMORI' } } };
 
@@ -39,7 +39,38 @@ describe('wikipedia', () => {
 			}) as unknown as typeof fetch
 		});
 		expect(await client.findSummary('Silksong')).toBeNull();
-		expect(urls).toHaveLength(1);
+		expect(urls.every((u) => !u.includes('/page/summary/'))).toBe(true);
+	});
+
+	it('英語版の検索の応答を、順位の順に読む。日本語版の記事名つき', () => {
+		const pages = [
+			{ title: 'Other', index: 2, langlinks: [{ lang: 'ja', title: '別' }] },
+			{ title: 'The Legend of Zelda: Ocarina of Time', index: 1, langlinks: [{ lang: 'ja', title: 'ゼルダの伝説 時のオカリナ' }] },
+			{ title: 'No link', index: 3 }
+		];
+		expect(parseEnPages({ query: { pages } }).map((p) => [p.title, p.ja])).toEqual([
+			['The Legend of Zelda: Ocarina of Time', 'ゼルダの伝説 時のオカリナ'],
+			['Other', '別'],
+			['No link', null]
+		]);
+		expect(parseEnPages(null)).toEqual([]);
+	});
+
+	it('英語版の記事から、日本語版の記事の要約を取る（英語名と日本語の記事名が違うとき）', async () => {
+		const seen: string[] = [];
+		const client = createWikipediaClient({
+			fetch: (async (u: string) => {
+				seen.push(u);
+				if (u.startsWith('https://en.wikipedia.org')) {
+					return Response.json({ query: { pages: [{ title: 'The Legend of Zelda: Ocarina of Time', index: 1, langlinks: [{ lang: 'ja', title: 'ゼルダの伝説 時のオカリナ' }] }] } });
+				}
+				return Response.json({ type: 'standard', title: 'ゼルダの伝説 時のオカリナ', extract: 'ゲームです。', content_urls: { desktop: { page: 'https://ja.wikipedia.org/wiki/x' } } });
+			}) as unknown as typeof fetch
+		});
+		const r = await client.findSummary('The Legend of Zelda: Ocarina of Time');
+		expect(r?.title).toBe('ゼルダの伝説 時のオカリナ');
+		expect(seen).toHaveLength(2);
+		expect(seen[1]).toContain(encodeURIComponent('ゼルダの伝説 時のオカリナ'));
 	});
 
 	it('検索してから要約を取る。失敗は null（例外にしない）', async () => {
@@ -47,11 +78,12 @@ describe('wikipedia', () => {
 		const ok = createWikipediaClient({
 			fetch: (async (u: string) => {
 				urls.push(u);
+				if (u.startsWith('https://en.wikipedia.org')) return Response.json({ query: {} });
 				return Response.json(u.includes('/w/api.php') ? { query: { search: [{ title: 'OMORI' }] } } : summary);
 			}) as unknown as typeof fetch
 		});
 		expect((await ok.findSummary('OMORI'))?.title).toBe('OMORI');
-		expect(urls[1]).toContain('/page/summary/OMORI');
+		expect(urls[2]).toContain('/page/summary/OMORI');
 		const down = createWikipediaClient({ fetch: (async () => { throw new Error('x'); }) as unknown as typeof fetch });
 		expect(await down.findSummary('OMORI')).toBeNull();
 		expect(await ok.findSummary('  ')).toBeNull();
