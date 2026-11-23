@@ -812,6 +812,12 @@ button.tag:hover {
 		color: var(--star-text);
 	}
 }
+/* 帯と一覧の「★」の記号は、上の棒と同じ5色（星の等級ごとの塗り）にする。数字は、読み取り用の淡い色のまま。 */
+.critic__score.s1 > [aria-hidden='true'] { color: var(--sentiment-1-fill); }
+.critic__score.s2 > [aria-hidden='true'] { color: var(--sentiment-2-fill); }
+.critic__score.s3 > [aria-hidden='true'] { color: var(--sentiment-3-fill); }
+.critic__score.s4 > [aria-hidden='true'] { color: var(--sentiment-4-fill); }
+.critic__score.s5 > [aria-hidden='true'] { color: var(--sentiment-5-fill); }
 .critic__aspect {
 	display: inline-flex;
 	align-items: baseline;
