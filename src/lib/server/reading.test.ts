@@ -5,7 +5,7 @@ import { toClefQuestions } from './question-sets';
 import { gameV1 } from './question-sets/game-v1';
 import { gameV2 } from './question-sets/game-v2';
 import type { StarQuestion } from './question-sets/types';
-import type { TagRegistry } from './tags';
+import { REGISTRY, type TagRegistry } from './tags';
 import { backoffMs, interpretAnswers, LEASE_MS, MAX_ATTEMPTS, readRevision, readText } from './reading';
 import realResponse from './testing/clef-response.json';
 import { addReview, addWork, clefAnswers, createClock, createTestDb, fakeClef, registryWithoutSoftwareDomain } from './testing/db';
@@ -290,6 +290,82 @@ describe('readRevision', () => {
 		expect(await readRevision({ db, clef: fakeClef(), now: clock.now }, 'missing')).toEqual({
 			status: 'skipped',
 			reason: 'not_found'
+		});
+	});
+
+	describe('読み直し（reread）', () => {
+		// 星を入れる前の登録（ゲームの分野のタグが v1 = 向きと言及）。
+		const v1Registry: TagRegistry = { ...REGISTRY, tags: REGISTRY.tags.filter((t) => t.version === 1) };
+		const readingsOf = async (revisionId: string) =>
+			(
+				await db
+					.prepare('SELECT id, question_set_id, status FROM readings WHERE revision_id = ? ORDER BY created_at, question_set_id')
+					.bind(revisionId)
+					.all<{ id: string; question_set_id: number; status: string }>()
+			).results;
+		const kindsOf = async (readingId: string) =>
+			(
+				await db
+					.prepare('SELECT kind, COUNT(*) AS n FROM reading_answers WHERE reading_id = ? GROUP BY kind ORDER BY kind')
+					.bind(readingId)
+					.all<{ kind: string; n: number }>()
+			).results;
+
+		it('別の質問の組で読めた版を、いまの質問の組で読み直し、星を保存する。古い読み取りは残る', async () => {
+			const work = await addWork(db);
+			const { revisionId } = await addReview(db, work, { body: '{"gameplay":"positive"}' });
+			const clef = fakeClef();
+			const old = await readRevision({ db, clef, now: clock.now, registry: v1Registry }, revisionId);
+			expect(old.status).toBe('ok');
+
+			const outcome = await readRevision({ db, clef, now: clock.now }, revisionId, { reread: true });
+
+			expect(outcome.status).toBe('ok');
+			expect(clef.calls).toHaveLength(2);
+			const rows = await readingsOf(revisionId);
+			expect(rows).toHaveLength(2);
+			expect(rows.every((r) => r.status === 'ok')).toBe(true);
+			expect(new Set(rows.map((r) => r.question_set_id)).size).toBe(2);
+			const oldId = (old as { readingId: string }).readingId;
+			const newId = (outcome as { readingId: string }).readingId;
+			expect(await kindsOf(oldId)).toEqual([
+				{ kind: 'direction', n: 4 },
+				{ kind: 'mention', n: 4 }
+			]);
+			expect(await kindsOf(newId)).toEqual([
+				{ kind: 'mention', n: 4 },
+				{ kind: 'star', n: 4 }
+			]);
+			// 読めたあとに、作品の星の集計が作り直される。
+			const stats = await db
+				.prepare("SELECT tag_id, n_mention FROM aspect_star_stats WHERE work_id = ? AND tag_id = 'game/gameplay'")
+				.bind(work)
+				.first();
+			expect(stats).toEqual({ tag_id: 'game/gameplay', n_mention: 1 });
+		});
+
+		it('reread を付けなければ、別の質問の組で読めた版は、今までどおり読まない', async () => {
+			const { revisionId } = await addReview(db, await addWork(db), { body: '{"gameplay":"positive"}' });
+			const clef = fakeClef();
+			await readRevision({ db, clef, now: clock.now, registry: v1Registry }, revisionId);
+
+			expect(await readRevision({ db, clef, now: clock.now }, revisionId)).toEqual({ status: 'skipped', reason: 'busy_or_done' });
+			expect(clef.calls).toHaveLength(1);
+			expect(await readingsOf(revisionId)).toHaveLength(1);
+		});
+
+		it('同じ版を2回読み直しても、いまの質問の組の読み取りは1つだけ（2回目は読まない）', async () => {
+			const { revisionId } = await addReview(db, await addWork(db), { body: '{"gameplay":"positive"}' });
+			const clef = fakeClef();
+			await readRevision({ db, clef, now: clock.now, registry: v1Registry }, revisionId);
+
+			expect((await readRevision({ db, clef, now: clock.now }, revisionId, { reread: true })).status).toBe('ok');
+			expect(await readRevision({ db, clef, now: clock.now }, revisionId, { reread: true })).toEqual({
+				status: 'skipped',
+				reason: 'busy_or_done'
+			});
+			expect(clef.calls).toHaveLength(2);
+			expect(await readingsOf(revisionId)).toHaveLength(2);
 		});
 	});
 });

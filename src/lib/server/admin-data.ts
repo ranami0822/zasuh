@@ -46,6 +46,23 @@ export async function adminOverview(db: D1Database) {
 	};
 }
 
+/** 作品の表示中のレビューのうち、最新の版に、星の答えのある読み取りがないもの（版の id。古いレビューから）。 */
+export async function revisionsWithoutStars(db: D1Database, workId: string): Promise<string[]> {
+	const { results } = await db
+		.prepare(
+			`SELECT r.current_revision_id AS revisionId FROM reviews r
+			  WHERE r.work_id = ? AND r.hidden = 0
+			    AND NOT EXISTS (
+			      SELECT 1 FROM readings rd JOIN reading_answers a ON a.reading_id = rd.id
+			       WHERE rd.revision_id = r.current_revision_id AND rd.status = 'ok' AND a.kind = 'star'
+			    )
+			  ORDER BY r.created_at, r.id`
+		)
+		.bind(workId)
+		.all<{ revisionId: string }>();
+	return results.map((r) => r.revisionId);
+}
+
 export interface ReportedReview {
 	id: string;
 	workName: string;

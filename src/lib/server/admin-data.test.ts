@@ -1,10 +1,11 @@
 import type { D1Database } from '@cloudflare/workers-types';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { adminOverview, reviewsForModeration } from './admin-data';
+import { adminOverview, reviewsForModeration, revisionsWithoutStars } from './admin-data';
 import { ClefError } from './clef';
 import { sendMessage } from './inbox';
 import { MAX_ATTEMPTS, readRevision } from './reading';
 import { closeReports, deleteReview, deviceTokenHash, reportReview, setHidden } from './reviews';
+import { REGISTRY, type TagRegistry } from './tags';
 import { addReview, addWork, createClock, createTestDb, editReview, fakeClef } from './testing/db';
 
 describe('管理画面の集計と、通報の一覧', () => {
@@ -104,6 +105,38 @@ describe('管理画面の集計と、通報の一覧', () => {
 				clock.now()
 			);
 			expect((await adminOverview(db)).openMessages).toBe(1);
+		});
+	});
+
+	describe('revisionsWithoutStars', () => {
+		// 星を入れる前の登録（ゲームの分野のタグが v1 = 向きと言及）。
+		const v1Registry: TagRegistry = { ...REGISTRY, tags: REGISTRY.tags.filter((t) => t.version === 1) };
+		const readV1 = (revisionId: string) => readRevision({ db, clef: fakeClef(), now: clock.now, registry: v1Registry }, revisionId);
+
+		it('表示中のレビューの最新の版のうち、星の答えのある読み取りがないものだけを返す', async () => {
+			const work = await addWork(db);
+			const noStars = await addReview(db, work, { body: '{"gameplay":"positive"}', at: new Date('2026-11-10T00:00:00.000Z') });
+			const unread = await addReview(db, work, { body: '{}', at: new Date('2026-11-11T00:00:00.000Z') });
+			const withStars = await addReview(db, work, { body: '{"gameplay":"positive"}' });
+			const hidden = await addReview(db, work, { body: '{}', hidden: true });
+			const otherWork = await addReview(db, await addWork(db), { body: '{}' });
+			await readV1(noStars.revisionId);
+			await readV1(hidden.revisionId);
+			await readV1(otherWork.revisionId);
+			await read(withStars.revisionId);
+
+			expect(await revisionsWithoutStars(db, work)).toEqual([noStars.revisionId, unread.revisionId]);
+		});
+
+		it('古い版に星があっても、最新の版に星がなければ返す', async () => {
+			const work = await addWork(db);
+			const { reviewId, revisionId } = await addReview(db, work, { body: '{"gameplay":"positive"}' });
+			await read(revisionId);
+			expect(await revisionsWithoutStars(db, work)).toEqual([]);
+
+			const next = await editReview(db, reviewId, '{"gameplay":"negative"}', clock.now());
+			await readV1(next);
+			expect(await revisionsWithoutStars(db, work)).toEqual([next]);
 		});
 	});
 

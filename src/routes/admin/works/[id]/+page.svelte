@@ -51,6 +51,19 @@
 	<div class="row"><Button type="submit" class="btn">保存する</Button></div>
 </form>
 
+{#if data.withoutStars > 0 || form?.reread}
+	<form method="post" action="?/rereadStars" class="card stack" use:enhance={() => async ({ update }) => update({ reset: false })}>
+		<h2>星のないレビュー</h2>
+		<p class="caption muted">星を入れる前に読んだレビューを、いまの質問で読み直します。1回に、{data.rereadLimit}件まで読みます。</p>
+		{#if form?.reread}
+			<p class="banner {form.reread.error > 0 ? 'error' : 'success'}" role="status">
+				読めた: {form.reread.ok}件、見送り: {form.reread.skipped}件、失敗: {form.reread.error}件
+			</p>
+		{/if}
+		{#if data.withoutStars > 0}<div class="row"><Button type="submit" class="btn">星で読み直す（{data.withoutStars}件）</Button></div>{/if}
+	</form>
+{/if}
+
 {#if data.work.category === 'game'}
 	<form method="post" action="?/linkCritic" class="card stack" use:enhance={() => async ({ update }) => update({ reset: false })}>
 		<h2>OpenCritic の作品 ID</h2>

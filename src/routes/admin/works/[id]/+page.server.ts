@@ -1,10 +1,16 @@
 import { error, fail } from '@sveltejs/kit';
 import { CRITIC_MESSAGES } from '#messages';
+import { revisionsWithoutStars } from '#server/admin-data';
+import { bindingClient } from '#server/clef';
 import { getOpenCriticId, linkOpenCritic } from '#server/critics';
-import { database } from '#server/request';
+import { readRevision } from '#server/reading';
+import { database, runtimeEnv } from '#server/request';
 import { latest, REGISTRY } from '#server/tags';
 import { getWork, selectedTagIds, updateWork } from '#server/works';
 import type { Actions, PageServerLoad } from './$types';
+
+/** 星で読み直す、1回の操作あたりの件数。 */
+const REREAD_LIMIT = 10;
 
 export const load: PageServerLoad = async ({ params }) => {
 	const db = database();
@@ -15,7 +21,9 @@ export const load: PageServerLoad = async ({ params }) => {
 		openCriticId: await getOpenCriticId(db, work.id),
 		selected: await selectedTagIds(db, work.id),
 		domain: REGISTRY.domainTags[work.category].map((id) => latest(REGISTRY, id).label),
-		extras: REGISTRY.extraTags[work.category].map((id) => ({ id, label: latest(REGISTRY, id).label }))
+		extras: REGISTRY.extraTags[work.category].map((id) => ({ id, label: latest(REGISTRY, id).label })),
+		withoutStars: (await revisionsWithoutStars(db, work.id)).length,
+		rereadLimit: REREAD_LIMIT
 	};
 };
 
@@ -51,5 +59,23 @@ export const actions: Actions = {
 		if (!result.ok) return fail(400, { criticError: CRITIC_MESSAGES[result.error], ocId });
 		console.log(JSON.stringify({ event: 'critic_linked', workId: params.id }));
 		return { criticLinked: true, ocId };
+	},
+	// 星を入れる前に読んだレビューを、いまの質問の組で読み直す。並列にせず、1件ずつ。
+	rereadStars: async ({ params }) => {
+		const db = database();
+		const deps = { db, clef: bindingClient(runtimeEnv().AI) };
+		const revisionIds = (await revisionsWithoutStars(db, params.id)).slice(0, REREAD_LIMIT);
+		const reread = { ok: 0, skipped: 0, error: 0 };
+		for (const revisionId of revisionIds) {
+			try {
+				reread[(await readRevision(deps, revisionId, { reread: true })).status]++;
+			} catch (e) {
+				// 1件の失敗で、残りを止めない。
+				reread.error++;
+				console.error(JSON.stringify({ event: 'reread_failed', revisionId, message: String(e) }));
+			}
+		}
+		console.log(JSON.stringify({ event: 'stars_reread', workId: params.id, ...reread }));
+		return { reread };
 	}
 };

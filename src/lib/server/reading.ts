@@ -208,11 +208,16 @@ export type ReadOutcome =
 
 /**
  * レビューの1つの版を、その作品のいまのタグの質問で読んで、答えを保存する。
- * 一度読めた版は、タグが変わっても読み直さない。
+ * 一度読めた版は、タグが変わっても読み直さない。opts.reread のときだけ、いまの質問の組で読み直す
+ * （管理画面から、星のない読み取りを読み直すため。同じ質問の組では、二重に読まない）。
  * 同じ版を同時に2つの処理が読まないよう、最初に readings の行を「読み取り中」にして確保する。
  * 成功したら、その作品の集計を作り直す。
  */
-export async function readRevision(deps: ReadingDeps, revisionId: string): Promise<ReadOutcome> {
+export async function readRevision(
+	deps: ReadingDeps,
+	revisionId: string,
+	opts: { reread?: boolean } = {}
+): Promise<ReadOutcome> {
 	const { db, clef } = deps;
 	const now = deps.now ?? (() => new Date());
 
@@ -228,7 +233,7 @@ export async function readRevision(deps: ReadingDeps, revisionId: string): Promi
 		.bind(revisionId)
 		.first<{ body: string; workId: string; category: Category; done: number }>();
 	if (!target) return { status: 'skipped', reason: 'not_found' };
-	if (target.done) return { status: 'skipped', reason: 'busy_or_done' };
+	if (target.done && !opts.reread) return { status: 'skipped', reason: 'busy_or_done' };
 
 	const questionSet = await resolveWorkQuestionSet(
 		db,
