@@ -73,4 +73,17 @@
 		<Field name="ocId"><FieldLabel>OpenCritic の作品 ID</FieldLabel><Input class="input" type="number" defaultValue={form?.ocId ?? String(data.openCriticId ?? '')} /></Field>
 		<div class="row"><Button type="submit" class="btn">保存する</Button></div>
 	</form>
+	{#if data.openCriticId !== null}
+		<form method="post" action="?/syncCritics" class="card stack" use:enhance={() => async ({ update }) => update({ reset: false })}>
+			<h2>専門家の取得</h2>
+			<p class="caption muted">決まった時間帯（毎日 UTC 17:00〜21:00）を待たずに、この作品の専門家のレビューを取得します。1回に、{data.criticReadLimit}件まで読みます。1日の上限に数えます。</p>
+			{#if form?.criticSyncError}<p class="banner error" role="alert">{form.criticSyncError}</p>{/if}
+			{#if form?.criticSync}
+				<p class="banner {form.criticSync.ok ? 'success' : 'error'}" role="status">
+					読めた: {form.criticSync.read}件、OpenCritic の呼び出し: {form.criticSync.calls}回、失敗: {form.criticSync.failed}件。{form.criticSync.message}
+				</p>
+			{/if}
+			<div class="row"><Button type="submit" class="btn">専門家を今すぐ取得</Button></div>
+		</form>
+	{/if}
 {/if}

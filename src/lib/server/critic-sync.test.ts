@@ -2,8 +2,16 @@ import type { D1Database } from '@cloudflare/workers-types';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { ClefError } from '#server/clef';
 import { criticSyncSlot } from '#server/critic-slot';
-import { DEFAULT_CRITIC_LIMITS, MAX_CONSECUTIVE_READ_FAILURES, syncCritics, type CriticDailyLimits, type CriticLimits } from '#server/critic-sync';
-import { ensureCriticQuestionSet, linkOpenCritic, saveCriticRead, worksToSync } from '#server/critics';
+import {
+	DEFAULT_CRITIC_DAILY_LIMITS,
+	DEFAULT_CRITIC_LIMITS,
+	MAX_CONSECUTIVE_READ_FAILURES,
+	syncCritics,
+	syncCriticsNow,
+	type CriticDailyLimits,
+	type CriticLimits
+} from '#server/critic-sync';
+import { criticDayTotals, ensureCriticQuestionSet, linkOpenCritic, saveCriticRead, worksToSync } from '#server/critics';
 import type { CriticSnippet, OcGame, OcRateLimit, OcResult, OpenCriticClient } from '#server/opencritic';
 import { criticV1 } from '#server/question-sets/critic-v1';
 import { countQueries } from '#server/testing/count-queries';
@@ -878,5 +886,125 @@ describe('syncCritics（専門家の評価欄の取得）', () => {
 			expect(line).not.toContain('作り物の抜粋の本文');
 			expect(line).not.toContain('example.com');
 		}
+	});
+});
+
+describe('syncCriticsNow（管理画面から、1 作品を、今すぐ取得する）', () => {
+	let db: D1Database;
+	let dispose: () => Promise<void>;
+	let clock: ReturnType<typeof createClock>;
+
+	beforeEach(async () => {
+		({ db, dispose } = await createTestDb());
+		// 時間帯（UTC 17:00〜21:00）の外。
+		clock = createClock('2026-11-23T05:12:30.000Z');
+	});
+	afterEach(async () => {
+		vi.restoreAllMocks();
+		await dispose();
+	});
+
+	async function linkedWork(ocId: number): Promise<string> {
+		const id = await addWork(db);
+		const r = await linkOpenCritic(db, id, String(ocId), clock.now());
+		expect(r.ok).toBe(true);
+		return id;
+	}
+
+	async function savedIds(workId: string): Promise<string[]> {
+		const { results } = await db
+			.prepare('SELECT oc_review_id AS id FROM critic_reviews WHERE work_id = ? ORDER BY oc_review_id')
+			.bind(workId)
+			.all<{ id: string }>();
+		return results.map((r) => r.id);
+	}
+
+	async function slots(): Promise<{ slot: string; day: string; calls: number; searches: number; reads: number; stopped: string | null }[]> {
+		const { results } = await db
+			.prepare('SELECT slot, day, calls, searches, reads, stopped FROM critic_slots ORDER BY slot')
+			.all<{ slot: string; day: string; calls: number; searches: number; reads: number; stopped: string | null }>();
+		return results;
+	}
+
+	function now(workId: string, oc: OpenCriticClient, clef = fakeClef()) {
+		return syncCriticsNow({ db, clef, oc, workId, now: clock.now, sleep: noSleep });
+	}
+
+	it('時間帯の外でも、その作品を取得して、専門家のレビューを保存する', async () => {
+		expect(criticSyncSlot(clock.now())).toBeNull();
+		const workId = await linkedWork(15398);
+		const oc = fakeOc({ reviews: () => okPage(page('a', 3)) });
+
+		const result = await now(workId, oc);
+
+		expect(result).toEqual({ works: 1, calls: 1, searches: 0, read: 3, failed: 0, stopped: 'done' });
+		expect(oc.calls).toEqual([{ kind: 'reviews', ocId: 15398, skip: 0 }]);
+		expect(await savedIds(workId)).toEqual(['a-0', 'a-1', 'a-2']);
+	});
+
+	it('上限は 1 枠と同じ。手動の枠を、定期実行と重ならない名前で記録し、1 日の合計に数える。同じ分の 2 回目は already_ran、次の分は続きを読む', async () => {
+		const workId = await linkedWork(15398);
+		const oc = fakeOc({ reviews: () => okPage(page('a', PAGE)) });
+
+		expect(await now(workId, oc)).toEqual({ works: 0, calls: 1, searches: 0, read: DEFAULT_CRITIC_LIMITS.maxReads, failed: 0, stopped: 'budget' });
+		expect(await slots()).toEqual([
+			{ slot: '2026-11-23T05:12-manual', day: '2026-11-23', calls: 1, searches: 0, reads: DEFAULT_CRITIC_LIMITS.maxReads, stopped: 'budget' }
+		]);
+		expect(await criticDayTotals(db, '2026-11-23')).toEqual({ calls: 1, searches: 0, reads: DEFAULT_CRITIC_LIMITS.maxReads });
+
+		expect(await now(workId, oc)).toMatchObject({ calls: 0, read: 0, stopped: 'already_ran' });
+		expect(oc.calls).toHaveLength(1);
+
+		clock.advance(60_000);
+		expect(await now(workId, oc)).toMatchObject({ calls: 1, read: DEFAULT_CRITIC_LIMITS.maxReads, stopped: 'budget' });
+		expect(await savedIds(workId)).toHaveLength(DEFAULT_CRITIC_LIMITS.maxReads * 2);
+		expect(await criticDayTotals(db, '2026-11-23')).toEqual({ calls: 2, searches: 0, reads: DEFAULT_CRITIC_LIMITS.maxReads * 2 });
+	});
+
+	it('1 日の合計の上限に達していたら、何も呼ばず、daily_limit を返す', async () => {
+		const workId = await linkedWork(15398);
+		await db
+			.prepare("INSERT INTO critic_slots (slot, day, started_at, calls, searches, reads, stopped) VALUES ('2026-11-23T04:00-manual', '2026-11-23', ?, 1, 0, ?, 'budget')")
+			.bind(clock.now().toISOString(), DEFAULT_CRITIC_DAILY_LIMITS.maxReads)
+			.run();
+		const clef = fakeClef();
+		const oc = fakeOc({ reviews: () => okPage(page('a', 3)) });
+
+		expect(await now(workId, oc, clef)).toEqual({ works: 0, calls: 0, searches: 0, read: 0, failed: 0, stopped: 'daily_limit' });
+		expect(oc.calls).toHaveLength(0);
+		expect(clef.calls).toHaveLength(0);
+		expect(await savedIds(workId)).toEqual([]);
+	});
+
+	it('ほかの作品には触れず、候補の検索もしない。OpenCritic の ID がない作品では、何も取得しない', async () => {
+		const target = await linkedWork(15398);
+		const other = await linkedWork(102);
+		const unlinked = await addWork(db);
+		const before = await db.prepare('SELECT critic_cursor, critic_done_on, critic_synced_at, critic_searched_on FROM works WHERE id IN (?, ?)').bind(other, unlinked).all();
+		const oc = fakeOc({ reviews: (ocId) => okPage(page(`w${ocId}`, 2)), search: () => ok([{ id: 999, name: '作り物', dist: 0 }]) });
+
+		expect(await now(target, oc)).toMatchObject({ works: 1, calls: 1, searches: 0 });
+		clock.advance(60_000);
+		expect(await now(unlinked, oc)).toEqual({ works: 0, calls: 0, searches: 0, read: 0, failed: 0, stopped: 'done' });
+
+		expect(oc.calls).toEqual([{ kind: 'reviews', ocId: 15398, skip: 0 }]);
+		expect(await savedIds(other)).toEqual([]);
+		expect(await savedIds(unlinked)).toEqual([]);
+		const after = await db.prepare('SELECT critic_cursor, critic_done_on, critic_synced_at, critic_searched_on FROM works WHERE id IN (?, ?)').bind(other, unlinked).all();
+		expect(after.results).toEqual(before.results);
+		const candidates = await db.prepare('SELECT COUNT(*) AS n FROM critic_candidates').first<{ n: number }>();
+		expect(candidates!.n).toBe(0);
+	});
+
+	it('1 回の D1 の問い合わせは、質問セットがまだない DB で、読み取りを使い切っても 50 以下', async () => {
+		const workId = await linkedWork(15398);
+		const oc = fakeOc({ reviews: () => okPage(page('a', PAGE)) });
+		const counted = countQueries(db);
+
+		const result = await syncCriticsNow({ db: counted.db, clef: fakeClef(), oc, workId, now: clock.now, sleep: noSleep });
+
+		expect(result).toMatchObject({ calls: 1, read: DEFAULT_CRITIC_LIMITS.maxReads, stopped: 'budget' });
+		console.info(`G4 manual queries=${counted.count()}`);
+		expect(counted.count()).toBeLessThanOrEqual(50);
 	});
 });

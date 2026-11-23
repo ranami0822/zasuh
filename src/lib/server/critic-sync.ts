@@ -98,8 +98,10 @@ export async function syncCritics(deps: {
 	db: D1Database;
 	clef: ClefClient;
 	oc: OpenCriticClient;
-	/** 枠の名前（criticSyncSlot の戻り値）。 */
+	/** 枠の名前（criticSyncSlot か manualCriticSlot の戻り値）。 */
 	slot: string;
+	/** 渡すと、その作品だけを取得し、候補の検索はしない（管理画面からの手動の取得）。 */
+	workId?: string;
 	now?: () => Date;
 	limits?: Partial<CriticLimits>;
 	dailyLimits?: Partial<CriticDailyLimits>;
@@ -136,7 +138,7 @@ export async function syncCritics(deps: {
 	};
 
 	const syncWorks = async (): Promise<Stop | null> => {
-		const works = await worksToSync(db, limits.maxCalls, now());
+		const works = await worksToSync(db, limits.maxCalls, now(), deps.workId);
 		if (works.length === 0) return null;
 		const questionSetId = await ensureCriticQuestionSet(db, criticV1, now());
 
@@ -227,7 +229,7 @@ export async function syncCritics(deps: {
 		return null;
 	};
 
-	const stopped: CriticSlotStop = (await syncWorks()) ?? (await searchCandidates()) ?? 'done';
+	const stopped: CriticSlotStop = (await syncWorks()) ?? (deps.workId === undefined ? await searchCandidates() : null) ?? 'done';
 	result.stopped = stopped === 'reserve' ? 'budget' : stopped;
 	// 割り当てを、実際に使った数に直す（読み取りは、失敗を含む）。例外のときは、ここに来ない（割り当てのまま残る。安全側）。
 	await finishCriticSlot(db, slot, { calls: result.calls, searches: result.searches, reads: attempts }, stopped);
@@ -235,4 +237,28 @@ export async function syncCritics(deps: {
 	// 抜粋の本文・URL・キーは、出さない。
 	console.log(JSON.stringify({ event: 'critic_sync', ...result, slot, day }));
 	return result;
+}
+
+/**
+ * 管理画面からの手動の取得の枠の名前（'YYYY-MM-DDTHH:MM-manual'。UTC、分まで）。
+ * 先頭 10 文字が日なので、1 日の合計に入る（claimCriticSlot は、slot の先頭 10 文字を日とする）。定期実行の枠（criticSyncSlot）とは重ならない。
+ */
+export function manualCriticSlot(now: Date): string {
+	return `${now.toISOString().slice(0, 16)}-manual`;
+}
+
+/**
+ * 管理画面から、1 つの作品だけを、時間帯に関係なく、今すぐ 1 回分取得する（docs/mvp-design.md の 22.11）。
+ * 上限は 1 枠と同じ（DEFAULT_CRITIC_LIMITS）で、1 日の合計に数える。候補の検索はしない。同じ分に 2 回目を呼ぶと already_ran。
+ */
+export function syncCriticsNow(deps: {
+	db: D1Database;
+	clef: ClefClient;
+	oc: OpenCriticClient;
+	workId: string;
+	now?: () => Date;
+	sleep?: (ms: number) => Promise<void>;
+}): Promise<CriticSyncResult> {
+	const now = deps.now ?? (() => new Date());
+	return syncCritics({ ...deps, now, slot: manualCriticSlot(now()), limits: { maxSearches: 0 } });
 }

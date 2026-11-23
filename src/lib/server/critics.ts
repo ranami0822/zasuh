@@ -158,18 +158,18 @@ export async function linkOpenCritic(db: D1Database, workId: string, ocId: strin
 /**
  * 取得する作品。ゲームで、公開中で、ID があり、now の UTC の日に、まだ読み切っていないもの
  * （critic_done_on が null か、その日より前）。途中のもの（critic_cursor が null でない）が先、
- * そのあと古い順（取得したことのないものが先）、id。
+ * そのあと古い順（取得したことのないものが先）、id。workId を渡すと、その作品だけ（管理画面からの手動の取得）。
  */
-export async function worksToSync(db: D1Database, limit: number, now: Date): Promise<WorkToSync[]> {
+export async function worksToSync(db: D1Database, limit: number, now: Date, workId?: string): Promise<WorkToSync[]> {
 	const { results } = await db
 		.prepare(
 			`SELECT id, opencritic_id AS ocId, coalesce(critic_cursor, 0) AS cursor FROM works
 			  WHERE category = 'game' AND status = 'active' AND opencritic_id IS NOT NULL
-			    AND (critic_done_on IS NULL OR critic_done_on < ?)
+			    AND (critic_done_on IS NULL OR critic_done_on < ?)${workId === undefined ? '' : ' AND id = ?'}
 			  ORDER BY critic_cursor IS NULL, critic_synced_at IS NOT NULL, critic_synced_at, id
 			  LIMIT ?`
 		)
-		.bind(utcDay(now), limit)
+		.bind(utcDay(now), ...(workId === undefined ? [] : [workId]), limit)
 		.all<WorkToSync>();
 	return results;
 }

@@ -1,8 +1,10 @@
 import { error, fail } from '@sveltejs/kit';
-import { CRITIC_MESSAGES } from '#messages';
+import { CRITIC_MESSAGES, CRITIC_SYNC_MESSAGES } from '#messages';
 import { revisionsWithoutStars } from '#server/admin-data';
 import { bindingClient } from '#server/clef';
+import { DEFAULT_CRITIC_LIMITS, syncCriticsNow } from '#server/critic-sync';
 import { getOpenCriticId, linkOpenCritic } from '#server/critics';
+import { createOpenCriticClient, normalizeKey } from '#server/opencritic';
 import { readRevision } from '#server/reading';
 import { database, runtimeEnv } from '#server/request';
 import { latest, REGISTRY } from '#server/tags';
@@ -26,7 +28,8 @@ export const load: PageServerLoad = async ({ params }) => {
 		domain: REGISTRY.domainTags[work.category].map((id) => latest(REGISTRY, id).label),
 		extras: REGISTRY.extraTags[work.category].map((id) => ({ id, label: latest(REGISTRY, id).label })),
 		withoutStars: (await revisionsWithoutStars(db, work.id)).length,
-		rereadLimit: REREAD_LIMIT
+		rereadLimit: REREAD_LIMIT,
+		criticReadLimit: DEFAULT_CRITIC_LIMITS.maxReads
 	};
 };
 
@@ -80,5 +83,23 @@ export const actions: Actions = {
 		}
 		console.log(JSON.stringify({ event: 'stars_reread', workId: params.id, ...reread }));
 		return { reread };
+	},
+	// 専門家の評価を、時間帯を待たずに、この作品だけ、1 回分取得する（docs/mvp-design.md の 22.11）。依存の作り方は scheduled.ts と同じ。
+	syncCritics: async ({ params }) => {
+		const db = database();
+		if ((await getOpenCriticId(db, params.id)) === null) return fail(400, { criticSyncError: CRITIC_SYNC_MESSAGES.no_oc_id });
+		const env = runtimeEnv();
+		const key = normalizeKey(env.OPENCRITIC_API_KEY);
+		if (!key) return fail(503, { criticSyncError: CRITIC_SYNC_MESSAGES.no_key });
+		try {
+			const result = await syncCriticsNow({ db, clef: bindingClient(env.AI), oc: createOpenCriticClient({ key }), workId: params.id });
+			const ok = result.stopped === 'done' || result.stopped === 'budget';
+			const message = CRITIC_SYNC_MESSAGES[result.stopped === 'done' && result.works === 0 ? 'nothing' : result.stopped];
+			return { criticSync: { read: result.read, calls: result.calls, failed: result.failed, ok, message } };
+		} catch (e) {
+			// メッセージに、本文やキーは含まれない（scheduled.ts と同じ）。
+			console.error(JSON.stringify({ event: 'critic_sync_failed', workId: params.id, message: String(e).slice(0, 200) }));
+			return fail(500, { criticSyncError: CRITIC_SYNC_MESSAGES.failed });
+		}
 	}
 };

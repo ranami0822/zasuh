@@ -1,4 +1,5 @@
 import type { AuthError } from './server/auth';
+import type { CriticSyncResult } from './server/critic-sync';
 import type { CriticError } from './server/critics';
 import type { InboxError } from './server/inbox';
 import type { Failure } from './server/reviews';
@@ -54,6 +55,22 @@ export const CRITIC_MESSAGES: Record<CriticError, string> = {
 	oc_id_taken: 'その OpenCritic の作品 ID は、別の作品に結びついています。',
 	not_found: '対象が見つかりません。',
 	not_game: 'OpenCritic の作品 ID は、ゲームの作品にだけ付けられます。'
+};
+
+/** 管理画面の「専門家を今すぐ取得」の結果（docs/mvp-design.md の 22.11）。nothing は、done で、取得する作品がなかったとき。日は UTC。 */
+export const CRITIC_SYNC_MESSAGES: Record<CriticSyncResult['stopped'] | 'nothing' | 'no_key' | 'no_oc_id' | 'failed', string> = {
+	done: 'この作品の、今日の分は、最後まで読みました。',
+	nothing: '取得するものはありませんでした。今日（UTC の日付）に読み終えた作品は、次の日まで取得しません。',
+	budget: '1回分の上限まで読みました。まだ残りがあります。もう一度押してください。',
+	already_ran: 'いま取得したばかりです。1分たってから、もう一度押してください。',
+	daily_limit: '今日（UTC の日付）の取得の上限に達しました。次の日に、もう一度押してください。',
+	stopped_today: '今日（UTC の日付）の取得は、止まっています（鍵が受け付けられないか、利用枠の残りが少ないため）。次の日に、もう一度押してください。',
+	unauthorized: 'OpenCritic が、鍵（OPENCRITIC_API_KEY）を受け付けませんでした。鍵を確かめてください。今日の取得は、ここで止まります。',
+	rate_limited: 'OpenCritic か、読み取り（Clef）の利用枠を超えました。今日の取得は、ここで止まります。次の日に、もう一度押してください。',
+	clef_failed: '読み取り（Clef）が、続けて失敗しました。この作品は、今日はもう取得しません。',
+	no_key: 'OpenCritic の鍵（OPENCRITIC_API_KEY）が設定されていないため、取得できません。',
+	no_oc_id: 'OpenCritic の作品 ID がないため、取得できません。先に ID を保存してください。',
+	failed: '取得の途中で、失敗しました。少し待ってから、もう一度押してください。'
 };
 
 export const KIND_LABEL: Record<string, string> = {
