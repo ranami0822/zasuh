@@ -114,7 +114,7 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) process
   // 検索、周辺のページ、受信箱
   const pub = await (await browser.newContext({ viewport: { width: 900, height: 900 } })).newPage();
   await pub.goto(BASE + '/?q=' + encodeURIComponent('星屑'));
-  ok(await pub.isVisible('a.rank:has-text("星屑の鉄道")'), 'search finds the work');
+  ok(await pub.isVisible('a.tile:has-text("星屑の鉄道")'), 'search finds the work');
   await pub.goto(BASE + '/?q=' + encodeURIComponent('存在しない'));
   ok(await pub.isVisible('text=見つかりませんでした'), 'search shows the empty state with a request link');
   for (const [path, word] of [['/about', 'それは評価じゃない'], ['/terms', 'してはいけないこと'], ['/privacy', '保存する情報'], ['/me', '投稿したレビューは、ありません']]) {
@@ -192,11 +192,11 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) process
   // 一覧
   const h = await browser.newPage({ viewport: { width: 900, height: 900 } });
   await h.goto(BASE + '/');
-  ok(await h.isVisible('a.rank:has-text("星屑の鉄道")'), 'work listed on home');
+  ok(await h.isVisible('a.tile:has-text("星屑の鉄道")'), 'work listed on home');
   if (process.env.E2E_D1_DIR) {
     await h.goto(BASE + '/', { waitUntil: 'networkidle' });
-    ok((await h.textContent('a.rank:has-text("星屑の鉄道") .rank__no')).trim() === '1', 'home: the work with mentions has rank 1');
-    ok((await h.$$('a.rank:has-text("星屑の鉄道") .dist__bar > i')).length === 5, 'home: the row bar has 5 star segments');
+    ok((await h.textContent('a.tile:has-text("星屑の鉄道") .tile__no')).trim() === '1', 'home: the work with mentions has rank 1');
+    ok((await h.$$('a.tile:has-text("星屑の鉄道") .dist__bar > i')).length === 5, 'home: the row bar has 5 star segments');
   }
   await h.screenshot({ path: OUT + '/home.png', fullPage: true });
   await a.screenshot({ path: OUT + '/work.png', fullPage: true });

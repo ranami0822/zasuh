@@ -1341,6 +1341,84 @@ input[type='search'].input {
 .rank.band .dist__legend b {
 	color: var(--band-fg);
 }
+
+/* 絞り込みの行: 分野も、総合・タグも、それぞれ1段に収め、横にスクロールして選ぶ。 */
+.scrollrow {
+	flex-wrap: nowrap;
+	overflow-x: auto;
+	scrollbar-width: none;
+	padding-block: var(--space-1);
+}
+.scrollrow::-webkit-scrollbar {
+	display: none;
+}
+.scrollrow .tag {
+	flex: none;
+}
+
+/* ベントー: 作品をタイル状に並べる。レビュー件数が多い作品ほど大きい（tile--md / tile--lg）。 */
+.bento {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	grid-auto-rows: minmax(104px, auto);
+	grid-auto-flow: dense;
+	gap: var(--space-3);
+}
+@media (min-width: 820px) {
+	.bento {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+}
+.tile {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-2);
+	padding: var(--space-4);
+	border-radius: var(--radius-card);
+	background: var(--surface);
+	color: inherit;
+	text-decoration: none;
+	overflow: hidden;
+}
+.tile:hover {
+	background: var(--surface-hover);
+	color: inherit;
+	text-decoration: none;
+}
+.tile--md {
+	grid-column: span 2;
+}
+.tile--lg {
+	grid-column: span 2;
+	grid-row: span 2;
+}
+.tile__no {
+	margin-right: var(--space-2);
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+}
+.tile__foot {
+	margin-top: auto;
+}
+/* タイルに帯を敷くときは、余白はタイルのままにし、文字は帯専用の色にする。 */
+.tile.band {
+	padding: var(--space-4);
+}
+.tile.band:hover {
+	background: linear-gradient(160deg, var(--band-from) 0%, var(--band-to) 100%);
+	color: var(--band-fg);
+}
+.tile.band h3 {
+	color: var(--band-fg);
+}
+.tile.band .dist__caption,
+.tile.band .dist__legend {
+	color: var(--band-muted);
+}
+.tile.band .dist__legend b,
+.tile.band .dist__mean b {
+	color: var(--band-fg);
+}
 .crumbs {
 	display: flex;
 	flex-wrap: wrap;
