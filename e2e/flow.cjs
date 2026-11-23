@@ -117,7 +117,7 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) process
   ok(await pub.isVisible('a.rank:has-text("星屑の鉄道")'), 'search finds the work');
   await pub.goto(BASE + '/?q=' + encodeURIComponent('存在しない'));
   ok(await pub.isVisible('text=見つかりませんでした'), 'search shows the empty state with a request link');
-  for (const [path, word] of [['/terms', 'してはいけないこと'], ['/privacy', '保存する情報'], ['/me', '投稿したレビューは、ありません']]) {
+  for (const [path, word] of [['/about', 'それは評価じゃない'], ['/terms', 'してはいけないこと'], ['/privacy', '保存する情報'], ['/me', '投稿したレビューは、ありません']]) {
     await pub.goto(BASE + path);
     ok(await pub.isVisible('text=' + word), path + ' opens');
   }

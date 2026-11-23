@@ -1,5 +1,6 @@
 <footer class="footer">
 	<div class="footer__inner">
+		<a href="/about">紹介</a>
 		<a href="/contact?kind=work_request">作品の追加を頼む</a>
 		<a href="/contact">お問い合わせ</a>
 		<a href="/terms">規約</a>

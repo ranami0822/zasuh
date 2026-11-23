@@ -62,6 +62,11 @@
 	--band-fg: #171717;
 	--band-muted: #262626;
 
+	/* 紹介ページの見出しの面（濃い灰色。墨でも黒でもない）。文字との比: 9.5:1（見出し）、7.0:1（本文）。 */
+	--plate-bg: #404040;
+	--plate-fg: #f5f5f5;
+	--plate-sub: #d4d4d4;
+
 	--shadow-lg: 0 8px 28px rgba(23, 23, 23, 0.25);
 
 	/* 文字の大きさ。日本語は、画数が多く、小さいと読みにくいので、補足も 12px 未満にしない。
@@ -150,6 +155,10 @@
 		--band-to: #171717;
 		--band-fg: #f5f5f5;
 		--band-muted: #d4d4d4;
+
+		--plate-bg: #404040;
+		--plate-fg: #f5f5f5;
+		--plate-sub: #d4d4d4;
 
 		--shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.7);
 	}
