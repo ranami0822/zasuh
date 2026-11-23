@@ -146,7 +146,7 @@ describe('readRevision', () => {
 			.bind(work)
 			.all();
 		expect(stats.results).toEqual([
-			{ tag_id: '_overall', n_mention: 2 },
+			{ tag_id: '_overall', n_mention: 1 }, // 総合は、レビューごとに1つ
 			{ tag_id: 'game/comfort', n_mention: 1 },
 			{ tag_id: 'game/gameplay', n_mention: 1 }
 		]);

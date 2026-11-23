@@ -1,8 +1,11 @@
 <script lang="ts">
+	import { showsShares } from '#stars';
+
 	/**
 	 * 星の分布（星1〜5）。段階ごとの確率の合計（ソフトな件数。丸めない）を、左から星1、星2、…、星5 の順に並べる。
 	 * 平均と幅（±）を添える。件数が少ないときは、文字ではなく、棒を細く・薄くして伝える。幅は、件数が少ないと出さない。
 	 * size: hero は総合（大きい。平均・幅・割合を添える）、row は観点ごと（小さい。棒と平均と件数だけ）。
+	 * 件数が少ないときは、割合（%）を出さない（1件の確率の割れ具合が、人数の割合と読まれるため）。
 	 */
 	let {
 		n,
@@ -16,10 +19,11 @@
 	const pct = (v: number) => (total <= 0 ? 0 : Math.round((v / total) * 100));
 	const meanText = $derived(mean === null ? '' : mean.toFixed(1));
 	const spreadText = $derived(se === null ? '' : `± ${(1.96 * se).toFixed(1)}`);
+	const shares = $derived(showsShares(n));
 	const label = $derived(
 		n === 0 || mean === null
 			? '言及なし'
-			: `星1 ${pct(soft[0])}%、星2 ${pct(soft[1])}%、星3 ${pct(soft[2])}%、星4 ${pct(soft[3])}%、星5 ${pct(soft[4])}%。平均 ${meanText}${spreadText ? `（${spreadText}）` : ''}（${n}件）`
+			: `${shares ? `星1 ${pct(soft[0])}%、星2 ${pct(soft[1])}%、星3 ${pct(soft[2])}%、星4 ${pct(soft[3])}%、星5 ${pct(soft[4])}%。` : ''}平均 ${meanText}${spreadText ? `（${spreadText}）` : ''}（${n}件）`
 	);
 	const thickness = $derived(size === 'hero' ? (n < 5 ? '8px' : '14px') : n < 5 ? '3px' : n < 20 ? '5px' : '7px');
 	const opacity = $derived(n < 5 ? 0.55 : 1);
@@ -28,7 +32,7 @@
 <div class="dist {size}" style:--bar={thickness} style:--bar-opacity={opacity}>
 	{#if size === 'hero'}
 		<p class="dist__caption">
-			<span>言及 <span class="num">{n}</span>件</span>
+			<span>レビュー <span class="num">{n}</span>件</span>
 			{#if mean !== null}
 				<span class="dist__mean">平均 <b class="num">{meanText}</b>{#if spreadText}<span class="dist__spread num">{spreadText}</span>{/if}</span>
 			{/if}
@@ -46,7 +50,7 @@
 	{#if size === 'hero'}
 		<p class="dist__legend" aria-hidden="true">
 			{#each soft as v, i (i)}
-				<span class="s{i + 1}">星{i + 1}<b>{n === 0 ? 0 : pct(v)}%</b></span>
+				<span class="s{i + 1}">星{i + 1}{#if shares}<b>{pct(v)}%</b>{/if}</span>
 			{/each}
 		</p>
 	{/if}

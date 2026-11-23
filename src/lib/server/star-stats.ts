@@ -1,9 +1,11 @@
+import { MIN_N_FOR_SE } from '#stars';
+
 /** 星の段階の数。 */
 export const STAR_COUNT = 5;
 /** 信頼水準 95% の z 値。 */
 const Z95 = 1.959964;
-/** 幅を出す最小の件数。これ未満は、幅を出さない。 */
-export const MIN_N_FOR_SE = 5;
+/** 幅を出す最小の件数。これ未満は、幅を出さない。画面と同じ値にするため、`#stars` に置く。 */
+export { MIN_N_FOR_SE };
 /**
  * 件数が少ないときの、共通の標準偏差。実験の 70 件の実測は、約 1.46（docs/mvp-design.md の 20.8）。未検証の初期値。
  */

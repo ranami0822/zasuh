@@ -11,6 +11,7 @@
 		"#styles/*": "./src/lib/styles/*",
 		"#messages": "./src/lib/messages.ts",
 		"#band": "./src/lib/band.ts",
+		"#stars": "./src/lib/stars.ts",
 		"#passkey": "./src/lib/passkey.ts"
 	},
 	"scripts": {

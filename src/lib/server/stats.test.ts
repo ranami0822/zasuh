@@ -38,7 +38,7 @@ describe('集計と順位', () => {
 		return Object.fromEntries(results.map((r) => [r.aspect, r]));
 	}
 
-	it('観点ごとに、言及ありの星を、確率のまま足す。言及なしは数えない。総合は分野のタグの合計', async () => {
+	it('観点ごとに、言及ありの星を、確率のまま足す。言及なしは数えない。総合は、言及のあるレビューの数', async () => {
 		const work = await addWork(db);
 		await post(work, { gameplay: 'positive', music: 'positive' });
 		await post(work, { gameplay: 'negative' });
@@ -55,7 +55,31 @@ describe('集計と順位', () => {
 		expect(s['game/music']).toMatchObject({ n_mention: 1 });
 		expect(s['game/comfort']).toMatchObject({ n_mention: 1 });
 		expect(s['game/price']).toBeUndefined(); // 言及のない観点は、行を作らない
-		expect(s[OVERALL]).toMatchObject({ n_mention: 5 });
+		expect(s[OVERALL]).toMatchObject({ n_mention: 3 }); // 観点の答えは 5 つ。言及のあるレビューは 3 件
+	});
+
+	it('総合は、レビューごとに1つ。1つのレビューが、分野のタグ3つに言及しても、総合の件数は 1', async () => {
+		const work = await addWork(db);
+		await post(work, { gameplay: 'positive', music: 'positive', comfort: 'mixed' });
+		const s = await stats(work);
+		for (const tag of ['game/gameplay', 'game/music', 'game/comfort']) expect(s[tag].n_mention).toBe(1);
+		expect(s[OVERALL].n_mention).toBe(1);
+		const soft = [1, 2, 3, 4, 5].map((k) => s[OVERALL][`soft_${k}` as 'soft_1']);
+		expect(soft.reduce((t, v) => t + v, 0)).toBeCloseTo(1, 9);
+	});
+
+	it('総合では、観点の数が違うレビューも、1つ分ずつ。レビューの中の観点は、同じ重みで平均する', async () => {
+		const work = await addWork(db);
+		await post(work, { gameplay: 'negative' });
+		await post(work, { gameplay: 'positive', music: 'positive', comfort: 'mixed' });
+		const norm = (l: number[]) => l.map((p) => p / l.reduce((t, x) => t + x, 0));
+		const many = [norm(levelsOf('positive')), norm(levelsOf('positive')), norm(levelsOf('mixed'))];
+		const expected = starSummary([{ levels: levelsOf('negative') }, { levels: [0, 1, 2, 3, 4].map((i) => many.reduce((t, l) => t + l[i] / 3, 0)) }]);
+		const o = (await stats(work))[OVERALL];
+		expect(o.n_mention).toBe(2);
+		expect(o.mean).toBeCloseTo(expected.mean!, 9);
+		expect(o.score_lower).toBeCloseTo(expected.lower!, 9);
+		[1, 2, 3, 4, 5].forEach((k, i) => expect(o[`soft_${k}` as 'soft_1']).toBeCloseTo(expected.soft[i], 9));
 	});
 
 	it('言及ありかどうかは、言及の質問（noul）で決める。言及なしの観点の星は、数えない', async () => {

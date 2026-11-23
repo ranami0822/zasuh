@@ -53,6 +53,8 @@ function parseLevels(json: string | null): number[] | null {
  * 数えないレビュー: 利害関係のあるもの、非表示のもの、ほかのレビューと文面がほぼ同じもの。
  * タグの版や、一緒に聞いた質問の組が違う読み取りも、同じタグなら合算する。
  * 総合（_overall）は、分野のタグの答えだけで数える（追加のタグは作品ごとに違い、作品どうしを比べられなくなるため）。
+ * 総合は、レビューごとに1つ: 1つのレビューの、分野のタグの答え（言及ありのもの）の確率を、それぞれ合計 1 にしてから、同じ重みで平均する。
+ * だから、総合の件数は、分野のタグのどれかに言及のあるレビューの数。
  * 向き（direction）の答え（v1）は、数えない。星の答えがない読み取りは、集計に入らない。
  */
 export async function recomputeWorkStats(
@@ -66,7 +68,7 @@ export async function recomputeWorkStats(
 	const domain = new Set(registry.domainTags[work.category]);
 	const { results } = await db
 		.prepare(
-			`SELECT s.tag_id AS tagId, s.probs_json AS probsJson
+			`SELECT r.id AS reviewId, s.tag_id AS tagId, s.probs_json AS probsJson
 			   FROM reviews r
 			   JOIN readings rd ON rd.revision_id = r.current_revision_id AND rd.status = 'ok'
 			   JOIN reading_answers s ON s.reading_id = rd.id AND s.kind = 'star'
@@ -74,19 +76,27 @@ export async function recomputeWorkStats(
 			  WHERE r.work_id = ? AND r.hidden = 0 AND r.disclosure = 'none' AND r.duplicate_of IS NULL`
 		)
 		.bind(workId)
-		.all<{ tagId: string; probsJson: string | null }>();
+		.all<{ reviewId: string; tagId: string; probsJson: string | null }>();
 
 	const items = new Map<string, StarItem[]>();
-	const overall: StarItem[] = [];
+	const byReview = new Map<string, number[][]>();
 	for (const row of results) {
 		const levels = parseLevels(row.probsJson);
 		if (!levels) continue;
 		const list = items.get(row.tagId) ?? [];
 		list.push({ levels });
 		items.set(row.tagId, list);
-		if (domain.has(row.tagId)) overall.push({ levels });
+		if (domain.has(row.tagId)) {
+			const total = levels.reduce((t, p) => t + p, 0);
+			byReview.set(row.reviewId, [...(byReview.get(row.reviewId) ?? []), levels.map((p) => p / total)]);
+		}
 	}
-	items.set(OVERALL, overall);
+	items.set(
+		OVERALL,
+		[...byReview.values()].map((answers) => ({
+			levels: answers[0].map((_, i) => answers.reduce((t, l) => t + l[i], 0) / answers.length)
+		}))
+	);
 
 	const updatedAt = now.toISOString();
 	const insert = db.prepare(

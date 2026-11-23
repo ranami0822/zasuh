@@ -124,7 +124,7 @@ describe('作品の登録と、一覧・作品ページの問い合わせ', () =
 			expect(gameplay.mean!).toBeLessThan(3.5);
 			expect(gameplay.soft.reduce((t, v) => t + v, 0)).toBeCloseTo(2, 9);
 			expect(page.tags[2].stat.mean).toBeNull();
-			expect(page.overall.n).toBe(3);
+			expect(page.overall.n).toBe(2); // 総合は、レビューの数（関係者の別枠は数えない）
 			expect(page.total).toBe(2);
 			expect(page.reviews.map((r) => r.writtenOn)).toEqual(['2026-11-10', '2026-10-05']);
 			const reads = page.reviews[1].reads;
