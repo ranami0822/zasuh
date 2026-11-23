@@ -268,12 +268,11 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) process
     const copies = await wide.$$eval('.critic__ticker .critic__set[aria-hidden="true"] a', (els) => els.map((e) => e.getAttribute('tabindex')));
     ok(copies.every((t) => t === '-1'), 'critics: the copied set (if any) is hidden from readers and not focusable (' + copies.length + ' links)');
     const toggle = 'button.critic__toggle';
-    ok((await wide.getAttribute(toggle, 'aria-expanded')) === 'false' && !(await wide.isVisible('.critic__list')), 'critics: the list starts closed');
-    ok((await wide.textContent(toggle)).trim() === '' && (await wide.getAttribute(toggle, 'aria-label')).length > 0, 'critics: the toggle is an icon with a label for screen readers');
-    await wide.click(toggle);
-    ok((await wide.getAttribute(toggle, 'aria-expanded')) === 'true' && (await wide.isVisible('.critic__list')), 'critics: the icon opens the list');
+    ok((await wide.isVisible('.critic__list')) && !(await wide.isVisible(toggle)), 'critics: on a wide screen the list is always open, with no accordion toggle');
     const listRows = await wide.$$eval('.critic__list a', (els) => els.map((e) => e.textContent.replace(/\s+/g, ' ').trim()));
     ok(listRows.length === 3 && /2026-11/.test(listRows[0]), 'critics: the list has one row per review, with the month: ' + listRows.join(' | '));
+    const srcBox = await wide.evaluate(() => { const r = (q) => document.querySelector(q).getBoundingClientRect(); return { list: r('.critic__list'), foot: r('.critic__foot') }; });
+    ok(srcBox.foot.top >= srcBox.list.bottom - 1, 'critics: on a wide screen the source line comes after the list');
     ok(/レビュー\s*3\s*件/.test(await wide.textContent('.critic .dist__caption')), 'critics: the overall shows the count');
     ok(await wide.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1), 'critics: the wide page does not scroll sideways');
     await wide.screenshot({ path: OUT + '/desktop-critics.png', fullPage: true });
@@ -281,6 +280,10 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) process
     await mc.goto(BASE + '/works/star-line', { waitUntil: 'networkidle' });
     const order = await mc.evaluate(() => { const r = (q) => document.querySelector(q).getBoundingClientRect(); return { hero: r('.rating .dist.hero'), critic: r('.critic'), compose: r('.compose') }; });
     ok(order.critic.top > order.hero.bottom && order.critic.bottom < order.compose.top, 'phone: the critics pane is under the readers\' summary and above the post box');
+    ok((await mc.getAttribute(toggle, 'aria-expanded')) === 'false' && !(await mc.isVisible('.critic__list')), 'phone: the critics list starts closed');
+    ok((await mc.textContent(toggle)).trim() === '' && (await mc.getAttribute(toggle, 'aria-label')).length > 0, 'phone: the toggle is an icon with a label for screen readers');
+    await mc.click(toggle);
+    ok((await mc.getAttribute(toggle, 'aria-expanded')) === 'true' && (await mc.isVisible('.critic__list')), 'phone: the icon opens the list');
     ok(await mc.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1), 'phone: the page with the critics pane does not scroll sideways');
     await mc.screenshot({ path: OUT + '/phone-critics.png', fullPage: true });
   }

@@ -869,6 +869,20 @@ button.tag:hover {
 	display: flex;
 	flex-direction: column;
 }
+/* PC（820px 以上）は、畳まない（隠す理由がない。ユーザーの指示、2026-11-23）。一覧は、いつも開いていて、開閉のアイコンは出さない。
+   出典の行は、一覧の下に置く。スマホは、これまでどおり、畳む。 */
+@media (min-width: 820px) {
+	.critic__list[hidden] {
+		display: flex;
+		flex-direction: column;
+	}
+	.critic__toggle.iconbtn {
+		display: none;
+	}
+	.critic__foot {
+		order: 1;
+	}
+}
 .critic__row {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) auto auto auto;
