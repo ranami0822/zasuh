@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createWikipediaClient, parseSearchTitle, parseSummary } from './wikipedia';
+import { createWikipediaClient, isGameArticle, parseSearchTitles, parseSummary, titleMatches } from './wikipedia';
 
 const summary = { type: 'standard', title: 'OMORI', extract: 'OMORIは、ゲームです。', content_urls: { desktop: { page: 'https://ja.wikipedia.org/wiki/OMORI' } } };
 
@@ -12,10 +12,34 @@ describe('wikipedia', () => {
 		expect(parseSummary(null)).toBeNull();
 	});
 
-	it('検索の最上位の記事名を読む', () => {
-		expect(parseSearchTitle({ query: { search: [{ title: 'OMORI' }, { title: 'x' }] } })).toBe('OMORI');
-		expect(parseSearchTitle({ query: { search: [] } })).toBeNull();
-		expect(parseSearchTitle(undefined)).toBeNull();
+	it('検索の上位の記事名を、5 件まで読む', () => {
+		expect(parseSearchTitles({ query: { search: ['a', 'b', 'c', 'd', 'e', 'f'].map((title) => ({ title })) } })).toEqual(['a', 'b', 'c', 'd', 'e']);
+		expect(parseSearchTitles({ query: { search: [] } })).toEqual([]);
+		expect(parseSearchTitles(undefined)).toEqual([]);
+	});
+
+	it('記事名が作品名と合うか（全文検索の別の記事を、はじく）', () => {
+		expect(titleMatches('ELDEN RING', 'Elden Ring')).toBe(true);
+		expect(titleMatches('Hollow Knight: Silksong', 'Silksong')).toBe(true);
+		expect(titleMatches('セーブ (コンピュータ)', 'Silksong')).toBe(false);
+		expect(titleMatches('Hollow Knight', 'Silksong')).toBe(false);
+		expect(titleMatches('Hollow Knight', 'Hollow Knight: Silksong')).toBe(false);
+		expect(titleMatches('ゲーム', 'ゲーム')).toBe(true);
+		expect(titleMatches('ゲーム・オブ・ザ・イヤー', 'ゲー')).toBe(false);
+		expect(isGameArticle('は、ゲームです。')).toBe(true);
+		expect(isGameArticle('は、映画です。')).toBe(false);
+	});
+
+	it('名前の合う記事がなければ、null（要約も取らない）', async () => {
+		const urls: string[] = [];
+		const client = createWikipediaClient({
+			fetch: (async (u: string) => {
+				urls.push(u);
+				return Response.json({ query: { search: [{ title: 'セーブ (コンピュータ)' }] } });
+			}) as unknown as typeof fetch
+		});
+		expect(await client.findSummary('Silksong')).toBeNull();
+		expect(urls).toHaveLength(1);
 	});
 
 	it('検索してから要約を取る。失敗は null（例外にしない）', async () => {

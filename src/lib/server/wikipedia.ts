@@ -1,6 +1,6 @@
 /**
  * 日本語版 Wikipedia の要約の取得（docs/mvp-design.md の 25 章）。D1 を知らない。
- * 記事は、検索（MediaWiki Action API の list=search）の最上位の 1 件。要約は、REST API の page/summary。
+ * 記事は、検索（MediaWiki Action API の list=search。本文の全文検索）の上位 5 件のうち、記事名が作品名と合い、要約にゲームの語があるもの（titleMatches、isGameArticle）。合うものがなければ、取らない（別の記事を出すより、空のほうがよい）。要約は、REST API の page/summary。
  * 取れた文は、作品の紹介文の案になる。そのまま使うので、出典（記事名と URL）と許諾（CC BY-SA）を、画面に出す。
  * 候補は、運営者が承認する前に、記事名と文を見る（別の記事に当たることがある）。
  */
@@ -32,13 +32,43 @@ export function parseSummary(json: unknown): WikiSummary | null {
 	return { title, extract, url };
 }
 
-/** 検索の応答から、最上位の記事名。なければ null。 */
-export function parseSearchTitle(json: unknown): string | null {
+/** 検索の応答から、記事名（上位から、最大 5 件）。 */
+export function parseSearchTitles(json: unknown): string[] {
 	const hits = (json as { query?: { search?: unknown } } | null)?.query?.search;
-	if (!Array.isArray(hits) || hits.length === 0) return null;
-	const title = (hits[0] as { title?: unknown } | null)?.title;
-	return typeof title === 'string' && title.trim() !== '' ? title.trim() : null;
+	if (!Array.isArray(hits)) return [];
+	const out: string[] = [];
+	for (const h of hits.slice(0, 5)) {
+		const title = (h as { title?: unknown } | null)?.title;
+		if (typeof title === 'string' && title.trim() !== '') out.push(title.trim());
+	}
+	return out;
 }
+
+/** 大文字小文字、全角半角、空白、記号を無視した形（文字と数字だけ残す）。 */
+function normalize(text: string): string {
+	return text.normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '');
+}
+
+/**
+ * 記事名が、探している作品の名前と合うか。記事名が作品名と同じか、作品名を含むこと（「Hollow Knight: Silksong」は「Silksong」に合う）。
+ * 逆（作品名が記事名を含む）は、合うとしない。続編が、元の作品の記事に当たってしまうため（「Hollow Knight: Silksong」で「Hollow Knight」）。
+ * 検索は、題名ではなく本文の全文検索なので、最上位が別の記事のことが多い（実際に、「Silksong」で「セーブ (コンピュータ)」が最上位だった）。
+ * 短すぎる名前（2 文字以下）は、含まれやすいので、合うとしない。
+ */
+export function titleMatches(title: string, name: string): boolean {
+	const t = normalize(title);
+	const n = normalize(name);
+	if (t.length < 3 || n.length < 3) return t === n && t.length > 0;
+	return t.includes(n);
+}
+
+/** ゲームの記事か（要約に、ゲームの語がある）。同名の映画や小説に当たらないための確認。 */
+export function isGameArticle(extract: string): boolean {
+	return /ゲーム|game/i.test(extract);
+}
+
+/** 要約を確かめる記事の数の上限（通信数を抑える）。 */
+const MAX_SUMMARY_FETCHES = 2;
 
 export function createWikipediaClient(opts: { fetch?: typeof fetch; timeoutMs?: number } = {}): WikipediaClient {
 	const doFetch = opts.fetch ?? fetch;
@@ -60,9 +90,12 @@ export function createWikipediaClient(opts: { fetch?: typeof fetch; timeoutMs?: 
 			const q = name.trim();
 			if (q === '') return null;
 			const found = await getJson(`${HOST}/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(q)}&srlimit=1&format=json&origin=*`);
-			const title = parseSearchTitle(found);
-			if (!title) return null;
-			return parseSummary(await getJson(`${HOST}/api/rest_v1/page/summary/${encodeURIComponent(title)}`));
+			const titles = parseSearchTitles(found).filter((t) => titleMatches(t, q)).slice(0, MAX_SUMMARY_FETCHES);
+			for (const title of titles) {
+				const summary = parseSummary(await getJson(`${HOST}/api/rest_v1/page/summary/${encodeURIComponent(title)}`));
+				if (summary && isGameArticle(summary.extract)) return summary;
+			}
+			return null;
 		}
 	};
 }
