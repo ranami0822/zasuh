@@ -3,6 +3,7 @@ import type { Category } from './question-sets/types';
 import { EMPTY_STAR_STAT, OVERALL, STAR_STAT_COLUMNS, toStarStat, type StarStat, type StarStatRow } from './stats';
 import { latest, REGISTRY, type TagRegistry } from './tags';
 import type { Work } from './works';
+import { bandFor, type Band } from '#band';
 
 export const PAGE_SIZE = 30;
 
@@ -32,26 +33,29 @@ export interface RankedWork {
 	stat: StarStat;
 	/** 順位の番号。言及のない作品は null（番号を付けずに、後ろに並べる）。 */
 	rank: number | null;
+	/** タイトルの帯の色（詳細と同じ）。帯のない作品は null。 */
+	band: Band | null;
 }
 
 /** 分野の中の並び（控えめな値の高い順）。タグを省くと総合。言及のない作品は、番号なしで後ろに並べる。 */
 export async function rankedWorks(db: D1Database, category: Category, tagId?: string): Promise<RankedWork[]> {
 	const { results } = await db
 		.prepare(
-			`SELECT w.slug AS slug, w.name AS name, s.score_lower AS scoreLower, ${STAR_STAT_COLUMNS}
+			`SELECT w.slug AS slug, w.name AS name, w.band_from AS bandFrom, w.band_to AS bandTo, s.score_lower AS scoreLower, ${STAR_STAT_COLUMNS}
 			   FROM works w
 			   LEFT JOIN aspect_star_stats s ON s.work_id = w.id AND s.tag_id = ?
 			  WHERE w.category = ? AND w.status = 'active'
 			  ORDER BY (s.score_lower IS NULL), s.score_lower DESC, COALESCE(s.n_mention, 0) DESC, w.name ASC`
 		)
 		.bind(tagId ?? OVERALL, category)
-		.all<StarStatRow & { slug: string; name: string; scoreLower: number | null }>();
+		.all<StarStatRow & { slug: string; name: string; bandFrom: string | null; bandTo: string | null; scoreLower: number | null }>();
 	let rank = 0;
 	return results.map((r) => ({
 		slug: r.slug,
 		name: r.name,
 		stat: toStarStat(r),
-		rank: r.scoreLower === null || r.n === 0 ? null : ++rank
+		rank: r.scoreLower === null || r.n === 0 ? null : ++rank,
+		band: r.bandFrom && r.bandTo ? bandFor(r.bandFrom, r.bandTo) : null
 	}));
 }
 
@@ -289,6 +293,8 @@ export interface SearchHit {
 	name: string;
 	category: Category;
 	stat: StarStat;
+	/** タイトルの帯の色（詳細と同じ）。帯のない作品は null。 */
+	band: Band | null;
 }
 
 /** 検索のために、大文字小文字、全角半角、空白の違いをなくす。 */
@@ -302,14 +308,14 @@ export async function searchWorks(db: D1Database, query: string, limit = 30): Pr
 	if (needle === '') return [];
 	const { results } = await db
 		.prepare(
-			`SELECT w.slug AS slug, w.name AS name, w.category AS category, ${STAR_STAT_COLUMNS}
+			`SELECT w.slug AS slug, w.name AS name, w.category AS category, w.band_from AS bandFrom, w.band_to AS bandTo, ${STAR_STAT_COLUMNS}
 			   FROM works w LEFT JOIN aspect_star_stats s ON s.work_id = w.id AND s.tag_id = ?
 			  WHERE w.status = 'active'`
 		)
 		.bind(OVERALL)
-		.all<StarStatRow & { slug: string; name: string; category: Category }>();
+		.all<StarStatRow & { slug: string; name: string; category: Category; bandFrom: string | null; bandTo: string | null }>();
 	return results
-		.map((r) => ({ slug: r.slug, name: r.name, category: r.category, stat: toStarStat(r) }))
+		.map((r) => ({ slug: r.slug, name: r.name, category: r.category, stat: toStarStat(r), band: r.bandFrom && r.bandTo ? bandFor(r.bandFrom, r.bandTo) : null }))
 		.filter((w) => foldForSearch(w.name).includes(needle))
 		.sort((a, b) => a.name.length - b.name.length || b.stat.n - a.stat.n || a.name.localeCompare(b.name, 'ja'))
 		.slice(0, limit);

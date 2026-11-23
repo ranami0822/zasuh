@@ -23,7 +23,15 @@
 		{:else}
 			<div class="panel flush">
 				{#each data.hits as w (w.slug)}
-					<a class="rank" href={`/works/${w.slug}`}>
+					<a
+						class="rank"
+						class:band={!!w.band}
+						href={`/works/${w.slug}`}
+						style:--band-from={w.band?.from}
+						style:--band-to={w.band?.to}
+						style:--band-fg={w.band?.fg}
+						style:--band-muted={w.band?.muted}
+					>
 						<span class="rank__no"></span>
 						<div class="rank__body">
 							<h3>{w.name} <span class="tag">{CATEGORY_LABEL[w.category]}</span></h3>
@@ -54,7 +62,15 @@
 	{:else if !data.q}
 		<div class="panel flush">
 			{#each data.works as w (w.slug)}
-				<a class="rank" href={`/works/${w.slug}`}>
+				<a
+					class="rank"
+					class:band={!!w.band}
+					href={`/works/${w.slug}`}
+					style:--band-from={w.band?.from}
+					style:--band-to={w.band?.to}
+					style:--band-fg={w.band?.fg}
+					style:--band-muted={w.band?.muted}
+				>
 					<span class="rank__no">{w.rank ?? ''}</span>
 					<div class="rank__body">
 						<h3>{w.name}</h3>
