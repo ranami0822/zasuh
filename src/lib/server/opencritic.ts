@@ -110,6 +110,8 @@ export interface OcGameDetail {
 	/** BASE、EPISODE、EXPANSION、REMAKE、REMASTER、DLC。読めなければ null。 */
 	type: string | null;
 	info: OcInfo;
+	/** 応答の最上位の項目の名前（値は含めない。管理画面に出して、項目名が仕様書と合うかを確かめるため）。 */
+	fields: string[];
 }
 
 const DESCRIPTION_MAX = 2000;
@@ -138,6 +140,7 @@ export function parseGameDetail(json: unknown): OcGameDetail | null {
 		id: o.id,
 		name: o.name.trim(),
 		type: typeof o.type === 'string' ? o.type : null,
+		fields: Object.keys(o),
 		info: {
 			description: description === '' ? null : description,
 			releaseDate: toDateOnly(o.firstReleaseDate),

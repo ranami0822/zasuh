@@ -1,9 +1,10 @@
 import { error, fail } from '@sveltejs/kit';
-import { CRITIC_MESSAGES, CRITIC_SYNC_MESSAGES } from '#messages';
+import { CRITIC_MESSAGES, CRITIC_SYNC_MESSAGES, DISCOVERY_MESSAGES } from '#messages';
 import { revisionsWithoutStars } from '#server/admin-data';
 import { bindingClient } from '#server/clef';
 import { DEFAULT_CRITIC_LIMITS, syncCriticsNow } from '#server/critic-sync';
 import { getOpenCriticId, linkOpenCritic } from '#server/critics';
+import { saveOcInfo } from '#server/discovery';
 import { createOpenCriticClient, normalizeKey, type OpenCriticClient } from '#server/opencritic';
 import { readRevision } from '#server/reading';
 import { database, runtimeEnv } from '#server/request';
@@ -106,6 +107,28 @@ export const actions: Actions = {
 		return { reread };
 	},
 	// 専門家の評価を、時間帯を待たずに、この作品だけ、1 回分取得する（docs/mvp-design.md の 22.11）。依存の作り方は scheduled.ts と同じ。
+	/** OpenCritic の作品情報を取り直して保存する。応答の項目名と、空だった項目を、画面に出す（項目名が、仕様書と合うかを確かめるため）。 */
+	refreshOcInfo: async ({ params }) => {
+		const db = database();
+		const ocId = await getOpenCriticId(db, params.id);
+		if (ocId === null) return fail(400, { ocInfoError: CRITIC_SYNC_MESSAGES.no_oc_id });
+		const key = normalizeKey(runtimeEnv().OPENCRITIC_API_KEY);
+		if (!key) return fail(503, { ocInfoError: CRITIC_SYNC_MESSAGES.no_key });
+		const detail = await createOpenCriticClient({ key }).gameById(ocId);
+		if (!detail.ok) return fail(502, { ocInfoError: DISCOVERY_MESSAGES[detail.error] });
+		await saveOcInfo(db, params.id, detail.value.info, new Date());
+		const i = detail.value.info;
+		const empty = [
+			i.description === null ? '説明' : '',
+			i.releaseDate === null ? '発売日' : '',
+			i.platforms.length === 0 ? '機種' : '',
+			i.genres.length === 0 ? 'ジャンル' : '',
+			i.developers.length === 0 ? '開発元' : '',
+			i.publishers.length === 0 ? '販売元' : '',
+			i.steamId === null ? 'Steam の ID' : ''
+		].filter(Boolean);
+		return { ocInfoRefreshed: { empty: empty.length > 0 ? empty.join('、') : 'なし', fields: detail.value.fields.join(', ') } };
+	},
 	syncCritics: async ({ params }) => {
 		const db = database();
 		if ((await getOpenCriticId(db, params.id)) === null) return fail(400, { criticSyncError: CRITIC_SYNC_MESSAGES.no_oc_id });

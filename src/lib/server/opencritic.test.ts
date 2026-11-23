@@ -275,6 +275,7 @@ describe('parseGameDetail / gameById', () => {
 			id: 7,
 			name: 'A Game',
 			type: 'BASE',
+			fields: Object.keys(game),
 			info: { description: 'An English description.', releaseDate: '2025-03-04', platforms: ['PC'], genres: ['Action'], developers: ['Dev Co'], publishers: ['Pub Co'], steamId: '12345' }
 		});
 		expect(JSON.stringify(d)).not.toContain('example.com');

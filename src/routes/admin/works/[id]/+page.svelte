@@ -74,6 +74,18 @@
 		<div class="row"><Button type="submit" class="btn">保存する</Button></div>
 	</form>
 	{#if data.openCriticId !== null}
+		<form method="post" action="?/refreshOcInfo" class="card stack" use:enhance={() => async ({ update }) => update({ reset: false })}>
+			<h2>OpenCritic の作品情報</h2>
+			<p class="caption muted">発売日、機種、ジャンル、開発元、販売元、Steam の ID、英語の説明を、取り直します（1回の呼び出し）。</p>
+			{#if form?.ocInfoError}<p class="banner error" role="alert">{form.ocInfoError}</p>{/if}
+			{#if form?.ocInfoRefreshed}
+				<p class="banner success" role="status">
+					取り直しました。空だった項目: {form.ocInfoRefreshed.empty}
+					<br />OpenCritic の応答の項目: {form.ocInfoRefreshed.fields}
+				</p>
+			{/if}
+			<div class="row"><Button type="submit" class="btn quiet">作品情報を取り直す</Button></div>
+		</form>
 		<form method="post" action="?/syncCritics" class="card stack" use:enhance={() => async ({ update }) => update({ reset: false })}>
 			<h2>専門家の取得</h2>
 			<p class="caption muted">決まった時間帯（毎日 UTC 17:00〜21:00）を待たずに、この作品の専門家のレビューを取得します。1回に、{data.criticReadLimit}件まで読みます。1日の上限に数えます。</p>

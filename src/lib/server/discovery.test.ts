@@ -27,7 +27,7 @@ function listing(
 			detailCalls.push(id);
 			const d = details[id];
 			const name = d?.name ?? lists.popular?.find((g) => g.id === id)?.name ?? `G${id}`;
-			return { ok: true, value: { id, name, type: d?.type === undefined ? 'BASE' : d.type, info: { ...emptyInfo, ...d?.info } }, limit };
+			return { ok: true, value: { id, name, type: d?.type === undefined ? 'BASE' : d.type, fields: [], info: { ...emptyInfo, ...d?.info } }, limit };
 		}
 	};
 }
