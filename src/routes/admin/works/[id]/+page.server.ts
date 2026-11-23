@@ -9,8 +9,11 @@ import { latest, REGISTRY } from '#server/tags';
 import { getWork, selectedTagIds, updateWork } from '#server/works';
 import type { Actions, PageServerLoad } from './$types';
 
-/** 星で読み直す、1回の操作あたりの件数。 */
-const REREAD_LIMIT = 10;
+/**
+ * 星で読み直す、1回の操作あたりの件数。
+ * 無料の D1 は、1回の呼び出しあたり 50 問い合わせまで。読み直し1件で、最初は 12 回、そのあとは 9 回ほど使う（担当の測定）ので、4 件で約 39 回。
+ */
+const REREAD_LIMIT = 4;
 
 export const load: PageServerLoad = async ({ params }) => {
 	const db = database();

@@ -21,6 +21,6 @@ export function shareMeta(input: ShareInput, origin: string): ShareMeta {
 	const description =
 		o.n === 0 || o.mean === null
 			? 'まだ、読み取れたレビューがありません。'
-			: `星の平均 ${o.mean.toFixed(1)}${o.se === null ? '' : ` ± ${(1.96 * o.se).toFixed(1)}`}（5段階。${o.n} 件の言及）`;
+			: `星の平均 ${o.mean.toFixed(1)}${o.se === null ? '' : ` ± ${(1.96 * o.se).toFixed(1)}`}（5段階。${o.n} 件のレビュー）`;
 	return { description, url: `${origin}/works/${input.slug}` };
 }
