@@ -1,3 +1,4 @@
+import type { CriticPane } from '#critic-pane';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { bandFor } from '#band';
 import { MESSAGES } from '#messages';
@@ -29,7 +30,9 @@ export const load: PageServerLoad = async ({ params, url, cookies }) => {
 		band: work.bandFrom && work.bandTo ? bandFor(work.bandFrom, work.bandTo) : null,
 		own: own ? { editsLeft: own.editsLeft, expired: own.expired } : null,
 		done: url.searchParams.get('done'),
-		share: shareMeta({ slug: work.slug, overall: data.overall }, url.origin)
+		share: shareMeta({ slug: work.slug, overall: data.overall }, url.origin),
+		/** 専門家の欄のデータ。専門家のレビューがない作品は null（欄ごと出さない）。 */
+		criticPane: null as CriticPane | null
 	};
 };
 
