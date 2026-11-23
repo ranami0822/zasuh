@@ -1324,6 +1324,23 @@ input[type='search'].input {
 .band h1 {
 	color: var(--band-fg);
 }
+/* 一覧の行にも、詳細と同じ帯を敷く。行の余白は一覧のままにし、文字は帯専用の色にする。 */
+.rank.band {
+	padding: var(--space-5) var(--space-6);
+}
+.rank.band:hover {
+	background: linear-gradient(160deg, var(--band-from) 0%, var(--band-to) 100%);
+	color: var(--band-fg);
+}
+.rank.band .rank__no {
+	color: var(--band-fg);
+}
+.rank.band .dist__legend {
+	color: var(--band-muted);
+}
+.rank.band .dist__legend b {
+	color: var(--band-fg);
+}
 .crumbs {
 	display: flex;
 	flex-wrap: wrap;
