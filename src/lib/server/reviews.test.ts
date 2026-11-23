@@ -14,6 +14,7 @@ import {
 	POSTS_PER_DEVICE_PER_DAY,
 	postReview,
 	reportReview,
+	removeOwnReview,
 	setHidden,
 	todayJst,
 	type PostInput
@@ -122,6 +123,33 @@ describe('レビューの投稿・編集・通報・管理', () => {
 		});
 	});
 
+	describe('投稿者が、自分のレビューを消す', () => {
+		it('自分のレビューを消す。集計が直り、同じ作品にまた投稿できる', async () => {
+			const r = must(await post('a'));
+			await read(r.revisionId);
+			expect(await stats()).toEqual({ n_mention: 1 });
+			expect(await removeOwnReview(db, { workId, deviceHash: await deviceTokenHash('a') }, clock.now())).toEqual({ ok: true });
+			expect(await stats()).toEqual({ n_mention: 0 });
+			expect(must(await post('a')).reviewId).toBeTruthy();
+		});
+
+		it('ほかの端末のレビューは消せない。レビューがなければ not_found', async () => {
+			must(await post('a'));
+			expect(await removeOwnReview(db, { workId, deviceHash: await deviceTokenHash('b') }, clock.now())).toEqual({
+				ok: false,
+				error: 'not_found'
+			});
+			const row = (await db.prepare('SELECT COUNT(*) AS n FROM reviews').first()) as { n: number };
+			expect(row.n).toBe(1);
+		});
+
+		it('編集の期限（7日）を過ぎても、消せる', async () => {
+			must(await post('a'));
+			clock.advance(EDIT_WINDOW_MS + 3_600_000);
+			expect(await removeOwnReview(db, { workId, deviceHash: await deviceTokenHash('a') }, clock.now())).toEqual({ ok: true });
+		});
+	});
+
 	describe('文面がほぼ同じレビュー', () => {
 		it('先にあるレビューとほぼ同じなら、印を付けて、集計に数えない。元のレビューは数える', async () => {
 			const first = must(await post('a', { body: LONG }));
@@ -130,6 +158,22 @@ describe('レビューの投稿・編集・通報・管理', () => {
 			expect(copy.duplicateOf).toBe(first.reviewId);
 			expect(must(await post('c', { body: 'ロード時間が長く、起動のたびに待たされる。操作の説明もなく、最初は何をすればよいか分からなかった' })).duplicateOf).toBeNull();
 		});
+
+		it('比べるのは、同じ作品の新しい順 100 件まで。それより前のレビューとは、比べない', async () => {
+			const first = must(await post('a', { body: LONG }));
+			for (let i = 0; i < 99; i++) {
+				clock.advance(1_000);
+				must(await post(`f${i}`, { body: `${i}番目の感想。地図が見づらく、目的地を探すのに時間がかかった。` }));
+			}
+			clock.advance(1_000);
+			expect(must(await post('b', { body: LONG })).duplicateOf).toBe(first.reviewId);
+			for (let i = 0; i < 100; i++) {
+				clock.advance(1_000);
+				must(await post(`g${i}`, { body: `${i}件目の感想。読み込みの待ち時間が長く、遊ぶまでに疲れてしまった。` }));
+			}
+			clock.advance(1_000);
+			expect(must(await post('c', { body: LONG })).duplicateOf).toBeNull();
+		}, 60_000);
 
 		it('短い文は比べない。同じ人の複数の版は比べない', async () => {
 			must(await post('a', { body: '敵の種類が豊富で飽きない' }));

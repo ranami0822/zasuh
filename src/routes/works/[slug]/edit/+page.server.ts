@@ -3,7 +3,7 @@ import { MESSAGES } from '#messages';
 import { bindingClient } from '#server/clef';
 import { readRevision } from '#server/reading';
 import { database, deviceFor, runAfter, runtimeEnv } from '#server/request';
-import { editReview, findOwnReview } from '#server/reviews';
+import { editReview, findOwnReview, removeOwnReview } from '#server/reviews';
 import { getWork } from '#server/works';
 import type { Actions, PageServerLoad } from './$types';
 
@@ -40,5 +40,12 @@ export const actions: Actions = {
 			runAfter(readRevision({ db, clef: bindingClient(runtimeEnv().AI) }, result.revisionId));
 		}
 		redirect(303, `/works/${work.slug}?done=edited`);
+	},
+	remove: async (event) => {
+		const { db, work, device } = await context(event);
+		if (!device) redirect(303, `/works/${work.slug}`);
+		const result = await removeOwnReview(db, { workId: work.id, deviceHash: device }, new Date());
+		if (!result.ok) return fail(400, { error: MESSAGES[result.error] });
+		redirect(303, `/works/${work.slug}?done=deleted`);
 	}
 };

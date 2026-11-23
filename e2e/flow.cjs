@@ -287,5 +287,22 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) process
     ok(await mc.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1), 'phone: the page with the critics pane does not scroll sideways');
     await mc.screenshot({ path: OUT + '/phone-critics.png', fullPage: true });
   }
+  // 投稿者が自分のレビューを消す（最後に置く。消すと集計を計算し直すため、ほかの確認の後）
+  const d = await (await browser.newContext({ viewport: { width: 900, height: 1000 } })).newPage();
+  await d.goto(BASE + '/works/star-line', { waitUntil: 'networkidle' });
+  await d.fill('textarea[name=body]', 'テストの投稿です。あとで自分で消します。');
+  await d.click('button:has-text("投稿する")');
+  await d.waitForSelector('[data-slot=toast]:has-text("投稿しました")');
+  await d.goto(BASE + '/works/star-line/edit', { waitUntil: 'networkidle' });
+  d.once('dialog', (dlg) => dlg.dismiss());
+  await d.click('button:has-text("レビューを消す")');
+  await d.waitForTimeout(800);
+  await d.reload({ waitUntil: 'networkidle' });
+  ok(await d.isVisible('button:has-text("直す")'), 'self-delete: cancelling the confirm keeps the review');
+  d.once('dialog', (dlg) => dlg.accept());
+  await d.click('button:has-text("レビューを消す")');
+  ok(await d.waitForSelector('[data-slot=toast]:has-text("レビューを消しました")', { timeout: 10000 }).then(() => true, () => false), 'self-delete: toast shown after deleting');
+  ok(!(await d.isVisible('article:has-text("テストの投稿です")')), 'self-delete: the review is gone from the work page');
+  ok(await d.isVisible('textarea[name=body]'), 'self-delete: the post form is back');
   await browser.close();
 })().catch((e) => { console.log('ERR', e.message); process.exit(1); });

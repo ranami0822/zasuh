@@ -50,4 +50,11 @@
 			<a class="btn quiet" href={`/works/${data.work.slug}`}>戻る</a>
 		</div>
 	</form>
+
+	<form method="post" action="?/remove" class="panel" use:enhance={({ cancel }) => { if (!confirm('レビューを消します。消すと、戻せません。よいですか？')) cancel(); }}>
+		<p class="muted">消すと、レビューと、その読み取りが、すべて消えます。戻せません。</p>
+		<div class="row">
+			<Button type="submit" class="btn">レビューを消す</Button>
+		</div>
+	</form>
 </div>

@@ -85,6 +85,13 @@
 	let started = false;
 	$effect(() => {
 		const done = data.done;
+		if (done === 'deleted') {
+			untrack(() => {
+				replaceState(`/works/${data.work.slug}`, {});
+				toast('レビューを消しました');
+			});
+			return;
+		}
 		if (done !== 'posted' && done !== 'edited') {
 			started = false;
 			return;

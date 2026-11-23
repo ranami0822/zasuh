@@ -26,8 +26,8 @@ export function jaccard(a: Set<string>, b: Set<string>): number {
 export const MIN_DUPLICATE_LENGTH = 30;
 /** 重なりが、これ以上なら「ほぼ同じ」。 */
 export const DUPLICATE_THRESHOLD = 0.8;
-/** 比べる相手の数（同じ作品の、新しい順）。 */
-export const DUPLICATE_SCAN_LIMIT = 500;
+/** 比べる相手の数（同じ作品の、新しい順）。無料の Workers の CPU（10 ms/回）に収めるため。500 件では、本文の長さによって 50〜800 ms かかった（2026-11-23、手元の測定。本番の測定ではない）。 */
+export const DUPLICATE_SCAN_LIMIT = 100;
 
 export async function sha256Hex(text: string): Promise<string> {
 	const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));

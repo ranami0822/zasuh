@@ -426,6 +426,18 @@ export async function deleteReview(db: D1Database, reviewId: string, now: Date):
 	return true;
 }
 
+/** 投稿者が、自分のレビューを消す（期限に関係なく。戻せない）。消したあとは、同じ作品に、また投稿できる。 */
+export async function removeOwnReview(
+	db: D1Database,
+	input: { workId: string; deviceHash: string },
+	now: Date
+): Promise<Result<unknown>> {
+	const own = await findOwnReview(db, input.workId, input.deviceHash, now);
+	if (!own) return { ok: false, error: 'not_found' };
+	await deleteReview(db, own.reviewId, now);
+	return { ok: true };
+}
+
 export async function closeReports(db: D1Database, reviewId: string): Promise<void> {
 	await db.prepare("UPDATE reports SET status = 'closed' WHERE review_id = ?").bind(reviewId).run();
 }
