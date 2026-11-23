@@ -130,6 +130,11 @@ a.rank:hover {
 		padding-inline: var(--space-6);
 	}
 }
+/* 管理画面のヘッダーはページの枠の中にあるため、横の余白を二重に付けない。
+   ブランドとナビの文字は折り返さず、1段に収める。 */
+.page > .header {
+	padding-inline: 0;
+}
 .header a.brand {
 	display: inline-flex;
 	align-items: center;
@@ -139,6 +144,14 @@ a.rank:hover {
 	font-size: 20px;
 	letter-spacing: 0;
 	color: var(--text);
+	flex: none;
+	white-space: nowrap;
+}
+.header .row {
+	flex-wrap: nowrap;
+}
+.header .tag {
+	white-space: nowrap;
 }
 .header a.brand::before {
 	content: '';
