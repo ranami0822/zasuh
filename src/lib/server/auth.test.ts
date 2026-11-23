@@ -40,6 +40,15 @@ import { addWork, createClock, createTestDb } from './testing/db';
 
 const cfg: AuthConfig = { rpID: 'localhost', rpName: 'Zasuh', origin: 'http://localhost:8787' };
 
+/**
+ * 署名を、確実に壊す。最後の1文字を書き換えると、base64url の端の余りのビットだけが変わり、中身のバイトが変わらないことがある
+ * （約 10%。そのとき、署名は有効なままで、テストが不安定に失敗した）。真ん中の文字は、6ビットすべてが中身なので、必ず変わる。
+ */
+function tamperMiddle(signature: string): string {
+	const mid = Math.floor(signature.length / 2);
+	return signature.slice(0, mid) + (signature[mid] === 'A' ? 'B' : 'A') + signature.slice(mid + 1);
+}
+
 describe('パスキーと、メールでの復旧', () => {
 	let db: D1Database;
 	let dispose: () => Promise<void>;
@@ -174,7 +183,7 @@ describe('パスキーと、メールでの復旧', () => {
 			// 署名を改ざんした応答は、通らない。チャレンジは、失敗しても消える（同じチャレンジで、何度も試せない）。
 			const options = await loginOptions(db, cfg, clock.now());
 			const response = await auth.authenticate(options);
-			const tampered = { ...response, response: { ...response.response, signature: response.response.signature.replace(/.$/, response.response.signature.endsWith('A') ? 'B' : 'A') } };
+			const tampered = { ...response, response: { ...response.response, signature: tamperMiddle(response.response.signature) } };
 			expect(await finishLogin(db, cfg, tampered, clock.now())).toEqual({ ok: false, error: 'verify_failed' });
 			expect(await finishLogin(db, cfg, response, clock.now())).toEqual({ ok: false, error: 'verify_failed' });
 
