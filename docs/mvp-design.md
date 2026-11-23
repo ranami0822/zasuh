@@ -1283,7 +1283,9 @@ MVP では、匿名の端末トークン（Cookie に入れた乱数。サーバ
 
 **確認済み:** OpenCritic の仕様書（SwaggerHub の OpenCritic-API 1.0.0。ユーザーが教えた URL。2026-11-23 に、API で取得して読んだ）に、`/game/popular`、`/game/upcoming`（8 件）、`/game/recently-released`（8 件）、`/game/hall-of-fame`、`/game/{id}` がある。一覧の応答は `id`、`name`、`url`、`firstReleaseDate`、`topCriticScore`、`tier` だけで、**説明・画像・機種・ジャンルは `/game/{id}`**（1 作品 1 回の呼び出し）にある。`/game/popular` は本番で動いた（25.7）。
 
-**未確認:** 仕様書の `/game/{id}` の項目名どおりに、本番の応答が来るか（単体テストは、仕様書の形の偽の応答）。OpenCritic の API の利用規約（22.3。ユーザーの判断で、未確認のまま）。仕様書は、「利用規約を確認すること」と書いている（規約の文面は見つからなかった）。説明文の保存と表示が、規約に合うか。
+**確認済み（2026-11-23。本番。管理画面の「作品情報を取り直す」。OMORI）:** `/game/{id}` の応答に、`description`、`Platforms`、`Genres`、`Companies`、`firstReleaseDate` があり、説明も入った。発売日が 2026 年 10〜11 月の新作 3 件は、説明・ジャンルが空だった（OpenCritic 側に、まだないと考える。推測）。**仕様書にあるが、応答になかった項目: `type`、`steamId`**（OMORI で。作品によって、返らないことがある）。そのため、**DLC を飛ばす処理（`type` を見る）は、`type` が返らない応答では効かない**（読めないときは、作品にする）。応答にあって、使っていない項目: `tags`、`monetizationFeatures`、`mainChannel`、`bannerScreenshot`、`screenshots`。
+
+**未確認:**OpenCritic の API の利用規約（22.3。ユーザーの判断で、未確認のまま）。仕様書は、「利用規約を確認すること」と書いている（規約の文面は見つからなかった）。説明文の保存と表示が、規約に合うか。
 
 ### 26.3 実装
 
