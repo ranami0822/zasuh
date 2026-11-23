@@ -42,12 +42,12 @@
 											<i class="s{i + 1}" style:flex={p} style:display={p > 0.001 ? 'block' : 'none'}></i>
 										{/each}
 									</div>
-									<span class="dist__tail num">★{mean}</span>
+									<span class="dist__tail num" aria-hidden="true">★{mean}</span>
 								</div>
 							{:else}
 								<div class="dist row" style="--bar: 8px">
 									<div class="dist__bar empty" role="img" aria-label="言及なし"></div>
-									<span class="dist__tail muted">言及なし</span>
+									<span class="dist__tail muted" aria-hidden="true">言及なし</span>
 								</div>
 							{/if}
 						</li>
