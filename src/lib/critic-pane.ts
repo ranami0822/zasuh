@@ -51,3 +51,18 @@ export function tickerAdvance(scrollLeft: number, dtMs: number, speedPxPerSec: n
 	const next = scrollLeft + (Math.max(0, dtMs) * Math.max(0, speedPxPerSec)) / 1000;
 	return next >= setWidth ? next % setWidth : next;
 }
+
+/**
+ * AI の総合の星と、媒体自身の点数（0〜100）の差が、これより大きい抜粋は、専門家の欄に入れない（ラフな閾値。
+ * docs/mvp-design.md の 22.12）。
+ */
+export const CRITIC_DISAGREE_POINTS = 30;
+
+/**
+ * AI の総合の星（1〜5）を 100 点満点にした値（星×20）と、媒体の点数の差の絶対値が、閾値より大きいか。
+ * 媒体の点数が null（点数がない）なら、ずれていないとみなす。差がちょうど閾値なら、ずれていない。
+ */
+export function criticDisagrees(stars: number, ocScore: number | null, threshold = CRITIC_DISAGREE_POINTS): boolean {
+	if (ocScore === null) return false;
+	return Math.abs(stars * 20 - ocScore) > threshold;
+}

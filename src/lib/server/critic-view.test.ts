@@ -1,5 +1,6 @@
 import type { D1Database } from '@cloudflare/workers-types';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { CRITIC_DISAGREE_POINTS, criticDisagrees } from '#critic-pane';
 import { getCriticPane } from './critic-view';
 import { CRITIC_ITEMS_MAX, ensureCriticQuestionSet, saveCriticRead } from './critics';
 import { criticV1 } from './question-sets/critic-v1';
@@ -15,6 +16,8 @@ interface Spec {
 	overall?: { score: number; levels: number[] | null };
 	/** 観点ごとの、言及の有無と星。 */
 	aspects?: Partial<Record<Aspect, { mentioned: boolean; score: number }>>;
+	/** 総合の向き（overall_choice）。なければ、その行を作らない。 */
+	choice?: 'positive' | 'negative' | 'mixed' | 'none';
 }
 
 function starAnswer(key: string, aspect: string, score: number, levels: number[] | null): ReadingAnswer {
@@ -38,6 +41,10 @@ function answers(spec: Spec): ReadingAnswer[] {
 		out.push(starAnswer(`${aspect}_star`, aspect, a.score, [0, 0, 0, 1, 0]));
 	}
 	if (spec.overall) out.push(starAnswer('overall_star', 'overall', spec.overall.score, spec.overall.levels));
+	if (spec.choice) {
+		const probs = { positive: 0, negative: 0, mixed: 0, none: 0, [spec.choice]: 1 };
+		out.push({ questionKey: 'overall_choice', aspect: 'overall', kind: 'direction', value: spec.choice, prob: 1, probs, needsCheck: false });
+	}
 	return out;
 }
 
@@ -195,5 +202,115 @@ describe('getCriticPane（作品ページの専門家の欄）', () => {
 		const workId = await addWork(db);
 		await save(workId, 'a', '2026-11-01', { overall: { score: 4, levels: LEVELS.four } });
 		expect((await getCriticPane(db, workId))!.sourceUrl).toBe('https://opencritic.com');
+	});
+
+	describe('集計から外す抜粋（総合の向きが「言及なし」、媒体の点数と大きくずれた星）', () => {
+		/** 媒体の点数（0〜100）。saveCriticRead は、まだ書かないので、ここで入れる。 */
+		async function setOcScore(workId: string, ocReviewId: string, score: number) {
+			const row = await db
+				.prepare('SELECT id FROM critic_reviews WHERE work_id = ? AND oc_review_id = ?')
+				.bind(workId, ocReviewId)
+				.first<{ id: string }>();
+			await db.prepare('UPDATE critic_reviews SET oc_score = ? WHERE id = ?').bind(score, row!.id).run();
+		}
+		const sum = (xs: number[]) => xs.reduce((s, x) => s + x, 0);
+
+		it('T1: 向きが none の抜粋は、items にも、n にも、soft の合計にも入らない', async () => {
+			const workId = await addWork(db);
+			await save(workId, 'yes', '2026-11-01', { overall: { score: 5, levels: LEVELS.five }, choice: 'positive' });
+			await save(workId, 'none', '2026-11-02', { overall: { score: 2.5, levels: LEVELS.mixed }, choice: 'none' });
+
+			const pane = (await getCriticPane(db, workId))!;
+			expect(pane.items.map((i) => i.url)).toEqual(['https://example.com/yes']);
+			expect(pane.n).toBe(1);
+			expect(sum(pane.soft)).toBeCloseTo(1);
+			expect(pane.soft).toEqual(LEVELS.five);
+			expect(pane.mean).toBeCloseTo(5);
+		});
+
+		it('T2: 向きが positive で媒体の点数が NULL の抜粋も、向きの行がない抜粋も、入る', async () => {
+			const workId = await addWork(db);
+			await save(workId, 'positive', '2026-11-01', { overall: { score: 4, levels: LEVELS.four }, choice: 'positive' });
+			await save(workId, 'nochoice', '2026-11-02', { overall: { score: 2.5, levels: LEVELS.mixed } });
+
+			const pane = (await getCriticPane(db, workId))!;
+			expect(pane.items.map((i) => i.url)).toEqual(['https://example.com/nochoice', 'https://example.com/positive']);
+			expect(pane.n).toBe(2);
+			expect(sum(pane.soft)).toBeCloseTo(2);
+		});
+
+		it(`T3: 星×20 と媒体の点数の差が ${CRITIC_DISAGREE_POINTS} より大きい抜粋は外れる（ちょうど ${CRITIC_DISAGREE_POINTS} は入る）`, async () => {
+			const workId = await addWork(db);
+			// 平均は段階ごとの確率から出すので、星と合う確率にする（2.3 と 3.3）
+			await save(workId, 'far', '2026-11-01', { overall: { score: 2.3, levels: [0, 0.7, 0.3, 0, 0] }, choice: 'positive' });
+			await save(workId, 'near', '2026-11-02', { overall: { score: 3.3, levels: [0, 0, 0.7, 0.3, 0] }, choice: 'positive' });
+			await save(workId, 'edge', '2026-11-03', { overall: { score: 4, levels: LEVELS.four }, choice: 'positive' });
+			await setOcScore(workId, 'far', 100); // 差 54
+			await setOcScore(workId, 'near', 90); // 差 24
+			await setOcScore(workId, 'edge', 50); // 差 30
+
+			const pane = (await getCriticPane(db, workId))!;
+			expect(pane.items.map((i) => i.url)).toEqual(['https://example.com/edge', 'https://example.com/near']);
+			expect(pane.n).toBe(2);
+			expect(sum(pane.soft)).toBeCloseTo(2);
+			expect(pane.mean).toBeCloseTo((4 + 3.3) / 2);
+		});
+
+		it('T5: 全部が外れたら null', async () => {
+			const workId = await addWork(db);
+			await save(workId, 'none', '2026-11-01', { overall: { score: 4, levels: LEVELS.four }, choice: 'none' });
+			await save(workId, 'far', '2026-11-02', { overall: { score: 2.3, levels: LEVELS.mixed }, choice: 'positive' });
+			await setOcScore(workId, 'far', 100);
+			expect(await getCriticPane(db, workId)).toBeNull();
+		});
+
+		it('T6: 向きが negative と mixed の抜粋は入る', async () => {
+			const workId = await addWork(db);
+			await save(workId, 'neg', '2026-11-01', { overall: { score: 2.5, levels: LEVELS.mixed }, choice: 'negative' });
+			await save(workId, 'mix', '2026-11-02', { overall: { score: 4, levels: LEVELS.four }, choice: 'mixed' });
+
+			const pane = (await getCriticPane(db, workId))!;
+			expect(pane.items.map((i) => i.url)).toEqual(['https://example.com/mix', 'https://example.com/neg']);
+			expect(pane.n).toBe(2);
+		});
+
+		it('T7: 外す判定があっても、D1 への問い合わせは 3 回以下', async () => {
+			const workId = await addWork(db);
+			await save(workId, 'a', '2026-11-01', { overall: { score: 4, levels: LEVELS.four }, choice: 'positive', aspects: { gameplay: { mentioned: true, score: 4 } } });
+			await save(workId, 'b', '2026-11-02', { overall: { score: 5, levels: LEVELS.five }, choice: 'none' });
+			await save(workId, 'c', '2026-11-03', { overall: { score: 2.3, levels: LEVELS.mixed }, choice: 'positive' });
+			await setOcScore(workId, 'c', 100);
+			const counted = countQueries(db);
+			const pane = await getCriticPane(counted.db, workId);
+			console.log(`getCriticPane の問い合わせ（外す判定あり、3 件中 2 件を外す）: ${counted.count()} 回`);
+			expect(pane?.n).toBe(1);
+			expect(counted.count()).toBeLessThanOrEqual(3);
+		});
+	});
+});
+
+describe('criticDisagrees（AI の星と、媒体の点数が、大きくずれているか）', () => {
+	it.each([
+		// [星, 媒体の点数, ずれているか]
+		[4, null, false],
+		[1, null, false],
+		[4, 50, false], // 差 30（ちょうど閾値）
+		[4, 49, true], // 差 31
+		[4, 111, true], // 差 31（上に）
+		[2.3, 100, true], // 差 54
+		[3.3, 90, false], // 差 24
+		[5, 120, false], // 範囲の外: 差 20
+		[1, -5, false], // 範囲の外: 差 25
+		[5, -5, true], // 範囲の外: 差 105
+		[1, 120, true] // 範囲の外: 差 100
+	] as const)('星 %s、媒体 %s → %s', (stars, ocScore, expected) => {
+		expect(criticDisagrees(stars, ocScore)).toBe(expected);
+	});
+
+	it(`閾値の既定は ${CRITIC_DISAGREE_POINTS}。引数で変えられる`, () => {
+		expect(CRITIC_DISAGREE_POINTS).toBe(30);
+		expect(criticDisagrees(4, 60)).toBe(false); // 差 20
+		expect(criticDisagrees(4, 60, 10)).toBe(true);
+		expect(criticDisagrees(4, 60, 20)).toBe(false);
 	});
 });

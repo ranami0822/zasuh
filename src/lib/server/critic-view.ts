@@ -1,11 +1,13 @@
 import type { D1Database } from '@cloudflare/workers-types';
-import type { CriticAspect, CriticItem, CriticPane } from '#critic-pane';
+import { type CriticAspect, type CriticItem, type CriticPane, criticDisagrees } from '#critic-pane';
 import { CRITIC_ITEMS_MAX } from '#server/critics';
 import { STAR_COUNT, starSummary } from '#server/star-stats';
 
 /**
  * 作品ページの専門家の欄（型は #critic-pane）。D1 への問い合わせは、多くて 2 回。
- * 対象は、総合の星（overall_star）が、段階ごとの確率まで読めたレビューだけ。
+ * 対象は、総合の星（overall_star）が、段階ごとの確率まで読めたレビューだけ。そのうち、
+ * 総合の向き（overall_choice）が「言及なし」のもの（星の質問には「言及なし」がなく、小さな不満に引っ張られる）と、
+ * 媒体の点数と大きくずれたもの（criticDisagrees）は、並べず、数えない。
  */
 
 /** 観点（critic-v1 の質問の key の頭）と、画面に出す名前。この順で並べる。 */
@@ -39,20 +41,33 @@ function parseStar(json: string | null): Star | null {
 export async function getCriticPane(db: D1Database, workId: string): Promise<CriticPane | null> {
 	const { results: reviews } = await db
 		.prepare(
-			`SELECT r.id, r.outlet, r.url, r.published_on AS publishedOn, a.probs_json AS probsJson, w.opencritic_id AS ocId
+			`SELECT r.id, r.outlet, r.url, r.published_on AS publishedOn, r.oc_score AS ocScore,
+			        a.probs_json AS probsJson, c.value AS overallChoice, w.opencritic_id AS ocId
 			   FROM critic_reviews r
 			   JOIN critic_answers a ON a.critic_review_id = r.id AND a.question_key = 'overall_star'
+			   LEFT JOIN critic_answers c ON c.critic_review_id = r.id AND c.question_key = 'overall_choice'
 			   JOIN works w ON w.id = r.work_id
 			  WHERE r.work_id = ?
 			  ORDER BY r.published_on IS NULL, r.published_on DESC, r.read_at DESC, r.id`
 		)
 		.bind(workId)
-		.all<{ id: string; outlet: string; url: string; publishedOn: string | null; probsJson: string | null; ocId: number | null }>();
+		.all<{
+			id: string;
+			outlet: string;
+			url: string;
+			publishedOn: string | null;
+			ocScore: number | null;
+			probsJson: string | null;
+			overallChoice: string | null;
+			ocId: number | null;
+		}>();
 
 	// 段階ごとの確率がないと、集計（starSummary）に入れられないので、読めていないものとして扱う。
+	// 総合の向きの行がないものは、判断できないので、入れる。
 	const read = reviews.flatMap((r) => {
 		const star = parseStar(r.probsJson);
-		return star?.levels ? [{ ...r, score: star.score, levels: star.levels }] : [];
+		if (!star?.levels || r.overallChoice === 'none' || criticDisagrees(star.score, r.ocScore)) return [];
+		return [{ ...r, score: star.score, levels: star.levels }];
 	});
 	if (read.length === 0) return null;
 
