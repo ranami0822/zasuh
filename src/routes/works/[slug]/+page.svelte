@@ -106,7 +106,22 @@
 
 	const link = (t: string | null, p = 1) => `/works/${data.work.slug}${t || p > 1 ? '?' : ''}${[t ? `t=${encodeURIComponent(t)}` : '', p > 1 ? `p=${p}` : ''].filter(Boolean).join('&')}`;
 	// 説明が長いとき、スマホでは、たたんで見せる（広い画面では、いつも全部見せる）。
-	const summaryLong = $derived((data.work.summary ?? '').length > SUMMARY_FOLD_LENGTH);
+	// 紹介文がなければ、OpenCritic の英語の説明を出す（翻訳しない。出典を添える）。
+	const summaryText = $derived(data.work.summary ?? data.work.ocInfo?.description ?? null);
+	const summaryFromOc = $derived(!data.work.summary && !!data.work.ocInfo?.description);
+	const summaryLong = $derived((summaryText ?? '').length > SUMMARY_FOLD_LENGTH);
+	// 発売日、機種、ジャンル、開発元、販売元（OpenCritic。値は英語のまま）。
+	const facts = $derived.by(() => {
+		const i = data.work.ocInfo;
+		if (!i) return [];
+		return [
+			i.releaseDate ? `発売: ${i.releaseDate}` : '',
+			i.platforms.length ? `機種: ${i.platforms.join(', ')}` : '',
+			i.genres.length ? `ジャンル: ${i.genres.join(', ')}` : '',
+			i.developers.length ? `開発: ${i.developers.join(', ')}` : '',
+			i.publishers.length ? `販売: ${i.publishers.join(', ')}` : ''
+		].filter(Boolean);
+	});
 	let summaryOpen = $state(false);
 	// 投稿の欄: スマホでは、書き始める（フォーカスする）まで、小さく見せる。失敗して戻ったときは、広げたまま。
 	let composeOpen = $state(false);
@@ -128,8 +143,8 @@
 			<a href="/">一覧</a><span aria-hidden="true">/</span><a href={`/?c=${data.work.category}`}>{CATEGORY_LABEL[data.work.category]}</a>
 		</nav>
 		<h1>{data.work.name}</h1>
-		{#if data.work.summary}
-			<p class="muted work-summary" class:clamped={summaryLong && !summaryOpen} id="work-summary">{data.work.summary}</p>
+		{#if summaryText}
+			<p class="muted work-summary" class:clamped={summaryLong && !summaryOpen} id="work-summary" lang={summaryFromOc ? 'en' : undefined}>{summaryText}</p>
 			{#if summaryLong}
 				<!-- 開閉は、文字ではなく、アイコンで示す（文字の「続きを読む」は、言語ごとの決まりに頼るため）。読み上げは、aria-label。 -->
 				<button
@@ -148,7 +163,14 @@
 				<p class="caption muted">
 					出典: <a href={data.work.summarySourceUrl} rel="noopener noreferrer nofollow">Wikipedia「{data.work.summarySourceTitle}」</a>（<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ja" rel="noopener noreferrer nofollow">CC BY-SA 4.0</a>）
 				</p>
+			{:else if summaryFromOc}
+				<p class="caption muted">説明（英語）。出典: OpenCritic</p>
 			{/if}
+		{/if}
+		{#if facts.length > 0 || data.work.ocInfo?.steamId}
+			<p class="caption muted">
+				{facts.join(' · ')}{#if data.work.ocInfo?.steamId}{facts.length > 0 ? ' · ' : ''}<a href={`https://store.steampowered.com/app/${data.work.ocInfo.steamId}`} rel="noopener noreferrer nofollow">Steam</a>{/if}
+			</p>
 		{/if}
 		{#if data.work.url}<p class="caption"><a href={data.work.url} rel="noopener noreferrer nofollow">{data.work.url}</a></p>{/if}
 	</header>

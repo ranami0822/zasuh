@@ -2,7 +2,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import { CRITIC_MESSAGES, DISCOVERY_MESSAGES } from '#messages';
 import { decideCandidate, openCandidates } from '#server/critics';
 import { listMessages, setMessageStatus } from '#server/inbox';
-import { approveWorkCandidate, discoverCandidates, openWorkCandidates, rejectWorkCandidate } from '#server/discovery';
+import { approveWorkCandidate, autoImportPopular, discoverCandidates, openWorkCandidates, rejectWorkCandidate } from '#server/discovery';
 import { createOpenCriticClient, normalizeKey } from '#server/opencritic';
 import { database, runtimeEnv } from '#server/request';
 import { createWikipediaClient } from '#server/wikipedia';
@@ -29,9 +29,18 @@ export const actions: Actions = {
 		if (r.error && r.listed === 0) return fail(502, { discoverError: DISCOVERY_MESSAGES[r.error] });
 		return { discovered: r };
 	},
+	autoImportNow: async () => {
+		const key = normalizeKey(runtimeEnv().OPENCRITIC_API_KEY);
+		if (!key) return fail(503, { discoverError: DISCOVERY_MESSAGES.no_key });
+		const r = await autoImportPopular({ db: database(), oc: createOpenCriticClient({ key }), now: new Date() });
+		console.log(JSON.stringify({ event: 'work_auto_import', manual: true, ...r }));
+		if (r.error && r.added === 0 && r.skipped === 0) return fail(502, { discoverError: DISCOVERY_MESSAGES[r.error] });
+		return { autoImported: r };
+	},
 	approveWork: async ({ request }) => {
 		const ocId = Number((await request.formData()).get('ocId'));
-		const r = await approveWorkCandidate(database(), ocId, new Date());
+		const key = normalizeKey(runtimeEnv().OPENCRITIC_API_KEY);
+		const r = await approveWorkCandidate(database(), ocId, new Date(), key ? createOpenCriticClient({ key }) : undefined);
 		if (!r.ok) return fail(400, { discoverError: DISCOVERY_MESSAGES[r.error] });
 		console.log(JSON.stringify({ event: 'work_candidate_approved', ocId, workId: r.workId }));
 		redirect(303, `/admin/works/${r.workId}`);

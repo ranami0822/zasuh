@@ -1,7 +1,7 @@
 import type { D1Database } from '@cloudflare/workers-types';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { approveWorkCandidate, discoverCandidates, fitSummary, openWorkCandidates, rejectWorkCandidate, slugFor } from './discovery';
-import type { ListKind, OcResult, OpenCriticListing } from './opencritic';
+import { approveWorkCandidate, autoImportPopular, claimDiscoveryDay, discoverCandidates, discoveryDay, fitSummary, openWorkCandidates, rejectWorkCandidate, releaseDiscoveryDay, slugFor } from './discovery';
+import type { ListKind, OcGameDetail, OcInfo, OcResult, OpenCriticListing } from './opencritic';
 import type { WikipediaClient } from './wikipedia';
 import { addWork, createTestDb } from './testing/db';
 import { getWork } from './works';
@@ -9,11 +9,25 @@ import { getWork } from './works';
 const limit = { requestsRemaining: null, searchesRemaining: null };
 const NOW = new Date('2026-11-23T10:00:00.000Z');
 
-function listing(lists: Partial<Record<ListKind, { id: number; name: string }[]>>, error?: 'rate_limited'): OpenCriticListing {
+const emptyInfo: OcInfo = { description: null, releaseDate: null, platforms: [], genres: [], developers: [], publishers: [], steamId: null };
+
+function listing(
+	lists: Partial<Record<ListKind, { id: number; name: string }[]>>,
+	error?: 'rate_limited',
+	details: Record<number, Omit<Partial<OcGameDetail>, 'info'> & { info?: Partial<OcInfo> }> = {}
+): OpenCriticListing & { detailCalls: number[] } {
+	const detailCalls: number[] = [];
 	return {
+		detailCalls,
 		async listGames(kind): Promise<OcResult<{ id: number; name: string }[]>> {
 			if (error) return { ok: false, error };
 			return { ok: true, value: lists[kind] ?? [], limit };
+		},
+		async gameById(id): Promise<OcResult<OcGameDetail>> {
+			detailCalls.push(id);
+			const d = details[id];
+			const name = d?.name ?? lists.popular?.find((g) => g.id === id)?.name ?? `G${id}`;
+			return { ok: true, value: { id, name, type: d?.type === undefined ? 'BASE' : d.type, info: { ...emptyInfo, ...d?.info } }, limit };
 		}
 	};
 }
@@ -108,5 +122,67 @@ describe('discovery', () => {
 		expect(fitSummary(' 短い。 ')).toBe('短い。');
 		expect(slugFor('The Witcher 3: Wild Hunt')).toBe('the-witcher-3-wild-hunt');
 		expect(slugFor('日本語')).toBe('');
+	});
+
+	it('自動の取り込み: 人気の作品を、承認なしで作品にする。Wikipedia は使わず、作品情報を保存する', async () => {
+		const oc = listing(
+			{ popular: [{ id: 21, name: 'Alpha Quest' }] },
+			undefined,
+			{ 21: { info: { description: 'An English description.', genres: ['Action'], developers: ['Dev'], steamId: '123' } } }
+		);
+		const r = await autoImportPopular({ db, oc, now: NOW });
+		expect(r).toMatchObject({ listed: 1, added: 1, skipped: 0, error: null });
+		const row = await db.prepare('SELECT id, slug, summary, auto_added AS auto, oc_info AS info, opencritic_id AS oc FROM works WHERE opencritic_id = 21').first<{ id: string; slug: string; summary: string | null; auto: number; info: string; oc: number }>();
+		expect(row).toMatchObject({ slug: 'alpha-quest', summary: null, auto: 1, oc: 21 });
+		const work = await getWork(db, { id: row!.id });
+		expect(work?.ocInfo).toMatchObject({ description: 'An English description.', genres: ['Action'], developers: ['Dev'], steamId: '123' });
+		expect(work).toMatchObject({ summarySourceUrl: null, bandFrom: null });
+	});
+
+	it('自動の取り込み: 1 回に limit 件まで。続きは、次の日（詳細の呼び出しも、limit 回まで）', async () => {
+		const games = [31, 32, 33, 34, 35].map((id) => ({ id, name: `Game ${id}` }));
+		const oc = listing({ popular: games });
+		const r = await autoImportPopular({ db, oc, now: NOW, limit: 3 });
+		expect(r).toMatchObject({ added: 3, more: true });
+		expect(oc.detailCalls).toEqual([31, 32, 33]);
+		const again = await autoImportPopular({ db, oc, now: NOW, limit: 3 });
+		expect(again.added).toBe(2);
+	});
+
+	it('自動の取り込み: DLC は作品にせず、却下の候補として覚える（また取らない）。作品・候補になっている ID も飛ばす', async () => {
+		const w = await addWork(db, { name: 'Have' });
+		await db.prepare('UPDATE works SET opencritic_id = 41 WHERE id = ?').bind(w).run();
+		const oc = listing({ popular: [{ id: 41, name: 'Have' }, { id: 42, name: 'Some DLC' }, { id: 43, name: 'Real' }] }, undefined, { 42: { type: 'DLC' } });
+		const r = await autoImportPopular({ db, oc, now: NOW });
+		expect(r).toMatchObject({ added: 1, skipped: 1 });
+		expect(oc.detailCalls).toEqual([42, 43]);
+		expect(await db.prepare("SELECT status FROM work_candidates WHERE oc_id = 42").first()).toEqual({ status: 'rejected' });
+		const again = listing({ popular: [{ id: 42, name: 'Some DLC' }] });
+		expect((await autoImportPopular({ db, oc: again, now: NOW })).added).toBe(0);
+		expect(again.detailCalls).toEqual([]);
+	});
+
+	it('自動の取り込み: 一覧が取れなければ、その理由を返し、何も作らない', async () => {
+		const r = await autoImportPopular({ db, oc: listing({}, 'rate_limited'), now: NOW });
+		expect(r).toMatchObject({ error: 'rate_limited', added: 0 });
+	});
+
+	it('承認のとき oc を渡すと、作品情報も保存する', async () => {
+		await discoverCandidates({ db, oc: listing({ popular: [{ id: 51, name: 'Info Game' }] }), wiki: wikiWith({}), now: NOW });
+		const oc = listing({}, undefined, { 51: { info: { genres: ['RPG'] } } });
+		const r = await approveWorkCandidate(db, 51, NOW, oc);
+		if (!r.ok) throw new Error('approve failed');
+		expect((await getWork(db, { id: r.workId }))?.ocInfo?.genres).toEqual(['RPG']);
+	});
+
+	it('時間帯と、1 日 1 回の権利', async () => {
+		expect(discoveryDay(new Date('2026-11-23T16:10:30Z'))).toBe('2026-11-23');
+		expect(discoveryDay(new Date('2026-11-23T16:12:59Z'))).toBe('2026-11-23');
+		expect(discoveryDay(new Date('2026-11-23T16:13:00Z'))).toBeNull();
+		expect(discoveryDay(new Date('2026-11-23T15:10:00Z'))).toBeNull();
+		expect(await claimDiscoveryDay(db, '2026-11-23', NOW)).toBe(true);
+		expect(await claimDiscoveryDay(db, '2026-11-23', NOW)).toBe(false);
+		await releaseDiscoveryDay(db, '2026-11-23');
+		expect(await claimDiscoveryDay(db, '2026-11-23', NOW)).toBe(true);
 	});
 });

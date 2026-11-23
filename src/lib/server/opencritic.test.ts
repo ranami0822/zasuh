@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createOpenCriticClient, hasBudget, normalizeKey, parseGameList, parseReviews, parseSearch } from './opencritic';
+import { createOpenCriticClient, hasBudget, normalizeKey, parseGameDetail, parseGameList, parseReviews, readOcInfo, parseSearch } from './opencritic';
 
 // 作り物のデータだけを使う（実在の抜粋・記事は置かない）。
 const review = (over: Record<string, unknown> = {}) => ({
@@ -251,5 +251,60 @@ describe('parseGameList / listGames', () => {
 		expect(popular.ok && popular.value).toEqual([{ id: 3, name: 'C' }]);
 		expect(seen[0]).toBe('https://opencritic-api.p.rapidapi.com/game/popular');
 		expect(await client.listGames('upcoming')).toEqual({ ok: false, error: 'bad_response' });
+	});
+});
+
+describe('parseGameDetail / gameById', () => {
+	const game = {
+		id: 7,
+		name: ' A Game ',
+		type: 'BASE',
+		description: ' An English description. ',
+		firstReleaseDate: '2025-03-04T00:00:00.000Z',
+		steamId: '12345',
+		Platforms: [{ id: 1, name: 'PC' }, { id: 2, name: 'PC' }, { id: 3 }],
+		Genres: [{ id: 9, name: 'Action' }],
+		Companies: [{ name: 'Dev Co', type: 'DEVELOPER' }, { name: 'Pub Co', type: 'PUBLISHER' }],
+		images: { box: { og: 'https://example.com/x.png' } },
+		topCriticScore: 90
+	};
+
+	it('作品情報だけを読む（点数と画像は、取らない）', () => {
+		const d = parseGameDetail(game);
+		expect(d).toEqual({
+			id: 7,
+			name: 'A Game',
+			type: 'BASE',
+			info: { description: 'An English description.', releaseDate: '2025-03-04', platforms: ['PC'], genres: ['Action'], developers: ['Dev Co'], publishers: ['Pub Co'], steamId: '12345' }
+		});
+		expect(JSON.stringify(d)).not.toContain('example.com');
+	});
+
+	it('欠けた項目は空にし、id と name がなければ null。Steam の ID は数字だけ', () => {
+		expect(parseGameDetail({ id: 1, name: 'X', steamId: 'abc' })?.info).toEqual({ description: null, releaseDate: null, platforms: [], genres: [], developers: [], publishers: [], steamId: null });
+		expect(parseGameDetail({ name: 'X' })).toBeNull();
+		expect(parseGameDetail([])).toBeNull();
+	});
+
+	it('保存した JSON を戻す。壊れていれば null', () => {
+		const info = parseGameDetail(game)!.info;
+		expect(readOcInfo(JSON.stringify(info))).toEqual(info);
+		expect(readOcInfo('{')).toBeNull();
+		expect(readOcInfo(null)).toBeNull();
+	});
+
+	it('GET /game/<id>。作品の形でなければ bad_response', async () => {
+		const seen: string[] = [];
+		const client = createOpenCriticClient({
+			key: 'k',
+			fetch: (async (u: string) => {
+				seen.push(u);
+				return Response.json(u.endsWith('/7') ? game : []);
+			}) as unknown as typeof fetch
+		});
+		const ok = await client.gameById(7);
+		expect(ok.ok && ok.value.name).toBe('A Game');
+		expect(seen[0]).toBe('https://opencritic-api.p.rapidapi.com/game/7');
+		expect(await client.gameById(8)).toEqual({ ok: false, error: 'bad_response' });
 	});
 });

@@ -24,9 +24,20 @@
 		一覧で見えた作品: {form.discovered.listed}件 / 候補に足した作品: {form.discovered.added}件（Wikipedia の要約つき: {form.discovered.withSummary}件）{form.discovered.more ? '。まだ残りがあります。もう一度押してください。' : ''}{form.discovered.error ? '。一覧の一部が取れませんでした。' : ''}
 	</p>
 {/if}
-<form method="post" action="?/discoverWorks" use:enhance>
-	<Button type="submit" class="btn">新しい作品の候補を探す</Button>
-</form>
+{#if form?.autoImported}
+	<p class="banner success" role="status">
+		人気の一覧で見えた作品: {form.autoImported.listed}件 / 作品にした: {form.autoImported.added}件 / 作品ではない種類（DLC など）で飛ばした: {form.autoImported.skipped}件{form.autoImported.more ? '。まだ残りがあります（1日の上限は3件です）。' : ''}{form.autoImported.error ? '。途中で、取得が止まりました。' : ''}
+	</p>
+{/if}
+<div class="row">
+	<form method="post" action="?/discoverWorks" use:enhance>
+		<Button type="submit" class="btn">新しい作品の候補を探す</Button>
+	</form>
+	<form method="post" action="?/autoImportNow" use:enhance>
+		<Button type="submit" class="btn quiet">人気の作品を今すぐ作品にする（承認なし。最大3件）</Button>
+	</form>
+</div>
+<p class="caption muted">毎日 UTC 16:10 に、人気の作品を、承認なしで、最大3件、作品にします（OpenCritic の ID と作品情報つき。紹介文は、英語の説明が出ます）。気に入らない作品は、作品の編集から非表示にしてください。</p>
 <div class="stack">
 	{#each data.workCandidates as c (c.ocId)}
 		<article class="panel">

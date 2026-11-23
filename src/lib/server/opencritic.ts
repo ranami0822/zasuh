@@ -91,13 +91,94 @@ export function parseGameList(json: unknown): OcListedGame[] {
 	return out;
 }
 
-/** 一覧の種類。応答の道筋は GET /game/<kind>（未確認。docs/mvp-design.md の 25.3）。 */
+/** 作品の詳細（/game/{id}）から取る情報。点数と画像は、取らない。説明は、英語のまま（翻訳しない）。 */
+export interface OcInfo {
+	description: string | null;
+	/** YYYY-MM-DD。 */
+	releaseDate: string | null;
+	platforms: string[];
+	genres: string[];
+	developers: string[];
+	publishers: string[];
+	/** Steam の appid（数字だけ）。 */
+	steamId: string | null;
+}
+
+export interface OcGameDetail {
+	id: number;
+	name: string;
+	/** BASE、EPISODE、EXPANSION、REMAKE、REMASTER、DLC。読めなければ null。 */
+	type: string | null;
+	info: OcInfo;
+}
+
+const DESCRIPTION_MAX = 2000;
+const LIST_MAX = 12;
+
+function names(value: unknown, key: string, filter?: (o: Record<string, unknown>) => boolean): string[] {
+	if (!Array.isArray(value)) return [];
+	const out: string[] = [];
+	for (const item of value) {
+		if (typeof item !== 'object' || item === null) continue;
+		const o = item as Record<string, unknown>;
+		const name = o[key];
+		if (typeof name === 'string' && name.trim() !== '' && (!filter || filter(o)) && !out.includes(name.trim())) out.push(name.trim());
+	}
+	return out.slice(0, LIST_MAX);
+}
+
+/** /game/{id} の応答を読む。id と name が揃わなければ null。足りない項目は、空にする。 */
+export function parseGameDetail(json: unknown): OcGameDetail | null {
+	if (typeof json !== 'object' || json === null || Array.isArray(json)) return null;
+	const o = json as Record<string, unknown>;
+	if (typeof o.id !== 'number' || !Number.isInteger(o.id) || o.id <= 0 || typeof o.name !== 'string' || o.name.trim() === '') return null;
+	const description = typeof o.description === 'string' ? [...o.description.trim()].slice(0, DESCRIPTION_MAX).join('') : '';
+	const steam = typeof o.steamId === 'string' || typeof o.steamId === 'number' ? String(o.steamId).trim() : '';
+	return {
+		id: o.id,
+		name: o.name.trim(),
+		type: typeof o.type === 'string' ? o.type : null,
+		info: {
+			description: description === '' ? null : description,
+			releaseDate: toDateOnly(o.firstReleaseDate),
+			platforms: names(o.Platforms, 'name'),
+			genres: names(o.Genres, 'name'),
+			developers: names(o.Companies, 'name', (c) => c.type === 'DEVELOPER'),
+			publishers: names(o.Companies, 'name', (c) => c.type === 'PUBLISHER'),
+			steamId: /^\d{1,10}$/.test(steam) ? steam : null
+		}
+	};
+}
+
+/** 保存した JSON を、OcInfo に戻す。読めなければ null。 */
+export function readOcInfo(text: string | null): OcInfo | null {
+	if (!text) return null;
+	try {
+		const v = JSON.parse(text) as Partial<OcInfo>;
+		const list = (x: unknown) => (Array.isArray(x) ? x.filter((i): i is string => typeof i === 'string') : []);
+		return {
+			description: typeof v.description === 'string' ? v.description : null,
+			releaseDate: typeof v.releaseDate === 'string' ? v.releaseDate : null,
+			platforms: list(v.platforms),
+			genres: list(v.genres),
+			developers: list(v.developers),
+			publishers: list(v.publishers),
+			steamId: typeof v.steamId === 'string' && /^\d{1,10}$/.test(v.steamId) ? v.steamId : null
+		};
+	} catch {
+		return null;
+	}
+}
+
+/** 一覧の種類。応答の道筋は GET /game/<kind>（仕様書で確認。docs/mvp-design.md の 26.2）。 */
 export const LIST_KINDS = ['popular', 'recently-released', 'upcoming'] as const;
 export type ListKind = (typeof LIST_KINDS)[number];
 
 /** 作品の一覧を取る口。レビュー取得の OpenCriticClient とは分ける（取得の試験の偽物に、足さなくてよくするため）。 */
 export interface OpenCriticListing {
 	listGames(kind: ListKind): Promise<OcResult<OcListedGame[]>>;
+	/** 作品 1 件の詳細。応答が作品の形でなければ bad_response。 */
+	gameById(id: number): Promise<OcResult<OcGameDetail>>;
 }
 
 /** レビュー一件を抜粋に直す。形が悪ければ null。 */
@@ -238,6 +319,12 @@ export function createOpenCriticClient(opts: { key: string; fetch?: typeof fetch
 	}
 
 	return {
+		async gameById(id) {
+			const r = await get(`/game/${id}`);
+			if (!r.ok) return r;
+			const detail = parseGameDetail(r.value);
+			return detail ? { ok: true, value: detail, limit: r.limit } : { ok: false, error: 'bad_response' };
+		},
 		async listGames(kind) {
 			const r = await get(`/game/${kind}`);
 			if (!r.ok) return r;

@@ -1,5 +1,6 @@
 import type { D1Database } from '@cloudflare/workers-types';
 import { bandFor } from '#band';
+import { readOcInfo, type OcInfo } from './opencritic';
 import type { Category } from './question-sets/types';
 import { REGISTRY, setWorkTags, type TagRegistry } from './tags';
 
@@ -17,6 +18,8 @@ export interface Work {
 	/** 紹介文の出典（Wikipedia の記事名と URL）。自分で書いた紹介文なら、どちらも null。 */
 	summarySourceTitle: string | null;
 	summarySourceUrl: string | null;
+	/** OpenCritic の作品情報（自動の取り込みと、承認のときに入る）。なければ null。 */
+	ocInfo: OcInfo | null;
 	/** タイトルの帯の色（#rrggbb）。どちらも null なら、既定の灰色。 */
 	bandFrom: string | null;
 	bandTo: string | null;
@@ -80,10 +83,15 @@ export async function createWork(db: D1Database, input: WorkInput, now: Date): P
 
 export async function getWork(db: D1Database, by: { id: string } | { slug: string }): Promise<Work | null> {
 	const [column, value] = 'id' in by ? ['id', by.id] : ['slug', by.slug];
-	return db
-		.prepare(`SELECT id, slug, name, category, url, summary, summary_source_title AS summarySourceTitle, summary_source_url AS summarySourceUrl, band_from AS bandFrom, band_to AS bandTo, status FROM works WHERE ${column} = ?`)
+	const row = await db
+		.prepare(
+			`SELECT id, slug, name, category, url, summary, summary_source_title AS summarySourceTitle, summary_source_url AS summarySourceUrl,
+			        band_from AS bandFrom, band_to AS bandTo, status, oc_info AS ocInfo
+			   FROM works WHERE ${column} = ?`
+		)
 		.bind(value)
-		.first<Work>();
+		.first<Omit<Work, 'ocInfo'> & { ocInfo: string | null }>();
+	return row ? { ...row, ocInfo: readOcInfo(row.ocInfo) } : null;
 }
 
 /** 名前、リンク、紹介文、表示の状態を直す。slug と分野は変えない（URL と、付いているタグが変わってしまうため）。 */

@@ -1,6 +1,7 @@
 import { bindingClient } from './clef';
 import { criticSyncSlot } from './critic-slot';
 import { syncCritics } from './critic-sync';
+import { autoImportPopular, claimDiscoveryDay, discoveryDay, releaseDiscoveryDay } from './discovery';
 import type { Env } from './env';
 import { createOpenCriticClient, normalizeKey } from './opencritic';
 import { sweepReadings } from './sweep';
@@ -15,6 +16,19 @@ export async function runScheduled(env: Env, now: Date = new Date(), deps: { fet
 	if (result.picked > 0) console.log(JSON.stringify({ event: 'sweep', ...result }));
 
 	const key = normalizeKey(env.OPENCRITIC_API_KEY);
+	// 毎日 UTC 16:10〜16:12 に 1 回、人気の作品を、承認なしで作品にする（docs/mvp-design.md の 26 章）。専門家の取得（17:00〜）の前。
+	const day = discoveryDay(now);
+	if (key && day && result.picked === 0 && (await claimDiscoveryDay(env.DB, day, now))) {
+		try {
+			const r = await autoImportPopular({ db: env.DB, oc: createOpenCriticClient({ key, fetch: deps.fetch }), now });
+			console.log(JSON.stringify({ event: 'work_auto_import', ...r }));
+			if (r.error && r.added === 0 && r.skipped === 0) await releaseDiscoveryDay(env.DB, day);
+		} catch (e) {
+			console.error(JSON.stringify({ event: 'work_auto_import_failed', message: String(e).slice(0, 200) }));
+			await releaseDiscoveryDay(env.DB, day);
+		}
+		return;
+	}
 	const slot = criticSyncSlot(now);
 	if (!key || !slot || result.picked > 0) return;
 	try {
