@@ -13,6 +13,7 @@
 	import { Textarea } from '@ui-sdk/svelte/textarea';
 	import StarDist from '#components/StarDist.svelte';
 	import StarTag from '#components/StarTag.svelte';
+	import CriticPane from '#components/CriticPane.svelte';
 	import Glacier from '#components/Glacier.svelte';
 	import Meta from '#components/Meta.svelte';
 	import { CATEGORY_LABEL, DISCLOSURE_LABEL, REASON_LABEL } from '#messages';
@@ -155,6 +156,10 @@
 				</summary>
 				{@render details()}
 			</details>
+			<!-- 専門家の欄（22.10）: 広い画面は、灰色の欄の中、読者の評価の下。スマホは、読者の評価の要約（と、その開閉）の直下で、投稿欄より上。 -->
+			{#if data.criticPane}
+				<CriticPane pane={data.criticPane} />
+			{/if}
 		</div>
 	</aside>
 

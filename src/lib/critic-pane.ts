@@ -39,3 +39,15 @@ export interface CriticPane {
 	/** 出典（OpenCritic）のリンク先。 */
 	sourceUrl: string;
 }
+
+/**
+ * 媒体の帯（自動で横に流れる）の、次の位置（scrollLeft）。純粋な関数（画面の部品から呼ぶ。テストできる形）。
+ * 項目の集まりを2組（2組めは複製）並べ、位置が1組の幅に達したら、その幅を引いて戻す（切れ目なく回す）。
+ * 経過時間が大きいとき（タブの切り替えなど）や、手で複製の組まで動かしたあとでも、1組の幅の中に収める。
+ * 1組の幅が 0 以下（流さない）、速さが 0 以下、経過時間が負のときは、進めない。
+ */
+export function tickerAdvance(scrollLeft: number, dtMs: number, speedPxPerSec: number, setWidth: number): number {
+	if (!(setWidth > 0)) return scrollLeft;
+	const next = scrollLeft + (Math.max(0, dtMs) * Math.max(0, speedPxPerSec)) / 1000;
+	return next >= setWidth ? next % setWidth : next;
+}

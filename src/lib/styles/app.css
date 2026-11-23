@@ -699,6 +699,173 @@ button.tag:hover {
 .rating__fold[open] summary {
 	margin-bottom: var(--space-3);
 }
+
+/* 専門家の欄（作品ページ。22.10）。暗い面。中では、文字・リンク・フォーカスの色の変数を、暗い面の上で読める変数に置き換える
+   （星の分布の部品を、そのまま使うため）。ライトとダークのどちらでも、面は暗い。 */
+.critic {
+	--text: var(--on-bold);
+	--link: var(--on-bold);
+	--link-hover: var(--text-muted);
+	--focus-ring-color: var(--on-bold);
+	--surface: var(--surface-deep); /* フォーカスの輪の内側の隙間 */
+	background: var(--surface-deep);
+	color: var(--text);
+	padding: var(--space-4);
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-3);
+	min-width: 0;
+}
+/* 薄い文字: ライトの --text-muted は暗い色なので、明るい灰色の変数に替える（ダークの --text-muted は、そのまま読める）。 */
+@media (prefers-color-scheme: light) {
+	.critic {
+		--text-muted: var(--text-disabled);
+	}
+}
+.critic__title {
+	display: flex;
+	align-items: center;
+	gap: var(--space-2);
+	margin: 0;
+	font-size: var(--fs-ui);
+	font-weight: 700;
+	line-height: 1.45;
+}
+/* 「AI」の印（反転色の小さなラベル。通知の「AI」と同じ形）。 */
+.critic__ai {
+	padding: 0 var(--space-2);
+	border-radius: var(--radius-mark);
+	background: var(--on-bold);
+	color: var(--surface-deep);
+	font-size: var(--fs-caption);
+	font-weight: 500;
+	line-height: 18px;
+	letter-spacing: 0;
+}
+/* 媒体の帯: 1行。横に動かせる（スクロールバーは隠す）。項目は、札にせず、薄い縦線で区切る。 */
+.critic__ticker {
+	display: flex;
+	height: 34px;
+	overflow-x: auto;
+	overflow-y: hidden;
+	overscroll-behavior-x: contain;
+	scrollbar-width: none;
+	border-block: 1px solid var(--control-line);
+}
+.critic__ticker::-webkit-scrollbar {
+	display: none;
+}
+.critic__set {
+	flex: none;
+	display: flex;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.critic__set > li {
+	flex: none;
+	display: flex;
+	align-items: center;
+}
+.critic__set > li::after {
+	content: '';
+	width: 1px;
+	height: 14px;
+	background: var(--control-line);
+}
+/* 流さないときは、最後の区切りを見せない（幅は変えない）。 */
+.critic__ticker:not(.loops) .critic__set > li:last-child::after {
+	visibility: hidden;
+}
+.critic__entry {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-2);
+	height: 100%;
+	padding: 0 var(--space-3);
+	white-space: nowrap;
+	font-size: var(--fs-caption);
+	color: var(--text);
+	text-decoration: none;
+}
+.critic__entry:hover .critic__outlet,
+.critic__row:hover .critic__outlet {
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+/* 帯と一覧の中は、輪を内側に描く（帯は、はみ出しを切るため）。 */
+.critic__entry:focus-visible,
+.critic__row:focus-visible {
+	box-shadow: inset 0 0 0 var(--focus-width) var(--focus-ring-color);
+}
+/* 星の数字は、いちばん近い星の色（星の札と同じ5段階）。暗い面で 4.5:1 以上になる側を使う。
+   ライト: --star-tint（面 #262626 に、6.0〜13.2:1）。ダーク: --star-text（面 #0a0a0a に、7.9〜18.2:1）。 */
+.critic__score {
+	color: var(--star-tint);
+	font-weight: 700;
+	white-space: nowrap;
+}
+@media (prefers-color-scheme: dark) {
+	.critic__score {
+		color: var(--star-text);
+	}
+}
+.critic__aspect {
+	display: inline-flex;
+	align-items: baseline;
+	gap: var(--space-1);
+	color: var(--text-muted);
+	white-space: nowrap;
+}
+.critic__aspect .critic__score {
+	font-weight: 500;
+}
+.critic__ext,
+.critic__date {
+	color: var(--text-muted);
+}
+.critic__foot {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-3);
+	font-size: var(--fs-caption);
+}
+.critic__foot a {
+	color: var(--text-muted);
+}
+/* 開閉のアイコン: 右端に置き、アイコンの右端を、帯の右端にそろえる。 */
+.critic__toggle.iconbtn {
+	align-self: center;
+	margin-inline: 0 calc((22px - var(--size-control)) / 2);
+}
+.critic__list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.critic__list:not([hidden]) {
+	display: flex;
+	flex-direction: column;
+}
+.critic__row {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto auto auto;
+	align-items: baseline;
+	gap: var(--space-3);
+	padding: var(--space-2) 0;
+	border-top: 1px solid var(--control-line);
+	font-size: var(--fs-caption);
+	color: var(--text);
+	text-decoration: none;
+}
+.critic__name {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0 var(--space-2);
+	min-width: 0;
+}
 .shell:has(.workpage) .footer__inner {
 	max-width: 1000px;
 }

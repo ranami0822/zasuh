@@ -245,6 +245,42 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) process
     ok(geo.brand.left < 40 && geo.width - geo.login.right < 40, 'desktop: the header is full width (logo ' + Math.round(geo.brand.left) + 'px from the left, login ' + Math.round(geo.width - geo.login.right) + 'px from the right)');
     ok(!(await wide.isVisible('button[aria-controls="work-summary"]')), 'desktop: no toggle buttons (everything is open)');
     await wide.screenshot({ path: OUT + '/desktop-work.png', fullPage: true });
+
+    // 専門家の欄（22.10）。読み取りは AI が要るので、結果の行を、ローカルの D1 に直接入れる（上の確認のあとに入れる。総合の棒が2本になるため）。
+    const critic = (n, outlet, on, levels, score) => [
+      "INSERT INTO critic_reviews (id, work_id, oc_review_id, outlet, url, published_on, question_set_id, read_at) SELECT 'e2e-cr-" + n + "', id, 'e2e-oc-" + n + "', '" + outlet + "', 'https://example.com/critic/" + n + "', " + (on ? "'" + on + "'" : 'NULL') + ", (SELECT id FROM question_sets WHERE hash = 'e2e'), '2026-11-22T00:00:00.000Z' FROM works WHERE slug = 'star-line';",
+      "INSERT INTO critic_answers (critic_review_id, question_key, aspect, kind, value, prob, probs_json) VALUES ('e2e-cr-" + n + "', 'overall_choice', 'overall', 'direction', 'positive', 0.9, NULL), ('e2e-cr-" + n + "', 'overall_star', 'overall', 'star', '" + (levels.indexOf(Math.max(...levels)) + 1) + "', " + Math.max(...levels) + ", '{\"score\":" + score + ',\"levels\":[' + levels.join(',') + "]}');"
+    ].join(' ');
+    const criticSql = [
+      "INSERT OR IGNORE INTO question_sets (hash, model, definition_json, created_at) VALUES ('e2e', 'clef-flash', '{}', '2026-11-22T00:00:00.000Z');",
+      "DELETE FROM critic_answers WHERE critic_review_id IN ('e2e-cr-1', 'e2e-cr-2', 'e2e-cr-3');",
+      "DELETE FROM critic_reviews WHERE id IN ('e2e-cr-1', 'e2e-cr-2', 'e2e-cr-3');",
+      critic(1, 'Example Weekly', '2026-11-01', [0, 0.05, 0.1, 0.55, 0.3], 4.1),
+      critic(2, 'Sample Games Review', '2026-10-15', [0.05, 0.1, 0.35, 0.4, 0.1], 3.4),
+      critic(3, 'Test Critic Online', null, [0, 0, 0.05, 0.25, 0.7], 4.6)
+    ].join(' ');
+    require('child_process').execFileSync('npx', ['wrangler', 'd1', 'execute', 'DB', '--local', '--persist-to', process.env.E2E_D1_DIR, '--config', 'wrangler.local.jsonc', '--command', criticSql], { stdio: 'pipe' });
+    await wide.goto(BASE + '/works/star-line', { waitUntil: 'networkidle' });
+    ok(await wide.isVisible('.rating .critic h2:has-text("専門家")'), 'critics: the pane with the heading is in the gray aside');
+    ok((await wide.textContent('.critic__ai')).includes('AI'), 'critics: the heading has the AI mark');
+    const entries = await wide.$$eval('.critic__ticker .critic__set:not([aria-hidden]) a', (els) => els.map((e) => ({ href: e.getAttribute('href'), target: e.target, rel: e.rel, text: e.textContent.replace(/\s+/g, ' ').trim() })));
+    ok(entries.length === 3 && entries.every((e) => e.href.startsWith('https://example.com/critic/') && e.target === '_blank' && /nofollow/.test(e.rel)), 'critics: each band entry links to its article in a new tab: ' + JSON.stringify(entries.map((e) => e.text)));
+    const copies = await wide.$$eval('.critic__ticker .critic__set[aria-hidden="true"] a', (els) => els.map((e) => e.getAttribute('tabindex')));
+    ok(copies.every((t) => t === '-1'), 'critics: the copied set (if any) is hidden from readers and not focusable (' + copies.length + ' links)');
+    const toggle = 'button.critic__toggle';
+    ok((await wide.getAttribute(toggle, 'aria-expanded')) === 'false' && !(await wide.isVisible('.critic__list')), 'critics: the list starts closed');
+    ok((await wide.textContent(toggle)).trim() === '' && (await wide.getAttribute(toggle, 'aria-label')).length > 0, 'critics: the toggle is an icon with a label for screen readers');
+    await wide.click(toggle);
+    ok((await wide.getAttribute(toggle, 'aria-expanded')) === 'true' && (await wide.isVisible('.critic__list')), 'critics: the icon opens the list');
+    const listRows = await wide.$$eval('.critic__list a', (els) => els.map((e) => e.textContent.replace(/\s+/g, ' ').trim()));
+    ok(listRows.length === 3 && /2026-11/.test(listRows[0]), 'critics: the list has one row per review, with the month: ' + listRows.join(' | '));
+    ok(/レビュー\s*3\s*件/.test(await wide.textContent('.critic .dist__caption')), 'critics: the overall shows the count');
+    await wide.screenshot({ path: OUT + '/desktop-critics.png', fullPage: true });
+    const mc = await (await browser.newContext({ viewport: { width: 390, height: 800 } })).newPage();
+    await mc.goto(BASE + '/works/star-line', { waitUntil: 'networkidle' });
+    const order = await mc.evaluate(() => { const r = (q) => document.querySelector(q).getBoundingClientRect(); return { hero: r('.rating .dist.hero'), critic: r('.critic'), compose: r('.compose') }; });
+    ok(order.critic.top > order.hero.bottom && order.critic.bottom < order.compose.top, 'phone: the critics pane is under the readers\' summary and above the post box');
+    await mc.screenshot({ path: OUT + '/phone-critics.png', fullPage: true });
   }
   await browser.close();
 })().catch((e) => { console.log('ERR', e.message); process.exit(1); });
