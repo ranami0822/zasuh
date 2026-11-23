@@ -32,19 +32,25 @@ function snippet(id: string): CriticSnippet {
 		text: JSON.stringify({ gameplay: 'positive', overall: 'positive', note: `作り物の抜粋の本文 ${id}` }),
 		outlet: `作り物の媒体 ${id}`,
 		url: `https://example.com/review/${id}`,
-		publishedOn: '2026-11-10'
+		publishedOn: '2026-11-10',
+		ocScore: null
 	};
+}
+
+/** 媒体の点数つきの、作り物の抜粋。 */
+function scored(id: string, ocScore: number | null): CriticSnippet {
+	return { ...snippet(id), ocScore };
 }
 
 function page(prefix: string, count: number): CriticSnippet[] {
 	return Array.from({ length: count }, (_, i) => snippet(`${prefix}-${i}`));
 }
 
-type ReviewPage = { snippets: CriticSnippet[]; rawCount: number };
+type ReviewPage = { snippets: CriticSnippet[]; rawCount: number; fields: string[] };
 
 /** レビューの 1 ページの応答。rawCount は、解析で捨てたものを含む件数（既定は、抜粋の数と同じ）。 */
 function okPage(snippets: CriticSnippet[], limit: Partial<OcRateLimit> = {}, rawCount = snippets.length): OcResult<ReviewPage> {
-	return ok({ snippets, rawCount }, limit);
+	return ok({ snippets, rawCount, fields: [] }, limit);
 }
 
 /** 偽の OpenCritic。呼ばれた順に記録する。既定は、レビューも検索も空。 */
@@ -169,6 +175,45 @@ describe('syncCritics（専門家の評価欄の取得）', () => {
 		expect(columns.map((c) => c.name)).not.toContain('text');
 		expect(columns.map((c) => c.name)).not.toContain('snippet');
 		expect(await syncedAt(workId)).toBe(clock.now().toISOString());
+	});
+
+	describe('媒体の点数（oc_score）', () => {
+		async function scores(workId: string): Promise<Record<string, number | null>> {
+			const { results } = await db
+				.prepare('SELECT oc_review_id AS id, oc_score AS score FROM critic_reviews WHERE work_id = ?')
+				.bind(workId)
+				.all<{ id: string; score: number | null }>();
+			return Object.fromEntries(results.map((r) => [r.id, r.score]));
+		}
+
+		it('新しく読んだ抜粋を、点数つきで保存する。点数がなければ NULL', async () => {
+			const workId = await linkedWork(101);
+			const oc = fakeOc({ reviews: () => okPage([scored('a-0', 88), scored('a-1', null)]) });
+
+			expect(await run(oc)).toMatchObject({ read: 2, stopped: 'done' });
+
+			expect(await scores(workId)).toEqual({ 'a-0': 88, 'a-1': null });
+		});
+
+		it('保存済みで点数が NULL の抜粋は、取得で点数が読めたら、埋める。Clef は呼ばない。点数のある行は、上書きしない', async () => {
+			const workId = await linkedWork(101);
+			const other = await linkedWork(102);
+			const setId = await ensureCriticQuestionSet(db, criticV1, clock.now());
+			for (const s of [snippet('a-0'), snippet('a-1'), scored('a-2', 50)]) {
+				await saveCriticRead(db, { workId, snippet: s, questionSetId: setId, answers: [] }, clock.now());
+			}
+			await saveCriticRead(db, { workId: other, snippet: snippet('a-0'), questionSetId: setId, answers: [] }, clock.now());
+			const clef = fakeClef();
+			const oc = fakeOc({ reviews: (ocId) => (ocId === 101 ? okPage([scored('a-0', 70), scored('a-1', null), scored('a-2', 90)]) : okPage([])) });
+
+			const result = await run(oc, clef);
+
+			expect(result).toMatchObject({ read: 0, failed: 0, stopped: 'done' });
+			expect(clef.calls).toHaveLength(0);
+			expect(await scores(workId)).toEqual({ 'a-0': 70, 'a-1': null, 'a-2': 50 });
+			expect(await scores(other)).toEqual({ 'a-0': null });
+			expect((await slotRow(slot()))!.reads).toBe(0);
+		});
 	});
 
 	it('2 回目は、既知の抜粋を読まず、Clef を呼ばない', async () => {
@@ -587,6 +632,48 @@ describe('syncCritics（専門家の評価欄の取得）', () => {
 			console.info(`G3 (b) queries=${queries}`);
 			expect(queries).toBeLessThanOrEqual(44);
 			expect(oc.calls.length).toBeLessThanOrEqual(50);
+		});
+
+		it('(a2) (a) で、既知の抜粋の点数が NULL で、取得で点数が読める（ページごとに、点数を埋める 1 文が足される）', async () => {
+			const setId = await ensureCriticQuestionSet(db, criticV1, clock.now());
+			for (let ocId = 101; ocId <= 108; ocId++) {
+				const workId = await linkedWork(ocId);
+				for (const s of page(`w${ocId}`, 3)) await saveCriticRead(db, { workId, snippet: s, questionSetId: setId, answers: [] }, clock.now());
+			}
+			const oc = fakeOc({ reviews: (ocId) => okPage(page(`w${ocId}`, 3).map((s) => ({ ...s, ocScore: 80 }))) });
+
+			const { result, queries } = await countedRun(oc);
+
+			expect(result).toEqual({ works: 8, calls: 8, searches: 0, read: 0, failed: 0, stopped: 'done' });
+			const filled = await db.prepare('SELECT COUNT(*) AS n FROM critic_reviews WHERE oc_score = 80').first<{ n: number }>();
+			expect(filled!.n).toBe(24);
+			console.info(`G4 (a2) queries=${queries}`);
+			expect(queries).toBeLessThanOrEqual(44);
+		});
+
+		it('(c2) (c) で、既知の抜粋の点数が NULL で、すべての抜粋に点数がある', async () => {
+			const other = await db
+				.prepare("INSERT INTO question_sets (hash, model, definition_json, created_at) VALUES ('other-set', 'other-model', '{}', ?)")
+				.bind(clock.now().toISOString())
+				.run();
+			for (let ocId = 101; ocId <= 108; ocId++) {
+				const workId = await linkedWork(ocId);
+				if (ocId >= 107) await saveCriticRead(db, { workId, snippet: snippet(`w${ocId}`), questionSetId: other.meta.last_row_id, answers: [] }, clock.now());
+			}
+			await db.prepare('UPDATE works SET critic_synced_at = ? WHERE opencritic_id <= 106').bind('2026-11-01T00:00:00.000Z').run();
+			for (const name of ['作り物 1', '作り物 2']) await addWork(db, { name });
+			const oc = fakeOc({
+				reviews: (ocId) => okPage([scored(`w${ocId}`, 75)]),
+				search: (name) => ok([{ id: name === '作り物 1' ? 501 : 502, name: 'Fictional Game', dist: 0 }])
+			});
+
+			const { result, queries } = await countedRun(oc);
+
+			expect(result).toEqual({ works: 8, calls: 8, searches: 2, read: 6, failed: 0, stopped: 'done' });
+			const filled = await db.prepare('SELECT COUNT(*) AS n FROM critic_reviews WHERE oc_score = 75').first<{ n: number }>();
+			expect(filled!.n).toBe(8);
+			console.info(`G4 (c2) queries=${queries}`);
+			expect(queries).toBeLessThanOrEqual(44);
 		});
 
 		it('(c) 質問セットがまだない DB で、8 作品が 1 ページずつ（6 作品に新しい抜粋 1 件、2 作品は既知の 1 件）、そのあと 2 作品の候補の検索', async () => {

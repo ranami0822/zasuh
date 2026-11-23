@@ -106,12 +106,14 @@ describe('専門家の評価の保存と問い合わせ', () => {
 		return { reviews: r!.n, answers: a!.n };
 	}
 
-	it('critic_reviews と critic_answers は、抜粋・本文・題名・著者・点数の列を持たない', async () => {
+	it('critic_reviews と critic_answers は、抜粋・本文・題名・著者の列を持たない。点数の列は、媒体の点数（oc_score。画面には出さない）だけ', async () => {
 		for (const table of ['critic_reviews', 'critic_answers']) {
 			const { results } = await db.prepare(`PRAGMA table_info(${table})`).all<{ name: string }>();
 			const names = results.map((r) => r.name);
 			expect(names.length).toBeGreaterThan(0);
-			for (const name of names) {
+			// docs/mvp-design.md の 22.12（2026-11-23 の決定）。
+			if (table === 'critic_reviews') expect(names).toContain('oc_score');
+			for (const name of names.filter((n) => !(table === 'critic_reviews' && n === 'oc_score'))) {
 				for (const banned of ['snippet', 'body', 'text', 'title', 'author', 'score']) {
 					expect(name.toLowerCase()).not.toContain(banned);
 				}

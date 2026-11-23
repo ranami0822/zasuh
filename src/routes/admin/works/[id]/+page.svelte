@@ -81,6 +81,8 @@
 			{#if form?.criticSync}
 				<p class="banner {form.criticSync.ok ? 'success' : 'error'}" role="status">
 					読めた: {form.criticSync.read}件、OpenCritic の呼び出し: {form.criticSync.calls}回、失敗: {form.criticSync.failed}件。{form.criticSync.message}
+					<br />{form.criticSync.scores}
+					<br />{form.criticSync.fields}
 				</p>
 			{/if}
 			<div class="row"><Button type="submit" class="btn">専門家を今すぐ取得</Button></div>

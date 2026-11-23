@@ -4,7 +4,7 @@ import { revisionsWithoutStars } from '#server/admin-data';
 import { bindingClient } from '#server/clef';
 import { DEFAULT_CRITIC_LIMITS, syncCriticsNow } from '#server/critic-sync';
 import { getOpenCriticId, linkOpenCritic } from '#server/critics';
-import { createOpenCriticClient, normalizeKey } from '#server/opencritic';
+import { createOpenCriticClient, normalizeKey, type OpenCriticClient } from '#server/opencritic';
 import { readRevision } from '#server/reading';
 import { database, runtimeEnv } from '#server/request';
 import { latest, REGISTRY } from '#server/tags';
@@ -32,6 +32,27 @@ export const load: PageServerLoad = async ({ params }) => {
 		criticReadLimit: DEFAULT_CRITIC_LIMITS.maxReads
 	};
 };
+
+/**
+ * 取得した抜粋の数と、点数が取れた数と、応答の項目の名前（最初に返ったページのもの）を数える（管理画面の帯に出す）。
+ * OpenCritic の応答の項目名を、実際の応答で確かめ、点数の読み方を直すため（docs/mvp-design.md の 22.12）。
+ */
+function tallyReviews(oc: OpenCriticClient) {
+	const tally = { snippets: 0, scored: 0, fields: [] as string[] };
+	const counted: OpenCriticClient = {
+		searchGame: (name) => oc.searchGame(name),
+		async reviewsOfGame(ocId, skip) {
+			const page = await oc.reviewsOfGame(ocId, skip);
+			if (page.ok) {
+				tally.snippets += page.value.snippets.length;
+				tally.scored += page.value.snippets.filter((s) => s.ocScore !== null).length;
+				if (tally.fields.length === 0) tally.fields = page.value.fields;
+			}
+			return page;
+		}
+	};
+	return { oc: counted, tally };
+}
 
 const ERRORS: Record<string, string> = {
 	bad_name: '名前は、1〜100文字にしてください。',
@@ -92,10 +113,14 @@ export const actions: Actions = {
 		const key = normalizeKey(env.OPENCRITIC_API_KEY);
 		if (!key) return fail(503, { criticSyncError: CRITIC_SYNC_MESSAGES.no_key });
 		try {
-			const result = await syncCriticsNow({ db, clef: bindingClient(env.AI), oc: createOpenCriticClient({ key }), workId: params.id });
+			const { oc, tally } = tallyReviews(createOpenCriticClient({ key }));
+			const result = await syncCriticsNow({ db, clef: bindingClient(env.AI), oc, workId: params.id });
 			const ok = result.stopped === 'done' || result.stopped === 'budget';
 			const message = CRITIC_SYNC_MESSAGES[result.stopped === 'done' && result.works === 0 ? 'nothing' : result.stopped];
-			return { criticSync: { read: result.read, calls: result.calls, failed: result.failed, ok, message } };
+			// 点数が 0 件のときも出す（項目の名前を見て、読み方を直すため）。値は出さない。
+			const scores = `点数が取れた抜粋: ${tally.scored}件 / 取得した抜粋: ${tally.snippets}件`;
+			const fields = `OpenCritic の応答の項目: ${tally.fields.length > 0 ? tally.fields.join(', ') : '（なし）'}`;
+			return { criticSync: { read: result.read, calls: result.calls, failed: result.failed, ok, message, scores, fields } };
 		} catch (e) {
 			// メッセージに、本文やキーは含まれない（scheduled.ts と同じ）。
 			console.error(JSON.stringify({ event: 'critic_sync_failed', workId: params.id, message: String(e).slice(0, 200) }));

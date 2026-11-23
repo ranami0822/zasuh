@@ -28,16 +28,17 @@ describe('normalizeKey', () => {
 });
 
 describe('parseReviews', () => {
-	it('必要な項目だけを取り出す（点数・題名・著者は持たない）', () => {
+	it('必要な項目だけを取り出す（題名・著者は持たない。点数は、0〜100 と読めるものだけ）', () => {
 		const [one] = parseReviews([review()]);
 		expect(one).toEqual({
 			ocReviewId: 'r1',
 			text: 'A made-up snippet for testing.',
 			outlet: 'Example Outlet',
 			url: 'https://example.com/a',
-			publishedOn: '2020-05-19'
+			publishedOn: '2020-05-19',
+			ocScore: null
 		});
-		expect(Object.keys(one).sort()).toEqual(['ocReviewId', 'outlet', 'publishedOn', 'text', 'url']);
+		expect(Object.keys(one).sort()).toEqual(['ocReviewId', 'ocScore', 'outlet', 'publishedOn', 'text', 'url']);
 	});
 
 	it('抜粋の前後の空白を外す', () => {
@@ -75,6 +76,37 @@ describe('parseReviews', () => {
 	it('日付が読めなければ publishedOn は null', () => {
 		expect(parseReviews([review({ publishedDate: 'not a date' })])[0].publishedOn).toBeNull();
 		expect(parseReviews([review({ publishedDate: undefined })])[0].publishedOn).toBeNull();
+	});
+
+	describe('媒体の点数（ocScore。0〜100 の整数）', () => {
+		const scoreOf = (over: Record<string, unknown>) => parseReviews([review({ score: undefined, ...over })])[0].ocScore;
+
+		it('npScore が 0〜100 の数なら、四捨五入する', () => {
+			expect(scoreOf({ npScore: 88.4 })).toBe(88);
+			expect(scoreOf({ npScore: 0 })).toBe(0);
+			expect(scoreOf({ npScore: 100 })).toBe(100);
+		});
+
+		it('npScore がなければ、100 点満点と分かる形式の score を読む', () => {
+			expect(scoreOf({ score: 90, ScoreFormat: { id: 99, name: 'x / 100' } })).toBe(90);
+			expect(scoreOf({ score: 90, scoreFormat: { shortName: '/100' } })).toBe(90);
+			expect(scoreOf({ score: 90, ScoreFormat: 'x / 100' })).toBe(90);
+		});
+
+		it('100 点満点と分からない形式、形式のない score は、読まない', () => {
+			expect(scoreOf({ score: 4, ScoreFormat: { name: 'x / 5' } })).toBeNull();
+			expect(scoreOf({ score: 9, ScoreFormat: { name: 'x / 10.0' } })).toBeNull();
+			expect(scoreOf({ score: 90, ScoreFormat: { name: 'x / 1000' } })).toBeNull();
+			expect(scoreOf({ score: 90, ScoreFormat: { id: 1 } })).toBeNull();
+			expect(scoreOf({ score: 90 })).toBeNull();
+		});
+
+		it('範囲の外、数でないもの、NaN は null。点数が何もなければ null', () => {
+			for (const npScore of [120, -3, 'x', '88', NaN, Infinity, null]) expect(scoreOf({ npScore }), String(npScore)).toBeNull();
+			expect(scoreOf({ score: 101, ScoreFormat: { name: 'x / 100' } })).toBeNull();
+			expect(scoreOf({ score: 'x', ScoreFormat: { name: 'x / 100' } })).toBeNull();
+			expect(scoreOf({})).toBeNull();
+		});
 	});
 
 	it('配列でなければ空', () => {
@@ -163,6 +195,20 @@ describe('createOpenCriticClient', () => {
 			expect(result.value.snippets.map((r) => r.ocReviewId)).toEqual(['r1']);
 			expect(result.value.rawCount).toBe(4);
 		}
+	});
+
+	it('レビュー: fields は、応答の最初の 1 件の、最上位の項目の名前（並べ替え済み。値は含めない）', async () => {
+		const { impl } = fakeFetch(() => json([review({ npScore: 88 }), { other: 1 }]));
+		const result = await createOpenCriticClient({ key: 'k', fetch: impl }).reviewsOfGame(1, 0);
+		expect(result.ok).toBe(true);
+		if (result.ok) {
+			expect(result.value.fields).toEqual(['Authors', 'Outlet', '_id', 'externalUrl', 'language', 'npScore', 'publishedDate', 'score', 'snippet', 'title']);
+			expect(result.value.snippets[0].ocScore).toBe(88);
+		}
+		const empty = await createOpenCriticClient({ key: 'k', fetch: fakeFetch(() => json([])).impl }).reviewsOfGame(1, 0);
+		expect(empty.ok && empty.value.fields).toEqual([]);
+		const notObject = await createOpenCriticClient({ key: 'k', fetch: fakeFetch(() => json(['text'])).impl }).reviewsOfGame(1, 0);
+		expect(notObject.ok && notObject.value.fields).toEqual([]);
 	});
 
 	it('失敗は例外にせず、種類で返す', async () => {

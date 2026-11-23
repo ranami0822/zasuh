@@ -5,6 +5,7 @@ import {
 	claimCriticSlot,
 	criticDayTotals,
 	ensureCriticQuestionSet,
+	fillCriticScores,
 	finishCriticSlot,
 	knownCriticIds,
 	markSearched,
@@ -171,6 +172,9 @@ export async function syncCritics(deps: {
 				const { snippets, rawCount } = page.value;
 				const known = await knownCriticIds(db, work.id, snippets.map((s) => s.ocReviewId));
 				const fresh = snippets.filter((s) => !known.has(s.ocReviewId));
+				// 媒体の点数を入れる前に保存した行に、点数を埋める（NULL の行だけ。Clef は呼ばず、読み取りの数にも入れない）。
+				const scores = snippets.flatMap((s) => (known.has(s.ocReviewId) && s.ocScore !== null ? [{ ocReviewId: s.ocReviewId, ocScore: s.ocScore }] : []));
+				if (scores.length > 0) await fillCriticScores(db, work.id, scores);
 
 				for (const snippet of fresh) {
 					// そのページの抜粋は、次の枠で取り直す（読んだものは、knownCriticIds で飛ばす）。

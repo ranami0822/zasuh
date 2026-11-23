@@ -3,7 +3,7 @@
  * 設計は docs/critics-plan.md の 1.2。抜粋（CriticSnippet.text）は、メモリ上だけで扱い、保存しない。
  */
 
-/** メモリ上だけで扱う。保存しない。点数・題名・著者は、持たない。 */
+/** text はメモリ上だけで扱い、保存しない。題名・著者は、持たない。 */
 export interface CriticSnippet {
 	/** 応答の _id。 */
 	ocReviewId: string;
@@ -15,6 +15,11 @@ export interface CriticSnippet {
 	url: string;
 	/** publishedDate の日付部分（YYYY-MM-DD）。読めなければ null。 */
 	publishedOn: string | null;
+	/**
+	 * 媒体の点数（0〜100 の整数）。保存するが、画面には出さない（docs/mvp-design.md の 22.12。2026-11-23 の決定）。
+	 * npScore（0〜100 にそろえた点数）、なければ、100 点満点と分かる形式の score。読めなければ null。
+	 */
+	ocScore: number | null;
 }
 
 export interface OcGame {
@@ -79,7 +84,38 @@ function toSnippet(item: unknown): CriticSnippet | null {
 	const url = typeof o.externalUrl === 'string' ? o.externalUrl.trim() : '';
 	if (id === '' || text === '' || outlet === '' || !isHttpUrl(url)) return null;
 	if (!isEnglish(o.language)) return null;
-	return { ocReviewId: id, text, outlet, url, publishedOn: toDateOnly(o.publishedDate) };
+	return { ocReviewId: id, text, outlet, url, publishedOn: toDateOnly(o.publishedDate), ocScore: toScore(o) };
+}
+
+/**
+ * 媒体の点数を、0〜100 の整数で読む。応答の項目名は、実際の応答で確かめていない（未確認）ので、防御的に読む。
+ * (1) npScore が 0〜100 の数。(2) なければ score が 0〜100 の数で、ScoreFormat（または scoreFormat）が 100 点満点と読めるもの
+ * （名前などが 'x / 100'、'/100' の形。id だけの形式や、ほかの満点の形式は、読まない）。どちらもなければ null。
+ */
+function toScore(o: Record<string, unknown>): number | null {
+	const np = inPercentRange(o.npScore);
+	if (np !== null) return Math.round(np);
+	const score = inPercentRange(o.score);
+	if (score !== null && isOutOf100(o.ScoreFormat ?? o.scoreFormat)) return Math.round(score);
+	return null;
+}
+
+function inPercentRange(value: unknown): number | null {
+	return typeof value === 'number' && Number.isFinite(value) && value >= 0 && value <= 100 ? value : null;
+}
+
+function isOutOf100(format: unknown): boolean {
+	const outOf100 = (text: unknown) => typeof text === 'string' && /^\s*x?\s*\/\s*100\s*$/i.test(text);
+	if (outOf100(format)) return true;
+	if (typeof format !== 'object' || format === null) return false;
+	const f = format as Record<string, unknown>;
+	return outOf100(f.name) || outOf100(f.shortName) || outOf100(f.scoreDisplay);
+}
+
+/** 応答の最初の 1 件の、最上位の項目の名前（並べ替え済み。値は含めない）。読み方を、実際の応答に合わせて直すため。 */
+function topLevelFields(json: unknown[]): string[] {
+	const first = json[0];
+	return typeof first === 'object' && first !== null && !Array.isArray(first) ? Object.keys(first).sort() : [];
 }
 
 function isHttpUrl(url: string): boolean {
@@ -125,8 +161,11 @@ export function hasBudget(limit: OcRateLimit, kind: 'request' | 'search', reserv
 
 export interface OpenCriticClient {
 	searchGame(name: string): Promise<OcResult<OcGame[]>>;
-	/** rawCount は、応答の配列の、解析で捨てる前の件数（最後のページかの判断に使う）。 */
-	reviewsOfGame(ocId: number, skip: number): Promise<OcResult<{ snippets: CriticSnippet[]; rawCount: number }>>;
+	/**
+	 * rawCount は、応答の配列の、解析で捨てる前の件数（最後のページかの判断に使う）。
+	 * fields は、応答の最初の 1 件の、最上位の項目の名前（値は含めない。管理画面に出して、点数の読み方を確かめるため）。
+	 */
+	reviewsOfGame(ocId: number, skip: number): Promise<OcResult<{ snippets: CriticSnippet[]; rawCount: number; fields: string[] }>>;
 }
 
 /**
@@ -182,7 +221,7 @@ export function createOpenCriticClient(opts: { key: string; fetch?: typeof fetch
 			const r = await get(`/review/game/${ocId}?skip=${skip}`);
 			if (!r.ok) return r;
 			if (!Array.isArray(r.value)) return { ok: false, error: 'bad_response' };
-			return { ok: true, value: { snippets: parseReviews(r.value), rawCount: r.value.length }, limit: r.limit };
+			return { ok: true, value: { snippets: parseReviews(r.value), rawCount: r.value.length, fields: topLevelFields(r.value) }, limit: r.limit };
 		}
 	};
 }

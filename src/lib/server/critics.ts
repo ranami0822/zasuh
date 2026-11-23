@@ -6,7 +6,7 @@ import type { ReadingAnswer } from '#server/reading';
 
 /**
  * 専門家（批評家）のレビューの、読み取りの結果の保存と、問い合わせ（docs/critics-plan.md の 1.5）。
- * 抜粋・題名・著者・点数は、保存しない。
+ * 抜粋・題名・著者は、保存しない。媒体の点数（oc_score）は、保存するが、画面には出さない（docs/mvp-design.md の 22.12）。
  */
 
 export type CriticError = 'bad_oc_id' | 'oc_id_taken' | 'not_found' | 'not_game';
@@ -73,7 +73,7 @@ export async function saveCriticRead(
 	db: D1Database,
 	input: {
 		workId: string;
-		snippet: Pick<CriticSnippet, 'ocReviewId' | 'outlet' | 'url' | 'publishedOn'>;
+		snippet: Pick<CriticSnippet, 'ocReviewId' | 'outlet' | 'url' | 'publishedOn'> & Partial<Pick<CriticSnippet, 'ocScore'>>;
 		questionSetId: number;
 		answers: ReadingAnswer[];
 	},
@@ -93,10 +93,20 @@ export async function saveCriticRead(
 		await db.batch([
 			db
 				.prepare(
-					`INSERT INTO critic_reviews (id, work_id, oc_review_id, outlet, url, published_on, question_set_id, read_at)
-					 VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+					`INSERT INTO critic_reviews (id, work_id, oc_review_id, outlet, url, published_on, question_set_id, read_at, oc_score)
+					 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
 				)
-				.bind(id, input.workId, input.snippet.ocReviewId, input.snippet.outlet, input.snippet.url, input.snippet.publishedOn, input.questionSetId, now.toISOString()),
+				.bind(
+					id,
+					input.workId,
+					input.snippet.ocReviewId,
+					input.snippet.outlet,
+					input.snippet.url,
+					input.snippet.publishedOn,
+					input.questionSetId,
+					now.toISOString(),
+					input.snippet.ocScore ?? null
+				),
 			...input.answers.map((a) =>
 				insert.bind(id, a.questionKey, a.aspect, a.kind, a.value, a.prob, a.probs ? JSON.stringify(a.probs) : a.star ? JSON.stringify(a.star) : null)
 			)
@@ -107,6 +117,23 @@ export async function saveCriticRead(
 		throw e;
 	}
 	return { ok: true };
+}
+
+/**
+ * 保存済みで、媒体の点数が NULL の行に、点数を入れる（点数のある行は、上書きしない。Clef は呼ばない）。
+ * 1 ページ分（20 件）なら、1 文。D1 の、1 文に渡せる値の数の上限（100）を超えないように、30 件ずつに分ける。
+ */
+export async function fillCriticScores(db: D1Database, workId: string, scores: { ocReviewId: string; ocScore: number }[]): Promise<void> {
+	for (let i = 0; i < scores.length; i += 30) {
+		const chunk = scores.slice(i, i + 30);
+		await db
+			.prepare(
+				`UPDATE critic_reviews SET oc_score = CASE oc_review_id ${chunk.map(() => 'WHEN ? THEN ?').join(' ')} END
+				 WHERE work_id = ? AND oc_review_id IN (${chunk.map(() => '?').join(', ')}) AND oc_score IS NULL`
+			)
+			.bind(...chunk.flatMap((s) => [s.ocReviewId, s.ocScore]), workId, ...chunk.map((s) => s.ocReviewId))
+			.run();
+	}
 }
 
 /** OpenCritic の作品 ID を、正の整数として読む。読めなければ null。 */
