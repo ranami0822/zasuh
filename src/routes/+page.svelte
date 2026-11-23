@@ -6,8 +6,14 @@
 
 	let { data }: PageProps = $props();
 	const href = (c: string, t?: string | null) => `/?c=${c}${t ? `&t=${encodeURIComponent(t)}` : ''}`;
-	/** ベントーのタイルの大きさ。一覧の中で、レビュー件数が多い作品ほど大きくする。 */
-	const tier = (n: number, max: number) => (max > 0 && n >= max * 0.6 ? 'lg' : max > 0 && n >= max * 0.3 ? 'md' : 'sm');
+	/** ベントーのタイルの大きさ。その一覧に対して相対的に決める: レビュー件数が多い作品ほど大きく、
+	    一覧の件数が少ないとき（検索の結果など）は、並び順で大きくする。全員の件数が 0 のときも、並び順で決める。 */
+	const tier = (n: number, max: number, i: number, total: number) => {
+		if (total <= 1) return 'lg';
+		if (total === 2) return i === 0 ? 'lg' : 'md';
+		if (max <= 0) return i === 0 ? 'lg' : i <= 2 ? 'md' : 'sm';
+		return n >= max * 0.6 ? 'lg' : n >= max * 0.3 ? 'md' : 'sm';
+	};
 	const maxWorks = $derived(Math.max(0, ...data.works.map((w) => w.stat.n)));
 	const maxHits = $derived(Math.max(0, ...data.hits.map((w) => w.stat.n)));
 </script>
@@ -24,8 +30,8 @@
 			<p class="muted">見つかりませんでした。<a href="/contact?kind=work_request">載せてほしい作品を頼む</a></p>
 		{:else}
 			<div class="bento">
-				{#each data.hits as w (w.slug)}
-					{@const t = tier(w.stat.n, maxHits)}
+				{#each data.hits as w, i (w.slug)}
+					{@const t = tier(w.stat.n, maxHits, i, data.hits.length)}
 					<a
 						class="tile tile--{t}"
 						class:band={!!w.band}
@@ -63,8 +69,8 @@
 		<p class="muted">まだ作品がありません。<a href="/contact?kind=work_request">載せてほしい作品を頼む</a></p>
 	{:else if !data.q}
 		<div class="bento">
-			{#each data.works as w (w.slug)}
-				{@const t = tier(w.stat.n, maxWorks)}
+			{#each data.works as w, i (w.slug)}
+				{@const t = tier(w.stat.n, maxWorks, i, data.works.length)}
 				<a
 					class="tile tile--{t}"
 					class:band={!!w.band}
