@@ -744,6 +744,8 @@ button.tag:hover {
 }
 /* 媒体の帯: 1行。横に動かせる（スクロールバーは隠す）。項目は、札にせず、薄い縦線で区切る。 */
 .critic__ticker {
+	/* 位置の基準にする。しないと、中の読み上げ用の隠し文字（.sr-only。絶対配置）が、帯で切り取られず、ページの幅を広げる（本番に出す前に、ローカルで見つけた不具合）。 */
+	position: relative;
 	display: flex;
 	height: 34px;
 	overflow-x: auto;

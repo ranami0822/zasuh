@@ -275,11 +275,13 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) process
     const listRows = await wide.$$eval('.critic__list a', (els) => els.map((e) => e.textContent.replace(/\s+/g, ' ').trim()));
     ok(listRows.length === 3 && /2026-11/.test(listRows[0]), 'critics: the list has one row per review, with the month: ' + listRows.join(' | '));
     ok(/レビュー\s*3\s*件/.test(await wide.textContent('.critic .dist__caption')), 'critics: the overall shows the count');
+    ok(await wide.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1), 'critics: the wide page does not scroll sideways');
     await wide.screenshot({ path: OUT + '/desktop-critics.png', fullPage: true });
     const mc = await (await browser.newContext({ viewport: { width: 390, height: 800 } })).newPage();
     await mc.goto(BASE + '/works/star-line', { waitUntil: 'networkidle' });
     const order = await mc.evaluate(() => { const r = (q) => document.querySelector(q).getBoundingClientRect(); return { hero: r('.rating .dist.hero'), critic: r('.critic'), compose: r('.compose') }; });
     ok(order.critic.top > order.hero.bottom && order.critic.bottom < order.compose.top, 'phone: the critics pane is under the readers\' summary and above the post box');
+    ok(await mc.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1), 'phone: the page with the critics pane does not scroll sideways');
     await mc.screenshot({ path: OUT + '/phone-critics.png', fullPage: true });
   }
   await browser.close();
