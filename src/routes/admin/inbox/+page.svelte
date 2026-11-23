@@ -16,6 +16,43 @@
 
 {#if form?.error}<p class="banner error" role="alert">{form.error}</p>{/if}
 
+<h2>新しい作品の候補</h2>
+<p class="caption muted">OpenCritic の人気・新作・公開予定から探します。承認すると作品になり、OpenCritic の ID と紹介文（Wikipedia の要約。あれば）が入ります。</p>
+{#if form?.discoverError}<p class="banner error" role="alert">{form.discoverError}</p>{/if}
+{#if form?.discovered}
+	<p class="banner success" role="status">
+		一覧で見えた作品: {form.discovered.listed}件 / 候補に足した作品: {form.discovered.added}件（Wikipedia の要約つき: {form.discovered.withSummary}件）{form.discovered.more ? '。まだ残りがあります。もう一度押してください。' : ''}{form.discovered.error ? '。一覧の一部が取れませんでした。' : ''}
+	</p>
+{/if}
+<form method="post" action="?/discoverWorks" use:enhance>
+	<Button type="submit" class="btn">新しい作品の候補を探す</Button>
+</form>
+<div class="stack">
+	{#each data.workCandidates as c (c.ocId)}
+		<article class="panel">
+			<h3>{c.name} <span class="caption muted num">（OpenCritic ID {c.ocId}）</span></h3>
+			{#if c.wikiExtract}
+				<p class="caption muted">Wikipedia「<a href={c.wikiUrl} rel="noopener noreferrer nofollow">{c.wikiTitle}</a>」。別の記事に当たっていないか、確かめてください。</p>
+				<p class="reading">{c.wikiExtract}</p>
+			{:else}
+				<p class="caption muted">Wikipedia の要約は、見つかりませんでした（承認のあと、紹介文を自分で書けます）。</p>
+			{/if}
+			<div class="row">
+				<form method="post" action="?/approveWork" use:enhance>
+					<input type="hidden" name="ocId" value={c.ocId} />
+					<Button type="submit" class="btn">作品にする</Button>
+				</form>
+				<form method="post" action="?/rejectWork" use:enhance>
+					<input type="hidden" name="ocId" value={c.ocId} />
+					<Button type="submit" class="btn quiet">却下</Button>
+				</form>
+			</div>
+		</article>
+	{:else}
+		<p class="muted">候補はありません。</p>
+	{/each}
+</div>
+
 <h2>専門家の欄の候補</h2>
 {#if form?.candidateError}<p class="banner error" role="alert">{form.candidateError}</p>{/if}
 {#if form?.candidateDecided}<p class="banner success" role="status">処理しました。</p>{/if}

@@ -14,6 +14,9 @@ export interface Work {
 	category: Category;
 	url: string | null;
 	summary: string | null;
+	/** 紹介文の出典（Wikipedia の記事名と URL）。自分で書いた紹介文なら、どちらも null。 */
+	summarySourceTitle: string | null;
+	summarySourceUrl: string | null;
 	/** タイトルの帯の色（#rrggbb）。どちらも null なら、既定の灰色。 */
 	bandFrom: string | null;
 	bandTo: string | null;
@@ -78,7 +81,7 @@ export async function createWork(db: D1Database, input: WorkInput, now: Date): P
 export async function getWork(db: D1Database, by: { id: string } | { slug: string }): Promise<Work | null> {
 	const [column, value] = 'id' in by ? ['id', by.id] : ['slug', by.slug];
 	return db
-		.prepare(`SELECT id, slug, name, category, url, summary, band_from AS bandFrom, band_to AS bandTo, status FROM works WHERE ${column} = ?`)
+		.prepare(`SELECT id, slug, name, category, url, summary, summary_source_title AS summarySourceTitle, summary_source_url AS summarySourceUrl, band_from AS bandFrom, band_to AS bandTo, status FROM works WHERE ${column} = ?`)
 		.bind(value)
 		.first<Work>();
 }
@@ -104,8 +107,23 @@ export async function updateWork(
 		return { ok: false, error: 'bad_tags' };
 	}
 	await db
-		.prepare('UPDATE works SET name = ?, url = ?, summary = ?, band_from = ?, band_to = ?, status = ? WHERE id = ?')
-		.bind(input.name.trim(), input.url.trim() || null, input.summary.trim() || null, ...bandColumns(input), input.status === 'hidden' ? 'hidden' : 'active', id)
+		// 紹介文の出典は、紹介文が空になったときだけ消す（手を入れても、Wikipedia の文を元にしている）。
+		.prepare(
+			`UPDATE works SET name = ?, url = ?, summary = ?, band_from = ?, band_to = ?, status = ?,
+			        summary_source_title = CASE WHEN ? THEN summary_source_title END,
+			        summary_source_url = CASE WHEN ? THEN summary_source_url END
+			  WHERE id = ?`
+		)
+		.bind(
+			input.name.trim(),
+			input.url.trim() || null,
+			input.summary.trim() || null,
+			...bandColumns(input),
+			input.status === 'hidden' ? 'hidden' : 'active',
+			input.summary.trim() ? 1 : 0,
+			input.summary.trim() ? 1 : 0,
+			id
+		)
 		.run();
 	return { ok: true };
 }

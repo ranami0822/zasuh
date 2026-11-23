@@ -144,6 +144,11 @@
 					<svg class="chevron" class:open={summaryOpen} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6l6 -6" /></svg>
 				</button>
 			{/if}
+			{#if data.work.summarySourceUrl}
+				<p class="caption muted">
+					出典: <a href={data.work.summarySourceUrl} rel="noopener noreferrer nofollow">Wikipedia「{data.work.summarySourceTitle}」</a>（<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ja" rel="noopener noreferrer nofollow">CC BY-SA 4.0</a>）
+				</p>
+			{/if}
 		{/if}
 		{#if data.work.url}<p class="caption"><a href={data.work.url} rel="noopener noreferrer nofollow">{data.work.url}</a></p>{/if}
 	</header>

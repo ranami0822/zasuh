@@ -73,6 +73,33 @@ export function parseSearch(json: unknown): OcGame[] {
 	return out;
 }
 
+/** 一覧（人気・新作など）の応答の 1 件。 */
+export interface OcListedGame {
+	id: number;
+	name: string;
+}
+
+/** 一覧の応答（配列）を、作品の名前と ID に直す。id（整数）・name（空でない文字列）が揃わない要素は捨てる。配列でなければ []。 */
+export function parseGameList(json: unknown): OcListedGame[] {
+	if (!Array.isArray(json)) return [];
+	const out: OcListedGame[] = [];
+	for (const item of json) {
+		if (typeof item !== 'object' || item === null) continue;
+		const { id, name } = item as Record<string, unknown>;
+		if (typeof id === 'number' && Number.isInteger(id) && id > 0 && typeof name === 'string' && name.trim() !== '') out.push({ id, name: name.trim() });
+	}
+	return out;
+}
+
+/** 一覧の種類。応答の道筋は GET /game/<kind>（未確認。docs/mvp-design.md の 25.3）。 */
+export const LIST_KINDS = ['popular', 'recently-released', 'upcoming'] as const;
+export type ListKind = (typeof LIST_KINDS)[number];
+
+/** 作品の一覧を取る口。レビュー取得の OpenCriticClient とは分ける（取得の試験の偽物に、足さなくてよくするため）。 */
+export interface OpenCriticListing {
+	listGames(kind: ListKind): Promise<OcResult<OcListedGame[]>>;
+}
+
 /** レビュー一件を抜粋に直す。形が悪ければ null。 */
 function toSnippet(item: unknown): CriticSnippet | null {
 	if (typeof item !== 'object' || item === null) return null;
@@ -177,7 +204,7 @@ export interface OpenCriticClient {
  *   fetch の失敗・時間切れ、5xx → 'network'
  *   200 で、JSON として読めない、または配列でない → 'bad_response'
  */
-export function createOpenCriticClient(opts: { key: string; fetch?: typeof fetch; timeoutMs?: number }): OpenCriticClient {
+export function createOpenCriticClient(opts: { key: string; fetch?: typeof fetch; timeoutMs?: number }): OpenCriticClient & OpenCriticListing {
 	const base = 'https://opencritic-api.p.rapidapi.com';
 	const doFetch = opts.fetch ?? fetch;
 	const timeoutMs = opts.timeoutMs ?? 15_000;
@@ -211,6 +238,12 @@ export function createOpenCriticClient(opts: { key: string; fetch?: typeof fetch
 	}
 
 	return {
+		async listGames(kind) {
+			const r = await get(`/game/${kind}`);
+			if (!r.ok) return r;
+			if (!Array.isArray(r.value)) return { ok: false, error: 'bad_response' };
+			return { ok: true, value: parseGameList(r.value), limit: r.limit };
+		},
 		async searchGame(name) {
 			const r = await get(`/game/search?criteria=${encodeURIComponent(name)}`);
 			if (!r.ok) return r;

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createOpenCriticClient, hasBudget, normalizeKey, parseReviews, parseSearch } from './opencritic';
+import { createOpenCriticClient, hasBudget, normalizeKey, parseGameList, parseReviews, parseSearch } from './opencritic';
 
 // 作り物のデータだけを使う（実在の抜粋・記事は置かない）。
 const review = (over: Record<string, unknown> = {}) => ({
@@ -229,5 +229,27 @@ describe('createOpenCriticClient', () => {
 				throw new TypeError('fetch failed');
 			})
 		).toEqual({ ok: false, error: 'network' });
+	});
+});
+
+describe('parseGameList / listGames', () => {
+	it('id と name が揃うものだけ読む', () => {
+		expect(parseGameList([{ id: 1, name: ' A ' }, { id: 'x', name: 'B' }, { id: 2, name: '' }, null, { id: 0, name: 'Z' }])).toEqual([{ id: 1, name: 'A' }]);
+		expect(parseGameList({})).toEqual([]);
+	});
+
+	it('GET /game/<種類> を呼ぶ。配列でなければ bad_response', async () => {
+		const seen: string[] = [];
+		const client = createOpenCriticClient({
+			key: 'k',
+			fetch: (async (u: string) => {
+				seen.push(u);
+				return Response.json(u.endsWith('upcoming') ? {} : [{ id: 3, name: 'C' }]);
+			}) as unknown as typeof fetch
+		});
+		const popular = await client.listGames('popular');
+		expect(popular.ok && popular.value).toEqual([{ id: 3, name: 'C' }]);
+		expect(seen[0]).toBe('https://opencritic-api.p.rapidapi.com/game/popular');
+		expect(await client.listGames('upcoming')).toEqual({ ok: false, error: 'bad_response' });
 	});
 });

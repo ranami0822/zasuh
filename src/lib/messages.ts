@@ -57,6 +57,18 @@ export const CRITIC_MESSAGES: Record<CriticError, string> = {
 	not_game: 'OpenCritic の作品 ID は、ゲームの作品にだけ付けられます。'
 };
 
+/** 管理画面の「新しい作品の候補を探す」と、承認・却下（docs/mvp-design.md の 25 章）。 */
+export const DISCOVERY_MESSAGES = {
+	not_found: '対象が見つかりません。ページを開き直してください。',
+	oc_id_taken: 'その OpenCritic の作品 ID は、すでに作品になっています。',
+	failed: '作品を作れませんでした。',
+	no_key: 'OpenCritic の鍵が、設定されていません。',
+	unauthorized: 'OpenCritic の鍵が、使えませんでした。',
+	rate_limited: 'OpenCritic の呼び出しの上限に達しました。時間をおいてください。',
+	bad_response: 'OpenCritic の一覧が、読めない形でした（道筋が違うかもしれません）。',
+	network: 'OpenCritic につながりませんでした。'
+} as const;
+
 /** 管理画面の「専門家を今すぐ取得」の結果（docs/mvp-design.md の 22.11）。nothing は、done で、取得する作品がなかったとき。日は UTC。 */
 export const CRITIC_SYNC_MESSAGES: Record<CriticSyncResult['stopped'] | 'nothing' | 'no_key' | 'no_oc_id' | 'failed', string> = {
 	done: 'この作品の、今日の分は、最後まで読みました。',
